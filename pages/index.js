@@ -17,6 +17,20 @@ const STILE = [
   { id: "terrasse-wpc",  emoji: "🌿", label: "Terrasse: WPC & Lounge" },
 ];
 
+const BASE_PROMPTS = {
+  "bad-modern": "modern luxury bathroom, walk-in shower, dark slate tiles, LED mirror, matte black faucets, warm spa lighting",
+  "bad-warm": "bright scandinavian bathroom, white subway tiles, oak wood accents, gold faucets, indoor plants, warm 2700K lighting",
+  "bad-mikro": "microcement bathroom, seamless concrete walls and floor, floating vanity, minimalist designer bathroom",
+  "kueche-navy": "modern kitchen, dark navy blue cabinets, brass handles, open oak shelves, pendant lights, marble countertop",
+  "kueche-grau": "modern kitchen, grey satin cabinets, matte black handles, white subway tile backsplash, LED lighting",
+  "kueche-gruen": "modern kitchen, sage green cabinets, wooden open shelves, black handles, indoor plants, bright light",
+  "wohn-gruen": "living room, dark forest green accent wall, oak floor, linen sofa, indirect LED cove lighting, plants",
+  "wohn-terra": "living room, terracotta accent wall, earth tones, rattan furniture, warm 2700K lighting",
+  "schlaf-terra": "bedroom, terracotta accent wall, upholstered headboard, neutral linen bedding, warm pendant lights",
+  "schlaf-dunkel": "bedroom, dark navy ceiling, white walls, indirect warm LED lighting, upholstered headboard",
+  "terrasse-wpc": "modern terrace, WPC wood decking, outdoor lounge sofa, pergola, string lights, potted plants",
+};
+
 function compressImage(file) {
   return new Promise(function(resolve) {
     var img = new Image();
@@ -39,7 +53,7 @@ function compressImage(file) {
 }
 
 // ─── MAKEOVER TAB ─────────────────────────────────────────────────────────────
-function MakeoverTab() {
+function MakeoverTab({ chatContext }) {
   var fileRef = useRef();
   var s1 = useState(null); var file = s1[0]; var setFile = s1[1];
   var s2 = useState(null); var vorherUrl = s2[0]; var setVorherUrl = s2[1];
@@ -66,7 +80,7 @@ function MakeoverTab() {
       return fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageBase64: base64, style: stil }),
+        body: JSON.stringify({ imageBase64: base64, style: stil, chatContext: chatContext }),
       });
     }).then(function(res) { return res.json(); })
     .then(function(data) {
@@ -80,11 +94,20 @@ function MakeoverTab() {
 
   return (
     <div style={{ padding: "16px 16px 40px", overflowY: "auto", height: "100%" }}>
-      <h2 style={{ fontFamily: "Georgia, serif", fontSize: 20, fontWeight: 700, marginBottom: 16, color: C.text }}>
-        ✨ KI Makeover
-      </h2>
+      <h2 style={{ fontFamily: "Georgia,serif", fontSize: 20, fontWeight: 700, marginBottom: 4, color: C.text }}>✨ KI Makeover</h2>
 
-      <p style={{ fontSize: 12, fontWeight: 600, color: C.muted, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Stil wählen</p>
+      {chatContext && (
+        <div style={{ background: "#FFF0E8", border: "1px solid #F0C4A0", borderRadius: 10, padding: "10px 14px", marginBottom: 16, fontSize: 13, color: C.accent }}>
+          💬 <strong>Chat-Wünsche aktiv:</strong> "{chatContext.slice(0, 80)}{chatContext.length > 80 ? "…" : ""}"
+        </div>
+      )}
+      {!chatContext && (
+        <p style={{ fontSize: 13, color: C.muted, marginBottom: 16 }}>
+          💡 Tipp: Beschreib deine Wünsche im <strong>Chat-Tab</strong> – das Bild wird dann danach generiert!
+        </p>
+      )}
+
+      <p style={{ fontSize: 12, fontWeight: 600, color: C.muted, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Basis-Stil wählen</p>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 20 }}>
         {STILE.map(function(s) {
           return (
@@ -127,7 +150,7 @@ function MakeoverTab() {
           fontSize: 15, fontWeight: 700, cursor: loading ? "default" : "pointer",
           marginBottom: 14, boxShadow: loading ? "none" : "0 4px 16px rgba(196,98,45,0.3)",
         }}>
-          {loading ? "⏳ KI generiert Bild…" : "✨ Makeover generieren"}
+          {loading ? "⏳ KI generiert…" : "✨ Makeover generieren"}
         </button>
       )}
 
@@ -137,7 +160,7 @@ function MakeoverTab() {
             <div style={{ height: "100%", width: progress + "%", background: C.accent, borderRadius: 3, transition: "width 0.6s" }} />
           </div>
           <p style={{ fontSize: 12, color: C.muted, textAlign: "center" }}>
-            {progress < 40 ? "Bild wird hochgeladen…" : progress < 80 ? "KI generiert Makeover… (15-30 Sek.)" : "Fast fertig…"}
+            {progress < 40 ? "Bild hochladen…" : progress < 80 ? "KI generiert (15-30 Sek.)…" : "Fast fertig…"}
           </p>
         </div>
       )}
@@ -167,8 +190,8 @@ function MakeoverTab() {
             <a href={nachherUrl} download="makeover.jpg" target="_blank" rel="noreferrer" style={{
               flex: 1, padding: 13, background: C.accent, borderRadius: 50,
               fontSize: 13, fontWeight: 600, color: "white",
-              textDecoration: "none", textAlign: "center", display: "flex",
-              alignItems: "center", justifyContent: "center",
+              textDecoration: "none", textAlign: "center",
+              display: "flex", alignItems: "center", justifyContent: "center",
             }}>💾 Speichern</a>
           </div>
         </div>
@@ -178,13 +201,12 @@ function MakeoverTab() {
 }
 
 // ─── CHAT TAB ─────────────────────────────────────────────────────────────────
-function ChatTab() {
+function ChatTab({ onContextUpdate }) {
   var bottomRef = useRef();
-  var s1 = useState([{ role: "assistant", text: "Hey! 👋 Ich bin dein RenoPilot-Experte.\n\nBeschreib mir deinen Raum oder deine Renovierungswünsche – ich helfe dir mit konkreten Tipps, Produkten und Preisen!\n\nBeispiele:\n• Mein Bad hat alte grüne Fliesen, was kann ich tun?\n• Ich möchte meine Küche für 500€ aufwerten\n• Welche Farbe passt zum Wohnzimmer?" }]);
+  var s1 = useState([{ role: "assistant", text: "Hey! 👋 Ich bin dein RenoPilot-Experte.\n\nBeschreib mir deinen Raum und deine Wünsche – ich helfe dir und merke mir alles für das KI-Makeover-Bild!\n\nBeispiele:\n• Mein Bad hat alte grüne Fliesen, ich will einen modernen Spa-Look\n• Ich möchte meine Küche für 500€ aufwerten, keine Oberschränke mehr\n• Welche Farbe passt zu meinem Wohnzimmer?" }]);
   var messages = s1[0]; var setMessages = s1[1];
   var s2 = useState(""); var input = s2[0]; var setInput = s2[1];
   var s3 = useState(false); var loading = s3[0]; var setLoading = s3[1];
-  var inputRef = useRef();
 
   useEffect(function() {
     if (bottomRef.current) bottomRef.current.scrollIntoView({ behavior: "smooth" });
@@ -209,8 +231,17 @@ function ChatTab() {
     }).then(function(res) { return res.json(); })
     .then(function(data) {
       if (data.error) throw new Error(data.error);
-      setMessages(function(prev) { return prev.concat({ role: "assistant", text: data.reply }); });
+      var reply = data.reply;
+      var finalMessages = newMessages.concat({ role: "assistant", text: reply });
+      setMessages(finalMessages);
       setLoading(false);
+
+      // Extract user wishes for makeover context
+      var userTexts = finalMessages
+        .filter(function(m) { return m.role === "user"; })
+        .map(function(m) { return m.text; })
+        .join(", ");
+      onContextUpdate(userTexts);
     }).catch(function(err) {
       setMessages(function(prev) { return prev.concat({ role: "assistant", text: "Fehler: " + err.message }); });
       setLoading(false);
@@ -251,8 +282,8 @@ function ChatTab() {
           <div style={{ display: "flex", alignItems: "flex-end", gap: 8, marginBottom: 12 }}>
             <div style={{ width: 32, height: 32, borderRadius: "50%", background: C.accent, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>🔨</div>
             <div style={{ background: C.card, border: "1px solid " + C.border, borderRadius: "16px 16px 16px 3px", padding: "12px 16px", display: "flex", gap: 5 }}>
-              {[0,1,2].map(function(i) {
-                return <div key={i} style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent, opacity: 0.5, animation: "blink 1.2s ease " + (i*0.2) + "s infinite" }} />;
+              {[0,1,2].map(function(j) {
+                return <div key={j} style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent, opacity: 0.5, animation: "blink 1.2s ease " + (j*0.2) + "s infinite" }} />;
               })}
             </div>
           </div>
@@ -260,27 +291,30 @@ function ChatTab() {
         <div ref={bottomRef} />
       </div>
 
+      <div style={{ background: "#FFF0E8", borderTop: "1px solid #F0C4A0", padding: "8px 14px", fontSize: 12, color: C.accent }}>
+        💡 Deine Wünsche werden automatisch im Makeover-Tab berücksichtigt
+      </div>
+
       <div style={{ padding: "10px 14px 16px", borderTop: "1px solid " + C.border, background: C.card, display: "flex", gap: 10, alignItems: "flex-end" }}>
         <textarea
-          ref={inputRef}
           value={input}
           onChange={function(e) { setInput(e.target.value); }}
           onKeyDown={handleKey}
-          placeholder="Beschreib deinen Raum oder deine Frage…"
-          rows={1}
+          placeholder="Beschreib deinen Raum oder deine Wünsche…"
+          rows={2}
           style={{
-            flex: 1, border: "1px solid " + C.border, borderRadius: 20,
-            padding: "10px 16px", fontSize: 14, resize: "none",
-            fontFamily: "-apple-system, sans-serif", outline: "none",
+            flex: 1, border: "1px solid " + C.border, borderRadius: 16,
+            padding: "10px 14px", fontSize: 14, resize: "none",
+            fontFamily: "-apple-system,sans-serif", outline: "none",
             background: C.bg, color: C.text, lineHeight: 1.5,
           }}
         />
         <button onClick={send} disabled={!input.trim() || loading} style={{
-          width: 42, height: 42, borderRadius: "50%",
+          width: 44, height: 44, borderRadius: "50%",
           background: input.trim() && !loading ? C.accent : C.border,
           border: "none", cursor: input.trim() && !loading ? "pointer" : "default",
           fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center",
-          flexShrink: 0, transition: "background 0.2s",
+          flexShrink: 0,
         }}>➤</button>
       </div>
     </div>
@@ -289,11 +323,12 @@ function ChatTab() {
 
 // ─── APP ──────────────────────────────────────────────────────────────────────
 export default function Home() {
-  var s = useState("makeover"); var tab = s[0]; var setTab = s[1];
+  var s1 = useState("chat"); var tab = s1[0]; var setTab = s1[1];
+  var s2 = useState(null); var chatContext = s2[0]; var setChatContext = s2[1];
 
   var TABS = [
-    { id: "makeover", icon: "✨", label: "Makeover" },
     { id: "chat",     icon: "💬", label: "Chat" },
+    { id: "makeover", icon: "✨", label: "Makeover" },
   ];
 
   return (
@@ -301,27 +336,28 @@ export default function Home() {
       <Head>
         <title>RenoPilot – KI Renovierung</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <style dangerouslySetInnerHTML={{__html: "* { box-sizing: border-box; margin: 0; padding: 0; } body { font-family: -apple-system, sans-serif; background: " + C.bg + "; } textarea { outline: none; } @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }"}} />
+        <style dangerouslySetInnerHTML={{__html: "* { box-sizing:border-box; margin:0; padding:0; } body { font-family:-apple-system,sans-serif; background:" + C.bg + "; } @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }"}} />
       </Head>
 
       <div style={{ maxWidth: 560, margin: "0 auto", display: "flex", flexDirection: "column", height: "100vh" }}>
 
         <div style={{ background: C.card, borderBottom: "1px solid " + C.border, padding: "14px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
-          <span style={{ fontFamily: "Georgia, serif", fontSize: 24, fontWeight: 800, color: C.text }}>
+          <span style={{ fontFamily: "Georgia,serif", fontSize: 24, fontWeight: 800, color: C.text }}>
             Reno<span style={{ color: C.accent }}>Pilot</span>
           </span>
           <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+            {chatContext && <span style={{ fontSize: 11, background: "#FFF0E8", color: C.accent, borderRadius: 20, padding: "3px 10px", fontWeight: 600 }}>💬 Wünsche aktiv</span>}
             <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#4ade80" }} />
             <span style={{ fontSize: 12, color: C.accent, fontWeight: 600 }}>KI aktiv</span>
           </div>
         </div>
 
         <div style={{ flex: 1, overflow: "hidden" }}>
-          <div style={{ display: tab === "makeover" ? "block" : "none", height: "100%", overflowY: "auto" }}>
-            <MakeoverTab />
-          </div>
           <div style={{ display: tab === "chat" ? "flex" : "none", flexDirection: "column", height: "100%" }}>
-            <ChatTab />
+            <ChatTab onContextUpdate={setChatContext} />
+          </div>
+          <div style={{ display: tab === "makeover" ? "block" : "none", height: "100%", overflowY: "auto" }}>
+            <MakeoverTab chatContext={chatContext} />
           </div>
         </div>
 
@@ -335,9 +371,7 @@ export default function Home() {
                 borderTop: "3px solid " + (tab === t.id ? C.accent : "transparent"),
               }}>
                 <span style={{ fontSize: 20 }}>{t.icon}</span>
-                <span style={{ fontSize: 11, fontWeight: 600, color: tab === t.id ? C.accent : C.muted }}>
-                  {t.label}
-                </span>
+                <span style={{ fontSize: 11, fontWeight: 600, color: tab === t.id ? C.accent : C.muted }}>{t.label}</span>
               </button>
             );
           })}
