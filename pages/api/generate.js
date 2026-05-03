@@ -17,17 +17,22 @@ const PROMPTS = {
 };
 
 export default async function handler(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST") return res.status(405).end();
 
-  const { imageBase64, style } = req.body;
+  var imageBase64 = req.body.imageBase64;
+  var style = req.body.style;
   if (!imageBase64 || !style) {
     return res.status(400).json({ error: "Bild und Stil fehlen" });
   }
 
-  const prompt = PROMPTS[style] || PROMPTS["bad-modern"];
+  var prompt = PROMPTS[style] || PROMPTS["bad-modern"];
 
   try {
-    const response = await fetch("https://fal.run/fal-ai/fast-sdxl", {
+    var response = await fetch("https://fal.run/fal-ai/fast-sdxl", {
       method: "POST",
       headers: {
         "Authorization": "Key " + process.env.FAL_KEY,
@@ -42,7 +47,7 @@ export default async function handler(req, res) {
       }),
     });
 
-    const data = await response.json();
+    var data = await response.json();
 
     if (data.images && data.images[0] && data.images[0].url) {
       return res.json({ imageUrl: data.images[0].url });
