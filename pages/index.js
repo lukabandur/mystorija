@@ -58,6 +58,7 @@ function MakeoverTab({ chatContext }) {
   var s1 = useState(null); var file = s1[0]; var setFile = s1[1];
   var s2 = useState(null); var vorherUrl = s2[0]; var setVorherUrl = s2[1];
   var s3 = useState(null); var nachherUrl = s3[0]; var setNachherUrl = s3[1];
+  var s8 = useState(null); var materials = s8[0]; var setMaterials = s8[1];
   var s4 = useState("bad-modern"); var stil = s4[0]; var setStil = s4[1];
   var s5 = useState(false); var loading = s5[0]; var setLoading = s5[1];
   var s6 = useState(null); var error = s6[0]; var setError = s6[1];
@@ -86,7 +87,7 @@ function MakeoverTab({ chatContext }) {
     .then(function(data) {
       clearInterval(timer);
       if (data.error) { setError(data.error); setLoading(false); return; }
-      setProgress(100); setNachherUrl(data.imageUrl); setLoading(false);
+      setProgress(100); setNachherUrl(data.imageUrl); setMaterials(data.materials || null); setLoading(false);
     }).catch(function(err) {
       clearInterval(timer); setError(err.message); setLoading(false);
     });
@@ -182,6 +183,15 @@ function MakeoverTab({ chatContext }) {
           <div style={{ borderRadius: 14, overflow: "hidden", marginBottom: 14, boxShadow: "0 6px 24px rgba(0,0,0,0.1)" }}>
             <img src={nachherUrl} alt="Nachher" style={{ width: "100%", display: "block" }} />
           </div>
+
+          {materials && (
+            <div style={{ background: "#FFF0E8", border: "1px solid #F0C4A0", borderRadius: 14, padding: "16px", marginBottom: 14 }}>
+              <p style={{ fontWeight: 700, fontSize: 14, color: C.accent, marginBottom: 10 }}>
+                🔨 Was du im Bild siehst – und wie du es umsetzt:
+              </p>
+              <p style={{ fontSize: 13, color: C.text, lineHeight: 1.8, whiteSpace: "pre-wrap" }}>{materials}</p>
+            </div>
+          )}
           <div style={{ display: "flex", gap: 10 }}>
             <button onClick={function() { setNachherUrl(null); generieren(); }} style={{
               flex: 1, padding: 13, background: C.card, border: "2px solid " + C.border,
