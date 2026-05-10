@@ -3,17 +3,17 @@ export const config = {
 };
 
 const BASE_PROMPTS = {
-  "bad-modern": "modern luxury bathroom, walk-in shower, dark slate tiles, LED mirror, matte black faucets, warm spa lighting",
-  "bad-warm": "bright scandinavian bathroom, white subway tiles, oak wood accents, gold faucets, indoor plants, warm 2700K lighting",
-  "bad-mikro": "microcement bathroom, seamless concrete walls and floor, floating vanity, minimalist designer bathroom",
-  "kueche-navy": "modern kitchen, dark navy blue cabinets, brass handles, open oak shelves, pendant lights, marble countertop",
-  "kueche-grau": "modern kitchen, grey satin cabinets, matte black handles, white subway tile backsplash, LED lighting",
-  "kueche-gruen": "modern kitchen, sage green cabinets, wooden open shelves, black handles, indoor plants, bright light",
-  "wohn-gruen": "living room, dark forest green accent wall, oak floor, linen sofa, indirect LED cove lighting, plants",
-  "wohn-terra": "living room, terracotta accent wall, earth tones, rattan furniture, warm 2700K lighting",
-  "schlaf-terra": "bedroom, terracotta accent wall, upholstered headboard, neutral linen bedding, warm pendant lights",
-  "schlaf-dunkel": "bedroom, dark navy ceiling, white walls, indirect warm LED lighting, upholstered headboard",
-  "terrasse-wpc": "modern terrace, WPC wood decking, outdoor lounge sofa, pergola, string lights, potted plants",
+  "bad-modern": "award winning luxury bathroom renovation, frameless walk-in rain shower, large format 120x60cm dark charcoal porcelain tiles, floating teak wood vanity, backlit LED mirror, matte black Grohe faucets, hidden ceiling LED strips warm 2700K, polished concrete floor, chrome shower niche, photorealistic architectural photography, interior design magazine, sharp focus, 8k",
+  "bad-warm": "beautiful scandinavian bathroom renovation, white handmade zellige subway tiles, warm natural oak wood vanity and shelves, brushed gold Hansgrohe faucets, hanging rattan pendant light, monstera and eucalyptus plants, warm 2200K candlelight atmosphere, herringbone marble floor, cotton linen towels, photorealistic interior photography, cozy hygge aesthetic, 8k",
+  "bad-mikro": "ultra modern microcement bathroom, seamless tadelakt concrete finish on all walls and floor, custom floating walnut vanity, Duravit undermount basin, minimal matte black tapware, hidden indirect LED lighting, large skylight, zen minimalist Japanese aesthetic, no grout lines, photorealistic architectural photography, 8k ultra detail",
+  "kueche-navy": "stunning modern kitchen renovation, deep navy blue shaker cabinets, unlacquered brass hardware and faucet, open floating white oak shelves, three black Edison pendant lights over island, calacatta marble waterfall island, exposed brick wall, warm 2700K under cabinet lighting, herringbone oak parquet floor, photorealistic interior design photography, 8k",
+  "kueche-grau": "sleek contemporary kitchen, silk grey lacquered flat front cabinets RAL7044, integrated Siemens appliances, matte black Quooker tap, large format white ceramic backsplash, seamless Corian countertop, recessed ceiling spotlights 3000K, light oak engineered wood floor, minimal German design aesthetic, photorealistic photography, 8k",
+  "kueche-gruen": "warm inviting kitchen renovation, sage green shaker cabinets, aged brass bin pulls, live edge walnut open shelves, white subway tile backsplash, butcher block countertop, wicker pendant light, fresh herbs on windowsill, terracotta tiles floor, cottagecore farmhouse aesthetic, photorealistic interior photography, 8k",
+  "wohn-gruen": "dramatic living room renovation, deep forest green limewash accent wall, wide plank white oak herringbone floor, curved cream boucle sofa, brass arc floor lamp, built-in bookcase with hidden LED strips, large fiddle leaf fig plant, linen curtains floor to ceiling, warm golden hour lighting, photorealistic interior design, 8k",
+  "wohn-terra": "earthy boho modern living room, burnt terracotta clay limewash wall, natural jute and wool area rug, curved rattan armchairs, low oak coffee table, clusters of pillar candles, hanging macrame, terracotta ceramic vases, warm 2200K ambient lighting, abundant plants, photorealistic interior photography, 8k",
+  "schlaf-terra": "serene master bedroom renovation, warm terracotta venetian plaster accent wall, king size upholstered bouclé headboard, layered linen bedding in oatmeal and sand, aged brass wall sconces, vertical oak wood slat panels, cashmere throw, eucalyptus stems in ceramic vase, soft 2200K warm glow, photorealistic interior photography, 8k",
+  "schlaf-dunkel": "moody luxury bedroom, deep midnight navy ceiling, white limewash walls, custom built-in wardrobe with integrated lighting, velvet upholstered platform bed, brass bedside pendants, indirect cove LED lighting 2700K, plush wool rug, cinematic atmospheric photography, high-end hotel aesthetic, 8k",
+  "terrasse-wpc": "beautiful modern terrace renovation, premium teak WPC decking, modular outdoor sofa with thick Sunbrella cushions, powder coated steel pergola with climbing jasmine, café Edison string lights, large terracotta planters with olive trees and lavender, outdoor kitchen island, warm summer evening golden light, photorealistic lifestyle photography, 8k",
 };
 
 export default async function handler(req, res) {
@@ -32,10 +32,9 @@ export default async function handler(req, res) {
   }
 
   var basePrompt = BASE_PROMPTS[style] || BASE_PROMPTS["bad-modern"];
+  var finalPrompt = basePrompt;
 
-  // If user described wishes in chat, use Claude to build a better prompt
-  var finalPrompt = basePrompt + ", photorealistic interior design photography, 4k";
-
+  // Use Claude to enhance prompt with user wishes from chat
   if (chatContext && process.env.ANTHROPIC_API_KEY) {
     try {
       var promptRes = await fetch("https://api.anthropic.com/v1/messages", {
@@ -47,19 +46,19 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           model: "claude-opus-4-6",
-          max_tokens: 200,
+          max_tokens: 150,
           messages: [{
             role: "user",
-            content: "Erstelle einen englischen Bild-Prompt (max 80 Wörter) für einen KI-Bildgenerator basierend auf: Basis-Stil: '" + basePrompt + "'. Nutzerwünsche: '" + chatContext + "'. Nur den Prompt ausgeben, kein anderer Text.",
+            content: "Take this interior design image prompt and enhance it with these specific user wishes: '" + chatContext + "'. Keep it under 100 words, English only, photorealistic interior photography style. Base prompt: " + basePrompt,
           }],
         }),
       });
       var promptData = await promptRes.json();
       if (promptData.content && promptData.content[0]) {
-        finalPrompt = promptData.content[0].text + ", photorealistic interior design photography, 4k";
+        finalPrompt = promptData.content[0].text;
       }
     } catch(e) {
-      console.log("Prompt generation failed, using base:", e.message);
+      console.log("Prompt enhancement failed:", e.message);
     }
   }
 
@@ -73,9 +72,9 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         prompt: finalPrompt,
         image_url: "data:image/jpeg;base64," + imageBase64,
-        strength: 0.75,
-        num_inference_steps: 28,
-        guidance_scale: 3.5,
+        strength: 0.80,
+        num_inference_steps: 35,
+        guidance_scale: 4.0,
       }),
     });
 
