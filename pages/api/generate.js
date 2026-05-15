@@ -2,32 +2,33 @@ export const config = {
   api: { bodyParser: { sizeLimit: "15mb" } },
 };
 
+// Prompts inspired by Luka's reference images
 const BASE_PROMPTS = {
-  "bad-modern": "award winning luxury bathroom renovation, frameless walk-in rain shower, large format 120x60cm dark charcoal porcelain tiles, floating teak wood vanity, backlit LED mirror, matte black Grohe faucets, hidden ceiling LED strips warm 2700K, polished concrete floor, architectural magazine editorial",
-  "bad-warm": "beautiful scandinavian bathroom renovation, white handmade zellige subway tiles, warm natural oak wood vanity, brushed gold Hansgrohe faucets, monstera plants, warm 2200K candlelight atmosphere, herringbone marble floor, architectural magazine editorial",
-  "bad-mikro": "ultra modern microcement bathroom, seamless tadelakt concrete finish on all walls and floor, custom floating walnut vanity, minimal matte black tapware, hidden indirect LED lighting, architectural magazine editorial",
-  "kueche-navy": "stunning modern kitchen renovation, deep navy blue shaker cabinets, unlacquered brass hardware, open floating white oak shelves, three black Edison pendant lights, calacatta marble waterfall island, architectural magazine editorial",
-  "kueche-grau": "sleek contemporary kitchen, silk grey lacquered flat front cabinets RAL7044, matte black Quooker tap, large format white ceramic backsplash, seamless Corian countertop, architectural magazine editorial",
-  "kueche-gruen": "warm inviting kitchen renovation, sage green shaker cabinets, aged brass bin pulls, live edge walnut open shelves, white subway tile backsplash, butcher block countertop, architectural magazine editorial",
-  "wohn-gruen": "dramatic living room renovation, deep forest green limewash accent wall, wide plank white oak herringbone floor, curved cream boucle sofa, brass arc floor lamp, built-in bookcase with hidden LED strips, architectural magazine editorial",
-  "wohn-terra": "earthy boho modern living room, burnt terracotta clay limewash wall, natural jute area rug, curved rattan armchairs, low oak coffee table, warm 2200K ambient lighting, architectural magazine editorial",
-  "schlaf-terra": "serene master bedroom renovation, warm terracotta venetian plaster accent wall, king size upholstered bouclé headboard, layered linen bedding, aged brass wall sconces, vertical oak wood slat panels, architectural magazine editorial",
-  "schlaf-dunkel": "moody luxury bedroom, deep midnight navy ceiling, white limewash walls, velvet upholstered platform bed, brass bedside pendants, indirect cove LED lighting 2700K, architectural magazine editorial",
-  "terrasse-wpc": "beautiful modern terrace renovation, premium teak WPC decking, modular outdoor sofa with Sunbrella cushions, powder coated steel pergola, café Edison string lights, large terracotta planters with olive trees, architectural magazine editorial",
+  "bad-modern":    "same room layout same perspective, luxury spa bathroom, large format dark charcoal porcelain tiles 120x60cm, floating teak vanity, LED backlit mirror, matte black Grohe faucets, warm 2700K LED cove lighting, architectural magazine editorial photorealistic 8k",
+  "bad-warm":      "same room layout same perspective, scandinavian bathroom, white handmade zellige tiles, natural oak vanity, brushed gold faucets, plants, warm 2200K, herringbone marble floor, architectural magazine editorial photorealistic 8k",
+  "bad-mikro":     "same room layout same perspective, seamless microcement tadelakt bathroom, floating walnut vanity, matte black tapware, hidden LED cove lighting, zen minimalist, architectural magazine editorial photorealistic 8k",
+  "kueche-navy":   "same room layout same perspective, modern kitchen matte black handleless cabinets, warm walnut wood accents, LED strip lighting under cabinets 2700K, stone backsplash, walnut dining table, black pendant lights, LED cove ceiling, architectural magazine editorial photorealistic 8k",
+  "kueche-grau":   "same room layout same perspective, minimalist taupe grey flat front kitchen, handleless cabinets, warm LED strip 2700K, black matte tap, white stone countertop, clean modern, architectural magazine editorial photorealistic 8k",
+  "kueche-gruen":  "same room layout same perspective, warm kitchen sage green cabinets, brass handles, walnut open shelves, zellige backsplash, live edge table, architectural magazine editorial photorealistic 8k",
+  "wohn-gruen":    "same room layout same perspective, modern living room warm LED cove ceiling lighting 2700K, taupe walls, floating TV cabinet with LED strip, large sectional sofa, herringbone parquet floor, architectural magazine editorial photorealistic 8k",
+  "wohn-terra":    "same room layout same perspective, luxury living room white marble floor, white gloss TV wall with LED cove, cream sofa, warm LED cove ceiling, linen curtains floor to ceiling, architectural magazine editorial photorealistic 8k",
+  "schlaf-terra":  "same room layout same perspective, bedroom warm terracotta venetian plaster wall, upholstered bouclé headboard, LED cove lighting 2200K, oak slat panels, linen bedding, architectural magazine editorial photorealistic 8k",
+  "schlaf-dunkel": "same room layout same perspective, moody bedroom navy ceiling, white limewash walls, LED cove 2700K, velvet platform bed, brass pendants, architectural magazine editorial photorealistic 8k",
+  "terrasse-wpc":  "same room layout same perspective, modern terrace premium WPC decking LED floor strip, outdoor lounge Sunbrella cushions, pergola, Edison string lights, olive tree planters, architectural magazine editorial photorealistic 8k",
 };
 
 const MATERIAL_EXPLANATIONS = {
-  "bad-modern": "modernes Spa-Bad mit dunklen Charcoal-Fliesen (120x60cm), schwebendem Teakholz-Waschtisch, mattschwarzem Grohe-Armaturenset und indirekten LED-Streifen (2700K warm)",
-  "bad-warm": "Scandinavian-Bad mit handgemachten Zellige-Kacheln, Eichenholz-Waschtisch, goldfarbenen Hansgrohe-Armaturen und Pflanzen",
-  "bad-mikro": "Mikrozement-Bad mit fugenlosem Betonfinish, schwebenden Waschtisch aus Nussholz und versteckter LED-Beleuchtung",
-  "kueche-navy": "Navy-Küche mit Shaker-Fronten, Calacatta-Marmor Wasserfall-Insel, unlackiertem Messing und offenen Eichenholz-Regalen",
-  "kueche-grau": "moderne Küche mit seidenglatten Fronten (RAL7044), Corian-Arbeitsplatte und mattschwarzem Quooker-Hahn",
-  "kueche-gruen": "warme Küche mit Salbeigrün-Fronten, Butcher-Block-Arbeitsplatte, Messinggriffen und offenen Walnuss-Regalen",
-  "wohn-gruen": "Wohnzimmer mit dunkelgrüner Limewash-Wand, weißem Eiche-Fischgrät-Boden, geschwungenem Bouclé-Sofa und eingebautem Bücherregal",
-  "wohn-terra": "Wohnzimmer mit Terrakotta-Limewash-Wand, Jute-Teppich, geschwungenen Rattan-Sesseln und warmem Ambiente-Licht",
-  "schlaf-terra": "Schlafzimmer mit Terrakotta Venetian-Plaster-Wand, gepolstertem Bouclé-Kopfteil, Leinenbettwäsche und vertikalen Eichenholz-Paneelen",
+  "bad-modern":    "modernes Spa-Bad mit dunklen Charcoal-Fliesen (120x60cm), schwebendem Teakholz-Waschtisch, mattschwarzem Grohe-Armaturenset und indirekten LED-Streifen (2700K warm)",
+  "bad-warm":      "Scandinavian-Bad mit handgemachten Zellige-Kacheln, Eichenholz-Waschtisch, goldfarbenen Hansgrohe-Armaturen und Pflanzen",
+  "bad-mikro":     "Mikrozement-Bad mit fugenlosem Betonfinish, schwebendem Waschtisch aus Nussholz und versteckter LED-Beleuchtung",
+  "kueche-navy":   "Schwarze grifflose Küche mit warmen Walnuss-Akzenten, LED-Streifen unter Schränken (2700K), Steinrückwand und Walnuss-Esstisch",
+  "kueche-grau":   "minimalistische Taupe/Grau Küche mit grifflosen Fronten, LED-Streifen 2700K, schwarzem Armatur und weißer Steinarbeitsplatte",
+  "kueche-gruen":  "warme Küche mit Salbeigrün-Fronten, Messinggriffen, Walnuss-Regalen und Zellige-Rückwand",
+  "wohn-gruen":    "Wohnzimmer mit warmem LED Cove-Licht (2700K), Taupe-Wänden, schwebendem TV-Möbel mit LED-Streifen und Fischgrät-Parkett",
+  "wohn-terra":    "luxuriöses Wohnzimmer mit weißem Marmorboden, weißer Hochglanz-TV-Wand, LED Cove-Decke und bodenlangen Leinenvorhängen",
+  "schlaf-terra":  "Schlafzimmer mit Terrakotta Venetian-Plaster-Wand, gepolstertem Bouclé-Kopfteil, Leinenbettwäsche und vertikalen Eichenholz-Paneelen",
   "schlaf-dunkel": "Schlafzimmer mit dunkelblauer Decke, Limewash-Wänden, Samtbett, Messing-Pendelleuchten und indirektem Cove-Licht",
-  "terrasse-wpc": "Terrasse mit Premium Teak-WPC-Dielen, Modular-Lounge mit Sunbrella-Kissen, Stahl-Pergola und Olivenbäumen in Terrakotta-Töpfen",
+  "terrasse-wpc":  "Terrasse mit Premium Teak-WPC-Dielen, LED-Bodenstreifen, Modular-Lounge, Stahl-Pergola und Olivenbäumen",
 };
 
 export default async function handler(req, res) {
@@ -49,10 +50,9 @@ export default async function handler(req, res) {
   var finalPrompt = basePrompt;
   var materialText = MATERIAL_EXPLANATIONS[style] || "";
 
-  // Enhance prompt + generate material explanation with Claude
   if (process.env.ANTHROPIC_API_KEY) {
     try {
-      var userContext = chatContext ? "Nutzerwünsche: " + chatContext + ". " : "";
+      var userContext = chatContext ? "Nutzerwuensche: " + chatContext + ". " : "";
       var claudeRes = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: {
@@ -65,7 +65,7 @@ export default async function handler(req, res) {
           max_tokens: 600,
           messages: [{
             role: "user",
-            content: userContext + "Basis-Stil: " + basePrompt + "\n\nGib mir zwei Dinge:\n1. PROMPT: Einen verbesserten englischen Bild-Prompt (max 80 Wörter) für Flux img2img der die Nutzerwünsche einbaut. Endet mit 'architectural magazine editorial, photorealistic, 8k'.\n2. MATERIALIEN: Eine freundliche deutsche Erklärung (5-8 Punkte mit Emoji) was im Bild zu sehen ist, wie die Materialien heißen, was sie kosten und wo man sie kauft (OBI/Bauhaus/Amazon/IKEA). Für absolute Anfänger erklärt.\n\nFormat:\nPROMPT: [nur der prompt]\nMATERIALIEN: [die erklärung]",
+            content: userContext + "Basis-Stil: " + basePrompt + "\n\nGib mir zwei Dinge:\n1. PROMPT: Verbesserter englischer Bild-Prompt (max 80 Woerter). MUSS beginnen mit 'same room layout same perspective'. Baut Nutzerwuensche ein. Endet mit 'architectural magazine editorial photorealistic 8k'.\n2. MATERIALIEN: Deutsche Erklaerung (5-8 Punkte mit Emoji) was im Bild zu sehen ist, Materialnamen, Kosten, wo kaufen (OBI/Bauhaus/Amazon/IKEA). Nutze **fett** fuer Produktnamen. Fuer Anfaenger.\n\nFormat:\nPROMPT: [prompt]\nMATERIALIEN: [erklaerung]",
           }],
         }),
       });
@@ -78,8 +78,12 @@ export default async function handler(req, res) {
         if (materialsMatch) materialText = materialsMatch[1].trim();
       }
     } catch(e) {
-      console.log("Claude enhancement failed:", e.message);
+      console.log("Claude failed:", e.message);
     }
+  }
+
+  if (!finalPrompt.startsWith("same room layout")) {
+    finalPrompt = "same room layout same perspective, " + finalPrompt;
   }
 
   try {
@@ -94,17 +98,13 @@ export default async function handler(req, res) {
         image_url: "data:image/jpeg;base64," + imageBase64,
         strength: 0.65,
         num_inference_steps: 35,
-        guidance_scale: 4.0,
+        guidance_scale: 3.5,
       }),
     });
 
     var data = await response.json();
     if (data.images && data.images[0] && data.images[0].url) {
-      return res.json({
-        imageUrl: data.images[0].url,
-        materials: materialText,
-        promptUsed: finalPrompt,
-      });
+      return res.json({ imageUrl: data.images[0].url, materials: materialText, promptUsed: finalPrompt });
     }
     throw new Error(data.message || data.error || "Kein Bild erhalten");
   } catch (err) {
