@@ -363,16 +363,16 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers }) {
   const [saved, setSaved] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [viewingHistory, setViewingHistory] = useState(null);
+  const [isObjReplace, setIsObjReplace] = useState(false);
+  const [refining, setRefining] = useState(false);
+  const [refinementInput, setRefinementInput] = useState("");
+  const [refinementHistory, setRefinementHistory] = useState([]);
 
   function handleDatei(e) {
     const f = e.target.files[0]; if (!f) return;
     setFile(f); setVorherUrl(URL.createObjectURL(f));
     setNachherUrl(null); setMaterials(null); setError(null); setSaved(false); setViewingHistory(null);
   }
-
-  const [isObjReplace, setIsObjReplace] = useState(false);
-  const [refining, setRefining] = useState(false);
-  const [refinementHistory, setRefinementHistory] = useState([]); // [{url, instruction}]
 
   async function refineMakeover() {
     if (!refinementInput.trim() || !nachherUrl) return;
