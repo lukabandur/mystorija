@@ -672,7 +672,153 @@ function HandwerkerTab() {
   );
 }
 
-// ─── PLANER TAB (vereinfacht) ─────────────────────────────────────────────────
+// ─── EINKAUFSLISTE (aus gespeicherten Makeovers) ──────────────────────────────
+function parseMaterials(text) {
+  if (!text) return [];
+  return text.split("\n")
+    .map(line => line.trim())
+    .filter(line => line.length > 0)
+    .map(line => {
+      // Extract name (bold **...**), description, and Amazon link
+      const boldMatch = line.match(/\*\*([^*]+)\*\*/);
+      const linkMatch = line.match(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/);
+      const name = boldMatch ? boldMatch[1] : line.replace(/\*\*/g, "").replace(/\[.*?\]\(.*?\)/g, "").replace(/^[🪨🪵💡🚿✨⬛📚🌿🏺🍂🛏️🌙🪑🌳⬜🔵]/u, "").split("–")[0].trim();
+      const amazonUrl = linkMatch ? linkMatch[2] : null;
+      // Get price from line
+      const priceMatch = line.match(/Ca\.\s*([\d–.]+\s*€[^.]*)/);
+      const price = priceMatch ? priceMatch[1] : null;
+      // Get emoji at start
+      const emojiMatch = line.match(/^([🪨🪵💡🚿✨⬛📚🌿🏺🍂🛏️🌙🪑🌳⬜🔵🏛️])/u);
+      const emoji = emojiMatch ? emojiMatch[1] : "🛒";
+      return { name, amazonUrl, price, emoji, raw: line };
+    });
+}
+
+function EinkaufsListe({ savedMakeovers }) {
+  const [checked, setChecked] = useState({});
+  const [openMakeover, setOpenMakeover] = useState(savedMakeovers[0]?.id || null);
+
+  const toggle = (key) => setChecked(prev => ({ ...prev, [key]: !prev[key] }));
+
+  // Count total items & checked across all makeovers
+  const allItems = savedMakeovers.flatMap((m, mi) =>
+    parseMaterials(m.materials).map((item, ii) => ({ key: `${m.id}-${ii}` }))
+  );
+  const totalChecked = allItems.filter(i => checked[i.key]).length;
+  const total = allItems.length;
+
+  return (
+    <div style={{ marginTop:24 }}>
+      {/* Header */}
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12 }}>
+        <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:18 }}>🛒 Einkaufsliste</h3>
+        {total > 0 && (
+          <span style={{ fontSize:12, color:C.muted, background:C.accentBg, padding:"3px 10px", borderRadius:20 }}>
+            {totalChecked}/{total} gekauft
+          </span>
+        )}
+      </div>
+
+      {/* Progress Bar */}
+      {total > 0 && (
+        <div style={{ height:6, background:C.border, borderRadius:3, overflow:"hidden", marginBottom:16 }}>
+          <div style={{ height:"100%", width:`${Math.round((totalChecked/total)*100)}%`, background:`linear-gradient(to right, ${C.accent}, #E8855A)`, borderRadius:3, transition:"width 0.3s" }} />
+        </div>
+      )}
+
+      {savedMakeovers.map((m, mi) => {
+        const items = parseMaterials(m.materials);
+        if (items.length === 0) return null;
+        const mChecked = items.filter((_, ii) => checked[`${m.id}-${ii}`]).length;
+        const isOpen = openMakeover === m.id;
+
+        return (
+          <div key={m.id} className="fu" style={{ background:C.card, border:`1px solid ${isOpen ? C.accent+"66" : C.border}`, borderRadius:16, marginBottom:12, overflow:"hidden" }}>
+            {/* Makeover Header – klappbar */}
+            <button onClick={() => setOpenMakeover(isOpen ? null : m.id)} style={{ width:"100%", padding:"0", background:"transparent", border:"none", cursor:"pointer", textAlign:"left", display:"flex" }}>
+              {/* Vorschaubild */}
+              <div style={{ width:80, height:72, flexShrink:0, overflow:"hidden" }}>
+                <img src={m.imgUrl} alt="" style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+              </div>
+              <div style={{ flex:1, padding:"12px 14px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+                <div>
+                  <p style={{ fontFamily:"'Playfair Display',serif", fontSize:14, fontWeight:700, color:C.text, marginBottom:2 }}>{m.titel}</p>
+                  <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                    <span style={{ fontSize:11, color:C.muted }}>{m.date}</span>
+                    <span style={{ fontSize:11, background:mChecked===items.length?C.greenBg:C.accentBg, color:mChecked===items.length?C.green:C.accent, padding:"2px 8px", borderRadius:20, fontWeight:600 }}>
+                      {mChecked}/{items.length} {mChecked===items.length?"✓ Alles gekauft":"Produkte"}
+                    </span>
+                  </div>
+                </div>
+                <span style={{ fontSize:18, color:C.muted, transform:isOpen?"rotate(90deg)":"none", transition:"transform .2s" }}>›</span>
+              </div>
+            </button>
+
+            {/* Produkt-Liste */}
+            {isOpen && (
+              <div className="fu" style={{ borderTop:`1px solid ${C.border}` }}>
+                {/* Alle abhaken Button */}
+                <div style={{ padding:"8px 14px", background:C.accentBg, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                  <p style={{ fontSize:12, color:C.accent, fontWeight:600 }}>📋 Einkaufsliste für {m.titel}</p>
+                  <button onClick={() => {
+                    const allDone = items.every((_, ii) => checked[`${m.id}-${ii}`]);
+                    const update = {};
+                    items.forEach((_, ii) => { update[`${m.id}-${ii}`] = !allDone; });
+                    setChecked(prev => ({ ...prev, ...update }));
+                  }} style={{ fontSize:11, color:C.accent, background:"none", border:`1px solid ${C.accent}44`, borderRadius:20, padding:"3px 10px", cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
+                    {items.every((_, ii) => checked[`${m.id}-${ii}`]) ? "Alle abwählen" : "Alle abhaken"}
+                  </button>
+                </div>
+
+                {items.map((item, ii) => {
+                  const key = `${m.id}-${ii}`;
+                  const done = checked[key];
+                  return (
+                    <div key={ii} style={{ display:"flex", alignItems:"center", gap:10, padding:"11px 14px", borderBottom:`1px solid ${C.border}`, background:done?"#F9FDF9":"transparent" }}>
+                      {/* Checkbox */}
+                      <div onClick={() => toggle(key)} style={{ width:22, height:22, borderRadius:6, flexShrink:0, border:`2px solid ${done?C.green:C.border}`, background:done?C.green:"white", display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer" }}>
+                        {done && <span style={{ color:"white", fontSize:12, fontWeight:700 }}>✓</span>}
+                      </div>
+
+                      {/* Produkt Info */}
+                      <div style={{ flex:1, minWidth:0 }}>
+                        <p style={{ fontSize:13, fontWeight:600, color:done?C.muted:C.text, textDecoration:done?"line-through":"none", lineHeight:1.4 }}>
+                          {item.emoji} {item.name}
+                        </p>
+                        {item.price && !done && (
+                          <p style={{ fontSize:11, color:C.muted, marginTop:2 }}>💶 Ca. {item.price}</p>
+                        )}
+                      </div>
+
+                      {/* Amazon Link */}
+                      {item.amazonUrl && (
+                        <a href={item.amazonUrl} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ flexShrink:0, background:done?C.border:C.greenBg, color:done?C.muted:C.green, borderRadius:20, padding:"5px 11px", fontSize:12, textDecoration:"none", fontWeight:700, display:"flex", alignItems:"center", gap:4, opacity:done?0.5:1 }}>
+                          🛒 <span>Kaufen</span>
+                        </a>
+                      )}
+                    </div>
+                  );
+                })}
+
+                {/* Zusammenfassung unten */}
+                <div style={{ padding:"10px 14px", background:C.greenBg, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                  <span style={{ fontSize:12, color:C.green, fontWeight:600 }}>
+                    {mChecked === items.length ? "🎉 Alle Produkte besorgt!" : `${items.length - mChecked} Produkte noch offen`}
+                  </span>
+                  {mChecked === items.length && (
+                    <span style={{ fontSize:11, color:C.green }}>Jetzt loslegen! 💪</span>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── PLANER TAB ───────────────────────────────────────────────────────────────
 const PROJECT_TEMPLATES = [
   { name:"Bad Upgrade", icon:"🚿", steps:["Altes Silikon ablösen","Wand entfetten","Neues Bad-Silikon ziehen","24h trocknen","Spiegel tauschen","Armaturen tauschen"] },
   { name:"Boden verlegen", icon:"🪟", steps:["Untergrund reinigen","Unterlage auslegen","Vinyl einrasten","Randstücke schneiden","Sockelleisten montieren"] },
@@ -767,21 +913,7 @@ function PlanerTab({ savedMakeovers }) {
         </div>
       )}
       {savedMakeovers?.length > 0 && (
-        <div style={{ marginTop:20 }}>
-          <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:17, marginBottom:12 }}>Gespeicherte Makeovers</h3>
-          {savedMakeovers.map(m => (
-            <div key={m.id} className="fu" style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:16, overflow:"hidden", marginBottom:12 }}>
-              <div style={{ height:140, overflow:"hidden" }}><img src={m.imgUrl} alt="" style={{ width:"100%", height:"100%", objectFit:"cover" }} /></div>
-              <div style={{ padding:"12px 14px" }}>
-                <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
-                  <p style={{ fontFamily:"'Playfair Display',serif", fontSize:14, fontWeight:700 }}>{m.titel}</p>
-                  <span style={{ fontSize:11, color:C.muted }}>{m.date}</span>
-                </div>
-                {m.wunsch && <p style={{ fontSize:12, color:C.accent }}>💬 "{m.wunsch.slice(0,50)}{m.wunsch.length>50?"…":""}"</p>}
-              </div>
-            </div>
-          ))}
-        </div>
+        <EinkaufsListe savedMakeovers={savedMakeovers} />
       )}
     </div>
   );
