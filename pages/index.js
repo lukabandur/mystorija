@@ -20,6 +20,7 @@ const C = {
   bg: "#F8F5F0", card: "#FFFFFF", border: "#EDE8DF",
   accent: "#C4622D", accentBg: "#FFF0E8", text: "#1A1A1A",
   muted: "#888888", green: "#3A7A56", greenBg: "#EDF5F1",
+  tag: "#F0EDE8",
 };
 
 const globalCSS = `
@@ -487,6 +488,7 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUs
   const [saved, setSaved] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [viewingHistory, setViewingHistory] = useState(null);
+  const [isObjReplace, setIsObjReplace] = useState(false);
   const [nachherBase64, setNachherBase64] = useState(null); // gespeicherte base64 für Refinement
   const [refining, setRefining] = useState(false);
   const [refinementInput, setRefinementInput] = useState("");
