@@ -662,59 +662,228 @@ function renderChatText(text) {
 function ChatTab({ messages, setMessages }) {
   const [inputText, setInputText] = useState("");
   const [loading, setLoading] = useState(false);
+  const [imgFile, setImgFile] = useState(null);
+  const [imgPreview, setImgPreview] = useState(null);
   const bottomRef = useRef(null);
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior:"smooth" }); }, [messages, loading]);
+  const fileRef = useRef(null);
+  const textRef = useRef(null);
 
-  async function sendMessage() {
-    const text = inputText.trim(); if (!text || loading) return;
-    const userMsg = { role:"user", text };
-    setMessages(prev => [...prev, userMsg]); setInputText(""); setLoading(true);
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, loading]);
+
+  const SUGGESTIONS = [
+    "Wie renoviere ich mein Bad günstig?",
+    "Welche Wandfarbe für Wohnzimmer 2025?",
+    "Wie verlege ich SPC-Vinyl selbst?",
+    "Was kostet eine Küchensanierung?",
+    "LED-Beleuchtung einbauen – wie?",
+    "Fliesen über Fliesen legen möglich?",
+  ];
+
+  async function sendMessage(textOverride, imgOverride, mimeOverride) {
+    const text = textOverride ?? inputText;
+    const img = imgOverride ?? imgPreview;
+    if (!text.trim() && !img) return;
+
+    const userMsg = {
+      role: "user",
+      text: text.trim() || "Analysiere dieses Bild.",
+      img: img || null,
+      imgBase64: img || null,
+      mimeType: mimeOverride || (imgFile?.type) || "image/jpeg",
+    };
+
+    setMessages(prev => [...prev, userMsg]);
+    setInputText("");
+    setImgFile(null);
+    setImgPreview(null);
+    setLoading(true);
+
+    // Build full conversation for API
     const allMsgs = [...messages, userMsg];
-    const firstUser = allMsgs.findIndex(m => m.role === "user");
-    const apiMessages = allMsgs.slice(firstUser).map(m => ({ role:m.role, content:m.text }));
+    const apiMessages = allMsgs.map(m => ({
+      role: m.role,
+      content: m.role === "assistant" ? (m.text || "") : (m.text || ""),
+      ...(m.imgBase64 && m.imgBase64 !== "[Foto]" ? { imgBase64: m.imgBase64, mimeType: m.mimeType } : {}),
+    }));
+
     try {
-      const res = await fetch("/api/chat", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ messages:apiMessages }) });
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: apiMessages }),
+      });
       const data = await res.json();
-      const reply = data?.reply;
-      if (reply) { setMessages(prev => [...prev, { role:"assistant", text:reply }]); }
-      else throw new Error("Keine Antwort");
-    } catch {
-      const offline = getRenovierungsAntwort(text, false);
-      setMessages(prev => [...prev, { role:"assistant", text:offline }]);
+      setMessages(prev => [...prev, { role: "assistant", text: data.reply || "Keine Antwort erhalten." }]);
+    } catch (err) {
+      setMessages(prev => [...prev, { role: "assistant", text: "❌ Verbindungsfehler. Bitte erneut versuchen." }]);
     }
     setLoading(false);
   }
 
+  function onFile(e) {
+    const f = e.target.files[0]; if (!f) return;
+    setImgFile(f);
+    const r = new FileReader();
+    r.onload = ev => {
+      setImgPreview(ev.target.result);
+      // Auto send with the image
+      sendMessage("Analysiere dieses Foto meines Raumes bitte.", ev.target.result, f.type);
+    };
+    r.readAsDataURL(f);
+  }
+
+  function clearChat() {
+    setMessages([{
+      role: "assistant",
+      text: "Chat geleert. 👋 Womit kann ich dir helfen?\n\nStell mir eine Frage oder lade ein **Foto** deines Raumes hoch – ich analysiere es sofort!",
+    }]);
+  }
+
+  const isEmpty = messages.length <= 1;
+
   return (
-    <div style={{ display:"flex", flexDirection:"column", height:"100%", overflow:"hidden" }}>
-      <div style={{ flex:1, overflowY:"auto", padding:"16px 16px 8px" }}>
-        {messages.map((msg, i) => (
-          <div key={i} className="fu" style={{ display:"flex", justifyContent:msg.role==="user"?"flex-end":"flex-start", marginBottom:14, gap:8, alignItems:"flex-end" }}>
-            {msg.role==="assistant" && <div style={{ width:30, height:30, background:C.accent, borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, flexShrink:0 }}>🔨</div>}
-            <div style={{ maxWidth:"85%" }}>
-              <div style={{ background:msg.role==="user"?C.accent:C.card, color:msg.role==="user"?"#fff":C.text, border:msg.role==="assistant"?`1px solid ${C.border}`:"none", borderRadius:msg.role==="user"?"16px 16px 3px 16px":"16px 16px 16px 3px", padding:"11px 15px", fontSize:14, lineHeight:1.65 }}>
-                {msg.role === "user" ? msg.text : renderChatText(msg.text)}
+    <div style={{ display: "flex", flexDirection: "column", height: "100%", overflow: "hidden", background: C.bg }}>
+
+      {/* Header */}
+      <div style={{ background: C.card, borderBottom: `1px solid ${C.border}`, padding: "10px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ width: 28, height: 28, background: C.accent, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>🔨</div>
+          <div>
+            <p style={{ fontSize: 14, fontWeight: 700, color: C.text }}>RenoPilot Experte</p>
+            <p style={{ fontSize: 11, color: C.green }}>● Online – KI-gestützt</p>
+          </div>
+        </div>
+        <button onClick={clearChat} style={{ fontSize: 12, color: C.muted, background: "none", border: `1px solid ${C.border}`, borderRadius: 20, padding: "4px 10px", cursor: "pointer", fontFamily: "'DM Sans',sans-serif" }}>
+          🗑 Leeren
+        </button>
+      </div>
+
+      {/* Messages */}
+      <div style={{ flex: 1, overflowY: "auto", padding: "16px" }}>
+
+        {/* Welcome + Suggestions when chat is empty */}
+        {isEmpty && (
+          <div className="fu" style={{ marginBottom: 20 }}>
+            <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: "16px 18px", marginBottom: 14, boxShadow: "0 2px 12px rgba(0,0,0,.04)" }}>
+              <div style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 12 }}>
+                <div style={{ width: 32, height: 32, background: C.accent, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>🔨</div>
+                <div>
+                  <p style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 4 }}>RenoPilot</p>
+                  <p style={{ fontSize: 13, color: C.text, lineHeight: 1.6 }}>
+                    Hey! 👋 Ich bin dein persönlicher Renovierungsexperte – frag mich alles über Bad, Küche, Wohnzimmer, Boden, Licht und mehr.<br /><br />
+                    Ich gebe dir <strong>konkrete Antworten</strong> mit Produktnamen, Preisen und Schritt-für-Schritt Anleitungen. Oder lade ein 📷 Foto hoch und ich analysiere deinen Raum sofort!
+                  </p>
+                </div>
               </div>
+            </div>
+            <p style={{ fontSize: 12, color: C.muted, marginBottom: 8, fontStyle: "italic" }}>Häufige Fragen:</p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
+              {SUGGESTIONS.map(s => (
+                <button key={s} onClick={() => sendMessage(s)} style={{ padding: "7px 13px", borderRadius: 20, border: `1px solid ${C.border}`, background: C.card, color: C.text, fontSize: 12, cursor: "pointer", fontFamily: "'DM Sans',sans-serif", textAlign: "left", boxShadow: "0 1px 4px rgba(0,0,0,.04)" }}>
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Messages */}
+        {messages.slice(isEmpty ? 0 : 0).map((msg, i) => (
+          <div key={i} className="fu" style={{ marginBottom: 16, display: "flex", flexDirection: "column", alignItems: msg.role === "user" ? "flex-end" : "flex-start" }}>
+            {msg.role === "assistant" && (
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 5 }}>
+                <div style={{ width: 24, height: 24, background: C.accent, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, flexShrink: 0 }}>🔨</div>
+                <span style={{ fontSize: 11, color: C.muted, fontWeight: 600 }}>RenoPilot</span>
+              </div>
+            )}
+            {/* Show uploaded image above message */}
+            {msg.img && msg.img !== "[Foto]" && (
+              <img src={msg.img} alt="" style={{ maxWidth: 240, borderRadius: 12, marginBottom: 6, boxShadow: "0 2px 12px rgba(0,0,0,.1)", border: `2px solid ${C.accent}` }} />
+            )}
+            {msg.img === "[Foto]" && (
+              <div style={{ maxWidth: 240, borderRadius: 12, marginBottom: 6, background: C.tag, border: `1px solid ${C.border}`, padding: "6px 10px", fontSize: 11, color: C.muted }}>📷 Foto gesendet</div>
+            )}
+            <div style={{
+              maxWidth: "90%",
+              padding: "11px 15px",
+              borderRadius: msg.role === "user" ? "18px 18px 4px 18px" : "4px 18px 18px 18px",
+              background: msg.role === "user" ? C.accent : C.card,
+              color: msg.role === "user" ? "#fff" : C.text,
+              border: msg.role === "assistant" ? `1px solid ${C.border}` : "none",
+              fontSize: 14, lineHeight: 1.65,
+              boxShadow: "0 1px 6px rgba(0,0,0,.06)",
+            }}>
+              {msg.role === "user"
+                ? msg.text
+                : renderChatText(msg.text)
+              }
             </div>
           </div>
         ))}
+
+        {/* Loading */}
         {loading && (
-          <div style={{ display:"flex", gap:8, alignItems:"center", marginBottom:14 }}>
-            <div style={{ width:30, height:30, background:C.accent, borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:14 }}>🔨</div>
-            <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:"16px 16px 16px 3px", padding:"12px 16px", display:"flex", gap:5 }}>
-              {[0,1,2].map(j => <div key={j} style={{ width:6, height:6, borderRadius:"50%", background:C.muted, animation:`blink 1.2s ease ${j*0.2}s infinite` }} />)}
+          <div style={{ display: "flex", gap: 8, alignItems: "flex-end", marginBottom: 16 }}>
+            <div style={{ width: 24, height: 24, background: C.accent, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, flexShrink: 0 }}>🔨</div>
+            <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: "4px 18px 18px 18px", padding: "12px 16px", display: "flex", gap: 5, alignItems: "center" }}>
+              {[0, 1, 2].map(j => (
+                <div key={j} style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent, animation: `blink 1.2s ease ${j * 0.2}s infinite` }} />
+              ))}
             </div>
           </div>
         )}
         <div ref={bottomRef} />
       </div>
-      <div style={{ padding:"8px 14px 14px", borderTop:`1px solid ${C.border}`, background:C.card }}>
-        <div style={{ display:"flex", gap:8, alignItems:"flex-end" }}>
-          <textarea value={inputText} onChange={e => setInputText(e.target.value)} onKeyDown={e => { if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage();} }} placeholder="Frag mich alles über Renovierung…" rows={2} style={{ flex:1, resize:"none", border:`2px solid ${C.border}`, borderRadius:12, padding:"9px 13px", fontSize:14, fontFamily:"'DM Sans',sans-serif", background:C.bg, lineHeight:1.5 }} />
-          <button onClick={sendMessage} disabled={loading||!inputText.trim()} style={{ width:42, height:42, borderRadius:12, flexShrink:0, background:loading||!inputText.trim()?C.border:C.accent, border:"none", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", color:"white", fontSize:18 }}>
+
+      {/* Image preview */}
+      {imgPreview && (
+        <div style={{ padding: "6px 16px 0", background: C.card, borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "center", gap: 8 }}>
+          <img src={imgPreview} alt="" style={{ width: 48, height: 48, borderRadius: 8, objectFit: "cover", border: `2px solid ${C.accent}` }} />
+          <p style={{ fontSize: 12, color: C.accent, flex: 1 }}>Foto bereit – wird mit deiner Nachricht gesendet</p>
+          <button onClick={() => { setImgFile(null); setImgPreview(null); }} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 16, color: C.muted }}>✕</button>
+        </div>
+      )}
+
+      {/* Input */}
+      <div style={{ padding: "10px 14px 14px", borderTop: `1px solid ${C.border}`, background: C.card }}>
+        <div style={{ display: "flex", gap: 8, alignItems: "flex-end" }}>
+          <button onClick={() => fileRef.current?.click()} title="Foto hochladen" style={{ width: 40, height: 40, flexShrink: 0, background: C.accentBg, border: `1px solid ${C.border}`, borderRadius: 10, cursor: "pointer", fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            📷
+          </button>
+          <input type="file" ref={fileRef} accept="image/*" onChange={onFile} style={{ display: "none" }} />
+          <textarea
+            ref={textRef}
+            value={inputText}
+            onChange={e => setInputText(e.target.value)}
+            onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
+            placeholder="Stell eine Frage zur Renovierung…"
+            rows={1}
+            style={{
+              flex: 1, resize: "none", border: `1.5px solid ${C.border}`, borderRadius: 12,
+              padding: "10px 14px", fontSize: 14, fontFamily: "'DM Sans', sans-serif",
+              background: C.bg, lineHeight: 1.5, minHeight: 42, maxHeight: 120,
+              transition: "border-color 0.2s",
+            }}
+            onFocus={e => { e.target.style.borderColor = C.accent; }}
+            onBlur={e => { e.target.style.borderColor = C.border; }}
+          />
+          <button
+            onClick={() => sendMessage()}
+            disabled={loading || (!inputText.trim() && !imgPreview)}
+            style={{
+              width: 42, height: 42, borderRadius: 12, flexShrink: 0,
+              background: loading || (!inputText.trim() && !imgPreview) ? C.border : C.accent,
+              border: "none", cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              color: "white", fontSize: 18, transition: "background 0.2s",
+            }}
+          >
             {loading ? <LoadingSpinner size={18} /> : "→"}
           </button>
         </div>
+        <p style={{ fontSize: 10, color: C.muted, textAlign: "center", marginTop: 6 }}>
+          Enter zum Senden · Shift+Enter für neue Zeile · 📷 für Foto-Analyse
+        </p>
       </div>
     </div>
   );
