@@ -472,7 +472,7 @@ function compressImageFile(file) {
 }
 
 // ─── MAKEOVER TAB (aus altem Chat – vollständig) ──────────────────────────────
-function MakeoverTab({ onSaveToPlaner, savedMakeovers }) {
+function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUsed, onNeedUpgrade, onGenerated }) {
   var fileRef = useRef();
   const [file, setFile] = useState(null);
   const [vorherUrl, setVorherUrl] = useState(null);
@@ -542,19 +542,24 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers }) {
 
   function generieren() {
     if (!file) return;
+    // Paywall check
+    if (!canGenerate) { onNeedUpgrade(); return; }
+
     setViewingHistory(null); setLoading(true); setNachherUrl(null); setMaterials(null);
     setError(null); setProgress(0); setSaved(false);
     const timer = setInterval(() => setProgress(p => p < 85 ? p + 2 : p), 600);
     compressImageFile(file).then(base64 =>
       fetch("/api/generate", {
         method:"POST", headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({ imageBase64:base64, style:stil, chatContext:wunsch||null }),
+        body: JSON.stringify({ imageBase64:base64, style:stil, chatContext:wunsch||null, plan: plan||"free" }),
       })
     ).then(res => res.json())
     .then(data => {
       clearInterval(timer);
       if (data.error) { setError(data.error); setLoading(false); return; }
-      setProgress(100); setNachherUrl(data.imageUrl); setMaterials(data.materials||null); setIsObjReplace(!!data.isObjectReplacement); setLoading(false);
+      setProgress(100); setNachherUrl(data.imageUrl); setMaterials(data.materials||null);
+      setIsObjReplace(!!data.isObjectReplacement); setLoading(false);
+      if (onGenerated) onGenerated(); // Zähler erhöhen
     }).catch(err => { clearInterval(timer); setError(err.message); setLoading(false); });
   }
 
@@ -662,9 +667,29 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers }) {
             <input ref={fileRef} type="file" accept="image/*" style={{ display:"none" }} onChange={handleDatei} />
 
             {vorherUrl && (
-              <button onClick={generieren} disabled={loading} style={{ width:"100%", padding:15, marginBottom:12, background:loading?"#DDD":"linear-gradient(135deg, #C4622D, #A0522D)", color:loading?"#999":"white", border:"none", borderRadius:50, fontSize:15, fontWeight:700, cursor:loading?"default":"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-                {loading ? "KI generiert Bild..." : "✨ Makeover generieren"}
-              </button>
+              <>
+                {!canGenerate && (
+                  <div style={{ background:"#FFF8E1", border:"1px solid #FFD54F", borderRadius:12, padding:"12px 14px", marginBottom:10, display:"flex", gap:10, alignItems:"center" }}>
+                    <span style={{ fontSize:20 }}>🔒</span>
+                    <div style={{ flex:1 }}>
+                      <p style={{ fontSize:13, fontWeight:700, color:"#E65100" }}>3 gratis Makeovers aufgebraucht</p>
+                      <p style={{ fontSize:12, color:"#7A4100" }}>Upgrade für weitere Generierungen</p>
+                    </div>
+                    <button onClick={onNeedUpgrade} style={{ padding:"7px 14px", borderRadius:20, background:C.accent, color:"white", border:"none", cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"'DM Sans',sans-serif", flexShrink:0 }}>
+                      Upgrade →
+                    </button>
+                  </div>
+                )}
+                {plan === "pro" && (
+                  <div style={{ background:C.greenBg, border:`1px solid ${C.green}33`, borderRadius:10, padding:"6px 12px", marginBottom:8, display:"flex", alignItems:"center", gap:6 }}>
+                    <span style={{ fontSize:12 }}>⭐</span>
+                    <p style={{ fontSize:12, color:C.green, fontWeight:600 }}>Pro: Flux Pro Modell aktiv – höhere Bildqualität</p>
+                  </div>
+                )}
+                <button onClick={generieren} disabled={loading || !canGenerate} style={{ width:"100%", padding:15, marginBottom:12, background:loading?"#DDD":!canGenerate?"#DDD":"linear-gradient(135deg, #C4622D, #A0522D)", color:loading||!canGenerate?"#999":"white", border:"none", borderRadius:50, fontSize:15, fontWeight:700, cursor:loading||!canGenerate?"default":"pointer", fontFamily:"'DM Sans',sans-serif" }}>
+                  {loading ? "KI generiert Bild..." : !canGenerate ? "🔒 Upgrade erforderlich" : "✨ Makeover generieren"}
+                </button>
+              </>
             )}
 
             {loading && (
@@ -1237,149 +1262,429 @@ function EinkaufsListe({ savedMakeovers }) {
   );
 }
 
-// ─── PLANER TAB ───────────────────────────────────────────────────────────────
-const PROJECT_TEMPLATES = [
-  { name:"Bad Upgrade", icon:"🚿", steps:["Altes Silikon ablösen","Wand entfetten","Neues Bad-Silikon ziehen","24h trocknen","Spiegel tauschen","Armaturen tauschen"] },
-  { name:"Boden verlegen", icon:"🪟", steps:["Untergrund reinigen","Unterlage auslegen","Vinyl einrasten","Randstücke schneiden","Sockelleisten montieren"] },
-  { name:"Küche aufwerten", icon:"🍳", steps:["Fronten entfetten","Griffe tauschen","Schleifen + Haftgrund","Lackieren","LED-Strip kleben"] },
-  { name:"Terrasse aufwerten", icon:"🌿", steps:["Boden reinigen","Klick-Fliesen legen","Sichtschutz montieren","Kissen aufstellen","Lichterketten hängen"] },
+// ─── PLANER TAB – komplett neu ────────────────────────────────────────────────
+const KOMPLETT_PLAENE = [
+  {
+    name:"Bad Komplettsanierung", icon:"🚿", dauer:"2–4 Wochen", budget:"3.000–15.000€", desc:"Vom leeren Raum zum Traumbad",
+    phasen:[
+      { name:"Planung & Vorbereitung", items:["Grundriss aufzeichnen, Maße nehmen","Sanitär-Konzept festlegen (WC, Dusche, Wanne?)","Materialien auswählen: Fliesen, Armaturen, Sanitär","Angebote einholen: Installateur, Fliesenleger","Material bestellen (Lieferzeiten beachten!)"] },
+      { name:"Abriss & Entkernung", items:["Wasser & Strom abstellen","Altes Sanitär demontieren (WC, Wanne, Waschbecken)","Fliesen stemmen (Stemmhammer leihen)","Alten Estrich prüfen – ggf. erneuern","Wände auf Schimmel prüfen","Schutt entsorgen (Container bestellen)"] },
+      { name:"Rohbau & Installation", items:["Neue Leitungen verlegen (Installateur!)","Elektro: Leerrohr für Spiegel, Steckdosen IP44","Rigips Vorbauwand für Unterputz-Spülung","Gefälleestrich für bodengleiche Dusche (1,5%)","Abdichtung: Dichtband + 2× Dichtschlämme","Trockenzeit abwarten (mind. 48h)"] },
+      { name:"Fliesen & Oberflächen", items:["Fliesenkleber C2 anrühren (Mapei Keraflex)","Boden fliesen – von Mitte aus starten","Wände fliesen – Werkskante nach außen","Nivelliersystem bei Großformat verwenden","24h trocknen, dann verfugen","Randfugen: Silikon (Bad-Silikon Soudal S100)"] },
+      { name:"Sanitär & Elektro", items:["WC montieren (Vorwandinstallation einstellen)","Waschtisch anschließen (Teflonband!)","Dusche/Wanne anschließen, Dichtigkeitstest","Armaturen montieren","Spiegel aufhängen (IP44 prüfen!)","Licht anschließen (Elektriker)"] },
+      { name:"Finishing", items:["Silikon komplett erneuern + glätten","Dichtheit aller Anschlüsse prüfen","Accessoires montieren (Handtuchhalter, Haken)","Alles reinigen","Fotos machen – vorher/nachher!"] },
+    ]
+  },
+  {
+    name:"Küche renovieren", icon:"🍳", dauer:"1–2 Wochen", budget:"500–8.000€", desc:"Von neuen Fronten bis zur kompletten Küchenerneuerung",
+    phasen:[
+      { name:"Planung", items:["Konzept: Nur Fronten oder komplett neu?","Farbkonzept wählen (Testmuster bestellen!)","Arbeitsplatte auswählen","Material bestellen (4 Wochen Lieferzeit!)","Budget aufteilen: Fronten / Platte / Licht / Deko"] },
+      { name:"Fronten & Griffe", items:["Alte Fronten abschrauben, beschriften","Fronten schleifen (P120) oder entfetten für Folie","Haftgrund auftragen, trocknen lassen","Farbe auftragen: 3× Seidenmatt-Lack","Neue Griffe montieren (Schablone verwenden!)","Fronten wieder einhängen, Scharniere justieren"] },
+      { name:"Arbeitsplatte", items:["Alte Arbeitsplatte demontieren","Neue Arbeitsplatte zuschneiden (Stichsäge)","Schnittkanten SOFORT abdichten","Einbauspüle ausschneiden, einsetzen","Arbeitsplatte verkleben + verschrauben","Silikon Übergang Wand-Arbeitsplatte"] },
+      { name:"Licht & Finishing", items:["LED-Strip unter Oberschränken (2700K)","Pendelleuchten über Insel/Tisch montieren","Alle Fugen mit Silikon abschließen","Armaturen auf Dichtigkeit prüfen","Grundreinigung & Einräumen"] },
+    ]
+  },
+  {
+    name:"Wohnzimmer transformieren", icon:"🛋️", dauer:"1–3 Tage", budget:"100–2.000€", desc:"Akzentwand, Licht, Boden – der komplette Look",
+    phasen:[
+      { name:"Planung", items:["Farbkonzept auf Pinterest sammeln","Welche Wand wird Akzentwand?","Bodenbelag: Bleibt er oder wird getauscht?","Lichtkonzept: Deckenlampe raus, Stehlampe + Spots","Budget aufteilen: Farbe / Boden / Möbel / Licht"] },
+      { name:"Akzentwand", items:["Möbel von der Wand wegstellen","Tesa Precision abkleben (Decke, Boden, Wände)","Tiefengrund auftragen wenn nötig","2 Schichten Wandfarbe mit Lammfellrolle","Band nass abziehen bei Latexfarbe","Trockenzeit: mind. 4h zwischen Schichten"] },
+      { name:"Boden verlegen", items:["Alten Boden prüfen – Unebenheiten ausgleichen","Trittschalldämmung auslegen","10mm Abstandshalter an alle Wände","Vinyl/Laminat Reihe für Reihe einrasten","Sockelleisten kleben (NICHT nageln)"] },
+      { name:"Licht & Finishing", items:["LED-Strip hinter TV (2700K)","Cove-Licht an Deckenrand bauen","Stehlampen positionieren","Möbel neu arrangieren","Deko aufstellen, Pflanzen platzieren","Fotos machen!"] },
+    ]
+  },
+  {
+    name:"Schlafzimmer upgraden", icon:"🛏️", dauer:"1–2 Tage", budget:"100–1.500€", desc:"Kopfteil, Farbe, Licht – Hotel-Feeling",
+    phasen:[
+      { name:"Planung", items:["Farbkonzept: Akzentwand welche Farbe?","Kopfteil: DIY oder kaufen?","Licht: Wandleuchten links/rechts vom Bett","Verdunkelungsrollo oder Vorhang planen"] },
+      { name:"Akzentwand hinter Bett", items:["Bett wegschieben","Wand abkleben, Tiefengrund","2 Schichten Farbe (Terrakotta, Salbeigrün, Navy)","Band abziehen, trocknen lassen"] },
+      { name:"Kopfteil DIY", items:["MDF 18mm auf Maß (OBI schneidet zu)","5cm Schaumstoff RG35 aufkleben","Bouclé-Stoff spannen und tackern","An Wand hängen (verdeckte Schrauben)"] },
+      { name:"Licht & Atmosphäre", items:["Wandleuchten beidseitig montieren (2200K)","Verdunkelungsrollo direkt am Fenster","Vorhangstange möglichst hoch montieren","Bettwäsche wechseln (Leinen = Trend 2025)","Deko: 1 große Pflanze, Kerzen, Tablett"] },
+    ]
+  },
+  {
+    name:"Terrasse aufwerten", icon:"🌿", dauer:"1–2 Wochenenden", budget:"300–3.000€", desc:"WPC-Boden, Sichtschutz, Lounge",
+    phasen:[
+      { name:"Planung & Material", items:["Grundfläche ausmessen (Länge × Breite)","Konzept: Lounge, Essbereich, Pflanzen?","WPC-Menge berechnen (+10% Verschnitt)","Unterkonstruktion planen (alle 50cm)","Material bestellen"] },
+      { name:"Unterkonstruktion", items:["Alten Belag entfernen","Stelzlager setzen (höhenverstellbar)","2% Gefälle einplanen (Wasserablauf)","Tragebalken verlegen und nivellieren"] },
+      { name:"WPC-Dielen verlegen", items:["Erste Reihe mit 5mm Abstand zur Wand","Clips einsetzen – unsichtbare Befestigung","Reihe für Reihe arbeiten","Letzte Reihe zuschneiden","Abschlussprofile montieren"] },
+      { name:"Sichtschutz & Möbel", items:["Sichtschutz-Pfosten setzen","Latten oder Bambus anbringen","Solar-Lichterketten aufhängen (2200K)","Lounge-Möbel aufstellen","Pflanzkübel mit Olivenbaum/Lavendel"] },
+    ]
+  },
 ];
 
 function PlanerTab({ savedMakeovers }) {
-  const [projects, setProjects] = useState([{ id:1, name:"Mein erstes Projekt", icon:"🏠", steps:[{text:"Raumgröße ausmessen",done:false},{text:"Material bestellen",done:false},{text:"Loslegen!",done:false}] }]);
-  const [openProject, setOpenProject] = useState(null);
+  const [ansicht, setAnsicht] = useState("plaene");
+  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [openPhase, setOpenPhase] = useState(0);
+  const [checked, setChecked] = useState({});
+  const [eigene, setEigene] = useState([]);
   const [creating, setCreating] = useState(false);
-  const [newName, setNewName] = useState(""); const [newIcon, setNewIcon] = useState("🏠");
-  const [newSteps, setNewSteps] = useState([]); const [stepInput, setStepInput] = useState("");
+  const [newProjekt, setNewProjekt] = useState({ name:"", icon:"🏠", phasen:[{ name:"Phase 1", items:[""] }] });
 
-  function toggleStep(pid, si) { setProjects(prev => prev.map(p => p.id!==pid?p:{...p,steps:p.steps.map((s,idx)=>idx!==si?s:{...s,done:!s.done})})); }
-  function createProject(template) {
-    const id = Date.now();
-    const proj = template ? {id,name:template.name,icon:template.icon,steps:template.steps.map(t=>({text:t,done:false}))} : {id,name:newName||"Mein Projekt",icon:newIcon,steps:newSteps.map(t=>({text:t,done:false}))};
-    setProjects(prev=>[...prev,proj]); setCreating(false); setNewName(""); setNewIcon("🏠"); setNewSteps([]); setOpenProject(id);
-  }
-  function addStep() { if(stepInput.trim()){setNewSteps(prev=>[...prev,stepInput.trim()]);setStepInput("");} }
-  const ICONS = ["🏠","🚿","🍳","🌿","🛋️","🛏️","🔨","📦"];
-  return (
-    <div style={{ overflowY:"auto", height:"100%", padding:"16px" }}>
-      <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, marginBottom:16 }}>Planer & Projekte</h2>
-      {projects.map(proj => {
-        const doneCount=proj.steps.filter(s=>s.done).length;
-        const pct=proj.steps.length?Math.round((doneCount/proj.steps.length)*100):0;
-        return (
-          <div key={proj.id} style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, marginBottom:14, overflow:"hidden" }}>
-            <div onClick={() => setOpenProject(openProject===proj.id?null:proj.id)} style={{ padding:"14px 16px", cursor:"pointer", display:"flex", alignItems:"center", gap:12 }}>
-              <span style={{ fontSize:28 }}>{proj.icon}</span>
-              <div style={{ flex:1 }}>
-                <p style={{ fontWeight:600, fontSize:15 }}>{proj.name}</p>
-                <div style={{ display:"flex", alignItems:"center", gap:8, marginTop:6 }}>
-                  <div style={{ flex:1, height:6, background:C.border, borderRadius:3, overflow:"hidden" }}>
-                    <div style={{ height:"100%", width:`${pct}%`, background:pct===100?C.green:C.accent, borderRadius:3, transition:"width 0.3s" }} />
-                  </div>
-                  <span style={{ fontSize:12, color:C.muted, flexShrink:0 }}>{doneCount}/{proj.steps.length}</span>
-                </div>
-              </div>
-              <span style={{ color:C.muted }}>{openProject===proj.id?"▲":"▼"}</span>
-            </div>
-            {openProject===proj.id && (
-              <div style={{ borderTop:`1px solid ${C.border}`, padding:"12px 16px" }}>
-                {proj.steps.map((step,si) => (
-                  <div key={si} onClick={() => toggleStep(proj.id,si)} style={{ display:"flex", alignItems:"center", gap:10, padding:"9px 0", borderBottom:si<proj.steps.length-1?`1px solid ${C.border}`:"none", cursor:"pointer" }}>
-                    <div style={{ width:20, height:20, borderRadius:5, border:`2px solid ${step.done?C.green:C.border}`, background:step.done?C.green:"white", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                      {step.done && <span style={{ color:"white", fontSize:11, fontWeight:700 }}>✓</span>}
+  useEffect(() => {
+    try {
+      const s = localStorage.getItem("renopilot_planer");
+      if (s) { const d = JSON.parse(s); setChecked(d.checked||{}); setEigene(d.eigene||[]); }
+    } catch {}
+  }, []);
+
+  const saveLS = (c, e) => {
+    try { localStorage.setItem("renopilot_planer", JSON.stringify({ checked: c||checked, eigene: e||eigene })); } catch {}
+  };
+
+  const toggleCheck = (key) => {
+    const next = { ...checked, [key]: !checked[key] };
+    setChecked(next); saveLS(next, null);
+  };
+
+  const planProgress = (plan) => {
+    if (!plan) return { done:0, total:0, pct:0 };
+    const total = plan.phasen.reduce((s,ph)=>s+ph.items.length, 0);
+    const done = plan.phasen.reduce((s,ph,pi)=>s+ph.items.filter((_,ii)=>checked[`${plan.name}-${pi}-${ii}`]).length, 0);
+    return { done, total, pct: total ? Math.round((done/total)*100) : 0 };
+  };
+
+  const ICONS = ["🏠","🚿","🍳","🌿","🛋️","🛏️","🔨","📦","🏗️","💡","🪟","🔧"];
+  const allePlane = [...KOMPLETT_PLAENE, ...eigene];
+
+  // Detailansicht für ausgewählten Plan
+  if (selectedPlan) {
+    const plan = allePlane.find(p => p.name === selectedPlan);
+    if (!plan) { setSelectedPlan(null); return null; }
+    const { done, total, pct } = planProgress(plan);
+    return (
+      <div style={{ display:"flex", flexDirection:"column", height:"100%", overflow:"hidden" }}>
+        <div style={{ background:C.card, borderBottom:`1px solid ${C.border}`, padding:"12px 16px", display:"flex", alignItems:"center", gap:12, flexShrink:0 }}>
+          <button onClick={() => setSelectedPlan(null)} style={{ background:"none", border:"none", fontSize:20, cursor:"pointer", color:C.muted }}>←</button>
+          <div style={{ flex:1 }}>
+            <p style={{ fontSize:16, fontWeight:700 }}>{plan.icon} {plan.name}</p>
+            <p style={{ fontSize:11, color:C.muted }}>{done}/{total} Schritte · {pct}% fertig</p>
+          </div>
+          {pct > 0 && <button onClick={() => { const next={...checked}; plan.phasen.forEach((ph,pi)=>ph.items.forEach((_,ii)=>{delete next[`${plan.name}-${pi}-${ii}`];})); setChecked(next); saveLS(next,null); }} style={{ fontSize:11, color:C.muted, background:"none", border:`1px solid ${C.border}`, borderRadius:20, padding:"3px 8px", cursor:"pointer" }}>Reset</button>}
+        </div>
+        <div style={{ height:5, background:C.border, flexShrink:0 }}>
+          <div style={{ height:"100%", width:`${pct}%`, background:`linear-gradient(to right, ${C.accent}, #E8855A)`, transition:"width 0.3s" }} />
+        </div>
+        <div style={{ flex:1, overflowY:"auto", padding:"14px 16px" }}>
+          <div style={{ background:C.accentBg, borderRadius:12, padding:"12px 14px", marginBottom:14, display:"flex", gap:10 }}>
+            <div><p style={{ fontSize:12, color:C.accent, fontWeight:600 }}>⏱ {plan.dauer}</p><p style={{ fontSize:12, color:C.accent }}>💶 {plan.budget}</p></div>
+            <p style={{ fontSize:13, color:C.text, flex:1, lineHeight:1.5 }}>{plan.desc}</p>
+          </div>
+          {pct === 100 && <div style={{ background:C.greenBg, borderRadius:12, padding:"12px", marginBottom:14, textAlign:"center" }}><p style={{ fontSize:16, color:C.green, fontWeight:700 }}>🎉 Projekt abgeschlossen!</p></div>}
+          {plan.phasen.map((phase, pi) => {
+            const phaseDone = phase.items.filter((_,ii)=>checked[`${plan.name}-${pi}-${ii}`]).length;
+            const phComplete = phaseDone === phase.items.length;
+            const isOpen = openPhase === pi;
+            return (
+              <div key={pi} style={{ background:C.card, border:`1px solid ${phComplete?C.green+"44":isOpen?C.accent+"55":C.border}`, borderRadius:14, marginBottom:10, overflow:"hidden" }}>
+                <button onClick={()=>setOpenPhase(isOpen?-1:pi)} style={{ width:"100%", padding:"13px 16px", background:phComplete?C.greenBg:"transparent", border:"none", display:"flex", alignItems:"center", gap:10, cursor:"pointer" }}>
+                  <div style={{ width:28, height:28, borderRadius:"50%", background:phComplete?C.green:phaseDone>0?C.accent:C.border, color:"white", display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:700, flexShrink:0 }}>{phComplete?"✓":pi+1}</div>
+                  <div style={{ flex:1, textAlign:"left" }}>
+                    <p style={{ fontSize:14, fontWeight:600, color:phComplete?C.green:C.text }}>{phase.name}</p>
+                    <div style={{ display:"flex", alignItems:"center", gap:8, marginTop:3 }}>
+                      <div style={{ flex:1, height:3, background:C.border, borderRadius:2 }}><div style={{ height:"100%", width:`${phase.items.length?(phaseDone/phase.items.length*100):0}%`, background:C.green, borderRadius:2 }} /></div>
+                      <span style={{ fontSize:11, color:C.muted }}>{phaseDone}/{phase.items.length}</span>
                     </div>
-                    <p style={{ fontSize:14, color:step.done?C.muted:C.text, textDecoration:step.done?"line-through":"none" }}>{step.text}</p>
+                  </div>
+                  <span style={{ fontSize:18, color:C.muted, transform:isOpen?"rotate(90deg)":"none", transition:"0.2s" }}>›</span>
+                </button>
+                {isOpen && (
+                  <div style={{ borderTop:`1px solid ${C.border}`, padding:"8px 16px 12px" }}>
+                    {phase.items.map((item, ii) => {
+                      const key=`${plan.name}-${pi}-${ii}`, done=checked[key];
+                      return (
+                        <div key={ii} onClick={()=>toggleCheck(key)} style={{ display:"flex", alignItems:"flex-start", gap:10, padding:"9px 0", borderBottom:ii<phase.items.length-1?`1px solid ${C.border}`:"none", cursor:"pointer" }}>
+                          <div style={{ width:22, height:22, borderRadius:6, flexShrink:0, marginTop:1, border:`2px solid ${done?C.green:C.border}`, background:done?C.green:"white", display:"flex", alignItems:"center", justifyContent:"center" }}>
+                            {done && <span style={{ color:"white", fontSize:12, fontWeight:700 }}>✓</span>}
+                          </div>
+                          <p style={{ fontSize:14, color:done?C.muted:C.text, textDecoration:done?"line-through":"none", lineHeight:1.4, flex:1 }}>{item}</p>
+                        </div>
+                      );
+                    })}
+                    <button onClick={()=>{ const allDone=phase.items.every((_,ii)=>checked[`${plan.name}-${pi}-${ii}`]); const next={...checked}; phase.items.forEach((_,ii)=>{next[`${plan.name}-${pi}-${ii}`]=!allDone;}); setChecked(next); saveLS(next,null); }} style={{ marginTop:8, fontSize:12, color:C.accent, background:"none", border:`1px solid ${C.accent}44`, borderRadius:20, padding:"4px 12px", cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
+                      {phase.items.every((_,ii)=>checked[`${plan.name}-${pi}-${ii}`])?"Phase abwählen":"Alle abhaken"}
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+          {savedMakeovers?.length > 0 && <EinkaufsListe savedMakeovers={savedMakeovers} />}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ display:"flex", flexDirection:"column", height:"100%", overflow:"hidden" }}>
+      <div style={{ display:"flex", borderBottom:`1px solid ${C.border}`, background:C.card, flexShrink:0 }}>
+        {[["plaene","📋 Projekte"],["eigene","✏️ Eigene"],["einkauf","🛒 Einkauf"]].map(([id,label])=>(
+          <button key={id} onClick={()=>setAnsicht(id)} style={{ flex:1, padding:"12px 8px", background:"transparent", border:"none", borderBottom:`2px solid ${ansicht===id?C.accent:"transparent"}`, color:ansicht===id?C.accent:C.muted, fontSize:13, fontWeight:ansicht===id?600:400, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>{label}</button>
+        ))}
+      </div>
+      <div style={{ flex:1, overflowY:"auto", padding:"14px 16px" }}>
+        {ansicht === "plaene" && (
+          <div>
+            <p style={{ fontSize:12, color:C.muted, marginBottom:14, fontStyle:"italic" }}>Wähle ein Projekt – alle Schritte sind vorgegeben. Fortschritt wird gespeichert.</p>
+            {allePlane.map((plan, i) => {
+              const { done, total, pct } = planProgress(plan);
+              return (
+                <div key={i} onClick={()=>{setSelectedPlan(plan.name);setOpenPhase(0);}} className="fu" style={{ background:C.card, border:`1px solid ${pct>0?C.accent+"55":C.border}`, borderRadius:16, marginBottom:12, padding:"16px", cursor:"pointer" }}>
+                  <div style={{ display:"flex", alignItems:"flex-start", gap:12, marginBottom:10 }}>
+                    <span style={{ fontSize:30 }}>{plan.icon}</span>
+                    <div style={{ flex:1 }}>
+                      <p style={{ fontFamily:"'Playfair Display',serif", fontSize:15, fontWeight:700, color:C.text }}>{plan.name}</p>
+                      <p style={{ fontSize:12, color:C.muted, marginTop:2 }}>{plan.desc}</p>
+                      <div style={{ display:"flex", gap:6, marginTop:6, flexWrap:"wrap" }}>
+                        {plan.dauer && <span style={{ fontSize:11, background:C.accentBg, color:C.accent, padding:"2px 8px", borderRadius:20 }}>⏱ {plan.dauer}</span>}
+                        {plan.budget && <span style={{ fontSize:11, background:C.greenBg, color:C.green, padding:"2px 8px", borderRadius:20 }}>💶 {plan.budget}</span>}
+                        <span style={{ fontSize:11, background:C.tag, color:C.muted, padding:"2px 8px", borderRadius:20 }}>{plan.phasen.length} Phasen · {total} Schritte</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+                    <div style={{ flex:1, height:6, background:C.border, borderRadius:3, overflow:"hidden" }}>
+                      <div style={{ height:"100%", width:`${pct}%`, background:pct===100?C.green:`linear-gradient(to right, ${C.accent}, #E8855A)`, borderRadius:3, transition:"width 0.3s" }} />
+                    </div>
+                    <span style={{ fontSize:12, color:pct===100?C.green:C.muted, fontWeight:pct===100?700:400, flexShrink:0 }}>{pct===100?"✓ Fertig!":pct>0?`${pct}%`:"Starten →"}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        {ansicht === "eigene" && (
+          <div>
+            {!creating ? (
+              <button onClick={()=>setCreating(true)} style={{ width:"100%", padding:"14px", borderRadius:14, border:`2px dashed ${C.accent}`, background:C.accentBg, color:C.accent, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif", fontSize:14, marginBottom:14 }}>+ Eigenes Projekt erstellen</button>
+            ) : (
+              <div className="fu" style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, padding:"16px", marginBottom:14 }}>
+                <p style={{ fontWeight:700, fontSize:16, marginBottom:12 }}>Neues Projekt</p>
+                <div style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:12 }}>
+                  {ICONS.map(ic=><button key={ic} onClick={()=>setNewProjekt(p=>({...p,icon:ic}))} style={{ width:36, height:36, borderRadius:10, border:`2px solid ${newProjekt.icon===ic?C.accent:C.border}`, background:newProjekt.icon===ic?C.accentBg:"white", cursor:"pointer", fontSize:18 }}>{ic}</button>)}
+                </div>
+                <input value={newProjekt.name} onChange={e=>setNewProjekt(p=>({...p,name:e.target.value}))} placeholder="Projektname" style={{ width:"100%", padding:"10px 13px", borderRadius:10, border:`1.5px solid ${C.border}`, fontSize:14, fontFamily:"'DM Sans',sans-serif", marginBottom:12, background:C.bg }} />
+                {newProjekt.phasen.map((phase, pi)=>(
+                  <div key={pi} style={{ background:C.accentBg, borderRadius:10, padding:"12px", marginBottom:10 }}>
+                    <div style={{ display:"flex", gap:8, marginBottom:8 }}>
+                      <input value={phase.name} onChange={e=>setNewProjekt(p=>{const ph=[...p.phasen];ph[pi]={...ph[pi],name:e.target.value};return{...p,phasen:ph};})} placeholder={`Phase ${pi+1} Name`} style={{ flex:1, padding:"7px 10px", borderRadius:8, border:`1px solid ${C.border}`, fontSize:13, fontFamily:"'DM Sans',sans-serif", background:"white" }} />
+                      {pi>0 && <button onClick={()=>setNewProjekt(p=>({...p,phasen:p.phasen.filter((_,x)=>x!==pi)}))} style={{ background:"none", border:"none", color:"#CCC", cursor:"pointer", fontSize:16 }}>✕</button>}
+                    </div>
+                    {phase.items.map((item, ii)=>(
+                      <div key={ii} style={{ display:"flex", gap:6, marginBottom:6 }}>
+                        <span style={{ width:20, height:20, background:C.accent, color:"white", borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, flexShrink:0, marginTop:6 }}>{ii+1}</span>
+                        <input value={item} onChange={e=>setNewProjekt(p=>{const ph=[...p.phasen];ph[pi]={...ph[pi],items:ph[pi].items.map((it,x)=>x===ii?e.target.value:it)};return{...p,phasen:ph};})} placeholder={`Schritt ${ii+1}`} style={{ flex:1, padding:"6px 10px", borderRadius:8, border:`1px solid ${C.border}`, fontSize:13, fontFamily:"'DM Sans',sans-serif", background:"white" }}
+                          onKeyDown={e=>{if(e.key==="Enter"){e.preventDefault();setNewProjekt(p=>{const ph=[...p.phasen];ph[pi]={...ph[pi],items:[...ph[pi].items,""]};return{...p,phasen:ph};});}}} />
+                        <button onClick={()=>setNewProjekt(p=>{const ph=[...p.phasen];ph[pi]={...ph[pi],items:ph[pi].items.filter((_,x)=>x!==ii)};return{...p,phasen:ph};})} style={{ background:"none", border:"none", color:"#CCC", cursor:"pointer" }}>✕</button>
+                      </div>
+                    ))}
+                    <button onClick={()=>setNewProjekt(p=>{const ph=[...p.phasen];ph[pi]={...ph[pi],items:[...ph[pi].items,""]};return{...p,phasen:ph};})} style={{ fontSize:12, color:C.accent, background:"none", border:"none", cursor:"pointer", padding:"4px 0" }}>+ Schritt</button>
                   </div>
                 ))}
-                {pct===100 && <div style={{ marginTop:10, background:C.greenBg, borderRadius:10, padding:"10px 12px", textAlign:"center" }}><p style={{ color:C.green, fontWeight:600, fontSize:14 }}>🎉 Projekt abgeschlossen!</p></div>}
-                <button onClick={() => setProjects(prev=>prev.filter(p=>p.id!==proj.id))} style={{ marginTop:10, background:"none", border:"none", color:"#B91C1C", fontSize:13, cursor:"pointer", padding:"4px 0" }}>🗑 Projekt löschen</button>
+                <button onClick={()=>setNewProjekt(p=>({...p,phasen:[...p.phasen,{name:`Phase ${p.phasen.length+1}`,items:[""]}]}))} style={{ width:"100%", padding:"8px", borderRadius:10, border:`1px dashed ${C.border}`, background:"none", color:C.muted, cursor:"pointer", fontSize:13, marginBottom:12, fontFamily:"'DM Sans',sans-serif" }}>+ Phase hinzufügen</button>
+                <div style={{ display:"flex", gap:10 }}>
+                  <button onClick={()=>{
+                    if(!newProjekt.name.trim()) return;
+                    const proj={...newProjekt,phasen:newProjekt.phasen.map(ph=>({...ph,items:ph.items.filter(i=>i.trim())})).filter(ph=>ph.items.length>0)};
+                    if(proj.phasen.length===0) return;
+                    const next=[...eigene,proj]; setEigene(next); saveLS(null,next);
+                    setCreating(false); setNewProjekt({name:"",icon:"🏠",phasen:[{name:"Phase 1",items:[""]}]});
+                    setSelectedPlan(proj.name); setOpenPhase(0); setAnsicht("plaene");
+                  }} style={{ flex:2, padding:"12px", borderRadius:50, background:C.accent, color:"white", border:"none", fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>Erstellen →</button>
+                  <button onClick={()=>setCreating(false)} style={{ flex:1, padding:"12px", borderRadius:50, border:`1px solid ${C.border}`, background:"none", cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>Abbrechen</button>
+                </div>
+              </div>
+            )}
+            <p style={{ fontSize:12, color:C.muted, textAlign:"center", fontStyle:"italic" }}>Enter = nächster Schritt · Phasen gruppieren verwandte Aufgaben</p>
+          </div>
+        )}
+        {ansicht === "einkauf" && (
+          savedMakeovers?.length > 0
+            ? <EinkaufsListe savedMakeovers={savedMakeovers} />
+            : <div style={{ textAlign:"center", padding:"40px 20px" }}>
+                <p style={{ fontSize:32, marginBottom:12 }}>🛒</p>
+                <p style={{ fontFamily:"'Playfair Display',serif", fontSize:16, marginBottom:8 }}>Noch keine Einkaufsliste</p>
+                <p style={{ fontSize:13, color:C.muted, lineHeight:1.6 }}>Generiere einen Makeover und drücke "Als Projekt in Planer" – dann erscheinen hier alle Materialien zum Abhaken.</p>
+              </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+// ─── IDEEN TAB ────────────────────────────────────────────────────────────────
+const TRENDS = [
+  { cat:"Bad", title:"Wellness-Bad: Walk-In Dusche", desc:"Bodengleiche Dusche mit Regendusche und Glasabtrennung. Der größte Trend im Badbereich. Kein Stemmen nötig – Gefälleestrich einbauen, Dichtschlämme, Glaswand aufstellen.", how:"Installateur + DIY-Teil", budget:"1.500–5.000€", emoji:"🚿", img:"https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&h=220&fit=crop&q=80", amazon:"walk-in dusche glaswand 8mm ESG" },
+  { cat:"Bad", title:"Freistehende Badewanne", desc:"Ein Statement-Stück das jeden Raum transformiert. Acryl oder Gusseisen, Boden-Armatur daneben. Sieht aus wie ein Designhotel.", how:"Installateur für Anschluss", budget:"800–3.000€", emoji:"🛁", img:"https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=600&h=220&fit=crop&q=80", amazon:"freistehende badewanne acryl oval" },
+  { cat:"Bad", title:"Mikrozement fugenlos", desc:"Beton-Look ohne Fugen – direkt über Fliesen. Kein Stemmen! 3 Schichten auftragen, PU-Versiegelung. Zeitloser Luxus-Look der nie altert.", how:"DIY möglich mit Übung", budget:"60–120€/m²", emoji:"🏛️", img:"https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&h=220&fit=crop&q=80", amazon:"mikrozement set boden wand versiegelung" },
+  { cat:"Bad", title:"Mattschwarz Armaturen & Spiegel", desc:"Kompletter Stil-Shift für unter 500€. Armaturen tauschen ist DIY-fähig: Wasser ab, Siphon lösen, neue Armatur. LED-Spiegel mit IP44 als Krönung.", how:"DIY – 2–4 Stunden", budget:"200–600€", emoji:"🖤", img:"https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=600&h=220&fit=crop&q=80", amazon:"grohe armatur mattschwarz bad set" },
+  { cat:"Bad", title:"Zellige-Fliesen Rückwand", desc:"Handgemachte marokkanische Fliesen 10×10cm. Jede einzigartig – Charme durch Unvollkommenheit. Über alte Fliesen kleben mit Spezialkleber.", how:"DIY – Wochenende", budget:"40–120€/m²", emoji:"🟤", img:"https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&h=220&fit=crop&q=80", amazon:"zellige fliesen handgemacht 10x10 weiß" },
+  { cat:"Küche", title:"Dunkle Fronten: Navy & Grün", desc:"Navy-Blau, Flaschengrün, Anthrazit statt ewig Weiß. Fronten lackieren: P120 schleifen → Haftgrund → 3× Seidenmatt. RAL 5011 oder RAL 6009.", how:"DIY – 2–3 Tage", budget:"100–400€", emoji:"🍳", img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=220&fit=crop&q=80", amazon:"küchen fronten lackieren haftgrund seidenmatt" },
+  { cat:"Küche", title:"Offene Holzregale statt Hängeschränke", desc:"Oberschränke raus, Massivholzbrett + Wandträger rein. Eiche oder Nussbaum, 4cm stark, geölt. Raum wirkt sofort größer und wärmer.", how:"DIY – halber Tag", budget:"100–300€", emoji:"📚", img:"https://images.unsplash.com/photo-1556909211-36987e6e9a65?w=600&h=220&fit=crop&q=80", amazon:"eiche massivholz regal küche wandträger" },
+  { cat:"Küche", title:"Kücheninsel selbst gebaut", desc:"IKEA KALLAX oder VADHOLMA als Basis, Massivholzplatte drauf. Barhocker dazu = Treffpunkt der Familie. Für 300–600€ machbar.", how:"DIY – Wochenende", budget:"300–800€", emoji:"🏝️", img:"https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&h=220&fit=crop&q=80", amazon:"kücheninsel massivholzplatte eiche ikea" },
+  { cat:"Küche", title:"Zellige Küchenrückwand", desc:"Trend 2025: Handgemachte Fliesen als Rückwand. 7,5×15cm Metro-Format in Weiß, Cremé oder Salbeigrün. Direkt über alte Fliesen möglich.", how:"DIY – 1 Tag", budget:"50–150€", emoji:"⬜", img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=220&fit=crop&q=80", amazon:"metro fliesen küche rückwand weiß zellige" },
+  { cat:"Wohnzimmer", title:"Akzentwand Dunkelgrün", desc:"Nur EINE Wand in Flaschengrün (RAL 6009) oder Waldgrün. Lammfellrolle, 2 Schichten, Tesa Precision abkleben. Größte Wirkung für 30–60€.", how:"DIY – 1 Tag", budget:"30–80€", emoji:"🌿", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"wandfarbe dunkelgrün matt alpina schöner wohnen" },
+  { cat:"Wohnzimmer", title:"TV-Wand Fluted Panel", desc:"Gerillte MDF-Paneele hinter TV kleben oder schrauben. Vor Montage ölen/lackieren! LED-Strip 2700K dahinter = Magazin-Look ohne Renovierung.", how:"DIY – halber Tag", budget:"80–250€", emoji:"📺", img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=220&fit=crop&q=80", amazon:"wandpaneele mdf fluted panel holzoptik" },
+  { cat:"Wohnzimmer", title:"Indirektes Cove-Licht", desc:"Holzkastenrahmen 15cm breit am Deckenrand, LED-Strip 2700K dahinter. Licht strahlt zur Decke. Warmes Hotelzimmer-Feeling für ~200€.", how:"DIY – Wochenende", budget:"150–350€", emoji:"✨", img:"https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&h=220&fit=crop&q=80", amazon:"led strip 2700k cove licht kastendecke" },
+  { cat:"Wohnzimmer", title:"Warme Erdetöne & Rattan", desc:"Terrakotta, Ocker, Sandstein. Rattan-Sessel, Jute-Teppich, Keramik-Vasen. Sofort umsetzbar ohne Handwerker – komplette Raumtransformation.", how:"Sofort umsetzbar", budget:"200–600€", emoji:"🍂", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"terrakotta wandfarbe rattan sessel jute teppich" },
+  { cat:"Schlafzimmer", title:"Bouclé Kopfteil DIY", desc:"MDF-Platte (OBI schneidet auf Maß) + 5cm Schaumstoff RG35 + Bouclé-Stoff tackern. Ergebnis = Hotel-Schlafzimmer. Wand dahinter in Terrakotta.", how:"DIY – 4 Stunden", budget:"80–200€", emoji:"🛏️", img:"https://images.unsplash.com/photo-1617325247661-675ab4b64ae2?w=600&h=220&fit=crop&q=80", amazon:"bouclé stoff polsterstoff meterware creme" },
+  { cat:"Schlafzimmer", title:"Dunkle Decke Nachtblau", desc:"Nur die Decke in Nachtblau oder Dunkelgrün streichen. Wände weiß lassen. Erzeugt Geborgenheit wie ein Zelt. 2200K LED als Wandleuchten dazu.", how:"DIY – 3 Stunden", budget:"25–60€", emoji:"🌙", img:"https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&h=220&fit=crop&q=80", amazon:"wandfarbe nachtblau dunkelblau matt decke" },
+  { cat:"Boden", title:"SPC-Vinyl über Fliesen", desc:"100% wasserfest, Klicksystem direkt über alte Fliesen. Kein Stemmen, kein Kleber. Eiche-Optik oder Betongrau. Fertig in einem Tag.", how:"DIY – 1 Tag", budget:"15–35€/m²", emoji:"🪵", img:"https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&h=220&fit=crop&q=80", amazon:"spc vinyl boden klick über fliesen wasserfest" },
+  { cat:"Boden", title:"Fischgrät-Parkett verlegen", desc:"Breite Dielen in Fischgrät-Muster = eleganteste Verlegeart. Schwimmend oder verklebt. Eiche geölt oder gebürstet. Wertsteigernd.", how:"Mittel – Wochenende", budget:"40–80€/m²", emoji:"⬛", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"fertigparkett eiche fischgrät verlegen" },
+  { cat:"Terrasse", title:"WPC-Terrasse selbst gebaut", desc:"WPC-Dielen auf Unterkonstruktion – wartungsfrei, splitterfrei, vergraut nicht. Stelzlager für höhenausgleich. Unsichtbare Clip-Befestigung.", how:"Mittel – Wochenende", budget:"35–65€/m²", emoji:"🌴", img:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=220&fit=crop&q=80", amazon:"wpc dielen terrasse clip unsichtbar" },
+  { cat:"Terrasse", title:"Outdoor-Lounge Paletten", desc:"EPAL-gestempelte Paletten schleifen, ölen, stapeln. Outdoor-Kissen in Sunbrella-Qualität. Solar-Lichterketten 2200K. Für unter 300€ eine komplette Lounge.", how:"DIY – Wochenende", budget:"150–400€", emoji:"☀️", img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=220&fit=crop&q=80", amazon:"outdoor kissen sunbrella solar lichterkette" },
+];
+
+const KATEGORIEN = ["Alle", "Bad", "Küche", "Wohnzimmer", "Schlafzimmer", "Boden", "Terrasse"];
+
+function IdeenTab() {
+  const [kat, setKat] = useState("Alle");
+  const [openTrend, setOpenTrend] = useState(null);
+  const gefiltert = kat === "Alle" ? TRENDS : TRENDS.filter(t => t.cat === kat);
+
+  return (
+    <div style={{ overflowY:"auto", height:"100%" }}>
+      {/* Filter */}
+      <div style={{ padding:"14px 16px 10px", position:"sticky", top:0, background:C.bg, zIndex:10, borderBottom:`1px solid ${C.border}` }}>
+        <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, marginBottom:10 }}>Ideen & Trends 2025</h2>
+        <div style={{ display:"flex", gap:6, overflowX:"auto", paddingBottom:2 }}>
+          {KATEGORIEN.map(k => (
+            <button key={k} onClick={() => setKat(k)} style={{ padding:"6px 13px", borderRadius:20, border:`1px solid ${kat===k?C.accent:C.border}`, background:kat===k?C.accent:"white", color:kat===k?"white":C.muted, fontSize:12, cursor:"pointer", fontWeight:kat===k?600:400, fontFamily:"'DM Sans',sans-serif", flexShrink:0 }}>{k}</button>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ padding:"12px 16px 20px" }}>
+        <p style={{ fontSize:12, color:C.muted, marginBottom:14, fontStyle:"italic" }}>{gefiltert.length} Ideen – tippe für mehr Details</p>
+        {gefiltert.map((trend, i) => (
+          <div key={i} className="fu" style={{ background:C.card, border:`1px solid ${openTrend===i?C.accent:C.border}`, borderRadius:16, marginBottom:12, overflow:"hidden", animationDelay:`${i*0.03}s` }}>
+            {/* Bild */}
+            <div style={{ position:"relative", height:170, overflow:"hidden", cursor:"pointer" }} onClick={() => setOpenTrend(openTrend===i?null:i)}>
+              <img src={trend.img} alt={trend.title} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+              <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 55%)" }} />
+              <div style={{ position:"absolute", top:10, right:10 }}>
+                <span style={{ background:"rgba(255,255,255,0.9)", color:C.accent, borderRadius:20, padding:"3px 9px", fontSize:11, fontWeight:700 }}>{trend.cat}</span>
+              </div>
+              <div style={{ position:"absolute", bottom:12, left:14, right:14 }}>
+                <p style={{ color:"white", fontFamily:"'Playfair Display',serif", fontSize:17, fontWeight:700, marginBottom:4 }}>{trend.emoji} {trend.title}</p>
+                <div style={{ display:"flex", gap:6 }}>
+                  <span style={{ background:"rgba(255,255,255,0.2)", color:"white", borderRadius:20, padding:"2px 8px", fontSize:11 }}>💶 {trend.budget}</span>
+                  <span style={{ background:"rgba(255,255,255,0.2)", color:"white", borderRadius:20, padding:"2px 8px", fontSize:11 }}>🔨 {trend.how}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Ausgeklappt */}
+            {openTrend === i && (
+              <div className="fu" style={{ padding:"14px 16px" }}>
+                <p style={{ fontSize:14, color:C.text, lineHeight:1.7, marginBottom:12 }}>{trend.desc}</p>
+                <div style={{ display:"flex", gap:8 }}>
+                  <a href={`https://www.youtube.com/results?search_query=${encodeURIComponent(trend.title + " Anleitung DIY")}`} target="_blank" rel="noopener noreferrer" style={{ flex:1, textAlign:"center", padding:"8px", borderRadius:9, background:"#FDEEEC", color:"#C0392B", fontSize:12, textDecoration:"none", fontWeight:600 }}>▶ YouTube Tutorial</a>
+                  <a href={`https://www.amazon.de/s?k=${encodeURIComponent(trend.amazon)}&tag=${AFFILIATE_TAG}`} target="_blank" rel="noopener noreferrer" style={{ flex:1, textAlign:"center", padding:"8px", borderRadius:9, background:C.accentBg, color:C.accent, fontSize:12, textDecoration:"none", fontWeight:600 }}>🛒 Material kaufen</a>
+                </div>
               </div>
             )}
           </div>
-        );
-      })}
-      {!creating && (
-        <div>
-          <p style={{ fontSize:13, color:C.muted, marginBottom:10 }}>Schnellstart-Vorlage:</p>
-          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:14 }}>
-            {PROJECT_TEMPLATES.map((tmpl,i) => (
-              <div key={i} onClick={() => createProject(tmpl)} style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:12, padding:"14px", cursor:"pointer", textAlign:"center" }}>
-                <div style={{ fontSize:28, marginBottom:6 }}>{tmpl.icon}</div>
-                <p style={{ fontSize:13, fontWeight:500 }}>{tmpl.name}</p>
-                <p style={{ fontSize:11, color:C.muted, marginTop:3 }}>{tmpl.steps.length} Schritte</p>
-              </div>
-            ))}
-          </div>
-          <button onClick={() => setCreating(true)} style={{ width:"100%", padding:"12px", borderRadius:50, border:`2px dashed ${C.accent}`, background:C.accentBg, color:C.accent, fontWeight:600, cursor:"pointer", fontFamily:"'DM Sans',sans-serif", fontSize:14 }}>+ Eigenes Projekt erstellen</button>
-        </div>
-      )}
-      {creating && (
-        <div className="fu" style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, padding:"16px" }}>
-          <p style={{ fontWeight:600, fontSize:15, marginBottom:14 }}>Neues Projekt</p>
-          <div style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:12 }}>
-            {ICONS.map(ic => <button key={ic} onClick={() => setNewIcon(ic)} style={{ width:38, height:38, borderRadius:10, border:`2px solid ${newIcon===ic?C.accent:C.border}`, background:newIcon===ic?C.accentBg:"white", cursor:"pointer", fontSize:20 }}>{ic}</button>)}
-          </div>
-          <input value={newName} onChange={e => setNewName(e.target.value)} placeholder="Projektname" style={{ width:"100%", padding:"10px 13px", borderRadius:10, border:`2px solid ${C.border}`, fontSize:14, fontFamily:"'DM Sans',sans-serif", marginBottom:14, background:C.bg }} />
-          {newSteps.map((s,i) => <div key={i} style={{ display:"flex", alignItems:"center", gap:8, marginBottom:6 }}><span style={{ width:20, height:20, background:C.accent, color:"white", borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, flexShrink:0 }}>{i+1}</span><p style={{ flex:1, fontSize:14 }}>{s}</p><button onClick={() => setNewSteps(prev=>prev.filter((_,j)=>j!==i))} style={{ background:"none", border:"none", color:"#CCC", cursor:"pointer" }}>✕</button></div>)}
-          <div style={{ display:"flex", gap:8, marginBottom:14 }}>
-            <input value={stepInput} onChange={e => setStepInput(e.target.value)} onKeyDown={e => { if(e.key==="Enter")addStep(); }} placeholder="Schritt hinzufügen…" style={{ flex:1, padding:"9px 13px", borderRadius:10, border:`1px solid ${C.border}`, fontSize:13, fontFamily:"'DM Sans',sans-serif", background:C.bg }} />
-            <button onClick={addStep} style={{ padding:"9px 16px", borderRadius:10, background:C.accent, color:"white", border:"none", cursor:"pointer", fontWeight:600 }}>+</button>
-          </div>
-          <div style={{ display:"flex", gap:10 }}>
-            <button onClick={() => createProject(null)} style={{ flex:1, padding:"12px", borderRadius:50, background:C.accent, color:"white", border:"none", fontWeight:600, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>Erstellen</button>
-            <button onClick={() => setCreating(false)} style={{ flex:1, padding:"12px", borderRadius:50, border:`2px solid ${C.border}`, background:"none", fontWeight:500, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>Abbrechen</button>
-          </div>
-        </div>
-      )}
-      {savedMakeovers?.length > 0 && (
-        <EinkaufsListe savedMakeovers={savedMakeovers} />
-      )}
+        ))}
+      </div>
     </div>
   );
 }
 
-// ─── IDEEN TAB (Trends-Karten) ────────────────────────────────────────────────
-const TRENDS = [
-  { title:"Dunkle Küchenfronten", desc:"Navy, Dunkelgrün, Anthrazit – weg von Weiß. Mattschwarz-Armaturen dazu.", how:"Fronten folieren oder lackieren", emoji:"🖤", img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=220&fit=crop&q=80" },
-  { title:"Warme Erdetöne", desc:"Terrakotta, Ocker, Sandstein statt kaltem Grau. In Farbe, Kissen, Keramik.", how:"Akzentwand + Deko tauschen", emoji:"🍂", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80" },
-  { title:"Mikrozement-Optik", desc:"Beton-Look auf Wänden und Böden. Edel, zeitlos.", how:"Folie oder echter Mikrozement", emoji:"🏛️", img:"https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&h=220&fit=crop&q=80" },
-  { title:"Großformatige Fliesen", desc:"60×60 oder 120×60 statt kleiner Kacheln. Lässt Räume größer wirken.", how:"Über alte Fliesen möglich", emoji:"⬛", img:"https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&h=220&fit=crop&q=80" },
-  { title:"Mattschwarz überall", desc:"Armaturen, Griffe, Lampen – ein Farbton, kompletter Stil-Shift.", how:"Armaturen + Griffe selbst tauschen", emoji:"🔩", img:"https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=600&h=220&fit=crop&q=80" },
-  { title:"Offene Regale", desc:"Küche und Wohnzimmer: offen, luftig, persönlich.", how:"Schwebende Regale montieren", emoji:"📚", img:"https://images.unsplash.com/photo-1556909211-36987e6e9a65?w=600&h=220&fit=crop&q=80" },
-  { title:"Indoor-Pflanzen", desc:"Monstera, Ficus, Olivenbaum als Hauptelement statt Deko-Beiwerk.", how:"Sofort umsetzbar", emoji:"🌿", img:"https://images.unsplash.com/photo-1416879595882-b3d065a0e45d?w=600&h=220&fit=crop&q=80" },
-  { title:"Wellness-Bad", desc:"Walk-In Dusche, Regendusche, warmes Licht, Holz-Elemente.", how:"Licht + Armaturen als Start", emoji:"🚿", img:"https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=600&h=220&fit=crop&q=80" },
-  { title:"Fluted Panel Wand", desc:"Gerillte MDF-Latten hinter TV oder Bett – Statement-Wand.", how:"MDF zuschneiden + lackieren", emoji:"🎨", img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=220&fit=crop&q=80" },
-  { title:"Outdoor-Lounge", desc:"Terrasse als echtes Wohnzimmer draußen. Holz, Polster, Licht.", how:"Klickfliesen + Paletten-Sofa", emoji:"🌴", img:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=220&fit=crop&q=80" },
-];
+// ─── PAYWALL / PRICING ───────────────────────────────────────────────────────
+function PricingModal({ onClose, onSuccess, freeUsed }) {
+  const [loading, setLoading] = useState(null);
+  const [email, setEmail] = useState("");
 
-function IdeenTab() {
+  async function checkout(plan) {
+    setLoading(plan);
+    try {
+      const res = await fetch("/api/create-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan, email }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+      else alert("Fehler: " + (data.error || "Unbekannt"));
+    } catch (e) {
+      alert("Verbindungsfehler. Bitte erneut versuchen.");
+    }
+    setLoading(null);
+  }
+
   return (
-    <div style={{ overflowY:"auto", height:"100%", padding:"16px" }}>
-      <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, marginBottom:6 }}>Ideen & Trends 2025</h2>
-      <p style={{ color:C.muted, fontSize:14, marginBottom:16 }}>Was gerade in modernen Wohnungen angesagt ist – und wie du es günstig umsetzt.</p>
-      {TRENDS.map((trend, i) => (
-        <div key={i} className="fu" style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:16, marginBottom:14, overflow:"hidden", animationDelay:`${i*0.04}s` }}>
-          <div style={{ position:"relative", height:160, overflow:"hidden" }}>
-            <img src={trend.img} alt={trend.title} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-            <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 60%)" }} />
-            <div style={{ position:"absolute", bottom:12, left:14, right:14 }}>
-              <p style={{ color:"white", fontFamily:"'Playfair Display',serif", fontSize:18, fontWeight:700, textShadow:"0 1px 4px rgba(0,0,0,0.5)" }}>{trend.emoji} {trend.title}</p>
-            </div>
+    <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.75)", zIndex:1000, display:"flex", alignItems:"flex-end", justifyContent:"center" }}>
+      <div className="fu" style={{ background:C.card, borderRadius:"24px 24px 0 0", padding:"28px 22px 40px", width:"100%", maxWidth:600 }}>
+        {/* Header */}
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:6 }}>
+          <div>
+            <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, color:C.text }}>RenoPilot upgraden</h2>
+            <p style={{ fontSize:13, color:C.muted, marginTop:3 }}>
+              {freeUsed >= 3 ? "Du hast alle 3 gratis Makeovers genutzt." : `Noch ${3 - freeUsed} gratis Makeover${3-freeUsed!==1?"s":""} übrig.`}
+            </p>
           </div>
-          <div style={{ padding:"14px 16px" }}>
-            <p style={{ fontSize:13, color:"#555", lineHeight:1.65, marginBottom:10 }}>{trend.desc}</p>
-            <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
-              <Pill bg={C.greenBg} color={C.green}>{"✓ " + trend.how}</Pill>
-              <a href={`https://www.amazon.de/s?k=${encodeURIComponent(trend.title)}&tag=${AFFILIATE_TAG}`} target="_blank" rel="noopener noreferrer" style={{ background:C.accentBg, color:C.accent, padding:"3px 10px", borderRadius:20, fontSize:12, fontWeight:500, textDecoration:"none" }}>🛒 Amazon</a>
+          {onClose && <button onClick={onClose} style={{ background:"none", border:"none", fontSize:20, color:C.muted, cursor:"pointer", padding:"4px" }}>✕</button>}
+        </div>
+
+        {/* Email */}
+        <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Deine E-Mail-Adresse" type="email"
+          style={{ width:"100%", padding:"11px 14px", borderRadius:10, border:`1.5px solid ${C.border}`, fontSize:14, fontFamily:"'DM Sans',sans-serif", background:C.bg, marginBottom:16, marginTop:12 }} />
+
+        {/* Plans */}
+        <div style={{ display:"flex", flexDirection:"column", gap:12, marginBottom:16 }}>
+
+          {/* Basic */}
+          <div style={{ border:`2px solid ${C.border}`, borderRadius:16, padding:"16px 18px" }}>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
+              <div>
+                <p style={{ fontWeight:700, fontSize:16, color:C.text }}>Basic</p>
+                <p style={{ fontSize:12, color:C.muted }}>Für gelegentliche Renovierer</p>
+              </div>
+              <div style={{ textAlign:"right" }}>
+                <p style={{ fontFamily:"'Playfair Display',serif", fontSize:22, color:C.text, fontWeight:700 }}>9,99€</p>
+                <p style={{ fontSize:11, color:C.muted }}>/Monat</p>
+              </div>
             </div>
+            <div style={{ fontSize:13, color:C.text, lineHeight:1.8, marginBottom:12 }}>
+              {["✓ 20 KI-Makeovers pro Monat", "✓ Alle Stilvorlagen", "✓ Materialien + Amazon-Links", "✓ Anleitungen & Chat"].map(f => <div key={f}>{f}</div>)}
+            </div>
+            <button onClick={() => checkout("basic")} disabled={!!loading} style={{ width:"100%", padding:"12px", borderRadius:50, background:loading==="basic"?C.border:C.text, color:"white", border:"none", fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
+              {loading==="basic" ? "Wird geladen…" : "Basic starten →"}
+            </button>
+          </div>
+
+          {/* Pro */}
+          <div style={{ border:`2px solid ${C.accent}`, borderRadius:16, padding:"16px 18px", background:C.accentBg, position:"relative" }}>
+            <div style={{ position:"absolute", top:-12, left:"50%", transform:"translateX(-50%)", background:C.accent, color:"white", borderRadius:20, padding:"3px 14px", fontSize:11, fontWeight:700, whiteSpace:"nowrap" }}>⭐ MEISTGEWÄHLT</div>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
+              <div>
+                <p style={{ fontWeight:700, fontSize:16, color:C.text }}>Pro</p>
+                <p style={{ fontSize:12, color:C.muted }}>Für ernsthafte Renovierer</p>
+              </div>
+              <div style={{ textAlign:"right" }}>
+                <p style={{ fontFamily:"'Playfair Display',serif", fontSize:22, color:C.accent, fontWeight:700 }}>19,99€</p>
+                <p style={{ fontSize:11, color:C.muted }}>/Monat</p>
+              </div>
+            </div>
+            <div style={{ fontSize:13, color:C.text, lineHeight:1.8, marginBottom:12 }}>
+              {["✓ Unbegrenzte KI-Makeovers", "✓ Flux Pro – bessere Bildqualität", "✓ Alle Basic Features", "✓ Priorität bei der Generierung"].map(f => <div key={f} style={{ fontWeight: f.includes("Pro") ? 600 : 400 }}>{f}</div>)}
+            </div>
+            <button onClick={() => checkout("pro")} disabled={!!loading} style={{ width:"100%", padding:"13px", borderRadius:50, background:loading==="pro"?C.border:C.accent, color:"white", border:"none", fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
+              {loading==="pro" ? "Wird geladen…" : "Pro starten →"}
+            </button>
           </div>
         </div>
-      ))}
+
+        <p style={{ fontSize:11, color:C.muted, textAlign:"center" }}>
+          Monatlich kündbar · Zahlung über Stripe gesichert · Keine versteckten Kosten
+        </p>
+      </div>
     </div>
   );
 }
-
-// ─── TABS & APP ROOT ──────────────────────────────────────────────────────────
 const TABS = [
   { id:"makeover", label:"Makeover", icon:"✨" },
   { id:"chat",     label:"Chat",     icon:"💬" },
@@ -1393,15 +1698,54 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState("makeover");
   const [savedMakeovers, setSavedMakeovers] = useState([]);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showPricing, setShowPricing] = useState(false);
+  const [subscription, setSubscription] = useState(null); // null | {plan, sessionId}
+  const [freeUsed, setFreeUsed] = useState(0);
   const [chatMessages, setChatMessages] = useState([{
     role:"assistant",
     text:"Hey! 👋 Ich bin dein persönlicher Renovierungsexperte – frag mich alles über Bad, Küche, Wohnzimmer, Boden, Licht und mehr.\n\nIch gebe dir **konkrete Antworten** mit Produktnamen, Preisen und Schritt-für-Schritt Anleitungen. Oder lade ein 📷 Foto hoch und ich analysiere deinen Raum sofort!",
   }]);
 
   useEffect(() => {
+    // Onboarding
+    try { if (!localStorage.getItem("renopilot_onboarding_done")) setShowOnboarding(true); } catch {}
+
+    // Free usage counter
+    try { setFreeUsed(parseInt(localStorage.getItem("renopilot_free_used") || "0")); } catch {}
+
+    // Subscription aus localStorage
     try {
-      if (!localStorage.getItem("renopilot_onboarding_done")) setShowOnboarding(true);
+      const saved = localStorage.getItem("renopilot_subscription");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setSubscription(parsed);
+        // Verify still active
+        fetch("/api/verify-subscription", {
+          method: "POST", headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({ sessionId: parsed.sessionId }),
+        }).then(r => r.json()).then(data => {
+          if (!data.valid) {
+            setSubscription(null);
+            localStorage.removeItem("renopilot_subscription");
+          }
+        }).catch(() => {});
+      }
     } catch {}
+
+    // Nach Stripe Redirect
+    const params = new URLSearchParams(window.location.search);
+    const stripeStatus = params.get("subscription");
+    const plan = params.get("plan");
+    const sessionId = params.get("session_id");
+
+    if (stripeStatus === "success" && plan && sessionId) {
+      const sub = { plan, sessionId, activatedAt: Date.now() };
+      setSubscription(sub);
+      try { localStorage.setItem("renopilot_subscription", JSON.stringify(sub)); } catch {}
+      // URL säubern
+      window.history.replaceState({}, "", "/");
+      setShowPricing(false);
+    }
   }, []);
 
   function finishOnboarding() {
@@ -1409,9 +1753,23 @@ export default function Home() {
     try { localStorage.setItem("renopilot_onboarding_done", "1"); } catch {}
   }
 
+  function incrementFreeUsed() {
+    const next = freeUsed + 1;
+    setFreeUsed(next);
+    try { localStorage.setItem("renopilot_free_used", String(next)); } catch {}
+  }
+
+  function canGenerate() {
+    if (subscription) return true;
+    return freeUsed < 3;
+  }
+
+  const planLabel = subscription?.plan === "pro" ? "Pro ⭐" : subscription?.plan === "basic" ? "Basic" : null;
+
   return (
     <>
       {showOnboarding && <Onboarding onDone={finishOnboarding} />}
+      {showPricing && <PricingModal onClose={() => setShowPricing(false)} freeUsed={freeUsed} />}
       <Head>
         <title>RenoPilot – KI Renovierungs-App</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -1421,14 +1779,28 @@ export default function Home() {
       <div style={{ display:"flex", flexDirection:"column", height:"100vh", background:C.bg, maxWidth:600, margin:"0 auto" }}>
         <div style={{ background:C.card, borderBottom:`1px solid ${C.border}`, padding:"13px 18px", display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0 }}>
           <span style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:700 }}>Reno<span style={{ color:C.accent }}>Pilot</span></span>
-          <div style={{ display:"flex", gap:6, alignItems:"center" }}>
-            <div style={{ width:7, height:7, borderRadius:"50%", background:"#4ade80" }} />
-            <span style={{ fontSize:12, color:C.accent, fontWeight:600 }}>KI aktiv</span>
+          <div style={{ display:"flex", gap:8, alignItems:"center" }}>
+            {planLabel ? (
+              <span style={{ fontSize:12, color:C.accent, fontWeight:700, background:C.accentBg, padding:"4px 10px", borderRadius:20 }}>{planLabel}</span>
+            ) : (
+              <button onClick={() => setShowPricing(true)} style={{ fontSize:12, color:"white", fontWeight:700, background:C.accent, padding:"5px 12px", borderRadius:20, border:"none", cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
+                Upgrade ✨
+              </button>
+            )}
+            {!planLabel && <span style={{ fontSize:11, color:C.muted }}>{Math.max(0, 3-freeUsed)} gratis</span>}
           </div>
         </div>
         <div style={{ flex:1, overflow:"hidden", position:"relative" }}>
           <div style={{ display:activeTab==="makeover"?"flex":"none", height:"100%", overflow:"hidden" }}>
-            <MakeoverTab onSaveToPlaner={m => setSavedMakeovers(prev=>[m,...prev])} savedMakeovers={savedMakeovers} />
+            <MakeoverTab
+              onSaveToPlaner={m => setSavedMakeovers(prev=>[m,...prev])}
+              savedMakeovers={savedMakeovers}
+              plan={subscription?.plan || "free"}
+              canGenerate={canGenerate()}
+              freeUsed={freeUsed}
+              onNeedUpgrade={() => setShowPricing(true)}
+              onGenerated={incrementFreeUsed}
+            />
           </div>
           <div style={{ display:activeTab==="chat"?"flex":"none", flexDirection:"column", height:"100%" }}>
             <ChatTab messages={chatMessages} setMessages={setChatMessages} />
