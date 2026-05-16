@@ -2,6 +2,8 @@ export const config = {
   api: { bodyParser: { sizeLimit: "15mb" } },
 };
 
+const FREE_LIMIT = 3; // Gratis-Generierungen zum Testen
+
 const PROMPTS = {
   "bad-modern":    "modern luxury spa bathroom renovation, large format dark charcoal 120x60cm tiles, frameless rainfall shower, matte black fixtures, floating teak vanity, LED backlit mirror, warm cove lighting, photorealistic interior 8k",
   "bad-warm":      "bright scandinavian bathroom renovation, white handmade zellige subway tiles, natural oak wood vanity, brushed gold faucets, warm 2200K lighting, herringbone floor, photorealistic interior 8k",
@@ -19,7 +21,7 @@ const PROMPTS = {
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
-  const { imageBase64, style, chatContext } = req.body;
+  const { imageBase64, style, chatContext, plan } = req.body;
 
   if (!imageBase64) {
     return res.status(400).json({ error: "Kein Bild übermittelt." });
@@ -107,32 +109,66 @@ export default async function handler(req, res) {
   // ── Erkennung: Objekt-Austausch vs. Stil-Änderung ─────────────────────────
   function isObjectReplacement(text) {
     const t = text.toLowerCase();
-    return t.match(/anstatt|statt|anstelle|ersetzen|entfernen|einbauen|stattdessen|rausnehmen|wegnehmen/);
+    return t.match(/anstatt|statt|anstelle|ersetzen|entfernen|einbauen|stattdessen|rausnehmen|wegnehmen|weg|raus|tauschen.*gegen|ersetze/);
+  }
+
+  // Was soll weg, was soll kommen
+  function parseReplacement(text) {
+    const t = text.toLowerCase();
+    const remove = [];
+    const add = [];
+
+    if (t.match(/dusche|shower/)) {
+      if (t.match(/anstatt dusche|statt dusche|dusche.*weg|dusche.*raus|keine dusche/)) remove.push("shower");
+      else add.push("walk-in shower with rainfall shower head");
+    }
+    if (t.match(/badewanne|bathtub/)) {
+      if (t.match(/anstatt badewanne|statt badewanne|badewanne.*weg|keine badewanne/)) remove.push("bathtub");
+      else add.push("freestanding bathtub");
+    }
+    if (t.match(/toilette|wc|toilet/)) {
+      if (t.match(/anstatt toilette|statt.*wc|toilette.*weg/)) remove.push("toilet");
+      else add.push("wall-hung toilet");
+    }
+    if (t.match(/fenster|window/)) {
+      if (t.match(/kein.*fenster|fenster.*weg/)) remove.push("window");
+      else add.push("large window");
+    }
+    if (t.match(/badewanne.*statt.*dusche|bathtub instead of shower/)) {
+      remove.push("shower"); add.push("large freestanding bathtub");
+    }
+    if (t.match(/dusche.*statt.*badewanne|shower instead of bathtub/)) {
+      remove.push("bathtub"); add.push("large walk-in shower");
+    }
+    return { remove, add };
   }
 
   let prompt;
   let strength;
+  let negativePrompt = "";
 
   if (chatContext) {
     const translated = translateDE(chatContext);
     const isReplacement = isObjectReplacement(chatContext);
 
     if (isReplacement) {
-      // Objekt-Austausch: sehr direktiv, höchste Strength
-      strength = 0.92;
-      prompt = `REPLACE OBJECTS AS INSTRUCTED: ${translated}. This is the most important requirement. Completely remove the old object and add the new one in its place. Maintain the same room layout and lighting. ${basePrompt}`;
+      const { remove, add } = parseReplacement(chatContext);
+      strength = 0.95;
+
+      const removeStr = remove.length ? `NO ${remove.join(", NO ")} visible anywhere in the image.` : "";
+      const addStr = add.length ? `ADD ${add.join(" AND ")} prominently.` : "";
+      negativePrompt = remove.join(", ");
+
+      prompt = `${removeStr} ${addStr} ${translated}. Photorealistic bathroom interior renovation. ${basePrompt}`;
     } else {
-      // Stil-Änderung: Anweisungen first, mittlere Strength
       strength = 0.78;
-      prompt = `APPLY THESE CHANGES FIRST: ${translated}. Keep the room structure. ${basePrompt}`;
+      prompt = `APPLY THESE CHANGES: ${translated}. Keep the room structure. ${basePrompt}`;
     }
   } else {
-    // Reiner Stil ohne Wünsche
     strength = 0.65;
     prompt = basePrompt;
   }
 
-  // Ob es Objekt-Austausch ist – für Fehlermeldung im Frontend
   const isObjReplace = chatContext ? !!isObjectReplacement(chatContext) : false;
 
   try {
@@ -160,25 +196,47 @@ export default async function handler(req, res) {
       console.log("Upload error:", uploadErr.message);
     }
 
-    // Step 2: Generate with flux image-to-image
+    // Step 2: Model-Auswahl je nach Plan
     const imageUrl = uploadedUrl || `data:image/jpeg;base64,${imageBase64}`;
+    const isPro = plan === "pro";
 
-    const falRes = await fetch("https://fal.run/fal-ai/flux/dev/image-to-image", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Key ${process.env.FAL_KEY}`,
-      },
-      body: JSON.stringify({
+    let falEndpoint, falBody;
+
+    if (isPro) {
+      // Pro: flux-pro für deutlich bessere Qualität
+      falEndpoint = "https://fal.run/fal-ai/flux-pro/v1/redux";
+      falBody = {
         image_url: imageUrl,
         prompt: prompt,
+        image_size: "landscape_4_3",
+        num_inference_steps: 50,
+        guidance_scale: 4.0,
+        num_images: 1,
+        output_format: "jpeg",
+      };
+    } else {
+      // Basic/Free: flux/dev
+      falEndpoint = "https://fal.run/fal-ai/flux/dev/image-to-image";
+      falBody = {
+        image_url: imageUrl,
+        prompt: prompt,
+        negative_prompt: negativePrompt || "blurry, low quality, distorted",
         strength: strength,
         num_inference_steps: 35,
         guidance_scale: 4.0,
         num_images: 1,
         enable_safety_checker: false,
         output_format: "jpeg",
-      }),
+      };
+    }
+
+    const falRes = await fetch(falEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Key ${process.env.FAL_KEY}`,
+      },
+      body: JSON.stringify(falBody),
     });
 
     const rawText = await falRes.text();
@@ -200,6 +258,7 @@ export default async function handler(req, res) {
       imageUrl: resultUrl,
       materials: generateMaterials(style),
       isObjectReplacement: isObjReplace,
+      model: isPro ? "flux-pro" : "flux-dev",
     });
 
   } catch (err) {
