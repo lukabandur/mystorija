@@ -37,12 +37,17 @@ export default async function handler(req, res) {
       .replace(/walk.?in.?dusche|begehbare dusche/gi, "walk-in shower")
       .replace(/dusche|duschwanne/gi, "shower")
       .replace(/toilette|wc|klo/gi, "toilet")
-      .replace(/waschtisch|waschbecken|waschbecken/gi, "bathroom vanity sink")
+      .replace(/waschtisch|waschbecken/gi, "bathroom vanity sink")
       .replace(/handtuchhalter/gi, "towel rack")
       .replace(/spiegel/gi, "mirror")
       .replace(/armatur(?:en)?/gi, "faucet")
       .replace(/regendusche/gi, "rainfall shower head")
       .replace(/badewannenarmatur/gi, "bathtub faucet")
+      .replace(/einbaustrahler/gi, "recessed ceiling spotlights")
+      .replace(/heizkörper/gi, "radiator")
+      .replace(/handtuchtrockner/gi, "heated towel rail")
+      .replace(/ablage/gi, "shelf niche")
+      .replace(/nische/gi, "wall niche")
       // Möbel
       .replace(/regal(?:e)?/gi, "shelf")
       .replace(/schrank|schränke/gi, "cabinet")
@@ -51,43 +56,63 @@ export default async function handler(req, res) {
       .replace(/sofa|couch/gi, "sofa")
       .replace(/bett/gi, "bed")
       .replace(/kopfteil/gi, "headboard")
+      .replace(/kommode/gi, "dresser")
+      .replace(/nachttisch/gi, "bedside table")
+      .replace(/fernseher|tv/gi, "TV")
       // Materialien
+      .replace(/feinsteinzeug/gi, "porcelain stoneware tiles")
       .replace(/fliesen?/gi, "tiles")
       .replace(/parkett/gi, "hardwood parquet floor")
       .replace(/laminat/gi, "laminate floor")
-      .replace(/vinyl(?:boden)?/gi, "vinyl floor")
+      .replace(/vinyl(?:boden)?/gi, "vinyl plank floor")
       .replace(/beton(?:optik)?/gi, "concrete look")
-      .replace(/mikrozement/gi, "microcement")
+      .replace(/mikrozement/gi, "microcement seamless")
       .replace(/marmor/gi, "marble")
+      .replace(/naturstein/gi, "natural stone")
       .replace(/holz/gi, "wood")
+      .replace(/eiche/gi, "oak wood")
+      .replace(/teak/gi, "teak wood")
       .replace(/glas/gi, "glass")
       .replace(/stahl|edelstahl/gi, "stainless steel")
+      .replace(/fliesen.*großformat|großformat.*fliesen/gi, "large format 120x60cm tiles")
+      .replace(/zellige/gi, "handmade zellige tiles")
+      .replace(/tapete/gi, "wallpaper")
+      .replace(/putz/gi, "plaster finish")
+      .replace(/stuck/gi, "stucco")
       // Farben
-      .replace(/grau/gi, "grey")
-      .replace(/weiß|weiss/gi, "white")
-      .replace(/schwarz/gi, "black")
-      .replace(/dunkelgrün/gi, "dark green")
+      .replace(/dunkelgrün|flaschengrün/gi, "dark forest green")
       .replace(/salbeigrün/gi, "sage green")
+      .replace(/mintgrün/gi, "mint green")
+      .replace(/dunkelblau|marineblau/gi, "dark navy blue")
       .replace(/navy/gi, "navy blue")
       .replace(/terrakotta/gi, "terracotta")
-      .replace(/beige/gi, "beige")
-      .replace(/anthrazit/gi, "anthracite grey")
+      .replace(/anthrazit/gi, "anthracite dark grey")
+      .replace(/beige/gi, "warm beige")
+      .replace(/weiß|weiss/gi, "white")
+      .replace(/schwarz/gi, "matte black")
+      .replace(/grau/gi, "grey")
+      .replace(/braun/gi, "brown")
+      .replace(/gold|messing/gi, "brushed brass gold")
+      .replace(/kupfer/gi, "copper")
       .replace(/dunkel/gi, "dark")
       .replace(/hell/gi, "bright light")
-      .replace(/warm/gi, "warm")
+      .replace(/warm/gi, "warm toned")
+      .replace(/kalt/gi, "cool toned")
       // Verben / Aktionen
-      .replace(/anstatt|statt|anstelle von/gi, "REPLACE with")
+      .replace(/anstatt|statt|anstelle von|stattdessen/gi, "instead of")
       .replace(/einbauen|installieren/gi, "install")
-      .replace(/entfernen|rausnehmen|wegnehmen/gi, "remove completely")
-      .replace(/ersetzen durch/gi, "replace with")
-      .replace(/ersetzen/gi, "replace")
-      .replace(/hinzufügen|dazumachen|ergänzen/gi, "add")
+      .replace(/entfernen|rausnehmen|wegnehmen|raus/gi, "remove")
+      .replace(/ersetzen durch|ersetzen/gi, "replace with")
+      .replace(/hinzufügen|dazumachen|ergänzen|einfügen/gi, "add")
       .replace(/vergrößern/gi, "make larger")
       .replace(/verkleinern/gi, "make smaller")
       .replace(/tauschen|wechseln/gi, "change")
-      .replace(/möchte ich/gi, "I want")
-      .replace(/ich will/gi, "I want")
+      .replace(/möchte ich|ich möchte|ich will|ich hätte gerne/gi, "I want")
+      .replace(/soll.*sein|soll.*werden/gi, "should be")
       .replace(/mach(?:e)?/gi, "make")
+      .replace(/zeig/gi, "show")
+      .replace(/mit|dazu/gi, "with")
+      .replace(/ohne/gi, "without")
       // Bereiche
       .replace(/boden/gi, "floor")
       .replace(/wände?/gi, "wall")
@@ -96,56 +121,109 @@ export default async function handler(req, res) {
       .replace(/tür(?:en)?/gi, "door")
       .replace(/ecke/gi, "corner")
       .replace(/mitte/gi, "center")
+      .replace(/links/gi, "left side")
+      .replace(/rechts/gi, "right side")
       // Eigenschaften
-      .replace(/groß(?:e|en|er)?/gi, "large")
-      .replace(/klein(?:e|en|er)?/gi, "small")
-      .replace(/modern(?:e|en)?/gi, "modern")
+      .replace(/groß(?:e|en|er|es)?/gi, "large")
+      .replace(/klein(?:e|en|er|es)?/gi, "small")
+      .replace(/modern(?:e|en|er|es)?/gi, "modern")
       .replace(/elegant/gi, "elegant")
       .replace(/minimalistisch/gi, "minimalist")
-      .replace(/edel/gi, "luxurious")
+      .replace(/edel|luxuriös/gi, "luxurious")
+      .replace(/gemütlich/gi, "cozy warm")
+      .replace(/hell|heller/gi, "bright and airy")
+      .replace(/rustikal/gi, "rustic")
+      .replace(/skandinavisch/gi, "scandinavian style")
+      .replace(/industriell/gi, "industrial style")
+      .replace(/japanisch|japandi/gi, "japandi minimalist")
+      .replace(/mediterran/gi, "mediterranean style")
+      .replace(/matt/gi, "matte finish")
+      .replace(/glänzend/gi, "glossy")
+      .replace(/offen/gi, "open")
+      .replace(/geschlossen/gi, "closed")
+      .replace(/schwebend|hängend/gi, "floating wall-mounted")
       .trim();
+  }
+
+  // ── Stil-Beschreibung als weiche Referenz extrahieren ─────────────────────
+  function getStyleHint(styleName) {
+    const hints = {
+      "bad-modern": "luxury spa bathroom aesthetic, dark tiles, matte black fixtures",
+      "bad-warm": "warm scandinavian bathroom, light oak, gold accents",
+      "bad-mikro": "microcement minimalist bathroom, concrete walls",
+      "kueche-navy": "navy blue kitchen, brass hardware",
+      "kueche-grau": "grey modern kitchen, integrated appliances",
+      "kueche-gruen": "sage green kitchen, wood countertop",
+      "wohn-gruen": "dark green accent wall living room",
+      "wohn-terra": "terracotta warm living room",
+      "schlaf-terra": "terracotta bedroom, bouclé headboard",
+      "schlaf-dunkel": "moody dark bedroom, navy ceiling",
+      "terrasse-wpc": "modern WPC decking terrace, outdoor lounge",
+    };
+    return hints[styleName] || "modern interior renovation";
   }
 
   // ── Erkennung: Objekt-Austausch vs. Stil-Änderung ─────────────────────────
   function isObjectReplacement(text) {
     const t = text.toLowerCase();
-    return t.match(/anstatt|statt|anstelle|ersetzen|entfernen|einbauen|stattdessen|rausnehmen|wegnehmen|weg|raus|tauschen.*gegen|ersetze/);
+    return t.match(/anstatt|statt|anstelle|ersetzen|entfernen|einbauen|stattdessen|rausnehmen|wegnehmen|weg\b|raus\b|tauschen.*gegen|ersetze|ohne.*dafür|kein.*statt|keine.*dafür|keine.*statt|kein\b|keine\b|dafür|lieber.*als|stattdessen/);
   }
 
-  // Was soll weg, was soll kommen
+  // ── Was soll weg, was soll kommen (erweitert) ─────────────────────────────
   function parseReplacement(text) {
     const t = text.toLowerCase();
     const remove = [];
     const add = [];
 
-    if (t.match(/dusche|shower/)) {
-      if (t.match(/anstatt dusche|statt dusche|dusche.*weg|dusche.*raus|keine dusche/)) remove.push("shower");
-      else add.push("walk-in shower with rainfall shower head");
+    // "keine X dafür Y" Pattern
+    const keinDafuer = t.match(/keine?\s+(\w+)\s+dafür\s+(?:eine?\s+)?(\w+)/);
+    if (keinDafuer) {
+      const weg = translateDE(keinDafuer[1]);
+      const neu = translateDE(keinDafuer[2]);
+      if (weg) remove.push(weg);
+      if (neu) add.push(neu);
     }
-    if (t.match(/badewanne|bathtub/)) {
-      if (t.match(/anstatt badewanne|statt badewanne|badewanne.*weg|keine badewanne/)) remove.push("bathtub");
-      else add.push("freestanding bathtub");
+
+    // Badewanne ↔ Dusche
+    if (t.match(/badewanne.*statt.*dusche|badewanne.*anstatt.*dusche|bathtub.*instead.*shower/)) {
+      remove.push("shower"); add.push("large freestanding bathtub with floor faucet");
+    } else if (t.match(/dusche.*statt.*badewanne|dusche.*anstatt.*badewanne|shower.*instead.*bathtub/)) {
+      remove.push("bathtub"); add.push("large walk-in shower with rainfall shower head");
+    } else {
+      if (t.match(/anstatt.*dusche|statt.*dusche|dusche.*weg|dusche.*raus|keine.*dusche|dusche.*entfernen/)) remove.push("shower");
+      else if (t.match(/dusche|walk.?in/) && !remove.includes("shower")) add.push("large walk-in shower with glass partition and rainfall shower head");
+
+      if (t.match(/anstatt.*badewanne|statt.*badewanne|badewanne.*weg|keine.*badewanne|badewanne.*entfernen/)) {
+        if (!remove.includes("bathtub")) remove.push("bathtub");
+      } else if (t.match(/badewanne/) && !remove.includes("bathtub")) add.push("freestanding bathtub");
     }
-    if (t.match(/toilette|wc|toilet/)) {
-      if (t.match(/anstatt toilette|statt.*wc|toilette.*weg/)) remove.push("toilet");
-      else add.push("wall-hung toilet");
+
+    // Toilette
+    if (t.match(/anstatt.*toilette|statt.*wc|toilette.*weg|keine.*wc|kein.*wc/)) remove.push("toilet");
+    else if (t.match(/toilette|wc/) && !remove.includes("toilet")) add.push("wall-hung toilet");
+
+    // Fliesen
+    if (t.match(/modernere.*fliesen|neue.*fliesen|andere.*fliesen|fliesen.*modern|fliesen.*tauschen/)) {
+      remove.push("old tiles"); add.push("modern large format porcelain tiles");
     }
-    if (t.match(/fenster|window/)) {
-      if (t.match(/kein.*fenster|fenster.*weg/)) remove.push("window");
-      else add.push("large window");
+
+    // Waschtisch
+    if (t.match(/neuer.*waschtisch|waschtisch.*tauschen|neues.*waschbecken/)) {
+      remove.push("old vanity"); add.push("floating wall-mounted vanity sink with wood drawer");
     }
-    if (t.match(/badewanne.*statt.*dusche|bathtub instead of shower/)) {
-      remove.push("shower"); add.push("large freestanding bathtub");
-    }
-    if (t.match(/dusche.*statt.*badewanne|shower instead of bathtub/)) {
-      remove.push("bathtub"); add.push("large walk-in shower");
-    }
-    return { remove, add };
+
+    // Materialien die weg sollen
+    if (t.match(/keine.*fliesen|fliesen.*weg|ohne fliesen/)) remove.push("tiles");
+
+    // Deduplizieren
+    return { remove: [...new Set(remove)], add: [...new Set(add)] };
   }
 
   let prompt;
   let strength;
-  let negativePrompt = "";
+  let negativePrompt = "blurry, low quality, distorted, unrealistic";
+
+  const styleHint = getStyleHint(style);
 
   if (chatContext) {
     const translated = translateDE(chatContext);
@@ -155,17 +233,20 @@ export default async function handler(req, res) {
       const { remove, add } = parseReplacement(chatContext);
       strength = 0.95;
 
-      const removeStr = remove.length ? `NO ${remove.join(", NO ")} visible anywhere in the image.` : "";
-      const addStr = add.length ? `ADD ${add.join(" AND ")} prominently.` : "";
-      negativePrompt = remove.join(", ");
+      const removeStr = remove.length ? `${remove.map(r => `NO ${r}`).join(", ")}.` : "";
+      const addStr = add.length ? `${add.map(a => `ADD ${a}`).join(" AND ")}.` : "";
+      if (remove.length) negativePrompt += ", " + remove.join(", ");
 
-      prompt = `${removeStr} ${addStr} ${translated}. Photorealistic bathroom interior renovation. ${basePrompt}`;
+      // User instruction FIRST = highest weight in Flux
+      prompt = `${removeStr} ${addStr} ${translated}. Photorealistic interior renovation photography, 8k, professional lighting. Style reference: ${styleHint}.`;
     } else {
+      // Stil-Änderung: user instructions first, style hint only soft reference
       strength = 0.78;
-      prompt = `APPLY THESE CHANGES: ${translated}. Keep the room structure. ${basePrompt}`;
+      prompt = `${translated}. Photorealistic interior renovation photography, 8k, professional lighting. Style: ${styleHint}.`;
     }
   } else {
     strength = 0.65;
+    // Pure style prompt – full detail
     prompt = basePrompt;
   }
 
