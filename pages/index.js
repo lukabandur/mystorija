@@ -182,14 +182,138 @@ const ANLEITUNGEN = [
     amazon:amazonLink("außenputz reparatur set armierungsband") },
 ];
 
-// ─── ANLEITUNGEN TAB ──────────────────────────────────────────────────────────
+// ─── ONBOARDING ───────────────────────────────────────────────────────────────
+const ONBOARDING_STEPS = [
+  {
+    icon: "✨",
+    title: "KI-Makeover",
+    desc: "Lade ein Foto deines Raumes hoch. Die KI zeigt dir in 20 Sekunden wie er nach der Renovierung aussehen könnte.",
+    tab: "makeover",
+    color: C.accent,
+  },
+  {
+    icon: "💬",
+    title: "Renovierungs-Experte",
+    desc: "Frag den KI-Chat alles: Kosten, Materialien, Schritt-für-Schritt Anleitungen. Wie ein erfahrener Handwerker auf Abruf.",
+    tab: "chat",
+    color: "#2A6DB5",
+  },
+  {
+    icon: "📋",
+    title: "16 Profi-Anleitungen",
+    desc: "Von Silikon erneuern bis Mikrozement – hake jeden Schritt während der Arbeit ab. Dein Fortschritt wird gespeichert.",
+    tab: "anleit",
+    color: C.green,
+  },
+  {
+    icon: "🔨",
+    title: "Profis in deiner Nähe",
+    desc: "Wenn du doch lieber einen Handwerker beauftragen möchtest: Finde geprüfte Betriebe direkt in der App.",
+    tab: "profis",
+    color: "#8B4513",
+  },
+];
+
+function Onboarding({ onDone }) {
+  const [step, setStep] = useState(0);
+  const current = ONBOARDING_STEPS[step];
+  const isLast = step === ONBOARDING_STEPS.length - 1;
+
+  return (
+    <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.7)", zIndex:1000, display:"flex", alignItems:"flex-end", justifyContent:"center" }}>
+      <div className="fu" style={{ background:C.card, borderRadius:"24px 24px 0 0", padding:"28px 24px 40px", width:"100%", maxWidth:600 }}>
+        {/* Progress dots */}
+        <div style={{ display:"flex", justifyContent:"center", gap:8, marginBottom:24 }}>
+          {ONBOARDING_STEPS.map((_, i) => (
+            <div key={i} style={{ width: i===step?24:8, height:8, borderRadius:4, background:i===step?current.color:C.border, transition:"all 0.3s" }} />
+          ))}
+        </div>
+
+        {/* Icon */}
+        <div style={{ width:72, height:72, borderRadius:20, background:current.color+"22", border:`2px solid ${current.color}44`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:32, margin:"0 auto 20px" }}>
+          {current.icon}
+        </div>
+
+        {/* Content */}
+        <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:24, textAlign:"center", color:C.text, marginBottom:12 }}>
+          {current.title}
+        </h2>
+        <p style={{ fontSize:15, color:C.text, textAlign:"center", lineHeight:1.7, marginBottom:28, opacity:0.8 }}>
+          {current.desc}
+        </p>
+
+        {/* Buttons */}
+        <div style={{ display:"flex", gap:10 }}>
+          {!isLast && (
+            <button onClick={onDone} style={{ flex:1, padding:"12px", borderRadius:50, border:`1px solid ${C.border}`, background:"none", color:C.muted, fontSize:14, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
+              Überspringen
+            </button>
+          )}
+          <button onClick={() => isLast ? onDone() : setStep(s => s+1)} style={{ flex:2, padding:"14px", borderRadius:50, background:current.color, color:"white", border:"none", fontSize:15, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
+            {isLast ? "Jetzt loslegen! 🚀" : "Weiter →"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── ANLEITUNGEN TAB (mit localStorage) ──────────────────────────────────────
 function AnleitungenTab() {
   const [offen, setOffen] = useState(null);
   const [erledigt, setErledigt] = useState({});
+
+  // Fortschritt laden
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("renopilot_anleitungen");
+      if (saved) setErledigt(JSON.parse(saved));
+    } catch {}
+  }, []);
+
+  // Fortschritt speichern
+  const toggleSchritt = (key) => {
+    setErledigt(prev => {
+      const next = { ...prev, [key]: !prev[key] };
+      try { localStorage.setItem("renopilot_anleitungen", JSON.stringify(next)); } catch {}
+      return next;
+    });
+  };
+
+  const totalSchritte = ANLEITUNGEN.reduce((s, a) => s + a.schritte.length, 0);
+  const totalErledigt = Object.values(erledigt).filter(Boolean).length;
+  const pct = Math.round((totalErledigt / totalSchritte) * 100);
   return (
     <div style={{ overflowY:"auto", height:"100%", padding:"14px 16px" }}>
+      {/* Gesamtfortschritt */}
+      <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, padding:"14px 16px", marginBottom:14, boxShadow:"0 1px 6px rgba(0,0,0,.04)" }}>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
+          <div>
+            <p style={{ fontSize:14, fontWeight:700, color:C.text }}>Dein Fortschritt</p>
+            <p style={{ fontSize:11, color:C.muted, marginTop:2 }}>{totalErledigt} von {totalSchritte} Schritten erledigt</p>
+          </div>
+          <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+            <span style={{ fontSize:20, fontWeight:700, color:C.accent }}>{pct}%</span>
+            {totalErledigt > 0 && (
+              <button onClick={() => {
+                setErledigt({});
+                try { localStorage.removeItem("renopilot_anleitungen"); } catch {}
+              }} style={{ fontSize:11, color:C.muted, background:"none", border:`1px solid ${C.border}`, borderRadius:20, padding:"3px 8px", cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
+                Reset
+              </button>
+            )}
+          </div>
+        </div>
+        <div style={{ height:8, background:C.border, borderRadius:4, overflow:"hidden" }}>
+          <div style={{ height:"100%", width:`${pct}%`, background:`linear-gradient(to right, ${C.accent}, #E8855A)`, borderRadius:4, transition:"width 0.4s" }} />
+        </div>
+        {pct === 100 && (
+          <p style={{ fontSize:12, color:C.green, fontWeight:600, marginTop:8, textAlign:"center" }}>🎉 Alle Anleitungen abgeschlossen – du bist ein Profi!</p>
+        )}
+      </div>
+
       <p style={{ fontSize:12, color:C.muted, marginBottom:14, fontStyle:"italic" }}>
-        Profi-Anleitungen aus Handwerker-Videos – Schritte während der Arbeit abhaken ({ANLEITUNGEN.length} Anleitungen)
+        Tippe auf eine Anleitung → Schritte abhaken während du arbeitest. Fortschritt wird gespeichert.
       </p>
       {ANLEITUNGEN.map(a => {
         const done = a.schritte.filter((_,i) => erledigt[`${a.id}-${i}`]).length;
@@ -223,7 +347,7 @@ function AnleitungenTab() {
                 {a.schritte.map((s, idx) => {
                   const key = `${a.id}-${idx}`, d = erledigt[key];
                   return (
-                    <div key={idx} onClick={() => setErledigt(prev => ({ ...prev, [key]:!prev[key] }))} style={{ display:"flex", gap:10, padding:"9px 11px", borderRadius:9, marginBottom:4, cursor:"pointer", background:d?C.greenBg:C.accentBg+"44", border:`1px solid ${d?C.green+"44":C.border}` }}>
+                    <div key={idx} onClick={() => toggleSchritt(`${a.id}-${idx}`)} style={{ display:"flex", gap:10, padding:"9px 11px", borderRadius:9, marginBottom:4, cursor:"pointer", background:d?C.greenBg:C.accentBg+"44", border:`1px solid ${d?C.green+"44":C.border}` }}>
                       <div style={{ width:24, height:24, borderRadius:"50%", flexShrink:0, border:`2px solid ${d?C.green:C.border}`, background:d?C.green:"transparent", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, color:d?"#fff":C.muted, fontWeight:700 }}>{d?"✓":idx+1}</div>
                       <span style={{ fontSize:13, color:d?C.muted:C.text, textDecoration:d?"line-through":"none", lineHeight:1.5 }}>{s}</span>
                     </div>
@@ -1268,12 +1392,26 @@ const TABS = [
 export default function Home() {
   const [activeTab, setActiveTab] = useState("makeover");
   const [savedMakeovers, setSavedMakeovers] = useState([]);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const [chatMessages, setChatMessages] = useState([{
     role:"assistant",
-    text:"Hey! 👋 Ich bin dein RenoPilot Experte.\n\nSchreib mir was du renovieren möchtest:\n\n🚿 Bad renovieren\n🍳 Küche aufwerten\n🪵 Boden verlegen\n💡 LED einbauen\n🌿 Terrasse aufwerten\n\nOder lade ein Foto hoch!",
+    text:"Hey! 👋 Ich bin dein persönlicher Renovierungsexperte – frag mich alles über Bad, Küche, Wohnzimmer, Boden, Licht und mehr.\n\nIch gebe dir **konkrete Antworten** mit Produktnamen, Preisen und Schritt-für-Schritt Anleitungen. Oder lade ein 📷 Foto hoch und ich analysiere deinen Raum sofort!",
   }]);
+
+  useEffect(() => {
+    try {
+      if (!localStorage.getItem("renopilot_onboarding_done")) setShowOnboarding(true);
+    } catch {}
+  }, []);
+
+  function finishOnboarding() {
+    setShowOnboarding(false);
+    try { localStorage.setItem("renopilot_onboarding_done", "1"); } catch {}
+  }
+
   return (
     <>
+      {showOnboarding && <Onboarding onDone={finishOnboarding} />}
       <Head>
         <title>RenoPilot – KI Renovierungs-App</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
