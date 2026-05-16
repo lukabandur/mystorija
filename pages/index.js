@@ -837,6 +837,8 @@ function ChatTab({ messages, setMessages }) {
     "Was kostet eine Küchensanierung?",
     "LED-Beleuchtung einbauen – wie?",
     "Fliesen über Fliesen legen möglich?",
+    "Mikrozement selbst auftragen?",
+    "Küchenfronten lackieren Schritt für Schritt?",
   ];
 
   async function sendMessage(textOverride, imgOverride, mimeOverride) {
@@ -995,22 +997,8 @@ function ChatTab({ messages, setMessages }) {
         <div ref={bottomRef} />
       </div>
 
-      {/* Image preview */}
-      {imgPreview && (
-        <div style={{ padding: "6px 16px 0", background: C.card, borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "center", gap: 8 }}>
-          <img src={imgPreview} alt="" style={{ width: 48, height: 48, borderRadius: 8, objectFit: "cover", border: `2px solid ${C.accent}` }} />
-          <p style={{ fontSize: 12, color: C.accent, flex: 1 }}>Foto bereit – wird mit deiner Nachricht gesendet</p>
-          <button onClick={() => { setImgFile(null); setImgPreview(null); }} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 16, color: C.muted }}>✕</button>
-        </div>
-      )}
-
-      {/* Input */}
-      <div style={{ padding: "10px 14px 14px", borderTop: `1px solid ${C.border}`, background: C.card }}>
-        <div style={{ display: "flex", gap: 8, alignItems: "flex-end" }}>
-          <button onClick={() => fileRef.current?.click()} title="Foto hochladen" style={{ width: 40, height: 40, flexShrink: 0, background: C.accentBg, border: `1px solid ${C.border}`, borderRadius: 10, cursor: "pointer", fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            📷
-          </button>
-          <input type="file" ref={fileRef} accept="image/*" onChange={onFile} style={{ display: "none" }} />
+      <div style={{ padding:"10px 14px 14px", borderTop:`1px solid ${C.border}`, background:C.card }}>
+        <div style={{ display:"flex", gap:8, alignItems:"flex-end" }}>
           <textarea
             ref={textRef}
             value={inputText}
@@ -1018,31 +1006,20 @@ function ChatTab({ messages, setMessages }) {
             onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
             placeholder="Stell eine Frage zur Renovierung…"
             rows={1}
-            style={{
-              flex: 1, resize: "none", border: `1.5px solid ${C.border}`, borderRadius: 12,
-              padding: "10px 14px", fontSize: 14, fontFamily: "'DM Sans', sans-serif",
-              background: C.bg, lineHeight: 1.5, minHeight: 42, maxHeight: 120,
-              transition: "border-color 0.2s",
-            }}
+            style={{ flex:1, resize:"none", border:`1.5px solid ${C.border}`, borderRadius:12, padding:"10px 14px", fontSize:14, fontFamily:"'DM Sans', sans-serif", background:C.bg, lineHeight:1.5, minHeight:42, maxHeight:120 }}
             onFocus={e => { e.target.style.borderColor = C.accent; }}
             onBlur={e => { e.target.style.borderColor = C.border; }}
           />
           <button
             onClick={() => sendMessage()}
-            disabled={loading || (!inputText.trim() && !imgPreview)}
-            style={{
-              width: 42, height: 42, borderRadius: 12, flexShrink: 0,
-              background: loading || (!inputText.trim() && !imgPreview) ? C.border : C.accent,
-              border: "none", cursor: "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              color: "white", fontSize: 18, transition: "background 0.2s",
-            }}
+            disabled={loading || !inputText.trim()}
+            style={{ width:42, height:42, borderRadius:12, flexShrink:0, background:loading || !inputText.trim() ? C.border : C.accent, border:"none", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", color:"white", fontSize:18 }}
           >
             {loading ? <LoadingSpinner size={18} /> : "→"}
           </button>
         </div>
-        <p style={{ fontSize: 10, color: C.muted, textAlign: "center", marginTop: 6 }}>
-          Enter zum Senden · Shift+Enter für neue Zeile · 📷 für Foto-Analyse
+        <p style={{ fontSize:10, color:C.muted, textAlign:"center", marginTop:6 }}>
+          Enter senden · Shift+Enter neue Zeile · Foto-Analyse → 🔍 Inspo Tab
         </p>
       </div>
     </div>
@@ -1514,6 +1491,213 @@ function PlanerTab({ savedMakeovers }) {
 }
 
 
+// ─── INSPO ANALYSE TAB ───────────────────────────────────────────────────────
+const AFFILIATE_TAG = "renopilot-21";
+
+function InspoTab() {
+  const [imgFile, setImgFile] = useState(null);
+  const [imgPreview, setImgPreview] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [analysis, setAnalysis] = useState(null);
+  const [error, setError] = useState(null);
+  const fileRef = useRef();
+
+  async function analyse(file, preview) {
+    setLoading(true); setAnalysis(null); setError(null);
+    try {
+      const compressed = await compressImageFile(file);
+      const res = await fetch("/api/analyse", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageBase64: compressed, mimeType: file.type }),
+      });
+      const data = await res.json();
+      if (data.error) { setError(data.error); }
+      else { setAnalysis(data.analysis); }
+    } catch (err) { setError(err.message); }
+    setLoading(false);
+  }
+
+  function onFile(e) {
+    const f = e.target.files[0]; if (!f) return;
+    setImgFile(f);
+    const r = new FileReader();
+    r.onload = ev => { setImgPreview(ev.target.result); analyse(f, ev.target.result); };
+    r.readAsDataURL(f);
+  }
+
+  const SCHWIERIGKEIT_COLOR = { "Einfach": C.green, "Mittel": C.accent, "Schwierig": "#B91C1C" };
+
+  return (
+    <div style={{ overflowY:"auto", height:"100%" }}>
+      {/* Header */}
+      <div style={{ padding:"16px 16px 12px", borderBottom:`1px solid ${C.border}`, background:C.card }}>
+        <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, marginBottom:4 }}>🔍 Inspo analysieren</h2>
+        <p style={{ fontSize:13, color:C.muted, lineHeight:1.5 }}>Lade ein Inspirationsfoto hoch – die KI erkennt Materialien, Stil und zeigt wie du es nachmachen kannst.</p>
+      </div>
+
+      <div style={{ padding:"14px 16px" }}>
+        {/* Upload Area */}
+        <div onClick={() => fileRef.current?.click()} style={{ border:`2px dashed ${imgPreview?C.accent:C.border}`, borderRadius:16, padding: imgPreview?"0":"32px 16px", cursor:"pointer", background:imgPreview?C.card:C.accentBg, marginBottom:14, overflow:"hidden", textAlign: imgPreview?"left":"center", position:"relative" }}>
+          {imgPreview ? (
+            <div style={{ position:"relative" }}>
+              <img src={imgPreview} alt="" style={{ width:"100%", maxHeight:260, objectFit:"cover", display:"block" }} />
+              <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%)" }} />
+              <div style={{ position:"absolute", bottom:12, left:14, right:14, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                <p style={{ color:"white", fontWeight:700, fontSize:13 }}>📷 Foto hochgeladen</p>
+                <button onClick={e => { e.stopPropagation(); setImgFile(null); setImgPreview(null); setAnalysis(null); }} style={{ background:"rgba(255,255,255,0.2)", border:"none", color:"white", borderRadius:20, padding:"4px 10px", fontSize:12, cursor:"pointer" }}>Anderes Foto</button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div style={{ fontSize:40, marginBottom:10 }}>📷</div>
+              <p style={{ fontSize:15, fontWeight:700, color:C.accent, marginBottom:4 }}>Inspirationsfoto hochladen</p>
+              <p style={{ fontSize:13, color:C.muted }}>Pinterest, Instagram, Zeitschrift – KI analysiert sofort</p>
+            </>
+          )}
+        </div>
+        <input type="file" ref={fileRef} accept="image/*" onChange={onFile} style={{ display:"none" }} />
+
+        {/* Loading */}
+        {loading && (
+          <div className="fu" style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, padding:"20px 16px", textAlign:"center", marginBottom:14 }}>
+            <div style={{ display:"flex", justifyContent:"center", gap:6, marginBottom:10 }}>
+              {[0,1,2].map(j => <div key={j} style={{ width:10, height:10, borderRadius:"50%", background:C.accent, animation:`blink 1.2s ease ${j*0.2}s infinite` }} />)}
+            </div>
+            <p style={{ fontSize:14, fontWeight:600, color:C.text }}>KI analysiert Materialien...</p>
+            <p style={{ fontSize:12, color:C.muted, marginTop:4 }}>Erkennt Fliesen, Holz, Armaturen, Farben</p>
+          </div>
+        )}
+
+        {/* Error */}
+        {error && <div style={{ background:"#FEF2F2", border:"1px solid #FCA5A5", borderRadius:12, padding:"12px 14px", marginBottom:14 }}><p style={{ color:"#B91C1C", fontSize:13 }}>❌ {error}</p></div>}
+
+        {/* Analysis Result */}
+        {analysis && (
+          <div className="fu">
+            {/* Stil & Stimmung */}
+            <div style={{ background:`linear-gradient(135deg, ${C.accent}22, ${C.accentBg})`, border:`1px solid ${C.accent}44`, borderRadius:14, padding:"16px", marginBottom:14 }}>
+              <p style={{ fontFamily:"'Playfair Display',serif", fontSize:20, color:C.text, marginBottom:6 }}>✨ {analysis.stil}</p>
+              <p style={{ fontSize:13, color:C.text, lineHeight:1.65, marginBottom:12 }}>{analysis.stimmung}</p>
+              <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+                {analysis.farben?.map((f,i) => (
+                  <div key={i} style={{ display:"flex", alignItems:"center", gap:6 }}>
+                    <div style={{ width:24, height:24, borderRadius:6, background:f, border:"2px solid rgba(0,0,0,0.1)", flexShrink:0 }} />
+                    <span style={{ fontSize:11, color:C.muted }}>{f}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Eckdaten */}
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:8, marginBottom:14 }}>
+              {[
+                { label:"Budget", val:analysis.budget, icon:"💶" },
+                { label:"Zeitaufwand", val:analysis.zeitaufwand, icon:"⏱" },
+                { label:"Schwierigkeit", val:analysis.schwierigkeit, icon:"🔧" },
+              ].map(({label,val,icon}) => (
+                <div key={label} style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:12, padding:"10px 10px 8px", textAlign:"center" }}>
+                  <p style={{ fontSize:16, marginBottom:4 }}>{icon}</p>
+                  <p style={{ fontSize:10, color:C.muted, marginBottom:3 }}>{label}</p>
+                  <p style={{ fontSize:12, fontWeight:700, color: label==="Schwierigkeit" ? (SCHWIERIGKEIT_COLOR[val]||C.text) : C.text, lineHeight:1.3 }}>{val}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Materialien */}
+            <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, marginBottom:14, overflow:"hidden" }}>
+              <div style={{ padding:"12px 14px", background:C.accentBg, borderBottom:`1px solid ${C.border}` }}>
+                <p style={{ fontSize:14, fontWeight:700, color:C.accent }}>🪨 Erkannte Materialien</p>
+              </div>
+              {analysis.materialien?.map((mat, i) => (
+                <div key={i} style={{ padding:"12px 14px", borderBottom:i<analysis.materialien.length-1?`1px solid ${C.border}`:"none" }}>
+                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:4 }}>
+                    <div style={{ flex:1 }}>
+                      <div style={{ display:"flex", gap:6, alignItems:"center", marginBottom:2 }}>
+                        <span style={{ fontSize:11, background:C.tag, color:C.muted, padding:"1px 7px", borderRadius:20, flexShrink:0 }}>{mat.bereich}</span>
+                        {mat.farbe && <span style={{ fontSize:11, color:C.muted }}>{mat.farbe}</span>}
+                      </div>
+                      <p style={{ fontSize:14, fontWeight:700, color:C.text, marginBottom:2 }}>{mat.material}</p>
+                      {mat.produkt && <p style={{ fontSize:12, color:C.muted }}>{mat.produkt}</p>}
+                    </div>
+                    {mat.preis && <span style={{ fontSize:12, fontWeight:600, color:C.green, flexShrink:0, marginLeft:10 }}>{mat.preis}</span>}
+                  </div>
+                  {mat.amazon && (
+                    <a href={`https://www.amazon.de/s?k=${encodeURIComponent(mat.amazon)}&tag=${AFFILIATE_TAG}`} target="_blank" rel="noopener noreferrer"
+                      style={{ display:"inline-flex", alignItems:"center", gap:4, marginTop:4, background:C.greenBg, color:C.green, borderRadius:20, padding:"4px 11px", fontSize:12, textDecoration:"none", fontWeight:600 }}>
+                      🛒 {mat.amazon}
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* So machst du es nach */}
+            <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, marginBottom:14, overflow:"hidden" }}>
+              <div style={{ padding:"12px 14px", background:"#F0F7FF", borderBottom:`1px solid ${C.border}` }}>
+                <p style={{ fontSize:14, fontWeight:700, color:"#1E40AF" }}>🔨 So machst du es nach</p>
+              </div>
+              <div style={{ padding:"12px 14px" }}>
+                {analysis.umsetzung?.map((schritt, i) => (
+                  <div key={i} style={{ display:"flex", gap:10, marginBottom:i<analysis.umsetzung.length-1?10:0 }}>
+                    <div style={{ width:24, height:24, borderRadius:"50%", background:C.accent, color:"white", display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:700, flexShrink:0 }}>{i+1}</div>
+                    <p style={{ fontSize:13, color:C.text, lineHeight:1.55, flex:1, paddingTop:3 }}>{schritt.replace(/^Schritt \d+:\s*/,"")}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Profi-Tipps */}
+            {analysis.profi_tipps?.length > 0 && (
+              <div style={{ background:"#FFFBEB", border:"1px solid #FDE68A", borderRadius:14, padding:"14px", marginBottom:14 }}>
+                <p style={{ fontSize:13, fontWeight:700, color:"#B45309", marginBottom:8 }}>⚡ Profi-Tipps</p>
+                {analysis.profi_tipps.map((tip,i) => (
+                  <p key={i} style={{ fontSize:13, color:"#7C4A03", lineHeight:1.6, marginBottom:i<analysis.profi_tipps.length-1?6:0 }}>• {tip}</p>
+                ))}
+              </div>
+            )}
+
+            {/* Sofort-Upgrades */}
+            {analysis.sofort_upgrades?.length > 0 && (
+              <div style={{ background:C.greenBg, border:`1px solid ${C.green}44`, borderRadius:14, padding:"14px", marginBottom:14 }}>
+                <p style={{ fontSize:13, fontWeight:700, color:C.green, marginBottom:8 }}>✅ Günstige Sofort-Upgrades</p>
+                {analysis.sofort_upgrades.map((up,i) => (
+                  <p key={i} style={{ fontSize:13, color:"#1A4731", lineHeight:1.6, marginBottom:i<analysis.sofort_upgrades.length-1?6:0 }}>• {up}</p>
+                ))}
+              </div>
+            )}
+
+            {/* Neues Foto */}
+            <button onClick={() => fileRef.current?.click()} style={{ width:"100%", padding:"13px", borderRadius:50, border:`2px solid ${C.accent}`, background:C.accentBg, color:C.accent, fontWeight:700, cursor:"pointer", fontSize:14, fontFamily:"'DM Sans',sans-serif" }}>
+              📷 Nächstes Foto analysieren
+            </button>
+          </div>
+        )}
+
+        {/* Hinweis wenn noch kein Foto */}
+        {!imgPreview && !loading && (
+          <div style={{ marginTop:8 }}>
+            <p style={{ fontSize:12, color:C.muted, marginBottom:12, textAlign:"center", fontStyle:"italic" }}>Beispiele was du hochladen kannst:</p>
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8 }}>
+              {[
+                { emoji:"🚿", text:"Traumbad von Pinterest" },
+                { emoji:"🍳", text:"Küche aus Zeitschrift" },
+                { emoji:"🛋️", text:"Wohnzimmer-Inspo" },
+                { emoji:"🛏️", text:"Schlafzimmer-Idee" },
+              ].map(({emoji,text}) => (
+                <div key={text} onClick={() => fileRef.current?.click()} style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:12, padding:"14px", textAlign:"center", cursor:"pointer" }}>
+                  <div style={{ fontSize:24, marginBottom:6 }}>{emoji}</div>
+                  <p style={{ fontSize:12, color:C.muted }}>{text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── IDEEN TAB ────────────────────────────────────────────────────────────────
 const TRENDS = [
   { cat:"Bad", title:"Wellness-Bad: Walk-In Dusche", desc:"Bodengleiche Dusche mit Regendusche und Glasabtrennung. Der größte Trend im Badbereich. Kein Stemmen nötig – Gefälleestrich einbauen, Dichtschlämme, Glaswand aufstellen.", how:"Installateur + DIY-Teil", budget:"1.500–5.000€", emoji:"🚿", img:"https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&h=220&fit=crop&q=80", amazon:"walk-in dusche glaswand 8mm ESG" },
@@ -1688,6 +1872,7 @@ function PricingModal({ onClose, onSuccess, freeUsed }) {
 const TABS = [
   { id:"makeover", label:"Makeover", icon:"✨" },
   { id:"chat",     label:"Chat",     icon:"💬" },
+  { id:"inspo",    label:"Inspo",    icon:"🔍" },
   { id:"ideen",    label:"Ideen",    icon:"💡" },
   { id:"anleit",   label:"Anleit.",  icon:"📋" },
   { id:"planer",   label:"Planer",   icon:"📅" },
@@ -1805,6 +1990,7 @@ export default function Home() {
           <div style={{ display:activeTab==="chat"?"flex":"none", flexDirection:"column", height:"100%" }}>
             <ChatTab messages={chatMessages} setMessages={setChatMessages} />
           </div>
+          {activeTab==="inspo" && <InspoTab />}
           {activeTab==="ideen" && <IdeenTab />}
           {activeTab==="anleit" && <AnleitungenTab />}
           {activeTab==="planer" && <PlanerTab savedMakeovers={savedMakeovers} />}
