@@ -27,43 +27,113 @@ export default async function handler(req, res) {
 
   const basePrompt = PROMPTS[style] || PROMPTS["bad-modern"];
 
-  // User instructions go FIRST – Flux weights beginning of prompt more heavily
-  let prompt;
-  if (chatContext) {
-    // Translate common German renovation terms to English for better AI understanding
-    const translated = chatContext
+  // ── Vollständige DE→EN Übersetzung ────────────────────────────────────────
+  function translateDE(text) {
+    return text
+      // Objekte / Sanitär
       .replace(/badewanne/gi, "bathtub")
-      .replace(/dusche|walk.in.dusche/gi, "walk-in shower")
-      .replace(/fliesen/gi, "tiles")
+      .replace(/walk.?in.?dusche|begehbare dusche/gi, "walk-in shower")
+      .replace(/dusche|duschwanne/gi, "shower")
+      .replace(/toilette|wc|klo/gi, "toilet")
+      .replace(/waschtisch|waschbecken|waschbecken/gi, "bathroom vanity sink")
+      .replace(/handtuchhalter/gi, "towel rack")
+      .replace(/spiegel/gi, "mirror")
+      .replace(/armatur(?:en)?/gi, "faucet")
+      .replace(/regendusche/gi, "rainfall shower head")
+      .replace(/badewannenarmatur/gi, "bathtub faucet")
+      // Möbel
+      .replace(/regal(?:e)?/gi, "shelf")
+      .replace(/schrank|schränke/gi, "cabinet")
+      .replace(/tisch/gi, "table")
+      .replace(/stuhl|stühle/gi, "chair")
+      .replace(/sofa|couch/gi, "sofa")
+      .replace(/bett/gi, "bed")
+      .replace(/kopfteil/gi, "headboard")
+      // Materialien
+      .replace(/fliesen?/gi, "tiles")
+      .replace(/parkett/gi, "hardwood parquet floor")
+      .replace(/laminat/gi, "laminate floor")
+      .replace(/vinyl(?:boden)?/gi, "vinyl floor")
+      .replace(/beton(?:optik)?/gi, "concrete look")
+      .replace(/mikrozement/gi, "microcement")
+      .replace(/marmor/gi, "marble")
+      .replace(/holz/gi, "wood")
+      .replace(/glas/gi, "glass")
+      .replace(/stahl|edelstahl/gi, "stainless steel")
+      // Farben
       .replace(/grau/gi, "grey")
       .replace(/weiß|weiss/gi, "white")
       .replace(/schwarz/gi, "black")
-      .replace(/anstatt|statt/gi, "instead of")
-      .replace(/einbauen/gi, "install")
-      .replace(/entfernen/gi, "remove")
-      .replace(/ersetzen/gi, "replace with")
+      .replace(/dunkelgrün/gi, "dark green")
+      .replace(/salbeigrün/gi, "sage green")
+      .replace(/navy/gi, "navy blue")
+      .replace(/terrakotta/gi, "terracotta")
+      .replace(/beige/gi, "beige")
+      .replace(/anthrazit/gi, "anthracite grey")
+      .replace(/dunkel/gi, "dark")
+      .replace(/hell/gi, "bright light")
+      .replace(/warm/gi, "warm")
+      // Verben / Aktionen
+      .replace(/anstatt|statt|anstelle von/gi, "REPLACE with")
+      .replace(/einbauen|installieren/gi, "install")
+      .replace(/entfernen|rausnehmen|wegnehmen/gi, "remove completely")
+      .replace(/ersetzen durch/gi, "replace with")
+      .replace(/ersetzen/gi, "replace")
+      .replace(/hinzufügen|dazumachen|ergänzen/gi, "add")
+      .replace(/vergrößern/gi, "make larger")
+      .replace(/verkleinern/gi, "make smaller")
+      .replace(/tauschen|wechseln/gi, "change")
+      .replace(/möchte ich/gi, "I want")
+      .replace(/ich will/gi, "I want")
+      .replace(/mach(?:e)?/gi, "make")
+      // Bereiche
       .replace(/boden/gi, "floor")
-      .replace(/wand|wände/gi, "wall")
+      .replace(/wände?/gi, "wall")
       .replace(/decke/gi, "ceiling")
       .replace(/fenster/gi, "window")
-      .replace(/holz/gi, "wood")
-      .replace(/dunkel/gi, "dark")
-      .replace(/hell/gi, "bright")
-      .replace(/modern/gi, "modern")
-      .replace(/groß|große/gi, "large")
-      .replace(/marmor/gi, "marble")
-      .replace(/spiegel/gi, "mirror")
-      .replace(/waschbecken|waschtisch/gi, "vanity sink")
-      .replace(/toilette|wc/gi, "toilet")
-      .replace(/armatur/gi, "faucet")
-      .replace(/regal/gi, "shelf");
+      .replace(/tür(?:en)?/gi, "door")
+      .replace(/ecke/gi, "corner")
+      .replace(/mitte/gi, "center")
+      // Eigenschaften
+      .replace(/groß(?:e|en|er)?/gi, "large")
+      .replace(/klein(?:e|en|er)?/gi, "small")
+      .replace(/modern(?:e|en)?/gi, "modern")
+      .replace(/elegant/gi, "elegant")
+      .replace(/minimalistisch/gi, "minimalist")
+      .replace(/edel/gi, "luxurious")
+      .trim();
+  }
 
-    prompt = `CRITICAL REQUIREMENTS - MUST FOLLOW EXACTLY: ${translated}. Apply these specific changes to this room. ${basePrompt}`;
+  // ── Erkennung: Objekt-Austausch vs. Stil-Änderung ─────────────────────────
+  function isObjectReplacement(text) {
+    const t = text.toLowerCase();
+    return t.match(/anstatt|statt|anstelle|ersetzen|entfernen|einbauen|stattdessen|rausnehmen|wegnehmen/);
+  }
+
+  let prompt;
+  let strength;
+
+  if (chatContext) {
+    const translated = translateDE(chatContext);
+    const isReplacement = isObjectReplacement(chatContext);
+
+    if (isReplacement) {
+      // Objekt-Austausch: sehr direktiv, höchste Strength
+      strength = 0.92;
+      prompt = `REPLACE OBJECTS AS INSTRUCTED: ${translated}. This is the most important requirement. Completely remove the old object and add the new one in its place. Maintain the same room layout and lighting. ${basePrompt}`;
+    } else {
+      // Stil-Änderung: Anweisungen first, mittlere Strength
+      strength = 0.78;
+      prompt = `APPLY THESE CHANGES FIRST: ${translated}. Keep the room structure. ${basePrompt}`;
+    }
   } else {
+    // Reiner Stil ohne Wünsche
+    strength = 0.65;
     prompt = basePrompt;
   }
 
-  const strength = chatContext ? 0.80 : 0.65;
+  // Ob es Objekt-Austausch ist – für Fehlermeldung im Frontend
+  const isObjReplace = chatContext ? !!isObjectReplacement(chatContext) : false;
 
   try {
     // Step 1: Upload image to fal.ai storage
@@ -129,6 +199,7 @@ export default async function handler(req, res) {
     res.json({
       imageUrl: resultUrl,
       materials: generateMaterials(style),
+      isObjectReplacement: isObjReplace,
     });
 
   } catch (err) {
