@@ -1492,8 +1492,6 @@ function PlanerTab({ savedMakeovers }) {
 
 
 // ─── INSPO ANALYSE TAB ───────────────────────────────────────────────────────
-const AFFILIATE_TAG = "renopilot-21";
-
 function InspoTab() {
   const [imgFile, setImgFile] = useState(null);
   const [imgPreview, setImgPreview] = useState(null);
