@@ -23,9 +23,12 @@ export default async function handler(req, res) {
 
   const { imageBase64, style, chatContext, plan } = req.body;
 
-  if (!imageBase64) {
-    return res.status(400).json({ error: "Kein Bild übermittelt." });
+  if (!imageBase64 || imageBase64.length < 100) {
+    return res.status(400).json({ error: "Kein Bild übermittelt oder Bild zu klein. Bitte neu generieren." });
   }
+
+  // Remove data URL prefix if present
+  const cleanBase64 = imageBase64.includes(",") ? imageBase64.split(",")[1] : imageBase64;
 
   const basePrompt = PROMPTS[style] || PROMPTS["bad-modern"];
 
@@ -251,7 +254,7 @@ export default async function handler(req, res) {
 
   try {
     // Step 1: Upload image to fal.ai storage
-    const imageBuffer = Buffer.from(imageBase64, "base64");
+    const imageBuffer = Buffer.from(cleanBase64, "base64");
 
     let uploadedUrl = null;
 
@@ -275,7 +278,7 @@ export default async function handler(req, res) {
     }
 
     // Step 2: Model-Auswahl je nach Plan
-    const imageUrl = uploadedUrl || `data:image/jpeg;base64,${imageBase64}`;
+    const imageUrl = uploadedUrl || `data:image/jpeg;base64,${cleanBase64}`;
     const isPro = plan === "pro";
 
     let falEndpoint, falBody;
