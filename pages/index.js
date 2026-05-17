@@ -648,7 +648,7 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUs
 
   function handleSaveToPlaner() {
     if (!nachherUrl) return;
-    const m = { id:Date.now(), date:new Date().toLocaleDateString("de-DE"), time:new Date().toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"}), titel:STILE_MAKEOVER.find(s=>s.id===stil)?.label||stil, vorherUrl, imgUrl:nachherUrl, materials, wunsch };
+    const m = { id:Date.now(), date:new Date().toLocaleDateString("de-DE"), time:new Date().toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"}), titel: wunsch ? wunsch.slice(0,40) : "Makeover", vorherUrl, imgUrl:nachherUrl, materials, wunsch };
     onSaveToPlaner(m); setSaved(true);
   }
 
