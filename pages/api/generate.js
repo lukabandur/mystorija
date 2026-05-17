@@ -26,31 +26,71 @@ export default async function handler(req, res) {
   }
 
   try {
-    // ── SCHRITT 1: Claude analysiert das Bild ─────────────────────────────
+    // Nutzerwunsch vorübersetzen für besseres Verständnis
+    function preTranslate(text) {
+      return text
+        .replace(/füge?\s+(.+?)\s+(?:hinzu|ein|dazu)/gi, (_, obj) => `ADD ${obj}`)
+        .replace(/füge?\s+(.+?)\s+(?:hinzu|ein|dazu)/gi, (_, obj) => `ADD ${obj}`)
+        .replace(/baue?\s+(.+?)\s+ein/gi, (_, obj) => `ADD ${obj}`)
+        .replace(/grill|bbq|gasgrill/gi, "built-in BBQ grill / outdoor kitchen")
+        .replace(/pergola/gi, "wooden pergola with climbing plants")
+        .replace(/pool|schwimmbad/gi, "swimming pool")
+        .replace(/jacuzzi|whirlpool/gi, "jacuzzi hot tub")
+        .replace(/außenküche|outdoor.?küche/gi, "full outdoor kitchen with countertop")
+        .replace(/hochbeet/gi, "raised garden bed with herbs")
+        .replace(/pavillon/gi, "garden pavilion / gazebo")
+        .replace(/lichterketten?/gi, "warm 2200K string lights")
+        .replace(/sichtschutz/gi, "privacy fence / screen")
+        .replace(/pflanzen|blumen/gi, "potted plants and flowers")
+        .replace(/olivenbaum/gi, "large olive tree in terracotta planter")
+        .replace(/lavendel/gi, "lavender bushes")
+        .replace(/sofa|couch/gi, "outdoor lounge sofa with cushions")
+        .replace(/tisch/gi, "dining table")
+        .replace(/stühle?/gi, "designer chairs")
+        .replace(/lounge/gi, "outdoor lounge area")
+        .replace(/beleuchtu\w+|licht/gi, "warm outdoor lighting 2200K")
+        .replace(/mauer|wand/gi, "wall")
+        .replace(/boden/gi, "floor")
+        .replace(/fliesen/gi, "large format outdoor porcelain tiles")
+        .replace(/holz(?:boden|dielen)?/gi, "teak wood decking")
+        .replace(/keine?|kein/gi, "REMOVE")
+        .replace(/dafür|stattdessen/gi, "and instead ADD")
+        .replace(/anstatt|statt/gi, "instead of");
+    }
+
+    const translatedContext = chatContext ? preTranslate(chatContext) : null;
     let roomDescription = "";
     let fluxPrompt = "";
 
     if (process.env.ANTHROPIC_API_KEY) {
       const analysePrompt = chatContext
-        ? `${dimensionInfo}Analyze this room photo for an interior renovation AI. Describe EXACTLY what you see:
-1. Room type and dimensions (use provided measurements if given)
-2. Every object: bathtub/shower/toilet/sink/furniture with position (left/right/center)
-3. Materials: tile type, size, color, floor, wall finish
-4. Fixtures: faucet style and color
+        ? `${dimensionInfo}You are an expert renovation designer.
 
-The user wants these changes: "${chatContext}"
+MANDATORY USER REQUEST - MUST BE IN PROMPT: "${chatContext}"
+TRANSLATED: "${translatedContext}"
 
-Write a single optimized English prompt for image-to-image AI that:
-- Describes the FULL renovated room
-- States what to REMOVE and what to ADD
-- Preserves: same room layout, same window, same perspective
-- Is specific about materials and colors
-${dimensionInfo ? `- Consider the room is ${dimensionInfo}` : ""}
+The above changes are NON-NEGOTIABLE. They must appear at the START of the flux prompt.
 
-Return ONLY JSON: {"description": "room analysis", "prompt": "flux prompt", "negative": "what to exclude"}`
-        : `${dimensionInfo}Analyze this room and write an optimized English prompt for a modern high-end renovation.
-${dimensionInfo ? `Room is ${dimensionInfo}` : ""}
-Return ONLY JSON: {"description": "room analysis", "prompt": "flux prompt for modern renovation", "negative": "things to exclude"}`;
+Analyze the photo briefly, then write ONE detailed English image-to-image renovation prompt:
+1. FIRST: ${translatedContext} (mandatory changes - highest priority)
+2. THEN: describe the complete renovated space keeping all existing elements
+3. Specific materials, furniture names, plant species, lighting (e.g. "2700K warm LED")
+4. Outdoor: golden hour light, exact furniture, named plant species in terracotta planters
+5. Indoor: tile sizes (e.g. 120x60cm), brand names (Grohe/Hansgrohe), LED temp
+6. End: same exact perspective and layout, photorealistic 8k photography
+
+Return ONLY JSON: {"description": "current state in 1 sentence", "prompt": "full prompt starting with mandatory changes", "negative": "what to exclude"}`
+        : `${dimensionInfo}You are an expert renovation designer. Analyze this space and create a stunning renovation.
+
+Write ONE highly detailed English prompt for image-to-image AI. Rules:
+- Describe the fully renovated space with specific materials, furniture, plants, lighting
+- For outdoor/terrace: large format outdoor tiles, lounge furniture with thick cushions, olive trees in terracotta planters, string lights, outdoor wall sconces
+- For bathroom: specific tile sizes (120x60cm), fixture brands (Grohe/Hansgrohe), LED mirror, floating vanity
+- For kitchen: cabinet color (RAL code), hardware style, countertop material, backsplash, lighting
+- End with: preserve exact layout and perspective, photorealistic 8k photography, professional lighting
+${dimensionInfo ? `- Space is ${dimensionInfo}` : ""}
+
+Return ONLY JSON: {"description": "current state", "prompt": "detailed renovation prompt", "negative": "exclusions"}`;
 
       const claudeRes = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
@@ -206,26 +246,30 @@ async function runFlux(base64, prompt, negativePrompt, plan, chatContext) {
 
 // ── Fallback Prompt ohne Claude ───────────────────────────────────────────────
 function buildFallbackPrompt(chatContext, style) {
-  const PRESERVE = "Preserve exact room layout, same window position, same walls, same perspective. Photorealistic interior renovation photography, 8k.";
+  const PRESERVE_IN  = "Preserve exact room layout, same window positions, same walls, same perspective. Photorealistic interior architecture photography, 8k, professional lighting.";
+  const PRESERVE_OUT = "Preserve exact outdoor layout, same balustrade, same stairs, same walls, same perspective. Photorealistic architectural photography, 8k, golden hour lighting.";
 
   if (!chatContext) {
     const STYLE_PROMPTS = {
-      "bad-modern": "modern luxury spa bathroom, dark charcoal tiles, matte black fixtures, floating teak vanity",
-      "bad-warm": "warm scandinavian bathroom, white zellige tiles, oak vanity, brushed gold faucets",
-      "bad-mikro": "microcement bathroom, seamless concrete walls and floor, minimalist spa",
-      "kueche-navy": "navy blue shaker kitchen, brass hardware, marble countertop",
-      "kueche-grau": "grey modern kitchen, integrated appliances, LED under-cabinet lighting",
-      "kueche-gruen": "sage green kitchen, wood countertop, open oak shelves",
-      "wohn-gruen": "dark forest green accent wall living room, curved sofa, warm cove lighting",
-      "wohn-terra": "terracotta warm living room, rattan furniture, jute rug",
-      "schlaf-terra": "terracotta bedroom, bouclé headboard, warm 2200K lighting",
-      "schlaf-dunkel": "moody navy ceiling bedroom, velvet bed, brass sconces",
-      "terrasse-wpc": "modern WPC decking terrace, outdoor lounge, string lights",
+      "bad-modern":   { p:"luxury spa bathroom renovation, large format 120x60cm dark anthracite porcelain tiles floor to ceiling, frameless glass walk-in shower with rainfall showerhead, floating teak wall-mounted vanity, backlit LED mirror, matte black Grohe fixtures, warm 2700K recessed lighting", pr:PRESERVE_IN },
+      "bad-warm":     { p:"warm scandinavian bathroom renovation, handmade white zellige subway tiles, natural oak floating vanity, brushed brass Hansgrohe faucet, herringbone marble floor, round brass mirror, green plant, warm 2200K lighting", pr:PRESERVE_IN },
+      "bad-mikro":    { p:"microcement spa bathroom, seamless warm grey microcement walls and floor, floating walnut vanity, matte black tapware, large rectangular backlit mirror, indirect LED cove lighting, zen minimalist atmosphere", pr:PRESERVE_IN },
+      "kueche-navy":  { p:"stunning navy blue shaker kitchen, deep navy cabinets, brushed brass bin pulls, open floating white oak shelves, calacatta marble countertop, aged brass pendant lights, zellige white tile backsplash", pr:PRESERVE_IN },
+      "kueche-grau":  { p:"sleek grey lacquered kitchen, silk grey flat-front cabinets, integrated appliances, matte black tap, large white ceramic backsplash, LED strip under wall cabinets, quartz countertop", pr:PRESERVE_IN },
+      "kueche-gruen": { p:"warm sage green shaker kitchen, sage green cabinets, aged brass cup pulls, live edge walnut open shelves, white zellige tile backsplash, butcher block island, rattan pendant lights", pr:PRESERVE_IN },
+      "wohn-gruen":   { p:"dramatic living room, deep forest green limewash feature wall, wide plank oak herringbone floor, curved cream bouclé sofa, large brass arc floor lamp, built-in bookshelves with warm LED cove lighting, terracotta ceramic vases", pr:PRESERVE_IN },
+      "wohn-terra":   { p:"earthy warm living room, burnt terracotta venetian plaster accent wall, natural jute rug, curved rattan lounge chairs, low solid oak coffee table, warm 2200K lighting, clay pots with plants", pr:PRESERVE_IN },
+      "schlaf-terra": { p:"serene terracotta bedroom, warm terracotta venetian plaster feature wall, upholstered bouclé curved headboard 180cm, layered linen bedding, aged brass wall sconces 2200K, linen curtains", pr:PRESERVE_IN },
+      "schlaf-dunkel":{ p:"moody luxury bedroom, deep midnight navy ceiling, white limewash walls, invisible LED cove lighting, low velvet platform bed in charcoal, brass bedside pendant lights, floor-length curtains", pr:PRESERVE_IN },
+      "terrasse-wpc": { p:"stunning renovated Mediterranean terrace, premium large format 80x80cm sandstone porcelain outdoor tiles covering entire floor, modern outdoor lounge set with thick weatherproof sand-color cushions, solid teak dining table with 4 designer chairs, multiple large terracotta planters with olive trees and lavender, outdoor wall sconces warm 2200K, climbing plants on white wall, outdoor rug under lounge area", pr:PRESERVE_OUT },
     };
-    return `${STYLE_PROMPTS[style] || "modern renovated interior"}. ${PRESERVE}`;
+    const s = STYLE_PROMPTS[style] || STYLE_PROMPTS["bad-modern"];
+    return `${s.p}. ${s.pr}`;
   }
 
-  // Basis-Übersetzung
+  const isOutdoor = style === "terrasse-wpc" || /terrasse|balkon|outdoor|garten/i.test(chatContext);
+  const PRESERVE = isOutdoor ? PRESERVE_OUT : PRESERVE_IN;
+
   const t = chatContext
     .replace(/keine?\s+(\w+)\s+dafür/gi, "REMOVE $1, ADD")
     .replace(/keine?|kein/gi, "remove")
@@ -233,7 +277,9 @@ function buildFallbackPrompt(chatContext, style) {
     .replace(/badewanne/gi, "bathtub").replace(/dusche/gi, "shower")
     .replace(/fliesen/gi, "tiles").replace(/dunkel/gi, "dark")
     .replace(/modern/gi, "modern").replace(/weiß/gi, "white")
-    .replace(/grau/gi, "grey").replace(/schwarz/gi, "black matte");
+    .replace(/grau/gi, "grey").replace(/schwarz/gi, "matte black")
+    .replace(/terrasse|balkon/gi, "terrace").replace(/boden/gi, "floor")
+    .replace(/lounge/gi, "outdoor lounge furniture").replace(/pflanzen/gi, "plants and planters");
 
   return `${t}. ${PRESERVE}`;
 }
