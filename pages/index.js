@@ -91,17 +91,18 @@ const globalCSS = `
   img { transition: opacity 0.3s ease; }
   img[loading="lazy"] { opacity: 0; }
   img[loading="lazy"].loaded { opacity: 1; }
-`;
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: ${C.bg}; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-  .fu { animation: fadeUp 0.3s ease both; }
+
+  /* Focus styles */
   textarea:focus, input:focus, select:focus { outline: none; }
-  ::-webkit-scrollbar { width: 3px; }
-  ::-webkit-scrollbar-thumb { background: #DDD; border-radius: 3px; }
+
+  /* Blink for loading dots */
+  @keyframes blink { 0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1); } }
+
+  /* Spin */
+  @keyframes spin { to { transform: rotate(360deg); } }
 `;
+
+
 
 function LoadingSpinner({ size }) {
   const sz = size || 24;
