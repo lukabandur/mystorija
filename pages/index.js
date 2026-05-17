@@ -534,6 +534,7 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUs
   const [hoehe, setHoehe] = useState("");
   const [makoverAnalyse, setMakoverAnalyse] = useState(null);
   const [makoverAnalyseLoading, setMakoverAnalyseLoading] = useState(false);
+  const [refining, setRefining] = useState(false);
   const [refinementInput, setRefinementInput] = useState("");
   const [refinementHistory, setRefinementHistory] = useState([]);
 
@@ -655,6 +656,7 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUs
   function neuesMakeover() {
     setFile(null); setVorherUrl(null); setNachherUrl(null); setMaterials(null);
     setError(null); setSaved(false); setWunsch(""); setViewingHistory(null);
+    setMakoverAnalyse(null); setMakoverAnalyseLoading(false); setRefinementHistory([]);
   }
 
   return (
