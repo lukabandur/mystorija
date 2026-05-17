@@ -226,28 +226,29 @@ export default async function handler(req, res) {
   let strength;
   let negativePrompt = "blurry, low quality, distorted, unrealistic";
 
-  const PRESERVE = "IMPORTANT: preserve the exact room layout, same window position, same wall structure, same room dimensions and perspective. Only change materials, colors and fixtures as instructed. Photorealistic interior renovation photography, 8k.";
+  const PRESERVE = "Preserve the exact room layout, same window position, same walls, same perspective and dimensions. Only change what is specifically requested. Photorealistic interior renovation photography, 8k, professional lighting.";
 
-  if (chatContext) {
+  if (chatContext && chatContext.trim()) {
     const translated = translateDE(chatContext);
     const isReplacement = isObjectReplacement(chatContext);
 
     if (isReplacement) {
       const { remove, add } = parseReplacement(chatContext);
-      strength = 0.80; // war 0.95 – zu extrem, zerstörte Raumstruktur
+      strength = 0.82;
 
-      const removeStr = remove.length ? `${remove.map(r => `NO ${r}`).join(", ")}.` : "";
-      const addStr = add.length ? `${add.map(a => `ADD ${a}`).join(" AND ")}.` : "";
+      const removeStr = remove.length ? remove.map(r => `REMOVE ${r} completely`).join(". ") + "." : "";
+      const addStr = add.length ? add.map(a => `ADD ${a}`).join(". ") + "." : "";
       if (remove.length) negativePrompt += ", " + remove.join(", ");
 
-      prompt = `${removeStr} ${addStr} ${translated}. ${PRESERVE} Style: ${styleHint}.`;
+      prompt = `${removeStr} ${addStr} ${translated}. ${PRESERVE}`;
     } else {
-      strength = 0.70; // war 0.78
-      prompt = `${translated}. ${PRESERVE} Style: ${styleHint}.`;
+      strength = 0.72;
+      prompt = `Apply these changes: ${translated}. ${PRESERVE}`;
     }
   } else {
-    strength = 0.62; // war 0.65 – leicht reduziert für bessere Struktur-Erhaltung
-    prompt = `${basePrompt}. Preserve the exact room layout and dimensions, same window and door positions.`;
+    // Kein Wunsch – reiner Stil-Prompt
+    strength = 0.62;
+    prompt = `${basePrompt}. ${PRESERVE}`;
   }
 
   const isObjReplace = chatContext ? !!isObjectReplacement(chatContext) : false;
