@@ -1514,10 +1514,37 @@ function InspoTab() {
   const [loading, setLoading] = useState(false);
   const [analysis, setAnalysis] = useState(null);
   const [error, setError] = useState(null);
+  const [history, setHistory] = useState([]); // gespeicherte Analysen
+  const [showHistory, setShowHistory] = useState(false);
   const fileRef = useRef();
 
+  // Gespeicherte Analysen laden
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("renopilot_inspo");
+      if (saved) setHistory(JSON.parse(saved));
+    } catch {}
+  }, []);
+
+  function saveToHistory(preview, result) {
+    const entry = { id: Date.now(), preview, analysis: result, date: new Date().toLocaleDateString("de-DE") };
+    setHistory(prev => {
+      const next = [entry, ...prev].slice(0, 20); // max 20
+      try { localStorage.setItem("renopilot_inspo", JSON.stringify(next)); } catch {}
+      return next;
+    });
+  }
+
+  function deleteFromHistory(id) {
+    setHistory(prev => {
+      const next = prev.filter(h => h.id !== id);
+      try { localStorage.setItem("renopilot_inspo", JSON.stringify(next)); } catch {}
+      return next;
+    });
+  }
+
   async function analyse(file, preview) {
-    setLoading(true); setAnalysis(null); setError(null);
+    setLoading(true); setAnalysis(null); setError(null); setShowHistory(false);
     try {
       const compressed = await compressImageFile(file);
       const res = await fetch("/api/analyse", {
@@ -1527,7 +1554,10 @@ function InspoTab() {
       });
       const data = await res.json();
       if (data.error) { setError(data.error); }
-      else { setAnalysis(data.analysis); }
+      else {
+        setAnalysis(data.analysis);
+        saveToHistory(preview, data.analysis); // automatisch speichern
+      }
     } catch (err) { setError(err.message); }
     setLoading(false);
   }
@@ -1546,9 +1576,38 @@ function InspoTab() {
     <div style={{ overflowY:"auto", height:"100%" }}>
       {/* Header */}
       <div style={{ padding:"16px 16px 12px", borderBottom:`1px solid ${C.border}`, background:C.card }}>
-        <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, marginBottom:4 }}>🔍 Inspo analysieren</h2>
-        <p style={{ fontSize:13, color:C.muted, lineHeight:1.5 }}>Lade ein Inspirationsfoto hoch – die KI erkennt Materialien, Stil und zeigt wie du es nachmachen kannst.</p>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
+          <div>
+            <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, marginBottom:4 }}>🔍 Inspo analysieren</h2>
+            <p style={{ fontSize:13, color:C.muted, lineHeight:1.5 }}>Foto hochladen – KI erkennt Materialien, Stil und zeigt wie du es nachmachst.</p>
+          </div>
+          {history.length > 0 && (
+            <button onClick={() => setShowHistory(!showHistory)} style={{ flexShrink:0, marginLeft:10, padding:"6px 12px", borderRadius:20, border:`1px solid ${C.border}`, background:showHistory?C.accent:C.card, color:showHistory?"white":C.muted, fontSize:12, cursor:"pointer", fontFamily:"'DM Sans',sans-serif", fontWeight:600 }}>
+              📚 {history.length}
+            </button>
+          )}
+        </div>
       </div>
+
+      {/* History Ansicht */}
+      {showHistory && (
+        <div style={{ padding:"14px 16px", borderBottom:`1px solid ${C.border}`, background:C.bg }}>
+          <p style={{ fontSize:12, color:C.muted, marginBottom:10, fontStyle:"italic" }}>Gespeicherte Analysen – tippe zum Wiederherstellen</p>
+          <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+            {history.map(h => (
+              <div key={h.id} style={{ display:"flex", gap:10, background:C.card, border:`1px solid ${C.border}`, borderRadius:12, overflow:"hidden", cursor:"pointer" }}
+                onClick={() => { setImgPreview(h.preview); setAnalysis(h.analysis); setShowHistory(false); }}>
+                <img src={h.preview} alt="" style={{ width:64, height:56, objectFit:"cover", flexShrink:0 }} />
+                <div style={{ flex:1, padding:"8px 10px" }}>
+                  <p style={{ fontSize:13, fontWeight:700, color:C.text }}>{h.analysis?.stil || "Analyse"}</p>
+                  <p style={{ fontSize:11, color:C.muted }}>{h.date} · {h.analysis?.budget || ""}</p>
+                </div>
+                <button onClick={e => { e.stopPropagation(); deleteFromHistory(h.id); }} style={{ background:"none", border:"none", color:"#CCC", cursor:"pointer", padding:"8px", fontSize:16, alignSelf:"center" }}>✕</button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div style={{ padding:"14px 16px" }}>
         {/* Upload Area */}
