@@ -475,36 +475,88 @@ function compressImageFile(file) {
 // ─── TIPPS BOX ────────────────────────────────────────────────────────────────
 function TippsBox() {
   const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState("tipps"); // "tipps" | "vorlage"
+
   const TIPPS = [
-    { icon:"🔄", titel:"Objekte ersetzen", gut:"Keine Badewanne, dafür eine Walk-In Dusche", schlecht:"Dusche", erklaerung:"Sag was weg soll UND was kommen soll. 'Dafür', 'stattdessen', 'anstatt' helfen der KI." },
-    { icon:"🎨", titel:"Farben & Materialien", gut:"Dunkle Anthrazit-Fliesen, Holzboden, weiße Fugen", schlecht:"Andere Farben", erklaerung:"Nenne konkrete Farbnamen: Anthrazit, Navy, Terrakotta, Marmor, Eiche, Mikrozement, Zellige." },
-    { icon:"💡", titel:"Stil beschreiben", gut:"Modernes Spa-Bad, indirektes Licht, mattschwarz Armaturen", schlecht:"Schöner machen", erklaerung:"Stile: Modern, Skandinavisch, Industrial, Japandi, Mediterran, Luxus, Minimalist." },
-    { icon:"📐", titel:"Mehreres kombinieren", gut:"Dunkle Fliesen, keine Badewanne dafür Dusche, schwarze Armaturen", schlecht:"Alles neu", erklaerung:"Mehrere Änderungen mit Komma trennen – die KI arbeitet alle ab." },
-    { icon:"⚠️", titel:"Was KI schwer kann", gut:"Fliesen dunkler, Farbe ändern, Armaturen tauschen", schlecht:"Kompletten Grundriss ändern", erklaerung:"Farben & Materialien klappt sehr gut. Strukturelle Änderungen sind schwieriger – mehrmals versuchen hilft." },
+    { icon:"🔄", titel:"Objekte ersetzen", gut:"Keine Badewanne, dafür eine Walk-In Dusche mit Regendusche", schlecht:"Dusche", erklaerung:"Sag was weg soll UND was kommen soll. 'Dafür', 'stattdessen', 'anstatt' helfen der KI." },
+    { icon:"🎨", titel:"Farben & Materialien", gut:"Anthrazit-Feinsteinzeug 80x80cm, weiße Fugen, Eichenholz-Waschtisch", schlecht:"Andere Farben", erklaerung:"Nenne konkrete Farbnamen und Materialien: Anthrazit, Navy, Terrakotta, Marmor, Eiche, Mikrozement, Zellige." },
+    { icon:"🌿", titel:"Terrasse & Außen", gut:"Füge Grill hinzu, Pergola mit Rankpflanzen, Olivenbaum in Terrakotta-Topf, Lichterketten", schlecht:"Schöner machen", erklaerung:"Für Terrassen: Möbel, Pflanzen, Beleuchtung und Bodenbelag separat nennen. Je mehr Details, desto besser." },
+    { icon:"💡", titel:"Stil beschreiben", gut:"Modernes Spa-Bad mit indirektem Licht, mattschwarz Armaturen, Holzakzente", schlecht:"Modern", erklaerung:"Stile: Modern, Skandinavisch, Industrial, Japandi, Mediterran, Luxus, Minimalist, Rustikal." },
+    { icon:"📐", titel:"Mehreres kombinieren", gut:"Dunkle Fliesen, keine Badewanne dafür Dusche, schwarze Armaturen, Wandnische", schlecht:"Alles neu", erklaerung:"Mehrere Änderungen mit Komma trennen – die KI arbeitet alle ab." },
+    { icon:"⚠️", titel:"Was KI schwer kann", gut:"Fliesen dunkler, Farbe ändern, Möbel hinzufügen", schlecht:"Wände verschieben, Fenster vergrößern", erklaerung:"Farben, Materialien & Möbel hinzufügen klappt gut. Strukturelle Änderungen (Wände, Fenster) sind KI-schwierig." },
   ];
+
+  const VORLAGEN = [
+    {
+      raum: "🚿 Bad", beispiel: "Keine Badewanne, dafür eine bodengleiche Walk-In Dusche mit Regendusche. Dunkle Anthrazit-Fliesen 80x80cm, mattschwarz Armaturen, schwebender Eichen-Waschtisch, LED-Spiegel.",
+    },
+    {
+      raum: "🍳 Küche", beispiel: "Navy-blaue Fronten, Messing-Griffe, offene Eichenregale statt Hängeschränke, weiße Zellige-Fliesen als Rückwand, LED-Strip unter den Oberschränken.",
+    },
+    {
+      raum: "🛋️ Wohnzimmer", beispiel: "Dunkelgrüne Akzentwand hinter dem Sofa, warmes indirektes Deckenlicht, gerillte Holzpaneele hinter dem TV, bouclé-Sofa, Terrakotta-Vasen.",
+    },
+    {
+      raum: "🌿 Terrasse", beispiel: "Großformatige Außenfliesen 60x60cm grau, Lounge-Sofa mit cremefarbenen Outdoor-Kissen, Esstisch mit weißen Stühlen, Pergola mit Rankpflanzen, Olivenbaum in Terrakotta-Topf, Lichterketten, Grill rechts hinten.",
+    },
+    {
+      raum: "🏡 Terrasse modern", beispiel: "WPC-Dielen in Teak-Optik, modulare Lounge-Gruppe, Sichtschutz aus Holzlatten, Außenküche mit Grill eingebaut, große Terrakotta-Töpfe mit Lavendel und Olivenbaum, Solar-Lichterketten 2200K.",
+    },
+  ];
+
   return (
     <div style={{ marginTop:8 }}>
       <button onClick={() => setOpen(o => !o)} style={{ display:"flex", alignItems:"center", gap:6, background:"none", border:"none", cursor:"pointer", padding:0, fontFamily:"'DM Sans',sans-serif" }}>
-        <span style={{ fontSize:12, color:C.accent, fontWeight:600 }}>💡 Tipps für bessere Ergebnisse</span>
+        <span style={{ fontSize:12, color:C.accent, fontWeight:600 }}>💡 Tipps & Vorlagen für bessere Ergebnisse</span>
         <span style={{ fontSize:12, color:C.muted, transform:open?"rotate(90deg)":"none", transition:"0.2s", display:"inline-block" }}>›</span>
       </button>
+
       {open && (
-        <div className="fu" style={{ marginTop:10, background:C.accentBg, border:`1px solid ${C.accent}33`, borderRadius:12, padding:"14px", display:"flex", flexDirection:"column", gap:10 }}>
-          <p style={{ fontSize:12, fontWeight:700, color:C.accent }}>So bekommst du die besten KI-Makeovers:</p>
-          {TIPPS.map((t, i) => (
-            <div key={i} style={{ background:"white", borderRadius:10, padding:"11px 13px" }}>
-              <p style={{ fontSize:13, fontWeight:700, color:C.text, marginBottom:6 }}>{t.icon} {t.titel}</p>
-              <div style={{ display:"flex", gap:6, alignItems:"flex-start", marginBottom:5 }}>
-                <span style={{ fontSize:10, background:C.greenBg, color:C.green, padding:"2px 7px", borderRadius:20, fontWeight:700, flexShrink:0, marginTop:1 }}>✓</span>
-                <span style={{ fontSize:12, color:C.text, lineHeight:1.4 }}>"{t.gut}"</span>
-              </div>
-              <div style={{ display:"flex", gap:6, alignItems:"flex-start", marginBottom:6 }}>
-                <span style={{ fontSize:10, background:"#FEF2F2", color:"#B91C1C", padding:"2px 7px", borderRadius:20, fontWeight:700, flexShrink:0, marginTop:1 }}>✗</span>
-                <span style={{ fontSize:12, color:C.muted, lineHeight:1.4 }}>"{t.schlecht}"</span>
-              </div>
-              <p style={{ fontSize:11, color:C.muted, lineHeight:1.5, borderTop:`1px solid ${C.border}`, paddingTop:6 }}>{t.erklaerung}</p>
+        <div className="fu" style={{ marginTop:10, background:C.accentBg, border:`1px solid ${C.accent}33`, borderRadius:12, overflow:"hidden" }}>
+          {/* Tab-Switcher */}
+          <div style={{ display:"flex", borderBottom:`1px solid ${C.accent}33` }}>
+            {[["tipps","💡 Tipps"],["vorlage","📋 Vorlagen"]].map(([id,label]) => (
+              <button key={id} onClick={() => setTab(id)} style={{ flex:1, padding:"9px", background:tab===id?"white":"transparent", border:"none", borderBottom:`2px solid ${tab===id?C.accent:"transparent"}`, color:tab===id?C.accent:C.muted, fontSize:12, fontWeight:tab===id?700:400, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>{label}</button>
+            ))}
+          </div>
+
+          {tab === "tipps" && (
+            <div style={{ padding:"12px", display:"flex", flexDirection:"column", gap:10 }}>
+              <p style={{ fontSize:12, fontWeight:700, color:C.accent }}>So bekommst du die besten KI-Makeovers:</p>
+              {TIPPS.map((t, i) => (
+                <div key={i} style={{ background:"white", borderRadius:10, padding:"11px 13px" }}>
+                  <p style={{ fontSize:13, fontWeight:700, color:C.text, marginBottom:6 }}>{t.icon} {t.titel}</p>
+                  <div style={{ display:"flex", gap:6, alignItems:"flex-start", marginBottom:5 }}>
+                    <span style={{ fontSize:10, background:C.greenBg, color:C.green, padding:"2px 7px", borderRadius:20, fontWeight:700, flexShrink:0, marginTop:1 }}>✓</span>
+                    <span style={{ fontSize:12, color:C.text, lineHeight:1.4 }}>"{t.gut}"</span>
+                  </div>
+                  <div style={{ display:"flex", gap:6, alignItems:"flex-start", marginBottom:6 }}>
+                    <span style={{ fontSize:10, background:"#FEF2F2", color:"#B91C1C", padding:"2px 7px", borderRadius:20, fontWeight:700, flexShrink:0, marginTop:1 }}>✗</span>
+                    <span style={{ fontSize:12, color:C.muted, lineHeight:1.4 }}>"{t.schlecht}"</span>
+                  </div>
+                  <p style={{ fontSize:11, color:C.muted, lineHeight:1.5, borderTop:`1px solid ${C.border}`, paddingTop:6 }}>{t.erklaerung}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
+
+          {tab === "vorlage" && (
+            <div style={{ padding:"12px", display:"flex", flexDirection:"column", gap:8 }}>
+              <p style={{ fontSize:12, fontWeight:700, color:C.accent, marginBottom:4 }}>Tippe auf eine Vorlage um sie zu verwenden:</p>
+              {VORLAGEN.map((v, i) => (
+                <div key={i} style={{ background:"white", borderRadius:10, padding:"11px 13px", cursor:"pointer", border:`1px solid ${C.border}` }}
+                  onClick={() => {
+                    // Find parent MakeoverTab's setWunsch via a custom event
+                    window.dispatchEvent(new CustomEvent("renopilot_set_wunsch", { detail: v.beispiel }));
+                    setOpen(false);
+                  }}>
+                  <p style={{ fontSize:13, fontWeight:700, color:C.accent, marginBottom:5 }}>{v.raum}</p>
+                  <p style={{ fontSize:12, color:C.text, lineHeight:1.55 }}>"{v.beispiel}"</p>
+                  <p style={{ fontSize:11, color:C.green, marginTop:6, fontWeight:600 }}>↑ Tippen zum Einfügen</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -532,6 +584,13 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUs
   const [laenge, setLaenge] = useState("");
   const [breite, setBreite] = useState("");
   const [hoehe, setHoehe] = useState("");
+
+  // Vorlage aus TippsBox einfügen
+  useEffect(() => {
+    const handler = (e) => setWunsch(e.detail);
+    window.addEventListener("renopilot_set_wunsch", handler);
+    return () => window.removeEventListener("renopilot_set_wunsch", handler);
+  }, []);
   const [makoverAnalyse, setMakoverAnalyse] = useState(null);
   const [makoverAnalyseLoading, setMakoverAnalyseLoading] = useState(false);
   const [refining, setRefining] = useState(false);
