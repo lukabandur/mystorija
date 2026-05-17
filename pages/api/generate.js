@@ -7,13 +7,23 @@ const FREE_LIMIT = 3;
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
-  const { imageBase64, chatContext, plan, style } = req.body;
+  const { imageBase64, chatContext, plan, style, dimensions } = req.body;
 
   if (!imageBase64 || imageBase64.length < 100) {
     return res.status(400).json({ error: "Kein Bild übermittelt." });
   }
 
   const cleanBase64 = imageBase64.includes(",") ? imageBase64.split(",")[1] : imageBase64;
+
+  // Maße für Claude-Prompt aufbereiten
+  let dimensionInfo = "";
+  if (dimensions?.laenge && dimensions?.breite) {
+    const l = parseFloat(String(dimensions.laenge).replace(",", "."));
+    const b = parseFloat(String(dimensions.breite).replace(",", "."));
+    const h = parseFloat(String(dimensions.hoehe || "2.4").replace(",", "."));
+    const sqm = (l * b).toFixed(1);
+    dimensionInfo = `Room dimensions: ${l}m × ${b}m × ${h}m high (${sqm}m² floor area). `;
+  }
 
   try {
     // ── SCHRITT 1: Claude analysiert das Bild ─────────────────────────────
@@ -22,24 +32,24 @@ export default async function handler(req, res) {
 
     if (process.env.ANTHROPIC_API_KEY) {
       const analysePrompt = chatContext
-        ? `Analyze this room photo in detail for an interior renovation AI. Describe EXACTLY what you see:
-1. Room type and dimensions (rough estimate)
-2. Every object visible: bathtub/shower/toilet/sink/furniture - with position (left/right/center)
-3. Materials: tile type, size, color, floor material, wall finish
-4. Fixtures: faucet style, color (chrome/black/gold)
-5. Lighting, windows, doors
+        ? `${dimensionInfo}Analyze this room photo for an interior renovation AI. Describe EXACTLY what you see:
+1. Room type and dimensions (use provided measurements if given)
+2. Every object: bathtub/shower/toilet/sink/furniture with position (left/right/center)
+3. Materials: tile type, size, color, floor, wall finish
+4. Fixtures: faucet style and color
 
-Then, the user wants these changes: "${chatContext}"
+The user wants these changes: "${chatContext}"
 
-Based on your analysis, write a single optimized English prompt for an image-to-image AI that:
-- Describes the FULL renovated room (not just changes)
-- Explicitly states what to REMOVE and what to ADD
-- Preserves: same room layout, same window position, same perspective
-- Is specific about materials, colors, and finishes
+Write a single optimized English prompt for image-to-image AI that:
+- Describes the FULL renovated room
+- States what to REMOVE and what to ADD
+- Preserves: same room layout, same window, same perspective
+- Is specific about materials and colors
+${dimensionInfo ? `- Consider the room is ${dimensionInfo}` : ""}
 
-Return ONLY a JSON object:
-{"description": "your room analysis", "prompt": "the flux prompt", "negative": "what to exclude"}`
-        : `Analyze this room and write an optimized English prompt for a renovation AI to make it look modern and high-end.
+Return ONLY JSON: {"description": "room analysis", "prompt": "flux prompt", "negative": "what to exclude"}`
+        : `${dimensionInfo}Analyze this room and write an optimized English prompt for a modern high-end renovation.
+${dimensionInfo ? `Room is ${dimensionInfo}` : ""}
 Return ONLY JSON: {"description": "room analysis", "prompt": "flux prompt for modern renovation", "negative": "things to exclude"}`;
 
       const claudeRes = await fetch("https://api.anthropic.com/v1/messages", {
