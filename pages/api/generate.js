@@ -466,10 +466,8 @@ ${shopLinks("solar lichterketten warmweiß außen terrasse", "lichterketten sola
 ${shopLinks("olivenbaum groß topf terrasse balkon", "olivenbaum terrakotta topf")}`,
       ],
     };
-    return (SM[style] || SM["bad-modern"]).join("
-");
+    return (SM[style] || SM["bad-modern"]).join("\n");
   }
 
-  return items.join("
-");
+  return items.join("\n");
 }
