@@ -233,7 +233,55 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* INSTALL CTA */}
+      {/* COMMUNITY */}
+      <section style={{ background:"#1A1A1A", padding:"70px 24px" }}>
+        <div style={{ maxWidth:900, margin:"0 auto" }}>
+          <div style={{ textAlign:"center", marginBottom:50 }}>
+            <div style={{ fontSize:12, fontWeight:700, textTransform:"uppercase", letterSpacing:"1.5px", color:"var(--accent)", marginBottom:10 }}>Community</div>
+            <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(26px,5vw,38px)", color:"white", lineHeight:1.25, marginBottom:14 }}>
+              Hier entsteht eine Community<br /><em style={{ color:"var(--accent)" }}>rund ums Renovieren</em>
+            </h2>
+            <p style={{ fontSize:16, color:"#aaa", maxWidth:560, margin:"0 auto", lineHeight:1.7 }}>
+              Mystorija verbindet Menschen die renovieren möchten mit Handwerkern die helfen können. Zeige deine Projekte, hol dir Inspiration und finde den richtigen Profi.
+            </p>
+          </div>
+
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))", gap:20, marginBottom:50 }}>
+            {[
+              ["🏠", "Für Hausbesitzer", "Teile deine Renovierungsprojekte, zeige Vorher/Nachher Ergebnisse und lass dich von anderen Projekten inspirieren."],
+              ["🔨", "Für Handwerker", "Präsentiere deine Arbeit direkt an renovierungswillige Kunden. Kein Streuen – nur Menschen die wirklich renovieren möchten."],
+              ["💡", "Für Ideen-Sucher", "Sieh was andere aus ähnlichen Räumen gemacht haben. Echte Projekte, echte Ergebnisse – keine Stock-Fotos."],
+            ].map(([icon, title, desc]) => (
+              <div key={title} style={{ background:"#2A2A2A", borderRadius:18, padding:24, border:"1px solid #333" }}>
+                <div style={{ fontSize:32, marginBottom:14 }}>{icon}</div>
+                <p style={{ fontSize:15, fontWeight:700, color:"white", marginBottom:8 }}>{title}</p>
+                <p style={{ fontSize:14, color:"#888", lineHeight:1.6 }}>{desc}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Handwerker CTA */}
+          <div style={{ background:"linear-gradient(135deg, #2A1A0E, #3A2010)", border:"1px solid #C4622D44", borderRadius:20, padding:"32px", display:"flex", gap:24, alignItems:"center", flexWrap:"wrap" }}>
+            <div style={{ flex:1, minWidth:220 }}>
+              <p style={{ fontSize:13, fontWeight:700, textTransform:"uppercase", letterSpacing:"1px", color:"var(--accent)", marginBottom:8 }}>🔨 Für Handwerker & Betriebe</p>
+              <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, color:"white", lineHeight:1.3, marginBottom:12 }}>Werde Teil der Mystorija Community</h3>
+              <p style={{ fontSize:14, color:"#aaa", lineHeight:1.6, marginBottom:20 }}>Präsentiere deinen Betrieb direkt an Menschen die gerade renovieren – die aktivste Zielgruppe überhaupt. Eintrag ab <strong style={{ color:"var(--accent)" }}>39€/Monat</strong>.</p>
+              <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
+                {["✓ Profil mit Fotos & Bewertungen","✓ Direkte Anfragen","✓ Nur verifizierte Betriebe"].map(t => (
+                  <span key={t} style={{ fontSize:13, color:"#ccc" }}>{t}</span>
+                ))}
+              </div>
+            </div>
+            <div style={{ flexShrink:0, textAlign:"center" }}>
+              <p style={{ fontSize:13, color:"#888", marginBottom:10 }}>Jetzt vormerken lassen</p>
+              <a href="mailto:info@mystorija.app" style={{ display:"inline-block", background:"var(--accent)", color:"white", padding:"12px 24px", borderRadius:50, fontSize:14, fontWeight:700, textDecoration:"none" }}>
+                Kontakt aufnehmen →
+              </a>
+              <p style={{ fontSize:11, color:"#666", marginTop:8 }}>Aktuell: Warteliste offen</p>
+            </div>
+          </div>
+        </div>
+      </section>
       <section style={{ background:"var(--accent)", padding:"60px 24px", textAlign:"center" }}>
         <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:32, color:"white", marginBottom:12 }}>App auf deinen Homescreen</h2>
         <p style={{ fontSize:16, color:"rgba(255,255,255,0.85)", maxWidth:480, margin:"0 auto 28px", lineHeight:1.7 }}>Mystorija funktioniert wie eine native App – installierbar auf iPhone und Android. Kein App Store nötig.</p>
