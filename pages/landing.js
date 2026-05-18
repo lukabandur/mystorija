@@ -88,7 +88,7 @@ export default function Landing() {
 
       {/* STATS */}
       <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"var(--border)", borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", margin:"60px 0" }}>
-        {[["97","Ideen & Trends"],["25","DIY-Anleitungen"],["20s","bis zum Makeover"]].map(([num,label]) => (
+        {[["100","Ideen & Trends"],["50","DIY-Anleitungen"],["20s","bis zum Makeover"]].map(([num,label]) => (
           <div key={label} style={{ background:"var(--card)", padding:"28px 20px", textAlign:"center" }}>
             <div style={{ fontFamily:"'Playfair Display',serif", fontSize:36, fontWeight:700, color:"var(--accent)" }}>{num}</div>
             <div style={{ fontSize:13, color:"var(--muted)", marginTop:4 }}>{label}</div>
@@ -160,7 +160,7 @@ export default function Landing() {
           {[
             ["✨","KI-Makeover","Foto hochladen, Wünsche beschreiben – die KI zeigt dir deinen Raum renoviert. In Sekunden, nicht Monaten."],
             ["🔍","Inspo analysieren","Pinterest-Screenshot hochladen – KI erkennt sofort alle Materialien, Farben und zeigt wie du es nachmachst."],
-            ["💡","97 Ideen & Trends","Bad, Küche, Wohnzimmer, Terrasse und mehr. Aktuelle Trends 2026 mit Kosten und direkten Shop-Links."],
+            ["💡","100 Ideen & Trends","Bad, Küche, Wohnzimmer, Terrasse und mehr. Aktuelle Trends 2026 mit Kosten und direkten Shop-Links."],
             ["📋","25 Anleitungen","Von Wände streichen bis Dusche bauen. Mit Werkzeug-Liste, Profi-Tipps und Video-Links."],
             ["💬","KI-Berater","Frag alles rund ums Renovieren: Kosten, Materialien, Genehmigungen. Wie ein erfahrener Freund."],
             ["🛒","Materialien kaufen","KI erkennt verwendete Materialien und verlinkt direkt zu Amazon, OBI, Bauhaus & Hornbach."],
@@ -212,8 +212,8 @@ export default function Landing() {
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))", gap:20 }}>
           {[
-            { name:"Basic", price:"9,99", featured:false, desc:"Ideal für den Start – alle Kern-Features.", features:["Unbegrenzte Makeovers","KI-Inspo-Analyse","97 Ideen & Trends","25 Anleitungen","KI-Chat Berater","Planer & Einkaufsliste"] },
-            { name:"Pro ⭐", price:"19,99", featured:true, desc:"Für ernsthafte Renovierer – maximale Bildqualität.", features:["Alles aus Basic","Flux Pro – beste Bildqualität","Priorität bei der Generierung","Früher Zugang zu neuen Features"] },
+            { name:"Basic", price:"9,99", featured:false, desc:"Ideal für den Start – alle Kern-Features.", features:["Unbegrenzte Makeovers","KI-Inspo-Analyse","100 Ideen & Trends","25 Anleitungen","KI-Chat Berater","Planer & Einkaufsliste"] },
+            { name:"Pro ⭐", price:"19,99", featured:true, desc:"Für ernsthafte Renovierer – unbegrenzt generieren.", features:["Unbegrenzte Makeovers","Alles aus Basic","Priorität bei der Generierung","Früher Zugang zu neuen Features"] },
           ].map(p => (
             <div key={p.name} style={{ background:"var(--card)", border:`1.5px solid ${p.featured?"var(--accent)":"var(--border)"}`, borderRadius:20, padding:28, position:"relative" }}>
               {p.featured && <div style={{ position:"absolute", top:-12, left:"50%", transform:"translateX(-50%)", background:"var(--accent)", color:"white", fontSize:11, fontWeight:700, padding:"4px 14px", borderRadius:50, whiteSpace:"nowrap" }}>⭐ Empfohlen</div>}
