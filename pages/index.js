@@ -540,10 +540,38 @@ function getRenovierungsAntwort(text, hasImage) {
 }
 
 // ─── AFFILIATE Renderer ───────────────────────────────────────────────────────
-function AffiliateLink({ text }) {
-  const lower = text.toLowerCase();
-  let link = null;
-  if (lower.match(/fliesen|feinsteinzeug|anthrazit/)) link = amazonLink("Feinsteinzeug Fliesen Anthrazit 80x80");
+function ShopLinks({ text }) {
+  // Parse markdown links: [Label](url)
+  const links = [];
+  const regex = /\[([^\]]+)\]\((https?:[^)]+)\)/g;
+  let m;
+  while ((m = regex.exec(text)) !== null) {
+    links.push({ label: m[1], url: m[2] });
+  }
+  if (links.length === 0) return null;
+
+  const COLORS = {
+    'Amazon': { bg:'#FFF8E7', color:'#B7791F' },
+    'OBI':    { bg:'#E8F5E9', color:'#2E7D32' },
+    'Bauhaus':{ bg:'#E3F2FD', color:'#1565C0' },
+    'Hornbach':{ bg:C.accentBg, color:C.accent },
+  };
+
+  return (
+    <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginTop:5 }}>
+      {links.map((l, i) => {
+        const col = COLORS[l.label] || { bg:C.tag, color:C.muted };
+        return (
+          <a key={i} href={l.url} target="_blank" rel="noopener noreferrer"
+            style={{ fontSize:10, fontWeight:700, padding:'3px 9px', borderRadius:20,
+              background:col.bg, color:col.color, textDecoration:'none', border:`1px solid ${col.color}22` }}>
+            {l.label} →
+          </a>
+        );
+      })}
+    </div>
+  );
+}
   else if (lower.match(/walk.in|glaswand|esg/)) link = amazonLink("Walk-In Dusche Glaswand 8mm ESG");
   else if (lower.match(/waschtisch|waschbecken|teak/)) link = amazonLink("Schwebender Waschtisch Holz Wandmontage");
   else if (lower.match(/led.*spiegel|spiegel.*led|emke/)) link = amazonLink("LED Spiegel Bad beleuchtet IP44");
@@ -555,17 +583,6 @@ function AffiliateLink({ text }) {
   else if (lower.match(/led.*strip|led.*streifen/)) link = amazonLink("LED Strip 2700K warmweiss 5m dimmbar");
   else if (lower.match(/einbaustrahler/)) link = amazonLink("LED Einbaustrahler GU10 IP44 Set");
   else if (lower.match(/griffe|schrankgriff/)) link = amazonLink("Kuechen Griffe mattschwarz 128mm Set");
-  else if (lower.match(/wandfarbe|wandlack/)) link = amazonLink("Wandfarbe Erdtöne seidenmatt");
-  else if (lower.match(/paneele|wandpaneel|fluted/)) link = amazonLink("Wandpaneele MDF Holzoptik selbstklebend");
-  else if (lower.match(/osmo|hartwachs/)) link = amazonLink("Osmo Hartwachsoel 3032 750ml");
-  else if (lower.match(/wpc.*diele|terrassen.*diele/)) link = amazonLink("WPC Dielen Terrasse Holzoptik Clip");
-  if (!link) return null;
-  return (
-    <a href={link} target="_blank" rel="noopener noreferrer" style={{ flexShrink:0, background:"#F0F5EC", color:C.green, borderRadius:20, padding:"3px 10px", fontSize:11, fontWeight:700, textDecoration:"none", whiteSpace:"nowrap", marginLeft:8 }}>
-      Amazon →
-    </a>
-  );
-}
 
 function BoldText({ text }) {
   const parts = text.split(/\*\*(.*?)\*\*/g);
@@ -579,7 +596,7 @@ function renderMaterialien(text) {
     return (
       <div key={i} style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", marginBottom:6 }}>
         <p style={{ fontSize:13, color:"#555", lineHeight:1.7, flex:1 }}><BoldText text={line} /></p>
-        <AffiliateLink text={line} />
+        <ShopLinks text={line} />
       </div>
     );
   });
@@ -746,8 +763,9 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUs
   const [refinementHistory, setRefinementHistory] = useState([]);
 
   // Monatliches Limit tracken
-  const LIMITS = { free: 3, basic: 50, pro: Infinity };
+  const LIMITS = { free: 0, basic: 50, pro: Infinity };
   const currentLimit = LIMITS[plan] ?? LIMITS.free;
+  const isFreeBlocked = !plan || plan === "free";
 
   function getMonthlyUsage() {
     try {
@@ -821,8 +839,12 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUs
 
   function generieren() {
     if (!file) return;
+    if (isFreeBlocked) {
+      if (onNeedUpgrade) onNeedUpgrade();
+      return;
+    }
     if (isLimitReached && plan !== "pro") {
-      setError(`Monatliches Limit erreicht (${currentLimit} Makeovers). Bitte upgrade auf Pro für unbegrenzte Generierungen.`);
+      setError(`Monatliches Limit erreicht (${currentLimit} Makeovers). Upgrade auf Pro für unbegrenzte Generierungen.`);
       if (onNeedUpgrade) onNeedUpgrade();
       return;
     }
@@ -948,8 +970,8 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUs
           <div>
             <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20 }}>KI Makeover</h2>
             {plan !== "pro" && (
-              <p style={{ fontSize:11, fontWeight:600, marginTop:2, color: isLimitReached ? "#B91C1C" : C.muted }}>
-                {isLimitReached ? "🔒 Limit erreicht – Upgrade für mehr" : `${monthlyUsage} / ${currentLimit} diesen Monat`}
+              <p style={{ fontSize:11, fontWeight:600, marginTop:2, color: isFreeBlocked ? "#B91C1C" : isLimitReached ? "#B91C1C" : C.muted }}>
+                {isFreeBlocked ? "🔒 Nur ab Basic Plan" : isLimitReached ? "🔒 Limit erreicht" : `${monthlyUsage} / ${currentLimit} diesen Monat`}
               </p>
             )}
           </div>
@@ -1058,8 +1080,8 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUs
                     <p style={{ fontSize:12, color:C.green, fontWeight:600 }}>Pro: Flux Pro Modell aktiv – höhere Bildqualität</p>
                   </div>
                 )}
-                <button onClick={generieren} disabled={loading} style={{ width:"100%", padding:15, marginBottom:12, background:loading?"#DDD":"linear-gradient(135deg, #C4622D, #A0522D)", color:loading?"#999":"white", border:"none", borderRadius:50, fontSize:15, fontWeight:700, cursor:loading?"default":"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-                  {loading ? "KI generiert Bild..." : "✨ Makeover generieren"}
+                <button onClick={generieren} disabled={loading} style={{ width:"100%", padding:15, marginBottom:12, background:loading?"#DDD":isFreeBlocked?"#2A1A0E":"linear-gradient(135deg, #C4622D, #A0522D)", color:loading?"#999":"white", border:"none", borderRadius:50, fontSize:15, fontWeight:700, cursor:loading?"default":"pointer", fontFamily:"'DM Sans',sans-serif" }}>
+                  {loading ? "KI generiert Bild..." : isFreeBlocked ? "🔒 Basic oder Pro erforderlich" : "✨ Makeover generieren"}
                 </button>
               </>
             )}
@@ -1922,15 +1944,34 @@ function PlanerTab({ savedMakeovers }) {
 
 
 // ─── INSPO ANALYSE TAB ───────────────────────────────────────────────────────
-function InspoTab() {
+function InspoTab({ plan }) {
   const [imgFile, setImgFile] = useState(null);
   const [imgPreview, setImgPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [analysis, setAnalysis] = useState(null);
   const [error, setError] = useState(null);
-  const [history, setHistory] = useState([]); // gespeicherte Analysen
+  const [history, setHistory] = useState([]);
   const [showHistory, setShowHistory] = useState(false);
   const fileRef = useRef();
+
+  const INSPO_LIMITS = { free: 0, basic: 30, pro: Infinity };
+  const inspoLimit = INSPO_LIMITS[plan] ?? 0;
+  const isFreeInspo = !plan || plan === "free";
+
+  function getMonthlyInspoUsage() {
+    try {
+      const key = `mystorija_inspo_${new Date().getFullYear()}_${new Date().getMonth()}`;
+      return parseInt(localStorage.getItem(key) || "0");
+    } catch { return 0; }
+  }
+  function incrementInspoUsage() {
+    try {
+      const key = `mystorija_inspo_${new Date().getFullYear()}_${new Date().getMonth()}`;
+      localStorage.setItem(key, String(getMonthlyInspoUsage() + 1));
+    } catch {}
+  }
+  const inspoUsage = getMonthlyInspoUsage();
+  const inspoLimitReached = inspoUsage >= inspoLimit;
 
   // Gespeicherte Analysen laden
   useEffect(() => {
@@ -1958,6 +1999,10 @@ function InspoTab() {
   }
 
   async function analyse(file, preview) {
+    if (isFreeInspo || inspoLimitReached) {
+      setError(isFreeInspo ? "Inspo-Analyse ab Basic Plan (9,99€/Monat)." : `Monatliches Limit erreicht (${inspoLimit} Analysen).`);
+      return;
+    }
     setLoading(true); setAnalysis(null); setError(null); setShowHistory(false);
     try {
       const compressed = await compressImageFile(file);
@@ -1970,7 +2015,8 @@ function InspoTab() {
       if (data.error) { setError(data.error); }
       else {
         setAnalysis(data.analysis);
-        saveToHistory(preview, data.analysis); // automatisch speichern
+        saveToHistory(preview, data.analysis);
+        incrementInspoUsage();
       }
     } catch (err) { setError(err.message); }
     setLoading(false);
@@ -2001,6 +2047,13 @@ function InspoTab() {
             </button>
           )}
         </div>
+
+        {/* Usage Display */}
+        {!isFreeInspo && (
+          <p style={{ fontSize:11, color: inspoLimitReached?"#B91C1C":C.muted, fontWeight:600, marginTop:6 }}>
+            {inspoLimitReached ? "🔒 Limit erreicht" : `${inspoUsage} / ${plan==="pro"?"∞":inspoLimit} Analysen diesen Monat`}
+          </p>
+        )}
 
         {/* Hook Banner */}
         <div style={{ marginTop:12, background:"#1A1A1A", borderRadius:14, padding:"14px 16px", display:"flex", gap:12, alignItems:"center" }}>
@@ -2235,15 +2288,15 @@ const TRENDS = [
   { cat:"Wohnzimmer", title:"Fluted Panel TV-Wand", desc:"Gerillte MDF-Latten hinter dem TV, LED-Strip dahinter. Vorher ölen oder lackieren. Magazin-Look für 150€.", how:"DIY – halber Tag", budget:"80–250€", emoji:"📺", img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=220&fit=crop&q=80", amazon:"mdf fluted panel wandpaneele holzoptik" },
   { cat:"Wohnzimmer", title:"Cove-Licht Deckenrand", desc:"Holzrahmen 15cm an Decke, LED-Strip 2700K dahinter. Wärmstes Licht = Hotel-Feeling. Trafo hinter Kastenblende.", how:"DIY – Wochenende", budget:"150–400€", emoji:"✨", img:"https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&h=220&fit=crop&q=80", amazon:"led strip 2700k cove kastenblende decke" },
   { cat:"Wohnzimmer", title:"Erdtöne Rattan & Jute 2026", desc:"Terrakotta, Ocker, Sandstein. Rattan-Sessel, Jute-Teppich 200×300, handgemachte Keramik. Sofort ohne Handwerker.", how:"Sofort", budget:"200–600€", emoji:"🍂", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"rattan sessel jute teppich terrakotta wohnzimmer" },
-  { cat:"Wohnzimmer", title:"Limewash Strukturwand", desc:"Kalkputz-Optik mit lebendiger Textur. Über normaler Farbe möglich. Warm Greige, Rosa, Taubenblau – jede Wand einzigartig.", how:"DIY – 1 Tag", budget:"40–120€", emoji:"🏺", img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=220&fit=crop&q=80", amazon:"limewash farbe kalkputz optik strukturfarbe" },
+  { cat:"Wohnzimmer", title:"Limewash Strukturwand", desc:"Kalkputz-Optik mit lebendiger Textur. Über normaler Farbe möglich. Warm Greige, Rosa, Taubenblau – jede Wand einzigartig.", how:"DIY – 1 Tag", budget:"40–120€", emoji:"🏺", img:"https://images.unsplash.com/photo-1558882224-dda166733046?w=600&h=220&fit=crop&q=80", amazon:"limewash farbe kalkputz optik strukturfarbe" },
   { cat:"Wohnzimmer", title:"Einbauregal Boden bis Decke", desc:"MDF Regal von Wand zu Wand. LED-Strip dahinter in der Kastenblende. Weiß lackiert oder Eiche furniert.", how:"2 Wochenenden", budget:"400–1.500€", emoji:"📖", img:"https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?w=600&h=220&fit=crop&q=80", amazon:"einbauregal mdf wohnzimmer boden decke" },
-  { cat:"Wohnzimmer", title:"Bouclé Sofa Curved", desc:"Geschwungenes Bouclé-Sofa in Creme oder Hellgrau. Der Sofa-Trend 2026. Kombiniert mit Terrakotta-Wand = perfekt.", how:"Kauf", budget:"800–3.000€", emoji:"🛋️", img:"https://images.unsplash.com/photo-1558618049-6b1cdd80a2e2?w=600&h=220&fit=crop&q=80", amazon:"bouclé sofa curved wohnzimmer creme" },
+  { cat:"Wohnzimmer", title:"Bouclé Sofa Curved", desc:"Geschwungenes Bouclé-Sofa in Creme oder Hellgrau. Der Sofa-Trend 2026. Kombiniert mit Terrakotta-Wand = perfekt.", how:"Kauf", budget:"800–3.000€", emoji:"🛋️", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"bouclé sofa curved wohnzimmer creme" },
   { cat:"Wohnzimmer", title:"Botanisches Wohnzimmer", desc:"Große Monstera, Fiddle Leaf Fig, Olivenbaum als Hauptelemente – nicht als Beiwerk. Körbe als Töpfe, helle Ecken.", how:"Sofort", budget:"100–400€", emoji:"🌱", img:"https://images.unsplash.com/photo-1416879595882-b3d065a0e45d?w=600&h=220&fit=crop&q=80", amazon:"monstera groß topf rattan zimmerpflanzen" },
-  { cat:"Wohnzimmer", title:"Smart Home Licht Shelly", desc:"Shelly Relais hinter den Lichtschalter – App-steuerbar, kein Elektriker. Mit Alexa/Google Home. Szenen einrichten.", how:"DIY – 30 Min", budget:"20–60€", emoji:"📱", img:"https://images.unsplash.com/photo-1585184394271-4c0a47dc59c9?w=600&h=220&fit=crop&q=80", amazon:"shelly dimmer smart home lichtschalter" },
+  { cat:"Wohnzimmer", title:"Smart Home Licht Shelly", desc:"Shelly Relais hinter den Lichtschalter – App-steuerbar, kein Elektriker. Mit Alexa/Google Home. Szenen einrichten.", how:"DIY – 30 Min", budget:"20–60€", emoji:"📱", img:"https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&h=220&fit=crop&q=80", amazon:"shelly dimmer smart home lichtschalter" },
   { cat:"Wohnzimmer", title:"Holzboden Fischgrät", desc:"Fertigparkett in Fischgrät verlegt – eleganteste Verlegeart. Optisch breiter Raum. Eiche geölt, 12cm Breite.", how:"DIY – Wochenende", budget:"40–80€/m²", emoji:"⬛", img:"https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?w=600&h=220&fit=crop&q=80", amazon:"fertigparkett eiche fischgrät wohnzimmer" },
-  { cat:"Wohnzimmer", title:"Bogenlampe Messing XXL", desc:"Große Bogenlampe in gebürstetem Messing oder Schwarz = sofortiger Luxus-Effekt. Kein Elektriker – Stecker.", how:"Kauf+Aufbau", budget:"150–600€", emoji:"🌙", img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=220&fit=crop&q=80", amazon:"bogenlampe messing groß wohnzimmer stehlampe" },
+  { cat:"Wohnzimmer", title:"Bogenlampe Messing XXL", desc:"Große Bogenlampe in gebürstetem Messing oder Schwarz = sofortiger Luxus-Effekt. Kein Elektriker – Stecker.", how:"Kauf+Aufbau", budget:"150–600€", emoji:"🌙", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"bogenlampe messing groß wohnzimmer stehlampe" },
   { cat:"Wohnzimmer", title:"Dunkle Velvet Vorhänge", desc:"Bodenlange Samtvorhänge von Decke bis Boden machen jeden Raum opulenter. Immer 20cm breiter als das Fenster!", how:"Aufhängen", budget:"80–300€", emoji:"🎭", img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=220&fit=crop&q=80", amazon:"samtvorhang velvet dunkel bodenlang ösenvorhang" },
-  { cat:"Wohnzimmer", title:"Galerien-Wand Gallery Wall", desc:"5–9 Bilder in verschiedenen Größen als Wand-Arrangement. Vorher auf dem Boden layouten, dann mit Wasserwaage aufhängen.", how:"DIY", budget:"50–200€", emoji:"🖼️", img:"https://images.unsplash.com/photo-1565183928294-7063f23ce0f8?w=600&h=220&fit=crop&q=80", amazon:"bilderrahmen set gallery wall galerie wand" },
+  { cat:"Wohnzimmer", title:"Galerien-Wand Gallery Wall", desc:"5–9 Bilder in verschiedenen Größen als Wand-Arrangement. Vorher auf dem Boden layouten, dann mit Wasserwaage aufhängen.", how:"DIY", budget:"50–200€", emoji:"🖼️", img:"https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?w=600&h=220&fit=crop&q=80", amazon:"bilderrahmen set gallery wall galerie wand" },
   { cat:"Wohnzimmer", title:"Stein-Optik Akzentwand", desc:"Leichte 3D-Wandpaneele in Naturstein-Optik (Kalkstein, Schiefer). Kleben, keine Dübel. Kamin oder TV-Wand.", how:"DIY – 2 Stunden", budget:"30–80€/m²", emoji:"🪨", img:"https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?w=600&h=220&fit=crop&q=80", amazon:"wandpaneele steinoptik 3d kalkstein schiefer" },
 
   // ── SCHLAFZIMMER (12) ─────────────────────────────────────────────────────────
@@ -2261,12 +2314,12 @@ const TRENDS = [
   { cat:"Schlafzimmer", title:"Nachttisch floating Wandmontage", desc:"Schwebender Nachttisch direkt an der Wand – kein Beingestell, minimalistisch, pflegeleicht. Eiche oder Weiß.", how:"DIY – 1h", budget:"60–250€", emoji:"🛋️", img:"https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=600&h=220&fit=crop&q=80", amazon:"nachttisch wandmontage schwebend eiche weiß" },
 
   // ── ESSZIMMER (8) ─────────────────────────────────────────────────────────────
-  { cat:"Esszimmer", title:"Esstisch Massivholz mit Stahl", desc:"Eiche-Platte auf schwarzen Stahlbeinen = Industrie-Look. 220cm für 8 Personen. Robuest, kratzfest, zeitlos.", how:"Kauf", budget:"500–2.000€", emoji:"🍽️", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"esstisch massivholz eiche stahl beine industrial" },
+  { cat:"Esszimmer", title:"Esstisch Massivholz mit Stahl", desc:"Eiche-Platte auf schwarzen Stahlbeinen = Industrie-Look. 220cm für 8 Personen. Robuest, kratzfest, zeitlos.", how:"Kauf", budget:"500–2.000€", emoji:"🍽️", img:"https://images.unsplash.com/photo-1549187774-b4e9b0445b41?w=600&h=220&fit=crop&q=80", amazon:"esstisch massivholz eiche stahl beine industrial" },
   { cat:"Esszimmer", title:"Pendelleuchten über Tisch", desc:"3 Kugel-Pendel oder 1 länglicher Linear-Stab über dem Tisch. Abstand 65–75cm zur Tischfläche. Warm 2700K.", how:"Elektriker", budget:"100–800€", emoji:"💡", img:"https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&h=220&fit=crop&q=80", amazon:"pendelleuchte esstisch linear set gold 3er" },
-  { cat:"Esszimmer", title:"Bank + Stuhl Kombi", desc:"Eine Seite Sitzbank, andere Seite Stühle = gemütlicher und platzsparender. Bank aus Holz oder gepolstert.", how:"Kauf", budget:"300–1.200€", emoji:"🪑", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"sitzbank esstisch holz eiche gepolstert" },
+  { cat:"Esszimmer", title:"Bank + Stuhl Kombi", desc:"Eine Seite Sitzbank, andere Seite Stühle = gemütlicher und platzsparender. Bank aus Holz oder gepolstert.", how:"Kauf", budget:"300–1.200€", emoji:"🪑", img:"https://images.unsplash.com/photo-1549187774-b4e9b0445b41?w=600&h=220&fit=crop&q=80", amazon:"sitzbank esstisch holz eiche gepolstert" },
   { cat:"Esszimmer", title:"Grüne Pflanzenwand Esszimmer", desc:"Vertikales Pflanzenbild als lebendige Tapete. Oder einfach 3 große Töpfe in der Ecke. Bringt Leben in den Raum.", how:"Sofort", budget:"50–300€", emoji:"🌱", img:"https://images.unsplash.com/photo-1416879595882-b3d065a0e45d?w=600&h=220&fit=crop&q=80", amazon:"pflanzenwand vertikal indoor esszimmer" },
-  { cat:"Esszimmer", title:"Marmor-Tisch Statement", desc:"Echter Calacatta-Marmor oder günstige Variante aus Feinsteinzeug. Rechteckig oder oval. Kombination mit Leder-Stühlen.", how:"Kauf", budget:"600–3.000€", emoji:"💎", img:"https://images.unsplash.com/photo-1556909211-36987e6e9a65?w=600&h=220&fit=crop&q=80", amazon:"esstisch marmor oval weiß calacatta" },
-  { cat:"Esszimmer", title:"Holzvertäfelung Esszimmer Wand", desc:"Fluted Wood Panels oder einfache Kieferleisten vertikal. Naturfarbe ölen oder weiß lackieren. Wärmt jeden Raum.", how:"DIY – Wochenende", budget:"100–400€", emoji:"🪵", img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=220&fit=crop&q=80", amazon:"holzleisten vertikal wand esszimmer fluted" },
+  { cat:"Esszimmer", title:"Marmor-Tisch Statement", desc:"Echter Calacatta-Marmor oder günstige Variante aus Feinsteinzeug. Rechteckig oder oval. Kombination mit Leder-Stühlen.", how:"Kauf", budget:"600–3.000€", emoji:"💎", img:"https://images.unsplash.com/photo-1556918134-66e57c2f28e3?w=600&h=220&fit=crop&q=80", amazon:"esstisch marmor oval weiß calacatta" },
+  { cat:"Esszimmer", title:"Holzvertäfelung Esszimmer Wand", desc:"Fluted Wood Panels oder einfache Kieferleisten vertikal. Naturfarbe ölen oder weiß lackieren. Wärmt jeden Raum.", how:"DIY – Wochenende", budget:"100–400€", emoji:"🪵", img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=220&fit=crop&q=80", amazon:"holzleisten vertikal wand esszimmer fluted" },
   { cat:"Esszimmer", title:"Velvet-Stühle bunt als Akzent", desc:"Samtene Stühle in Senfgelb, Dunkelgrün oder Terrakotta zu einem schlichten Tisch. Ein Farbakzent reicht.", how:"Kauf", budget:"200–800€", emoji:"🪑", img:"https://images.unsplash.com/photo-1549187774-b4e9b0445b41?w=600&h=220&fit=crop&q=80", amazon:"velvet stuhl samt esszimmer grün terrakotta" },
   { cat:"Esszimmer", title:"Offenes Weinregal als Raumteiler", desc:"Streckenmetall- oder Holzregal teilt Wohn- und Essbereich optisch ohne Wände. Weinflaschen als Deko.", how:"DIY/Kauf", budget:"150–600€", emoji:"🍷", img:"https://images.unsplash.com/photo-1558618049-6b1cdd80a2e2?w=600&h=220&fit=crop&q=80", amazon:"weinregal wand raumteiler offen holz metall" },
 
@@ -2283,7 +2336,7 @@ const TRENDS = [
   // ── HOMEOFFICE (7) ────────────────────────────────────────────────────────────
   { cat:"Homeoffice", title:"Einbau-Schreibtisch an der Wand", desc:"Schwimmendes Schreibtischbrett aus Eiche oder MDF – 180cm breit, 60cm tief. Kein Gestell, mehr Platz, cleaner Look.", how:"DIY – 2h", budget:"80–250€", emoji:"💻", img:"https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=600&h=220&fit=crop&q=80", amazon:"schreibtisch wandmontage schwebend eiche" },
   { cat:"Homeoffice", title:"Bücherregal als Hintergrund", desc:"Vollgepacktes Bücherregal als Zoom-Hintergrund macht Eindruck. Einbau-Billy-Hack oder Maßregal.", how:"IKEA/Tischler", budget:"200–800€", emoji:"📚", img:"https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=220&fit=crop&q=80", amazon:"büchterregal einbau wand homeoffice" },
-  { cat:"Homeoffice", title:"Akustikpaneele Filz", desc:"Filz- oder Schaumstoff-Akustikpaneele reduzieren Echo deutlich – wichtig für Videokonferenzen. Auch dekorativ.", how:"DIY – 1h", budget:"50–200€", emoji:"🎵", img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=220&fit=crop&q=80", amazon:"akustikpaneele filz homeoffice schall" },
+  { cat:"Homeoffice", title:"Akustikpaneele Filz", desc:"Filz- oder Schaumstoff-Akustikpaneele reduzieren Echo deutlich – wichtig für Videokonferenzen. Auch dekorativ.", how:"DIY – 1h", budget:"50–200€", emoji:"🎵", img:"https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=600&h=220&fit=crop&q=80", amazon:"akustikpaneele filz homeoffice schall" },
   { cat:"Homeoffice", title:"Pegboard Wand Organizer", desc:"Lochplatten-System für Werkzeuge, Stifte, Notizen. Ikea Skadis oder individuell. Flexibel und dekorativ.", how:"DIY – 1h", budget:"30–100€", emoji:"📌", img:"https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=600&h=220&fit=crop&q=80", amazon:"pegboard lochplatte organizer büro wand" },
   { cat:"Homeoffice", title:"Grüne Pflanzenwand hinter Schreibtisch", desc:"Eine echte Pflanzenwand oder Kunstpflanzenwand als Hintergrund. Reduziert Stress, verbessert Luftqualität.", how:"DIY/Kauf", budget:"100–500€", emoji:"🌿", img:"https://images.unsplash.com/photo-1416879595882-b3d065a0e45d?w=600&h=220&fit=crop&q=80", amazon:"pflanzenwand vertikal homeoffice kunstpflanze" },
 
@@ -2295,12 +2348,12 @@ const TRENDS = [
   { cat:"Boden", title:"Zementfliesen Vintage Muster", desc:"Bunte Musterfliesen in Schwarz-Weiß oder Bunt. Für Küche, Bad oder Flur. Über alte Fliesen möglich.", how:"Fliesenleger", budget:"30–80€/m²", emoji:"🎨", img:"https://images.unsplash.com/photo-1574739782594-db4ead022697?w=600&h=220&fit=crop&q=80", amazon:"zementfliesen muster vintage bunt schwarz weiß" },
   { cat:"Boden", title:"Teppich als Raumteiler", desc:"Großer Teppich (300×400) definiert den Sitzbereich. Jute, Wolle oder Outdoor-Teppich. Alle Möbelbeine drauf.", how:"Legen", budget:"80–600€", emoji:"🟫", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"großer teppich wohnzimmer jute wolle 300x400" },
   { cat:"Boden", title:"Dunkler Holzboden Drama", desc:"Dunkles Eichenparkett (Räuchereiche, Nussbaum) + helle Wände = maximaler Kontrast-Effekt.", how:"Verlegen", budget:"45–100€/m²", emoji:"⬛", img:"https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?w=600&h=220&fit=crop&q=80", amazon:"räuchereiche parkett dunkel holzboden verlegen" },
-  { cat:"Boden", title:"Weißer Marmorboden Luxus", desc:"Weiße Großformat-Marmorfliesen oder -Optik. Macht Räume größer und heller. Pflegeleichter Feinsteinzeug statt echter Marmor.", how:"Fliesenleger", budget:"40–120€/m²", emoji:"🤍", img:"https://images.unsplash.com/photo-1574739782594-db4ead022697?w=600&h=220&fit=crop&q=80", amazon:"marmor fliesen weiß groß format luxus" },
+  { cat:"Boden", title:"Weißer Marmorboden Luxus", desc:"Weiße Großformat-Marmorfliesen oder -Optik. Macht Räume größer und heller. Pflegeleichter Feinsteinzeug statt echter Marmor.", how:"Fliesenleger", budget:"40–120€/m²", emoji:"🤍", img:"https://images.unsplash.com/photo-1620626011761-996317702782?w=600&h=220&fit=crop&q=80", amazon:"marmor fliesen weiß groß format luxus" },
 
   // ── TERRASSE & GARTEN (12) ────────────────────────────────────────────────────
   { cat:"Terrasse", title:"WPC-Dielen mit Clips", desc:"Wartungsfreie WPC-Dielen auf Stelzlagern. Clip-Befestigung unsichtbar. Über Beton direkt verlegbar.", how:"DIY – Wochenende", budget:"35–65€/m²", emoji:"🌴", img:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=220&fit=crop&q=80", amazon:"wpc dielen terrasse clips stelzlager" },
   { cat:"Terrasse", title:"Outdoor-Lounge Polyrattan", desc:"Modulare Polyrattan-Lounge mit Sunbrella-Kissen. UV-beständig, wetterfest. Outdoor-Teppich als Basis.", how:"Aufbau", budget:"400–1.500€", emoji:"☀️", img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=220&fit=crop&q=80", amazon:"outdoor lounge polyrattan sunbrella terrasse" },
-  { cat:"Terrasse", title:"Pergola Douglasie Selbstbau", desc:"Freistehende Pergola aus Douglasie – wetterfest ohne Imprägnierung. Mit Rankpflanzen begrünen.", how:"Wochenende", budget:"400–1.500€", emoji:"🌿", img:"https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=600&h=220&fit=crop&q=80", amazon:"pergola bausatz douglasie selbstbau garten" },
+  { cat:"Terrasse", title:"Pergola Douglasie Selbstbau", desc:"Freistehende Pergola aus Douglasie – wetterfest ohne Imprägnierung. Mit Rankpflanzen begrünen.", how:"Wochenende", budget:"400–1.500€", emoji:"🌿", img:"https://images.unsplash.com/photo-1416879595882-b3d065a0e45d?w=600&h=220&fit=crop&q=80", amazon:"pergola bausatz douglasie selbstbau garten" },
   { cat:"Terrasse", title:"Eingebauter Gasgrill Outdoor", desc:"Modulare Außenküche mit Gasgrill eingebaut, Arbeitsfläche Feinsteinzeug. Das Upgrade für gesellige Abende.", how:"Profi", budget:"1.000–5.000€", emoji:"🔥", img:"https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&h=220&fit=crop&q=80", amazon:"aussenküche gasgrill einbau outdoor garten" },
   { cat:"Terrasse", title:"Mediterrane Olivenbaum-Oase", desc:"Olivenbäume in Terrakotta-Töpfen, Lavendel als Sichtschutz, Rankrosen. Kein Handwerker nötig.", how:"Sofort", budget:"200–600€", emoji:"🫒", img:"https://images.unsplash.com/photo-1558882224-dda166733046?w=600&h=220&fit=crop&q=80", amazon:"olivenbaum terrasse terrakotta topf groß" },
   { cat:"Terrasse", title:"Solar Lichterketten 2200K", desc:"Warmweiße Solar-Lichterketten über der Terrasse. Kein Kabel, kein Strom. Automatisch an/aus. 10m ab 20€.", how:"Aufhängen", budget:"20–80€", emoji:"✨", img:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=220&fit=crop&q=80", amazon:"solar lichterkette 2200k warmweiß außen" },
@@ -2604,7 +2657,7 @@ export default function Home() {
           <div style={{ display:activeTab==="chat"?"flex":"none", flexDirection:"column", height:"100%" }}>
             <ChatTab messages={chatMessages} setMessages={setChatMessages} />
           </div>
-          {activeTab==="inspo" && <InspoTab />}
+          {activeTab==="inspo" && <InspoTab plan={subscription?.plan} />}
           {activeTab==="ideen" && <IdeenTab />}
           {activeTab==="anleit" && <AnleitungenTab />}
           {activeTab==="planer" && <PlanerTab savedMakeovers={savedMakeovers} />}
