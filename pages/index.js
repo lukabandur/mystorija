@@ -540,25 +540,26 @@ function getRenovierungsAntwort(text, hasImage) {
 }
 
 // ─── AFFILIATE Renderer ───────────────────────────────────────────────────────
-function ShopLinks({ text }) {
-  // Parse markdown links: [Label](url)
+function ShopLinks({ text, fullBlock }) {
+  // Parse markdown links from this line OR fullBlock
+  const src = fullBlock || text;
   const links = [];
   const regex = /\[([^\]]+)\]\((https?:[^)]+)\)/g;
   let m;
-  while ((m = regex.exec(text)) !== null) {
+  while ((m = regex.exec(src)) !== null) {
     links.push({ label: m[1], url: m[2] });
   }
   if (links.length === 0) return null;
 
   const COLORS = {
-    'Amazon': { bg:'#FFF8E7', color:'#B7791F' },
-    'OBI':    { bg:'#E8F5E9', color:'#2E7D32' },
-    'Bauhaus':{ bg:'#E3F2FD', color:'#1565C0' },
-    'Hornbach':{ bg:C.accentBg, color:C.accent },
+    'Amazon':   { bg:'#FFF8E7', color:'#B7791F' },
+    'OBI':      { bg:'#E8F5E9', color:'#2E7D32' },
+    'Bauhaus':  { bg:'#E3F2FD', color:'#1565C0' },
+    'Hornbach': { bg:C.accentBg, color:C.accent },
   };
 
   return (
-    <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginTop:5 }}>
+    <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginTop:4 }}>
       {links.map((l, i) => {
         const col = COLORS[l.label] || { bg:C.tag, color:C.muted };
         return (
@@ -580,15 +581,38 @@ function BoldText({ text }) {
 
 function renderMaterialien(text) {
   if (!text) return null;
-  return text.split("\n").map((line, i) => {
-    if (!line.trim()) return <div key={i} style={{ height:6 }} />;
-    return (
-      <div key={i} style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", marginBottom:6 }}>
-        <p style={{ fontSize:13, color:"#555", lineHeight:1.7, flex:1 }}><BoldText text={line} /></p>
-        <ShopLinks text={line} />
-      </div>
-    );
-  });
+  const lines = text.split("\n").filter(l => l.trim());
+  const pairs = [];
+
+  // Paare bilden: Textzeile + folgende Link-Zeile
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (line.trim().startsWith('[') && line.includes('](http')) continue; // Link-Zeile überspringen
+    const nextLine = lines[i + 1] || "";
+    const linkLine = nextLine.trim().startsWith('[') && nextLine.includes('](http') ? nextLine : "";
+    pairs.push({ text: line, links: linkLine });
+  }
+
+  if (pairs.length === 0) return null;
+  return (
+    <>
+      {pairs.map((p, i) => (
+        <div key={i} style={{ padding:"9px 0", borderBottom:`1px solid ${C.border}` }}>
+          <p style={{ fontSize:13, color:C.text, lineHeight:1.6, marginBottom:4 }}>
+            <BoldText text={p.text} />
+          </p>
+          {p.links ? (
+            <ShopLinks text={p.text} fullBlock={p.links} />
+          ) : (
+            <ShopLinks text={p.text} />
+          )}
+        </div>
+      ))}
+      <p style={{ fontSize:11, color:C.muted, marginTop:8, fontStyle:"italic" }}>
+        💾 Speichern → Links im Planer klickbar
+      </p>
+    </>
+  );
 }
 
 // ─── STILE FÜR MAKEOVER ───────────────────────────────────────────────────────
