@@ -2,12 +2,105 @@ export const config = {
   api: { bodyParser: { sizeLimit: "15mb" } },
 };
 
+// ── In-Memory Rate Limiter ────────────────────────────────────────────────────
+// Speichert: IP → { count, windowStart, blocked, blockedUntil }
+const rateLimitStore = new Map();
+
+const RATE_WINDOW_MS   = 60 * 1000;   // 1 Minute
+const RATE_MAX_REQ     = 8;            // Max 8 Makeovers pro Minute (normal Nutzer)
+const ABUSE_THRESHOLD  = 15;           // Ab 15/min → Verdacht auf Abuse
+const BLOCK_DURATION_MS = 10 * 60 * 1000; // 10 Minuten blockiert
+
+function getRealIP(req) {
+  return (
+    req.headers["x-forwarded-for"]?.split(",")[0]?.trim() ||
+    req.headers["x-real-ip"] ||
+    req.socket?.remoteAddress ||
+    "unknown"
+  );
+}
+
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const entry = rateLimitStore.get(ip) || { count: 0, windowStart: now, blocked: false, blockedUntil: 0 };
+
+  // Ist IP blockiert?
+  if (entry.blocked && now < entry.blockedUntil) {
+    const remainMin = Math.ceil((entry.blockedUntil - now) / 60000);
+    return { allowed: false, reason: `Zu viele Anfragen. Bitte warte noch ${remainMin} Minute(n).`, blocked: true };
+  }
+
+  // Block abgelaufen → reset
+  if (entry.blocked && now >= entry.blockedUntil) {
+    entry.blocked = false;
+    entry.count = 0;
+    entry.windowStart = now;
+  }
+
+  // Neues Zeitfenster?
+  if (now - entry.windowStart > RATE_WINDOW_MS) {
+    entry.count = 0;
+    entry.windowStart = now;
+  }
+
+  entry.count++;
+
+  // Abuse erkannt → sofort blockieren
+  if (entry.count >= ABUSE_THRESHOLD) {
+    entry.blocked = true;
+    entry.blockedUntil = now + BLOCK_DURATION_MS;
+    rateLimitStore.set(ip, entry);
+    console.warn(`[ABUSE] IP ${ip} blockiert: ${entry.count} Requests in 1 Minute`);
+    return { allowed: false, reason: "Zu viele Anfragen erkannt. Bitte warte 10 Minuten.", blocked: true };
+  }
+
+  // Normales Limit überschritten
+  if (entry.count > RATE_MAX_REQ) {
+    rateLimitStore.set(ip, entry);
+    return { allowed: false, reason: "Bitte kurz warten – du generierst sehr schnell.", blocked: false };
+  }
+
+  rateLimitStore.set(ip, entry);
+  return { allowed: true };
+}
+
+// Cleanup alter Einträge alle 30 Minuten
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, entry] of rateLimitStore) {
+    if (now - entry.windowStart > 60 * 60 * 1000) rateLimitStore.delete(ip);
+  }
+}, 30 * 60 * 1000);
+
+// ── Plan Limits ───────────────────────────────────────────────────────────────
+const PLAN_LIMITS = {
+  free:  3,
+  basic: 50,
+  pro:   Infinity,
+};
+
 const FREE_LIMIT = 3;
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
+  // ── Rate Limit Check ────────────────────────────────────────────────────────
+  const ip = getRealIP(req);
+  const rateCheck = checkRateLimit(ip);
+  if (!rateCheck.allowed) {
+    return res.status(429).json({
+      error: rateCheck.reason,
+      blocked: rateCheck.blocked || false,
+    });
+  }
+
   const { imageBase64, chatContext, plan, style, dimensions } = req.body;
+
+  // ── Plan Limit Check ────────────────────────────────────────────────────────
+  // Monatliches Limit wird clientseitig im localStorage gezählt
+  // Server prüft nur ob Plan existiert und gibt Limit zurück
+  const planKey = plan || "free";
+  const planLimit = PLAN_LIMITS[planKey] ?? PLAN_LIMITS.free;
 
   if (!imageBase64 || imageBase64.length < 100) {
     return res.status(400).json({ error: "Kein Bild übermittelt." });
