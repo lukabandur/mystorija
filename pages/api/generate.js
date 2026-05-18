@@ -74,7 +74,7 @@ setInterval(() => {
 
 // ── Plan Limits ───────────────────────────────────────────────────────────────
 const PLAN_LIMITS = {
-  free:  3,
+  free:  0,
   basic: 50,
   pro:   Infinity,
 };
