@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import Head from "next/head";
 
@@ -118,11 +117,12 @@ function Pill({ children, bg, color }) {
 const AFFILIATE_TAG = "mystorija-21";
 function amazonLink(q, qBau) {
   const bq = qBau || q;
-  const amzn = `https://www.amazon.de/s?k=${encodeURIComponent(q)}&tag=mystorija-21`;
-  const obi  = `https://www.obi.de/suche/${encodeURIComponent(bq)}/`;
-  const bh   = `https://www.bauhaus.info/search?q=${encodeURIComponent(bq)}`;
-  const hb   = `https://www.hornbach.de/s/${encodeURIComponent(bq)}/`;
-  return `[Amazon](${amzn}) · [OBI](${obi}) · [Bauhaus](${bh}) · [Hornbach](${hb})`;
+  return {
+    amzn: `https://www.amazon.de/s?k=${encodeURIComponent(q)}&tag=mystorija-21`,
+    obi:  `https://www.obi.de/suche/${encodeURIComponent(bq)}/`,
+    bh:   `https://www.bauhaus.info/search?q=${encodeURIComponent(bq)}`,
+    hb:   `https://www.hornbach.de/s/${encodeURIComponent(bq)}/`,
+  };
 }
 
 // ─── ANLEITUNGEN DATEN (16 Stück) ────────────────────────────────────────────
@@ -509,8 +509,10 @@ function AnleitungenTab() {
                   <p style={{ fontSize:13, color:C.muted, lineHeight:1.6 }}>{a.fehler}</p>
                 </div>
                 <div style={{ display:"flex", gap:8, marginTop:10 }}>
-                  <a href={a.youtube} target="_blank" rel="noopener noreferrer" style={{ flex:1, textAlign:"center", padding:"9px", borderRadius:9, background:"#FDEEEC", color:"#C0392B", fontSize:12, textDecoration:"none", fontWeight:600, border:"1px solid #F5D0D033" }}>▶ Video anschauen</a>
-                  <a href={a.amazon} target="_blank" rel="noopener noreferrer" style={{ flex:1, textAlign:"center", padding:"9px", borderRadius:9, background:C.accentBg, color:C.accent, fontSize:12, textDecoration:"none", fontWeight:600, border:`1px solid ${C.accent}44` }}>🛒 Amazon</a>
+                  <a href={a.youtube} target="_blank" rel="noopener noreferrer" style={{ flex:1, textAlign:"center", padding:"9px", borderRadius:9, background:"#FDEEEC", color:"#C0392B", fontSize:12, textDecoration:"none", fontWeight:600, border:"1px solid #F5D0D033" }}>▶ Video</a>
+                  <a href={a.amazon?.amzn || a.amazon} target="_blank" rel="noopener noreferrer" style={{ flex:1, textAlign:"center", padding:"9px", borderRadius:9, background:"#FFF8E7", color:"#B7791F", fontSize:12, textDecoration:"none", fontWeight:600, border:"1px solid #F6E05E44" }}>Amazon</a>
+                  <a href={a.amazon?.obi} target="_blank" rel="noopener noreferrer" style={{ flex:1, textAlign:"center", padding:"9px", borderRadius:9, background:"#EBFAF0", color:"#276749", fontSize:12, textDecoration:"none", fontWeight:600, border:"1px solid #C6F6D544" }}>OBI</a>
+                  <a href={a.amazon?.hb} target="_blank" rel="noopener noreferrer" style={{ flex:1, textAlign:"center", padding:"9px", borderRadius:9, background:C.accentBg, color:C.accent, fontSize:12, textDecoration:"none", fontWeight:600, border:`1px solid ${C.accent}33` }}>Hornbach</a>
                 </div>
               </div>
             )}
@@ -2557,3 +2559,4 @@ export default function Home() {
     </>
   );
 }
+
