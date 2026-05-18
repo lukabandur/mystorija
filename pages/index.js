@@ -572,17 +572,6 @@ function ShopLinks({ text }) {
     </div>
   );
 }
-  else if (lower.match(/walk.in|glaswand|esg/)) link = amazonLink("Walk-In Dusche Glaswand 8mm ESG");
-  else if (lower.match(/waschtisch|waschbecken|teak/)) link = amazonLink("Schwebender Waschtisch Holz Wandmontage");
-  else if (lower.match(/led.*spiegel|spiegel.*led|emke/)) link = amazonLink("LED Spiegel Bad beleuchtet IP44");
-  else if (lower.match(/armatur|mattschwarz.*arm|wasserhahn.*schwarz/)) link = amazonLink("Waschtisch Armatur mattschwarz");
-  else if (lower.match(/mikrozement/)) link = amazonLink("Mikrozement Set Boden Wand Versiegelung");
-  else if (lower.match(/spc|vinyl.*boden/)) link = amazonLink("SPC Vinyl Boden wasserfest Rigid Core");
-  else if (lower.match(/laminat/)) link = amazonLink("Laminat Eiche 8mm Klick Trittschall");
-  else if (lower.match(/silikon/)) link = amazonLink("Soudal Bad Silikon Schimmelschutz");
-  else if (lower.match(/led.*strip|led.*streifen/)) link = amazonLink("LED Strip 2700K warmweiss 5m dimmbar");
-  else if (lower.match(/einbaustrahler/)) link = amazonLink("LED Einbaustrahler GU10 IP44 Set");
-  else if (lower.match(/griffe|schrankgriff/)) link = amazonLink("Kuechen Griffe mattschwarz 128mm Set");
 
 function BoldText({ text }) {
   const parts = text.split(/\*\*(.*?)\*\*/g);
