@@ -233,6 +233,73 @@ export default function Landing() {
         </div>
       </section>
 
+
+      {/* HANDWERKER B2B */}
+      <section style={{ padding:"70px 24px", background:"var(--bg)" }}>
+        <div style={{ maxWidth:860, margin:"0 auto" }}>
+          <div style={{ textAlign:"center", marginBottom:48 }}>
+            <div style={{ fontSize:12, fontWeight:700, textTransform:"uppercase", letterSpacing:"1.5px", color:"var(--accent)", marginBottom:10 }}>Für Handwerker & Betriebe</div>
+            <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(26px,5vw,38px)", lineHeight:1.25, marginBottom:14 }}>
+              Dein Betrieb –<br /><em style={{ color:"var(--accent)" }}>direkt bei renovierungswilligen Kunden</em>
+            </h2>
+            <p style={{ fontSize:16, color:"var(--muted)", maxWidth:540, margin:"0 auto", lineHeight:1.7 }}>
+              Mystorija-Nutzer sind aktiv am Renovieren. Kein besserer Moment um deinen Betrieb zu präsentieren.
+            </p>
+          </div>
+
+          {/* Single pricing card centered */}
+          <div style={{ maxWidth:460, margin:"0 auto 40px", background:"var(--card)", border:"2px solid var(--accent)", borderRadius:24, padding:36, position:"relative" }}>
+            <div style={{ position:"absolute", top:-14, left:"50%", transform:"translateX(-50%)", background:"var(--accent)", color:"white", fontSize:12, fontWeight:700, padding:"5px 18px", borderRadius:50, whiteSpace:"nowrap" }}>
+              🔨 Handwerker Plan
+            </div>
+            <div style={{ textAlign:"center", marginBottom:24 }}>
+              <div style={{ fontFamily:"'Playfair Display',serif", fontSize:52, fontWeight:700, lineHeight:1, color:"var(--text)" }}>
+                <sup style={{ fontSize:22, verticalAlign:"super" }}>€</sup>49<sub style={{ fontSize:18, color:"var(--muted)", fontFamily:"'DM Sans',sans-serif", fontWeight:400 }}>,99/Monat</sub>
+              </div>
+              <p style={{ fontSize:14, color:"var(--muted)", marginTop:6 }}>Monatlich kündbar · Keine Einrichtungsgebühr</p>
+            </div>
+
+            <div style={{ borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", padding:"20px 0", marginBottom:24 }}>
+              {[
+                ["🏢", "Betriebsprofil", "Mit Fotos, Leistungen, Kontaktdaten und Bewertungen"],
+                ["📣", "Werbeanzeige", "Dein Banner erscheint in Ideen, Trends und Anleitungen – genau wenn Nutzer nach Handwerkern suchen"],
+                ["📩", "Direktanfragen", "Kunden kontaktieren dich direkt aus der App"],
+                ["✅", "Verifizierter Profi", "Badge für mehr Vertrauen bei Neukunden"],
+                ["📍", "Regionale Sichtbarkeit", "Wirst in deiner Region angezeigt"],
+                ["⭐", "Bewertungssystem", "Sammle echte Kundenbewertungen"],
+              ].map(([icon, title, desc]) => (
+                <div key={title} style={{ display:"flex", gap:12, alignItems:"flex-start", padding:"10px 0", borderBottom:"1px solid var(--border)" }}>
+                  <span style={{ fontSize:18, flexShrink:0 }}>{icon}</span>
+                  <div>
+                    <p style={{ fontSize:14, fontWeight:700, marginBottom:2 }}>{title}</p>
+                    <p style={{ fontSize:13, color:"var(--muted)", lineHeight:1.5 }}>{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <a href="mailto:info@mystorija.app" style={{ display:"block", width:"100%", textAlign:"center", padding:"14px", borderRadius:50, fontSize:15, fontWeight:700, textDecoration:"none", background:"var(--accent)", color:"white" }}>
+              Jetzt bewerben →
+            </a>
+            <p style={{ textAlign:"center", fontSize:12, color:"var(--muted)", marginTop:10 }}>
+              Schreib uns: <strong>info@mystorija.app</strong>
+            </p>
+          </div>
+
+          {/* Why now */}
+          <div style={{ background:"var(--card)", border:"1.5px solid var(--border)", borderRadius:18, padding:"22px 28px", display:"flex", gap:16, alignItems:"center", flexWrap:"wrap" }}>
+            <div style={{ fontSize:32 }}>📊</div>
+            <div style={{ flex:1 }}>
+              <p style={{ fontSize:15, fontWeight:700, marginBottom:4 }}>Jetzt einsteigen – Early-Preis sichern</p>
+              <p style={{ fontSize:13, color:"var(--muted)", lineHeight:1.6 }}>Wer jetzt einsteigt sichert sich bevorzugte Platzierung und den günstigsten Einstiegspreis. Warteliste ist offen.</p>
+            </div>
+            <a href="mailto:info@mystorija.app" style={{ flexShrink:0, background:"var(--accent)", color:"white", padding:"11px 20px", borderRadius:50, fontSize:13, fontWeight:700, textDecoration:"none" }}>Kontakt →</a>
+          </div>
+        </div>
+      </section>
+
+
+
       {/* COMMUNITY */}
       <section style={{ background:"#1A1A1A", padding:"70px 24px" }}>
         <div style={{ maxWidth:900, margin:"0 auto" }}>
@@ -265,7 +332,7 @@ export default function Landing() {
             <div style={{ flex:1, minWidth:220 }}>
               <p style={{ fontSize:13, fontWeight:700, textTransform:"uppercase", letterSpacing:"1px", color:"var(--accent)", marginBottom:8 }}>🔨 Für Handwerker & Betriebe</p>
               <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, color:"white", lineHeight:1.3, marginBottom:12 }}>Werde Teil der Mystorija Community</h3>
-              <p style={{ fontSize:14, color:"#aaa", lineHeight:1.6, marginBottom:20 }}>Präsentiere deinen Betrieb direkt an Menschen die gerade renovieren – die aktivste Zielgruppe überhaupt. Eintrag ab <strong style={{ color:"var(--accent)" }}>39€/Monat</strong>.</p>
+              <p style={{ fontSize:14, color:"#aaa", lineHeight:1.6, marginBottom:20 }}>Präsentiere deinen Betrieb direkt an Menschen die gerade renovieren – die aktivste Zielgruppe überhaupt. Eintrag ab <strong style={{ color:"var(--accent)" }}>49,99€/Monat</strong>.</p>
               <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
                 {["✓ Profil mit Fotos & Bewertungen","✓ Direkte Anfragen","✓ Nur verifizierte Betriebe"].map(t => (
                   <span key={t} style={{ fontSize:13, color:"#ccc" }}>{t}</span>
