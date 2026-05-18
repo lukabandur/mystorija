@@ -745,6 +745,27 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUs
   const [refinementInput, setRefinementInput] = useState("");
   const [refinementHistory, setRefinementHistory] = useState([]);
 
+  // Monatliches Limit tracken
+  const LIMITS = { free: 3, basic: 50, pro: Infinity };
+  const currentLimit = LIMITS[plan] ?? LIMITS.free;
+
+  function getMonthlyUsage() {
+    try {
+      const key = `mystorija_usage_${new Date().getFullYear()}_${new Date().getMonth()}`;
+      return parseInt(localStorage.getItem(key) || "0");
+    } catch { return 0; }
+  }
+
+  function incrementMonthlyUsage() {
+    try {
+      const key = `mystorija_usage_${new Date().getFullYear()}_${new Date().getMonth()}`;
+      localStorage.setItem(key, String(getMonthlyUsage() + 1));
+    } catch {}
+  }
+
+  const monthlyUsage = getMonthlyUsage();
+  const isLimitReached = monthlyUsage >= currentLimit;
+
   function handleDatei(e) {
     const f = e.target.files[0]; if (!f) return;
     setFile(f); setVorherUrl(URL.createObjectURL(f));
@@ -800,7 +821,11 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUs
 
   function generieren() {
     if (!file) return;
-    if (!canGenerate) { onNeedUpgrade(); return; }
+    if (isLimitReached && plan !== "pro") {
+      setError(`Monatliches Limit erreicht (${currentLimit} Makeovers). Bitte upgrade auf Pro für unbegrenzte Generierungen.`);
+      if (onNeedUpgrade) onNeedUpgrade();
+      return;
+    }
     setViewingHistory(null); setLoading(true); setNachherUrl(null); setMaterials(null);
     setError(null); setProgress(0); setSaved(false); setNachherBase64(null);
     const timer = setInterval(() => setProgress(p => p < 85 ? p + 2 : p), 600);
@@ -834,6 +859,7 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUs
         if (onGenerated) onGenerated();
         // Base64 direkt vom Server (kein CORS-Problem)
         setNachherBase64(data.imageBase64 || null);
+        incrementMonthlyUsage(); // Monatszähler erhöhen
         // Automatisch analysieren was generiert wurde
         if (data.imageBase64) {
           setMakoverAnalyse(null);
@@ -921,7 +947,11 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUs
         <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:16 }}>
           <div>
             <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20 }}>KI Makeover</h2>
-            {savedMakeovers?.length > 0 && <p style={{ fontSize:12, color:C.muted }}>{savedMakeovers.length} gespeichert</p>}
+            {plan !== "pro" && (
+              <p style={{ fontSize:11, fontWeight:600, marginTop:2, color: isLimitReached ? "#B91C1C" : C.muted }}>
+                {isLimitReached ? "🔒 Limit erreicht – Upgrade für mehr" : `${monthlyUsage} / ${currentLimit} diesen Monat`}
+              </p>
+            )}
           </div>
           <div style={{ display:"flex", gap:8 }}>
             {(nachherUrl||viewingHistory) && <button onClick={neuesMakeover} style={{ padding:"7px 14px", borderRadius:20, border:`1px solid ${C.border}`, background:C.card, cursor:"pointer", fontSize:12, fontWeight:600, color:C.text, fontFamily:"'DM Sans',sans-serif" }}>+ Neu</button>}
@@ -1970,6 +2000,15 @@ function InspoTab() {
               📚 {history.length}
             </button>
           )}
+        </div>
+
+        {/* Hook Banner */}
+        <div style={{ marginTop:12, background:"#1A1A1A", borderRadius:14, padding:"14px 16px", display:"flex", gap:12, alignItems:"center" }}>
+          <div style={{ flexShrink:0, fontSize:24 }}>📱</div>
+          <div style={{ flex:1 }}>
+            <p style={{ fontSize:13, fontWeight:700, color:"white", marginBottom:3 }}>Schönes Bild auf Pinterest gesehen?</p>
+            <p style={{ fontSize:11, color:"#aaa", lineHeight:1.5 }}>Mach einen Screenshot und lade ihn hier hoch – Mystorija verrät dir sofort welche Materialien, Farben und Fliesen verwendet wurden. Mit direkten Shop-Links.</p>
+          </div>
         </div>
       </div>
 
