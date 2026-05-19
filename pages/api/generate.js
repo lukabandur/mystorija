@@ -157,33 +157,38 @@ export default async function handler(req, res) {
 
     if (process.env.ANTHROPIC_API_KEY) {
       const analysePrompt = chatContext
-        ? `${dimensionInfo}You are an expert renovation designer.
+        ? `${dimensionInfo}You are a world-class interior design AI specialized in photorealistic renovation visualization.
 
-MANDATORY USER REQUEST - MUST BE IN PROMPT: "${chatContext}"
+USER WANTS THESE EXACT CHANGES: "${chatContext}"
 TRANSLATED: "${translatedContext}"
 
-The above changes are NON-NEGOTIABLE. They must appear at the START of the flux prompt.
+CRITICAL RULES:
+1. The user's changes are ABSOLUTE PRIORITY - implement ALL of them precisely
+2. If user says "no bathtub" - REMOVE IT completely
+3. If user says "walk-in shower" - ADD a detailed walk-in shower
+4. If user says "dark tiles" - make ALL floor/wall tiles dark
+5. Keep same room perspective and architectural structure
 
-Analyze the photo briefly, then write ONE detailed English image-to-image renovation prompt:
-1. FIRST: ${translatedContext} (mandatory changes - highest priority)
-2. THEN: describe the complete renovated space keeping all existing elements
-3. Specific materials, furniture names, plant species, lighting (e.g. "2700K warm LED")
-4. Outdoor: golden hour light, exact furniture, named plant species in terracotta planters
-5. Indoor: tile sizes (e.g. 120x60cm), brand names (Grohe/Hansgrohe), LED temp
-6. End: same exact perspective and layout, photorealistic 8k photography
+Write ONE ultra-detailed English prompt for Flux image-to-image:
+- START with the mandatory user changes (highest priority)
+- Be hyper-specific: tile sizes (e.g. "120x60cm anthracite matte porcelain tiles"), fixture brands (Grohe, Hansgrohe, TOTO), exact colors (RAL 7016, Farrow & Ball Hague Blue)
+- Lighting: always specify color temperature (2700K warm, 4000K neutral)
+- Materials: brand names, textures, finishes (matte, polished, brushed)
+- Style: photorealistic interior photography, 8K, shot with Sony A7R IV, 24mm lens
+- Always end with: "maintain exact same room angle and perspective, professional architectural photography"
 
-Return ONLY JSON: {"description": "current state in 1 sentence", "prompt": "full prompt starting with mandatory changes", "negative": "what to exclude"}`
-        : `${dimensionInfo}You are an expert renovation designer. Analyze this space and create a stunning renovation.
+Return ONLY valid JSON (no markdown): {"description": "current room in 1 sentence", "prompt": "ultra detailed renovation prompt starting with user changes", "negative": "cartoon, illustration, low quality, blurry, distorted perspective, wrong angle"}`
+        : `${dimensionInfo}You are a world-class interior design AI. Analyze this room and create a stunning modern renovation.
 
-Write ONE highly detailed English prompt for image-to-image AI. Rules:
-- Describe the fully renovated space with specific materials, furniture, plants, lighting
-- For outdoor/terrace: large format outdoor tiles, lounge furniture with thick cushions, olive trees in terracotta planters, string lights, outdoor wall sconces
-- For bathroom: specific tile sizes (120x60cm), fixture brands (Grohe/Hansgrohe), LED mirror, floating vanity
-- For kitchen: cabinet color (RAL code), hardware style, countertop material, backsplash, lighting
-- End with: preserve exact layout and perspective, photorealistic 8k photography, professional lighting
-${dimensionInfo ? `- Space is ${dimensionInfo}` : ""}
+Write ONE ultra-detailed English prompt for Flux image-to-image renovation:
+- Bathroom: specify tile size (120x60cm), brands (Grohe/Hansgrohe), LED mirror IP44, floating oak vanity, matte black fixtures, 2700K lighting
+- Kitchen: cabinet color (RAL code), brass/matte black hardware, quartz countertop, zellige tile backsplash, LED strip 2700K
+- Living room: accent wall color (Farrow & Ball/Benjamin Moore), fluted panel detail, cove lighting 2700K, specific furniture (bouclé sofa, rattan chair)
+- Outdoor/terrace: large format outdoor porcelain 60x60cm, WPC decking, outdoor lounge with Sunbrella cushions, olive tree in terracotta, Philippi string lights 2200K
+- Always: photorealistic 8K, Sony A7R IV, 24mm, professional architectural photography, same perspective
+${dimensionInfo ? `- Room dimensions: ${dimensionInfo} - recommend appropriate scale furniture and tiles` : ""}
 
-Return ONLY JSON: {"description": "current state", "prompt": "detailed renovation prompt", "negative": "exclusions"}`;
+Return ONLY valid JSON (no markdown): {"description": "current room state", "prompt": "ultra detailed renovation prompt", "negative": "cartoon, illustration, low quality, blurry, distorted"}`;
 
       const claudeRes = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
@@ -282,9 +287,10 @@ async function runFlux(base64, prompt, negativePrompt, plan, chatContext) {
 
   const imageUrl = uploadedUrl || `data:image/jpeg;base64,${base64}`;
 
-  // Strength basierend auf Wunsch
-  const hasObjReplace = chatContext && chatContext.match(/keine|dafür|statt|anstatt|entfernen/i);
-  const strength = hasObjReplace ? 0.82 : (chatContext ? 0.72 : 0.62);
+  // Strength basierend auf Wunsch - höher = mehr Änderungen
+  const hasObjReplace = chatContext && chatContext.match(/keine|dafür|statt|anstatt|entfernen|remove|ohne/i);
+  const hasMinorChange = chatContext && chatContext.match(/farbe|color|heller|dunkler|lighter|darker/i);
+  const strength = hasObjReplace ? 0.88 : hasMinorChange ? 0.68 : (chatContext ? 0.78 : 0.65);
 
   const isPro = plan === "pro";
   const falEndpoint = isPro
@@ -295,15 +301,15 @@ async function runFlux(base64, prompt, negativePrompt, plan, chatContext) {
     image_url: imageUrl, prompt,
     image_size: "landscape_4_3",
     num_inference_steps: 50,
-    guidance_scale: 4.0,
+    guidance_scale: 4.5,
     num_images: 1,
     output_format: "jpeg",
   } : {
     image_url: imageUrl, prompt,
-    negative_prompt: negativePrompt,
+    negative_prompt: negativePrompt || "cartoon, illustration, painting, drawing, low quality, blurry, distorted, wrong perspective, extra rooms, different angle, sketch, render",
     strength,
-    num_inference_steps: 35,
-    guidance_scale: 4.5,
+    num_inference_steps: 40,
+    guidance_scale: 6.0,
     num_images: 1,
     enable_safety_checker: false,
     output_format: "jpeg",
