@@ -278,11 +278,11 @@ export default function Landing() {
               ))}
             </div>
 
-            <a href="mailto:info@mystorija.app" style={{ display:"block", width:"100%", textAlign:"center", padding:"14px", borderRadius:50, fontSize:15, fontWeight:700, textDecoration:"none", background:"var(--accent)", color:"white" }}>
+            <a href="mailto:info@mystorija.com" style={{ display:"block", width:"100%", textAlign:"center", padding:"14px", borderRadius:50, fontSize:15, fontWeight:700, textDecoration:"none", background:"var(--accent)", color:"white" }}>
               Jetzt bewerben →
             </a>
             <p style={{ textAlign:"center", fontSize:12, color:"var(--muted)", marginTop:10 }}>
-              Schreib uns: <strong>info@mystorija.app</strong>
+              Schreib uns: <strong>info@mystorija.com</strong>
             </p>
           </div>
 
@@ -293,7 +293,7 @@ export default function Landing() {
               <p style={{ fontSize:15, fontWeight:700, marginBottom:4 }}>Jetzt einsteigen – Early-Preis sichern</p>
               <p style={{ fontSize:13, color:"var(--muted)", lineHeight:1.6 }}>Wer jetzt einsteigt sichert sich bevorzugte Platzierung und den günstigsten Einstiegspreis. Warteliste ist offen.</p>
             </div>
-            <a href="mailto:info@mystorija.app" style={{ flexShrink:0, background:"var(--accent)", color:"white", padding:"11px 20px", borderRadius:50, fontSize:13, fontWeight:700, textDecoration:"none" }}>Kontakt →</a>
+            <a href="mailto:info@mystorija.com" style={{ flexShrink:0, background:"var(--accent)", color:"white", padding:"11px 20px", borderRadius:50, fontSize:13, fontWeight:700, textDecoration:"none" }}>Kontakt →</a>
           </div>
         </div>
       </section>
@@ -341,7 +341,7 @@ export default function Landing() {
             </div>
             <div style={{ flexShrink:0, textAlign:"center" }}>
               <p style={{ fontSize:13, color:"#888", marginBottom:10 }}>Jetzt vormerken lassen</p>
-              <a href="mailto:info@mystorija.app" style={{ display:"inline-block", background:"var(--accent)", color:"white", padding:"12px 24px", borderRadius:50, fontSize:14, fontWeight:700, textDecoration:"none" }}>
+              <a href="mailto:info@mystorija.com" style={{ display:"inline-block", background:"var(--accent)", color:"white", padding:"12px 24px", borderRadius:50, fontSize:14, fontWeight:700, textDecoration:"none" }}>
                 Kontakt aufnehmen →
               </a>
               <p style={{ fontSize:11, color:"#666", marginTop:8 }}>Aktuell: Warteliste offen</p>
