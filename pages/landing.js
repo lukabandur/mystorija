@@ -123,7 +123,7 @@ export default function Landing() {
           <div style={{ flex:1, minWidth:220 }}>
             <div className="section-label">🔍 Inspo-Analyse</div>
             <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:26, color:"white", lineHeight:1.3, margin:"10px 0 14px" }}>Siehst du ein Bild<br />das du liebst?</h3>
-            <p style={{ fontSize:15, color:"#aaa", lineHeight:1.7, marginBottom:20 }}>Egal ob Pinterest, Instagram oder Magazin – lade es hoch. Die KI sagt dir sofort alles was du wissen musst:</p>
+            <p style={{ fontSize:15, color:"#aaa", lineHeight:1.7, marginBottom:20 }}>Mach einen Screenshot von einem Bild das dir gefällt – Pinterest, Instagram, Zeitschrift, überall. Die KI sagt dir sofort alles was du wissen musst:</p>
             {["Welche Materialien verwendet wurden","Genaue Farbtöne und Farbpalette","Ungefähre Kosten pro Material","Wie du es selbst nachmachen kannst","Direktlinks zu Amazon, OBI, Bauhaus & Hornbach"].map(t => (
               <div key={t} style={{ color:"#ddd", fontSize:14, display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
                 <span style={{ color:"var(--accent)", fontWeight:700, flexShrink:0 }}>✓</span> {t}
@@ -285,16 +285,6 @@ export default function Landing() {
               Schreib uns: <strong>info@mystorija.com</strong>
             </p>
           </div>
-
-          {/* Why now */}
-          <div style={{ background:"var(--card)", border:"1.5px solid var(--border)", borderRadius:18, padding:"22px 28px", display:"flex", gap:16, alignItems:"center", flexWrap:"wrap" }}>
-            <div style={{ fontSize:32 }}>📊</div>
-            <div style={{ flex:1 }}>
-              <p style={{ fontSize:15, fontWeight:700, marginBottom:4 }}>Jetzt einsteigen – Early-Preis sichern</p>
-              <p style={{ fontSize:13, color:"var(--muted)", lineHeight:1.6 }}>Wer jetzt einsteigt sichert sich bevorzugte Platzierung und den günstigsten Einstiegspreis. Warteliste ist offen.</p>
-            </div>
-            <a href="mailto:info@mystorija.com" style={{ flexShrink:0, background:"var(--accent)", color:"white", padding:"11px 20px", borderRadius:50, fontSize:13, fontWeight:700, textDecoration:"none" }}>Kontakt →</a>
-          </div>
         </div>
       </section>
 
@@ -347,6 +337,29 @@ export default function Landing() {
               <p style={{ fontSize:11, color:"#666", marginTop:8 }}>Aktuell: Warteliste offen</p>
             </div>
           </div>
+        </div>
+      </section>
+      <section style={{ background:"var(--accent)", padding:"60px 24px", textAlign:"center" }}>
+        <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:32, color:"white", marginBottom:12 }}>App auf deinen Homescreen</h2>
+        <p style={{ fontSize:16, color:"rgba(255,255,255,0.85)", maxWidth:480, margin:"0 auto 28px", lineHeight:1.7 }}>Mystorija funktioniert wie eine native App – installierbar auf iPhone und Android. Kein App Store nötig.</p>
+        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"white", color:"var(--accent)", padding:"14px 28px", borderRadius:50, fontSize:15, fontWeight:700, textDecoration:"none" }}>
+          📲 App öffnen & installieren
+        </a>
+      </section>
+
+      {/* FOOTER */}
+      <footer style={{ background:"#1A1A1A", padding:"40px 24px", textAlign:"center" }}>
+        <div style={{ fontFamily:"'Playfair Display',serif", fontSize:20, color:"white", marginBottom:8 }}>My<span style={{ color:"var(--accent)" }}>storija</span></div>
+        <p style={{ fontSize:13, color:"#888", marginBottom:4 }}>KI-gestützte Renovierungs-App · 2026</p>
+        <div style={{ marginTop:16, display:"flex", gap:0, justifyContent:"center" }}>
+          {[["Impressum","/impressum"],["Datenschutz","/datenschutz"],["App öffnen","/"]].map(([label,href]) => (
+            <a key={label} href={href} style={{ color:"#888", textDecoration:"none", margin:"0 12px", fontSize:13 }}>{label}</a>
+          ))}
+        </div>
+      </footer>
+    </>
+  );
+}
         </div>
       </section>
       <section style={{ background:"var(--accent)", padding:"60px 24px", textAlign:"center" }}>
