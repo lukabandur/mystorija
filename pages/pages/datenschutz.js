@@ -37,7 +37,7 @@ export default function Datenschutz() {
 
           <h2>1. Verantwortlicher</h2>
           <p>Luka Bandur<br />
-          [Adresse], Kroatien<br />
+          Rijeka, Kroatien<br />
           E-Mail: <a href="mailto:info@mystorija.app">info@mystorija.app</a></p>
 
           <h2>2. Welche Daten werden verarbeitet?</h2>
