@@ -1492,66 +1492,56 @@ function ChatTab({ messages, setMessages }) {
 }
 
 // ─── HANDWERKER TAB ───────────────────────────────────────────────────────────
-const HANDWERKER_BEISPIELE = [
-  { name:"Fliesenleger Meier", branche:"Fliesen & Bad", ort:"München", rating:4.9, reviews:34, tel:"+49 89 123456", beschreibung:"Badsanierungen, Mikrozement, Walk-In Duschen. 20 Jahre Erfahrung.", badge:"Top-Betrieb" },
-  { name:"Maler Schmidt & Söhne", branche:"Maler & Lackierer", ort:"Hamburg", rating:4.8, reviews:61, tel:"+49 40 654321", beschreibung:"Innen- und Außenarbeiten, Tapezieren, Spachteln, Fassaden.", badge:"Schnell verfügbar" },
-  { name:"Elektro Hoffmann", branche:"Elektriker", ort:"Berlin", rating:5.0, reviews:28, tel:"+49 30 987654", beschreibung:"Smart Home, Unterverteilung, Steckdosen, LED-Einbau.", badge:"Top-Betrieb" },
-  { name:"Sanitär Bauer GmbH", branche:"Sanitär & Heizung", ort:"Frankfurt", rating:4.7, reviews:45, tel:"+49 69 111222", beschreibung:"Badsanierung, Heizungsumbau, Wärmepumpen, Boiler.", badge:null },
-  { name:"Trockenbau Vogel", branche:"Trockenbau", ort:"Stuttgart", rating:4.8, reviews:19, tel:"+49 711 333444", beschreibung:"Rigips, Abgehängte Decken, Vorbauwände, Dämmung.", badge:"Schnell verfügbar" },
-];
 const BRANCHEN = ["Alle","Fliesen & Bad","Maler & Lackierer","Elektriker","Sanitär & Heizung","Trockenbau","Schreiner","Bodenleger"];
 
 function HandwerkerTab() {
   const [filter, setFilter] = useState("Alle");
   const [ort, setOrt] = useState("");
-  const gefiltert = HANDWERKER_BEISPIELE.filter(h => (filter==="Alle"||h.branche===filter)&&(ort===""||h.ort.toLowerCase().includes(ort.toLowerCase())));
+
   return (
     <div style={{ display:"flex", flexDirection:"column", height:"100%", overflow:"hidden" }}>
       <div style={{ background:C.card, borderBottom:`1px solid ${C.border}`, padding:"14px 16px 12px", flexShrink:0 }}>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12 }}>
           <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20 }}>🔨 Profis finden</h2>
-          <span style={{ background:C.accentBg, color:C.accent, borderRadius:20, padding:"4px 12px", fontSize:11, fontWeight:700 }}>DEMO</span>
+          <span style={{ background:C.accentBg, color:C.accent, borderRadius:20, padding:"4px 12px", fontSize:11, fontWeight:700 }}>Bald verfügbar</span>
         </div>
         <input value={ort} onChange={e => setOrt(e.target.value)} placeholder="📍 Stadt oder PLZ eingeben…" style={{ width:"100%", border:`1px solid ${C.border}`, borderRadius:10, padding:"9px 13px", fontSize:14, marginBottom:10, fontFamily:"'DM Sans',sans-serif", background:C.bg }} />
         <div style={{ display:"flex", gap:6, overflowX:"auto", paddingBottom:4 }}>
           {BRANCHEN.map(b => <button key={b} onClick={() => setFilter(b)} style={{ padding:"5px 12px", borderRadius:20, border:"none", cursor:"pointer", background:filter===b?C.accent:C.bg, color:filter===b?"white":C.muted, fontSize:12, fontWeight:600, whiteSpace:"nowrap", fontFamily:"'DM Sans',sans-serif", flexShrink:0 }}>{b}</button>)}
         </div>
       </div>
-      <div style={{ flex:1, overflowY:"auto", padding:"14px 16px" }}>
-        <div style={{ background:"linear-gradient(135deg, #1a1a2e, #2d2d4e)", borderRadius:14, padding:"14px 16px", marginBottom:16, display:"flex", alignItems:"center", gap:12 }}>
-          <span style={{ fontSize:28 }}>💼</span>
-          <div>
-            <p style={{ color:"white", fontWeight:700, fontSize:13, marginBottom:2 }}>Du bist Handwerker?</p>
-            <p style={{ color:"rgba(255,255,255,0.7)", fontSize:12 }}>Hier eintragen für nur 39€/Monat – direkt Kunden gewinnen</p>
+
+      <div style={{ flex:1, overflowY:"auto", padding:"20px 16px" }}>
+        {/* Handwerker CTA */}
+        <div style={{ background:"linear-gradient(135deg, #1a1a2e, #2d2d4e)", borderRadius:16, padding:"20px", marginBottom:20, textAlign:"center" }}>
+          <div style={{ fontSize:40, marginBottom:12 }}>🔨</div>
+          <p style={{ color:"white", fontWeight:700, fontSize:16, marginBottom:8 }}>Du bist Handwerker?</p>
+          <p style={{ color:"rgba(255,255,255,0.75)", fontSize:13, lineHeight:1.6, marginBottom:16 }}>
+            Werde Teil des Mystorija Handwerker-Netzwerks.<br/>
+            Direkte Anfragen von renovierungswilligen Kunden.
+          </p>
+          <div style={{ display:"flex", gap:8, justifyContent:"center", flexWrap:"wrap", marginBottom:12 }}>
+            {["✓ Eigenes Profil","✓ Direktanfragen","✓ Werbung in der App","✓ Bewertungen"].map(f => (
+              <span key={f} style={{ background:"rgba(255,255,255,0.1)", color:"white", borderRadius:20, padding:"4px 12px", fontSize:11, fontWeight:600 }}>{f}</span>
+            ))}
           </div>
-          <span style={{ background:C.accent, color:"white", borderRadius:20, padding:"6px 12px", fontSize:12, fontWeight:700, flexShrink:0, cursor:"pointer" }}>Anfragen →</span>
+          <a href="mailto:info@mystorija.com" style={{ display:"inline-block", background:C.accent, color:"white", borderRadius:50, padding:"11px 24px", fontSize:13, fontWeight:700, textDecoration:"none" }}>
+            Jetzt bewerben – 49,99€/Monat →
+          </a>
         </div>
-        {gefiltert.length===0 ? (
-          <div style={{ textAlign:"center", padding:"40px 20px" }}><p style={{ fontSize:32, marginBottom:12 }}>🔍</p><p style={{ fontSize:15, fontWeight:600, color:C.text, marginBottom:6 }}>Keine Treffer</p><p style={{ fontSize:13, color:C.muted }}>Versuche einen anderen Ort oder Filter</p></div>
-        ) : gefiltert.map((h, i) => (
-          <div key={i} className="fu" style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:16, padding:"16px", marginBottom:12, animationDelay:`${i*0.06}s` }}>
-            <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", marginBottom:10 }}>
-              <div>
-                <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:3 }}>
-                  <p style={{ fontFamily:"'Playfair Display',serif", fontSize:16, fontWeight:700, color:C.text }}>{h.name}</p>
-                  {h.badge && <span style={{ background:h.badge==="Top-Betrieb"?C.accentBg:C.greenBg, color:h.badge==="Top-Betrieb"?C.accent:C.green, borderRadius:20, padding:"2px 8px", fontSize:10, fontWeight:700 }}>{h.badge==="Top-Betrieb"?"⭐ ":"✅ "}{h.badge}</span>}
-                </div>
-                <p style={{ fontSize:12, color:C.muted }}>{h.branche} · {h.ort}</p>
-              </div>
-              <div style={{ textAlign:"right", flexShrink:0 }}>
-                <p style={{ fontSize:16, fontWeight:700, color:C.accent }}>★ {h.rating}</p>
-                <p style={{ fontSize:11, color:C.muted }}>{h.reviews} Bewertungen</p>
-              </div>
-            </div>
-            <p style={{ fontSize:13, color:"#555", lineHeight:1.6, marginBottom:12 }}>{h.beschreibung}</p>
-            <div style={{ display:"flex", gap:8 }}>
-              <a href={`tel:${h.tel}`} style={{ flex:1, padding:"9px", borderRadius:50, textAlign:"center", background:C.accent, color:"white", textDecoration:"none", fontSize:13, fontWeight:600 }}>📞 Anrufen</a>
-              <button style={{ flex:1, padding:"9px", borderRadius:50, border:`2px solid ${C.border}`, background:C.bg, color:C.text, fontSize:13, fontWeight:600, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>💬 Anfrage senden</button>
-            </div>
+
+        {/* Coming Soon */}
+        <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:16, padding:"30px 20px", textAlign:"center" }}>
+          <div style={{ fontSize:48, marginBottom:16 }}>🏗️</div>
+          <p style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:10 }}>Handwerker-Verzeichnis</p>
+          <p style={{ fontSize:14, color:C.muted, lineHeight:1.7, maxWidth:280, margin:"0 auto 20px" }}>
+            Wir bauen gerade das Verzeichnis auf. Bald findest du hier geprüfte Handwerker in deiner Nähe.
+          </p>
+          <div style={{ background:C.greenBg, borderRadius:12, padding:"14px 16px" }}>
+            <p style={{ fontSize:13, color:C.green, fontWeight:600 }}>
+              💡 Handwerker: 20 Einträge = 1.000€/Monat passives Einkommen für Mystorija
+            </p>
           </div>
-        ))}
-        <div style={{ background:C.greenBg, border:"1px solid #C8E6C9", borderRadius:12, padding:"14px 16px", textAlign:"center" }}>
-          <p style={{ fontSize:13, color:"#2e7d32", lineHeight:1.6 }}>💡 <strong>Idee:</strong> Handwerker zahlen 39€/Monat für ihren Eintrag.<br />20 Einträge = 780€/Monat passives Einkommen!</p>
         </div>
       </div>
     </div>
