@@ -30,8 +30,8 @@ export default function Impressum() {
 
           <h2>Betreiber</h2>
           <p>Luka Bandur<br />
-          [Straße und Hausnummer]<br />
-          [PLZ] [Ort], Kroatien</p>
+          [Adresse folgt]<br />
+          Rijeka, Kroatien</p>
 
           <h2>Kontakt</h2>
           <p>E-Mail: <a href="mailto:info@mystorija.app">info@mystorija.app</a></p>
