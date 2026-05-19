@@ -1539,7 +1539,7 @@ function HandwerkerTab() {
           </p>
           <div style={{ background:C.greenBg, borderRadius:12, padding:"14px 16px" }}>
             <p style={{ fontSize:13, color:C.green, fontWeight:600 }}>
-              💡 Handwerker: 20 Einträge = 1.000€/Monat passives Einkommen für Mystorija
+              💡 Bald verfügbar – wir prüfen jeden Betrieb sorgfältig
             </p>
           </div>
         </div>
