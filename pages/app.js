@@ -2532,6 +2532,21 @@ export default function Home() {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const [subscription, setSubscription] = useState(null);
+  const [secretTaps, setSecretTaps] = useState(0);
+  const [showSecretInput, setShowSecretInput] = useState(false);
+  const [secretInput, setSecretInput] = useState("");
+
+  function handleSecretCode(code) {
+    if (code === "STORIJA2026") {
+      try { localStorage.setItem("mystorija_dev", "STORIJA2026"); } catch {}
+      setSubscription({ plan: "pro", sessionId: "dev", activated: true });
+      setShowSecretInput(false);
+      setSecretInput("");
+      alert("✅ Pro-Zugang aktiviert!");
+    } else {
+      alert("❌ Falscher Code");
+    }
+  }
   const [installPrompt, setInstallPrompt] = useState(null);
   const [showInstall, setShowInstall] = useState(false);
 
@@ -2556,6 +2571,14 @@ export default function Home() {
 
     // Free usage counter
     try { setFreeUsed(parseInt(localStorage.getItem("mystorija_free_used") || "0")); } catch {}
+
+    // Secret dev code check
+    try {
+      const devCode = localStorage.getItem("mystorija_dev");
+      if (devCode === "STORIJA2026") {
+        setSubscription({ plan: "pro", sessionId: "dev", activated: true });
+      }
+    } catch {}
 
     // Subscription aus localStorage
     try {
@@ -2628,7 +2651,7 @@ export default function Home() {
       </Head>
       <div style={{ display:"flex", flexDirection:"column", height:"100vh", background:C.bg, maxWidth:600, margin:"0 auto" }}>
         <div style={{ background:C.card, borderBottom:`1px solid ${C.border}`, padding:"13px 18px", display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0 }}>
-          <span style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:700 }}>My<span style={{ color:C.accent }}>storija</span></span>
+          <span onClick={() => { const t = secretTaps+1; setSecretTaps(t); if(t>=5){setShowSecretInput(true);setSecretTaps(0);} }} style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:700, cursor:"default", userSelect:"none" }}>My<span style={{ color:C.accent }}>storija</span></span>
           <div style={{ display:"flex", gap:8, alignItems:"center" }}>
             {showInstall && (
               <button onClick={async () => { if (installPrompt) { installPrompt.prompt(); const r = await installPrompt.userChoice; if (r.outcome==="accepted") setShowInstall(false); }}} style={{ fontSize:11, color:C.green, fontWeight:700, background:C.greenBg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.green}33`, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
@@ -2675,6 +2698,21 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      {/* Secret Dev Code Modal */}
+      {showSecretInput && (
+        <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.7)", zIndex:9999, display:"flex", alignItems:"center", justifyContent:"center", padding:20 }}>
+          <div style={{ background:C.card, borderRadius:20, padding:28, width:"100%", maxWidth:320, textAlign:"center" }}>
+            <p style={{ fontFamily:"'Playfair Display',serif", fontSize:20, marginBottom:8 }}>🔐 Aktivierungscode</p>
+            <p style={{ fontSize:13, color:C.muted, marginBottom:16 }}>Code eingeben um Pro freizuschalten</p>
+            <input value={secretInput} onChange={e => setSecretInput(e.target.value)} onKeyDown={e => e.key==="Enter" && handleSecretCode(secretInput)} placeholder="Code eingeben..." style={{ width:"100%", padding:"11px 14px", borderRadius:12, border:`2px solid ${C.border}`, fontSize:15, marginBottom:12, fontFamily:"'DM Sans',sans-serif", textAlign:"center", letterSpacing:2 }} autoFocus />
+            <div style={{ display:"flex", gap:8 }}>
+              <button onClick={() => { setShowSecretInput(false); setSecretInput(""); }} style={{ flex:1, padding:"11px", borderRadius:50, border:`1px solid ${C.border}`, background:C.bg, cursor:"pointer", fontFamily:"'DM Sans',sans-serif", fontSize:14 }}>Abbrechen</button>
+              <button onClick={() => handleSecretCode(secretInput)} style={{ flex:1, padding:"11px", borderRadius:50, background:C.accent, color:"white", border:"none", cursor:"pointer", fontFamily:"'DM Sans',sans-serif", fontSize:14, fontWeight:700 }}>Aktivieren</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
