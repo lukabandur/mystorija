@@ -2062,8 +2062,8 @@ function InspoTab({ plan }) {
         <div style={{ marginTop:12, background:"#1A1A1A", borderRadius:14, padding:"14px 16px", display:"flex", gap:12, alignItems:"center" }}>
           <div style={{ flexShrink:0, fontSize:24 }}>📱</div>
           <div style={{ flex:1 }}>
-            <p style={{ fontSize:13, fontWeight:700, color:"white", marginBottom:3 }}>Schönes Bild auf Pinterest gesehen?</p>
-            <p style={{ fontSize:11, color:"#aaa", lineHeight:1.5 }}>Mach einen Screenshot und lade ihn hier hoch – Mystorija verrät dir sofort welche Materialien, Farben und Fliesen verwendet wurden. Mit direkten Shop-Links.</p>
+            <p style={{ fontSize:13, fontWeight:700, color:"white", marginBottom:3 }}>Schönes Bild irgendwo gesehen?</p>
+            <p style={{ fontSize:11, color:"#aaa", lineHeight:1.5 }}>Mach einfach einen Screenshot von jedem Bild das dir gefällt – Pinterest, Instagram, Zeitschrift, TV, überall. Mystorija erkennt sofort alle Materialien, Farben und Fliesen.</p>
           </div>
         </div>
       </div>
