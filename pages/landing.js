@@ -360,26 +360,3 @@ export default function Landing() {
     </>
   );
 }
-        </div>
-      </section>
-      <section style={{ background:"var(--accent)", padding:"60px 24px", textAlign:"center" }}>
-        <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:32, color:"white", marginBottom:12 }}>App auf deinen Homescreen</h2>
-        <p style={{ fontSize:16, color:"rgba(255,255,255,0.85)", maxWidth:480, margin:"0 auto 28px", lineHeight:1.7 }}>Mystorija funktioniert wie eine native App – installierbar auf iPhone und Android. Kein App Store nötig.</p>
-        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"white", color:"var(--accent)", padding:"14px 28px", borderRadius:50, fontSize:15, fontWeight:700, textDecoration:"none" }}>
-          📲 App öffnen & installieren
-        </a>
-      </section>
-
-      {/* FOOTER */}
-      <footer style={{ background:"#1A1A1A", padding:"40px 24px", textAlign:"center" }}>
-        <div style={{ fontFamily:"'Playfair Display',serif", fontSize:20, color:"white", marginBottom:8 }}>My<span style={{ color:"var(--accent)" }}>storija</span></div>
-        <p style={{ fontSize:13, color:"#888", marginBottom:4 }}>KI-gestützte Renovierungs-App · 2026</p>
-        <div style={{ marginTop:16, display:"flex", gap:0, justifyContent:"center" }}>
-          {[["Impressum","/impressum"],["Datenschutz","/datenschutz"],["App öffnen","/"]].map(([label,href]) => (
-            <a key={label} href={href} style={{ color:"#888", textDecoration:"none", margin:"0 12px", fontSize:13 }}>{label}</a>
-          ))}
-        </div>
-      </footer>
-    </>
-  );
-}
