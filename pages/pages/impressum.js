@@ -34,10 +34,10 @@ export default function Impressum() {
           Rijeka, Kroatien</p>
 
           <h2>Kontakt</h2>
-          <p>E-Mail: <a href="mailto:info@mystorija.app">info@mystorija.app</a></p>
+          <p>E-Mail: <a href="mailto:info@mystorija.com">info@mystorija.com</a></p>
 
           <h2>Plattform</h2>
-          <p>Mystorija ist eine webbasierte SaaS-Applikation erreichbar unter mystorija.app und mystorija.vercel.app.</p>
+          <p>Mystorija ist eine webbasierte SaaS-Applikation erreichbar unter mystorija.com und mystorija.com.</p>
 
           <h2>Hinweis zur EU-Streitschlichtung</h2>
           <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:<br />
