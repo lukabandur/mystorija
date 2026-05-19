@@ -38,7 +38,7 @@ export default function Datenschutz() {
           <h2>1. Verantwortlicher</h2>
           <p>Luka Bandur<br />
           Rijeka, Kroatien<br />
-          E-Mail: <a href="mailto:info@mystorija.app">info@mystorija.app</a></p>
+          E-Mail: <a href="mailto:info@mystorija.com">info@mystorija.com</a></p>
 
           <h2>2. Welche Daten werden verarbeitet?</h2>
           <p><strong>Lokal auf deinem Gerät (localStorage):</strong></p>
@@ -78,14 +78,14 @@ export default function Datenschutz() {
           <ul>
             <li><strong>Auskunft:</strong> Du kannst jederzeit Auskunft über gespeicherte Daten verlangen</li>
             <li><strong>Löschung:</strong> Alle lokalen Daten kannst du selbst löschen (Browser-Einstellungen → Cache/localStorage leeren)</li>
-            <li><strong>Widerspruch:</strong> Kontaktiere uns unter info@mystorija.app</li>
+            <li><strong>Widerspruch:</strong> Kontaktiere uns unter info@mystorija.com</li>
           </ul>
 
           <h2>8. Datensicherheit</h2>
           <p>Die Übertragung der App erfolgt über HTTPS. Hochgeladene Bilder werden verschlüsselt an Drittanbieter übertragen und nicht dauerhaft auf unseren Servern gespeichert.</p>
 
           <h2>9. Kontakt bei Datenschutzfragen</h2>
-          <p>E-Mail: <a href="mailto:info@mystorija.app">info@mystorija.app</a></p>
+          <p>E-Mail: <a href="mailto:info@mystorija.com">info@mystorija.com</a></p>
           <p>Wir beantworten Anfragen innerhalb von 30 Tagen.</p>
         </div>
       </div>
