@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Head from "next/head";
+import { Analytics } from "@vercel/analytics/next";
+import { supabase } from "../lib/supabase";
 
 const SYSTEM = `Du bist Mystorija, ein freundlicher DIY-Renovierungsexperte für den deutschsprachigen Markt. Deine Nutzer sind AMATEURE. Erkläre alles einfach, konkret, auf Deutsch, motivierend. Immer mit Produktnamen, deutschen Preisen (OBI/Bauhaus/Hornbach/Amazon/IKEA). Warne bei Elektro-Festinstallation, Asbest und tragenden Wänden immer klar.`;
 
@@ -2528,8 +2530,6 @@ const TABS = [
   { id:"profis",   labelDE:"Profis",   labelEN:"Pros",     icon:"🔨" },
 ];
 
-import { Analytics } from "@vercel/analytics/next";
-import { supabase } from "../lib/supabase";
 
 
 
