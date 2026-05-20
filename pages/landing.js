@@ -353,6 +353,7 @@ export default function Landing() {
       <footer style={{ background:"#1A1A1A", padding:"40px 24px", textAlign:"center" }}>
         <div style={{ fontFamily:"'Playfair Display',serif", fontSize:20, color:"white", marginBottom:8 }}>My<span style={{ color:"var(--accent)" }}>storija</span></div>
         <p style={{ fontSize:13, color:"#888", marginBottom:4 }}>KI-gestützte Renovierungs-App · 2026</p>
+        <p style={{ fontSize:13, color:"#888", marginBottom:4 }}>Support: <a href="mailto:info@mystorija.com" style={{ color:"var(--accent)", textDecoration:"none" }}>info@mystorija.com</a></p>
         <div style={{ marginTop:16, display:"flex", gap:0, justifyContent:"center" }}>
           {[["Impressum","/impressum"],["Datenschutz","/datenschutz"],["App öffnen","/"]].map(([label,href]) => (
             <a key={label} href={href} style={{ color:"#888", textDecoration:"none", margin:"0 12px", fontSize:13 }}>{label}</a>
