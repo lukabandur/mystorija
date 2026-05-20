@@ -1,6 +1,9 @@
+import React from "react";
 import Head from "next/head";
 
 export default function Landing() {
+  const [lang, setLang] = React.useState("de");
+  const isEN = lang === "en";
   return (
     <>
       <Head>
@@ -44,14 +47,14 @@ export default function Landing() {
           🤖 KI-gestützt · Sofort kostenlos starten
         </div>
         <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(36px, 7vw, 58px)", fontWeight:700, lineHeight:1.15, marginBottom:20 }}>
-          Dein Zuhause,<br /><em style={{ fontStyle:"italic", color:"var(--accent)" }}>neu gedacht</em> mit KI
+          {isEN ? <>Your Home,<br /><em style={{ fontStyle:"italic", color:"var(--accent)" }}>reimagined</em> with AI</> : <>Dein Zuhause,<br /><em style={{ fontStyle:"italic", color:"var(--accent)" }}>neu gedacht</em> mit KI</>}
         </h1>
         <p style={{ fontSize:18, color:"var(--muted)", maxWidth:520, margin:"0 auto 36px", lineHeight:1.7 }}>
-          Foto hochladen – KI generiert deine Traumrenovierung in Sekunden. Materialien erkennen, Anleitungen folgen, loslegen.
+          {isEN ? "Upload a photo – AI generates your dream renovation in seconds. Identify materials, follow guides, get started." : "Foto hochladen – KI generiert deine Traumrenovierung in Sekunden. Materialien erkennen, Anleitungen folgen, loslegen."}
         </p>
         <div style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap" }}>
-          <a className="btn-primary" href="/" style={{ fontSize:15, padding:"14px 28px" }}>✨ Jetzt kostenlos testen</a>
-          <a className="btn-secondary" href="#features" style={{ fontSize:15, padding:"14px 28px" }}>Mehr erfahren</a>
+          <a className="btn-primary" href="/" style={{ fontSize:15, padding:"14px 28px" }}>{isEN ? "✨ Start for free" : "✨ Jetzt kostenlos testen"}</a>
+          <a className="btn-secondary" href="#features" style={{ fontSize:15, padding:"14px 28px" }}>{isEN ? "Learn more" : "Mehr erfahren"}</a>
         </div>
       </section>
 
@@ -88,7 +91,7 @@ export default function Landing() {
 
       {/* STATS */}
       <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"var(--border)", borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", margin:"60px 0" }}>
-        {[["100","Ideen & Trends"],["50","DIY-Anleitungen"],["20s","bis zum Makeover"]].map(([num,label]) => (
+        {[["100",{isEN ? "Ideas & Trends" : "Ideen & Trends"}],["50",{isEN ? "DIY Guides" : "DIY-Anleitungen"}],["20s",{isEN ? "to makeover" : "bis zum Makeover"}]].map(([num,label]) => (
           <div key={label} style={{ background:"var(--card)", padding:"28px 20px", textAlign:"center" }}>
             <div style={{ fontFamily:"'Playfair Display',serif", fontSize:36, fontWeight:700, color:"var(--accent)" }}>{num}</div>
             <div style={{ fontSize:13, color:"var(--muted)", marginTop:4 }}>{label}</div>
@@ -101,7 +104,7 @@ export default function Landing() {
         <div style={{ textAlign:"center", marginBottom:40 }}>
           <div className="section-label" style={{ textAlign:"center" }}>Für jeden der renovieren möchte</div>
           <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(26px,5vw,38px)", lineHeight:1.25 }}>
-            Inspiration ist überall –<br /><em style={{ color:"var(--accent)" }}>Mystorija hilft dir umzusetzen</em>
+            {isEN ? <>Inspiration is everywhere –<br /><em style={{ color:"var(--accent)" }}>Mystorija helps you get it done</em></> : <>Inspiration ist überall –<br /><em style={{ color:"var(--accent)" }}>Mystorija hilft dir umzusetzen</em></>}
           </h2>
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))", gap:16, marginBottom:50 }}>
