@@ -34,8 +34,8 @@ export default function LandingEN() {
       <nav>
         <a className="logo" href="/landing">My<span>storija</span></a>
         <div style={{ display:"flex", gap:10, alignItems:"center" }}>
-          <a href="/" style={{ fontSize:12, fontWeight:700, color:"var(--muted)", textDecoration:"none", padding:"7px 12px", borderRadius:20, border:"1.5px solid var(--border)", background:"var(--bg)" }}>🇩🇪 Deutsch</a>
-          <a className="btn-secondary hide-mobile" href="/en/app" style={{ fontSize:13, padding:"8px 18px" }}>App öffnen</a>
+          <a href="/en" style={{ fontSize:12, fontWeight:700, color:"var(--muted)", textDecoration:"none", padding:"7px 12px", borderRadius:20, border:"1.5px solid var(--border)", background:"var(--bg)" }}>🇩🇪 Deutsch</a>
+          <a className="btn-secondary hide-mobile" href="/en/app" style={{ fontSize:13, padding:"8px 18px" }}>Open app</a>
           <a className="btn-primary" href="/en/app" style={{ fontSize:13, padding:"8px 18px" }}>Kostenlos starten ✨</a>
         </div>
       </nav>
@@ -52,7 +52,7 @@ export default function LandingEN() {
           Upload a photo – AI generates your dream renovation in seconds. Identify materials, follow guides, get started.
         </p>
         <div style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap" }}>
-          <a className="btn-primary" href="/" style={{ fontSize:15, padding:"14px 28px" }}>✨ Start for free</a>
+          <a className="btn-primary" href="/en" style={{ fontSize:15, padding:"14px 28px" }}>✨ Start for free</a>
           <a className="btn-secondary" href="#features" style={{ fontSize:15, padding:"14px 28px" }}>Learn more</a>
         </div>
       </section>
@@ -131,7 +131,7 @@ export default function LandingEN() {
                 <span style={{ color:"var(--accent)", fontWeight:700, flexShrink:0 }}>✓</span> {t}
               </div>
             ))}
-            <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"var(--accent)", color:"white", padding:"12px 24px", borderRadius:50, fontSize:14, fontWeight:700, textDecoration:"none", marginTop:20 }}>
+            <a href="/en" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"var(--accent)", color:"white", padding:"12px 24px", borderRadius:50, fontSize:14, fontWeight:700, textDecoration:"none", marginTop:20 }}>
               🔍 Foto analysieren →
             </a>
           </div>
@@ -210,7 +210,7 @@ export default function LandingEN() {
             <p style={{ fontSize:15, fontWeight:700, marginBottom:4 }}>See your result in 20 seconds</p>
             <p style={{ fontSize:13, color:"var(--muted)" }}>No account needed. No download. Just upload a photo and get started – free now.</p>
           </div>
-          <a href="/" style={{ flexShrink:0, background:"var(--accent)", color:"white", padding:"10px 20px", borderRadius:50, fontSize:13, fontWeight:700, textDecoration:"none", whiteSpace:"nowrap" }}>Start now →</a>
+          <a href="/en" style={{ flexShrink:0, background:"var(--accent)", color:"white", padding:"10px 20px", borderRadius:50, fontSize:13, fontWeight:700, textDecoration:"none", whiteSpace:"nowrap" }}>Start now →</a>
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))", gap:20 }}>
           {[
@@ -227,7 +227,7 @@ export default function LandingEN() {
               <ul style={{ listStyle:"none", display:"flex", flexDirection:"column", gap:10, marginBottom:24 }}>
                 {p.features.map(f => <li key={f} style={{ fontSize:14, display:"flex", alignItems:"flex-start", gap:8 }}><span style={{ color:"var(--green)", fontWeight:700, flexShrink:0 }}>✓</span>{f}</li>)}
               </ul>
-              <a href="/" style={{ display:"block", width:"100%", textAlign:"center", padding:13, borderRadius:50, fontSize:14, fontWeight:700, textDecoration:"none", background:p.featured?"var(--accent)":"transparent", color:p.featured?"white":"var(--text)", border:p.featured?"none":"1.5px solid var(--border)" }}>
+              <a href="/en" style={{ display:"block", width:"100%", textAlign:"center", padding:13, borderRadius:50, fontSize:14, fontWeight:700, textDecoration:"none", background:p.featured?"var(--accent)":"transparent", color:p.featured?"white":"var(--text)", border:p.featured?"none":"1.5px solid var(--border)" }}>
                 {p.featured ? "Go Pro ✨" : "Start now"}
               </a>
             </div>
@@ -344,7 +344,7 @@ export default function LandingEN() {
       <section style={{ background:"var(--accent)", padding:"60px 24px", textAlign:"center" }}>
         <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:32, color:"white", marginBottom:12 }}>Add to your homescreen</h2>
         <p style={{ fontSize:16, color:"rgba(255,255,255,0.85)", maxWidth:480, margin:"0 auto 28px", lineHeight:1.7 }}>Mystorija works like a native app – installable on iPhone and Android. No App Store needed.</p>
-        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"white", color:"var(--accent)", padding:"14px 28px", borderRadius:50, fontSize:15, fontWeight:700, textDecoration:"none" }}>
+        <a href="/en" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"white", color:"var(--accent)", padding:"14px 28px", borderRadius:50, fontSize:15, fontWeight:700, textDecoration:"none" }}>
           📲 Open & install app
         </a>
       </section>
@@ -354,8 +354,9 @@ export default function LandingEN() {
         <div style={{ fontFamily:"'Playfair Display',serif", fontSize:20, color:"white", marginBottom:8 }}>My<span style={{ color:"var(--accent)" }}>storija</span></div>
         <p style={{ fontSize:13, color:"#888", marginBottom:4 }}>AI-powered renovation app · 2026</p>
         <p style={{ fontSize:13, color:"#888", marginBottom:4 }}>Support: <a href="mailto:info@mystorija.com" style={{ color:"var(--accent)", textDecoration:"none" }}>info@mystorija.com</a></p>
+        <p style={{ fontSize:13, color:"#888", marginBottom:4 }}>Support: <a href="mailto:info@mystorija.com" style={{ color:"var(--accent)", textDecoration:"none" }}>info@mystorija.com</a></p>
         <div style={{ marginTop:16, display:"flex", gap:0, justifyContent:"center" }}>
-          {[["Imprint","/impressum"],["Privacy","/datenschutz"],["Open app","/"]].map(([label,href]) => (
+          {[["Imprint","/impressum"],["Privacy","/datenschutz"],["Open app","/en/app"]].map(([label,href]) => (
             <a key={label} href={href} style={{ color:"#888", textDecoration:"none", margin:"0 12px", fontSize:13 }}>{label}</a>
           ))}
         </div>
