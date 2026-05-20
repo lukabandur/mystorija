@@ -91,7 +91,7 @@ export default function Landing() {
 
       {/* STATS */}
       <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"var(--border)", borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", margin:"60px 0" }}>
-        {[["100",{isEN ? "Ideas & Trends" : "Ideen & Trends"}],["50",{isEN ? "DIY Guides" : "DIY-Anleitungen"}],["20s",{isEN ? "to makeover" : "bis zum Makeover"}]].map(([num,label]) => (
+        {[["100", isEN ? "Ideas & Trends" : "Ideen & Trends"],["50", isEN ? "DIY Guides" : "DIY-Anleitungen"],["20s", isEN ? "to makeover" : "bis zum Makeover"]].map(([num,label]) => (
           <div key={label} style={{ background:"var(--card)", padding:"28px 20px", textAlign:"center" }}>
             <div style={{ fontFamily:"'Playfair Display',serif", fontSize:36, fontWeight:700, color:"var(--accent)" }}>{num}</div>
             <div style={{ fontSize:13, color:"var(--muted)", marginTop:4 }}>{label}</div>
