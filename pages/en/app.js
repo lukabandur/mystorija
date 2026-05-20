@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Head from "next/head";
 import { Analytics } from "@vercel/analytics/next";
-import { supabase } from "../lib/supabase";
+import { supabase } from "../../lib/supabase";
 
 const SYSTEM = `You are Mystorija, a friendly DIY renovation expert. Your users are AMATEURS. Explain everything simply, concretely, in English, encouragingly. Always include specific product recommendations, prices in €, and practical tips. Max 3-4 short paragraphs. Format with emojis.`;
 
