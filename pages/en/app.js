@@ -137,7 +137,7 @@ const ANLEITUNGEN = [
     fehler:"Zu wenig abkleben, falscher Abziehmodus, zu dicke Schichten.",
     youtube:"https://www.youtube.com/results?search_query=wände+streichen+profi+anleitung",
     amazon:amazonLink("lammfellrolle teleskopstange set") },
-  { id:"spachteln", emoji:"🔧", titel:"Wände spachteln", schwierigkeit:"Mittel", zeit:"2–3 Tage", kosten:"40–120€",
+  { id:"spachteln", emoji:"🔧", titel:"Wände spachteln", schwierigkeit:"Medium", zeit:"2–3 Tage", kosten:"40–120€",
     img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=120&q=80",
     werkzeug:["Glättekelle 40cm","Rakel","Schleifgitter 120er","Glasflies","Pulverspachtel","Fertigspachtel"],
     schritte:["Q1 – Fugen: Pulverspachtel einpressen, Fugendeckstreifen einlegen","Q2 – Übergänge: Fertigspachtel dünn mit Kelle ziehen","Q3 – Abporen: dünner Abrieb über die gesamte Fläche","Glasflies empfohlen: verhindert Rissbildung","Nach jeder Schicht nass mit Rakel überziehen","Schleifen nur Q2/Q3 mit Gitter auf Brett","Vor Streichen: Tiefengrund dünn auftragen"],
@@ -145,19 +145,19 @@ const ANLEITUNGEN = [
     fehler:"Q1 und Q2 verwechseln, zu dick auftragen, nicht schleifen.",
     youtube:"https://www.youtube.com/results?search_query=wand+spachteln+anleitung+q1+q2",
     amazon:amazonLink("glättekelle fertigspachtel set") },
-  { id:"fliesen", emoji:"⬛", titel:"Fliesen legen", schwierigkeit:"Mittel", zeit:"2–4 Tage", kosten:"100–400€",
+  { id:"fliesen", emoji:"⬛", titel:"Fliesen legen", schwierigkeit:"Medium", zeit:"2–4 Tage", kosten:"100–400€",
     img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=120&q=80",
     werkzeug:["Zahnkelle 8mm","Nivelliersystem","Fliesenschneider","Fugenmasse","Gummihammer"],
-    schritte:["Raumbreite ÷ Fliesenbreite – letzter Streifen mind. ¾ Breite","Mitte des Raums als Startpunkt","Untergrund: eben, trocken, tragfähig","Doppelklebung: Kleber auf Boden UND Fliese","Zahnkelle 8mm gleichmäßig aufziehen","1/3-Verband verlegen","Nivelliersystem bei großen Formaten","24h trocknen, dann fugen"],
+    schritte:["Raumbreite ÷ Fliesenbreite – letzter Streifen mind. ¾ Width","Mitte des Raums als Startpunkt","Untergrund: eben, trocken, tragfähig","Doppelklebung: Kleber auf Boden UND Fliese","Zahnkelle 8mm gleichmäßig aufziehen","1/3-Verband verlegen","Nivelliersystem bei großen Formaten","24h trocknen, dann fugen"],
     tipp:"Große Formate (60×60+) immer Doppelklebung + Nivelliersystem.",
     fehler:"Untergrund nicht prüfen, Doppelklebung vergessen.",
     youtube:"https://www.youtube.com/results?search_query=fliesen+legen+anleitung",
     amazon:amazonLink("fliesen nivelliersystem zahnkelle") },
-  { id:"bad", emoji:"🚿", titel:"Bad ohne Abriss renovieren", schwierigkeit:"Mittel", zeit:"3–5 Tage", kosten:"200–800€",
+  { id:"bad", emoji:"🚿", titel:"Bad ohne Abriss renovieren", schwierigkeit:"Medium", zeit:"3–5 Tage", kosten:"200–800€",
     img:"https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=120&q=80",
     werkzeug:["Cuttermesser","Anlauger","Silikon+Pistole","Abdichtband","SMP-Klebstoff"],
     schritte:["Klopftest: hohle Fliesen markieren (>20% = Abriss nötig)","Altes Silikon komplett raus + Untergrund entfetten","Abdichtung: Wanne, Dusche bis 2m, Boden","SMP-Klebstoff: KEINE Dispersionsgrundierung darunter","Neue Fliesen auf alte legen (Boden +1–2cm)","Silikon mit Finger+Spülmittel glattziehen","Armaturentausch: Wasser ab, Teflonband","Licht, Spiegel, Accessoires"],
-    tipp:"Nur Silikon + Oberflächen = 80% Arbeitsersparnis bei gleichem Ergebnis.",
+    tipp:"Nur Silikon + Oberflächen = 80% Arbeitsersparnis bei gleichem Result.",
     fehler:"Abdichtung vergessen, Silikon auf Fett, falscher Kleber.",
     youtube:"https://www.youtube.com/results?search_query=bad+renovieren+ohne+abriss",
     amazon:amazonLink("bad renovierung silikon abdichtband set") },
@@ -172,7 +172,7 @@ const ANLEITUNGEN = [
   { id:"wandpaneele", emoji:"📐", titel:"Wandpaneele / Fluted Panels", schwierigkeit:"Leicht", zeit:"4–8 Stunden", kosten:"50–200€",
     img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=120&q=80",
     werkzeug:["Bohrschrauber","Stichsäge","SPC-Kleber","Wasserwaage","Abstandshalter"],
-    schritte:["Wand: gerade, trocken, tapetenfrei","Paneele 24h akklimatisieren","Erstes Panel mit Wasserwaage ausrichten","Kleber: S-Muster, mind. 5cm vom Rand","Panel andrücken, 2 Min. halten","Stöße versetzen wie Mauerwerk","Steckdosen: Pappe-Schablone, dann Stichsäge","Abschluss mit Profil oder Anstrich"],
+    schritte:["Wand: gerade, trocken, tapetenfrei","Paneele 24h akklimatisieren","Erstes Panel mit Wasserwaage ausrichten","Kleber: S-Muster, mind. 5cm vom Rand","Panel andrücken, 2 Min. halten","Stöße versetzen wie Mauerwerk","Steckdosen: Pappe-Schablone, dann Stichsäge","Abschluss mit Professionall oder Anstrich"],
     tipp:"Fluted Panels hinter Bett oder Sofa – meistgesuchter Look 2025.",
     fehler:"Erstes Panel nicht ausrichten, Lösungsmittel-Kleber auf Kunststoff.",
     youtube:"https://www.youtube.com/results?search_query=wandpaneele+fluted+panel",
@@ -217,15 +217,15 @@ const ANLEITUNGEN = [
     fehler:"Scharniere falsch justiert, Schablone für Griffe nicht genutzt.",
     youtube:"https://www.youtube.com/results?search_query=küchenfronten+austauschen+anleitung",
     amazon:amazonLink("küchenfronten scharnier einstellwerkzeug") },
-  { id:"trockenbau", emoji:"🔩", titel:"Trockenbauwand bauen", schwierigkeit:"Mittel", zeit:"1–2 Tage", kosten:"80–200€",
+  { id:"trockenbau", emoji:"🔩", titel:"Trockenbauwand bauen", schwierigkeit:"Medium", zeit:"1–2 Tage", kosten:"80–200€",
     img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=120&q=80",
     werkzeug:["Metallprofil-Schere","Akkuschrauber","Wasserwaage + Lot","Rigipsplatten","Schrauben 3,5×35mm"],
     schritte:["Bodenprofile (UW) mit Lot ausrichten und verschrauben","Deckenprofile parallel befestigen","Ständerprofile (CW) alle 62,5cm einsetzen","Elektro-Leerrohr jetzt einziehen","Erste Lage Rigips verschrauben: alle 25cm","Mineralwolle als Dämmung einlegen","Zweite Seite beplanken","Fugen verspachteln: Fugenband + Q1/Q2"],
-    tipp:"CW-Profile alle 62,5cm = perfekter Raster für 125cm-Platten.",
+    tipp:"CW-Professionalle alle 62,5cm = perfekter Raster für 125cm-Platten.",
     fehler:"Ständer falsch messen, keine Dämmung, Schrauben zu tief.",
     youtube:"https://www.youtube.com/results?search_query=trockenbauwand+bauen+anleitung",
     amazon:amazonLink("rigips ständerwerk CD UW profil set") },
-  { id:"parkett-schleifen", emoji:"🪵", titel:"Parkett schleifen & ölen", schwierigkeit:"Mittel", zeit:"2–3 Tage", kosten:"80–300€",
+  { id:"parkett-schleifen", emoji:"🪵", titel:"Parkett schleifen & ölen", schwierigkeit:"Medium", zeit:"2–3 Tage", kosten:"80–300€",
     img:"https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=120&q=80",
     werkzeug:["Parkettschleifer (leihen!)","Deltaschleifer für Ecken","Schleifpapier 40/80/120er","Naturöl oder Versiegelung","Parkettrolle"],
     schritte:["Raum leeren, alle Nägel versenken","Erste Runde: grobes 40er diagonal","Zweite Runde: 80er entlang Maserung","Dritte Runde: 120er Feinschliff","Ecken mit Deltaschleifer nacharbeiten","Saugen + feucht wischen, 2h trocknen","Öl dünn auftragen, in Maserungsrichtung","Nach 12h zweite Ölschicht"],
@@ -241,15 +241,15 @@ const ANLEITUNGEN = [
     fehler:"Falsches Dichtungsmaß, Acryl auf fettigem Untergrund.",
     youtube:"https://www.youtube.com/results?search_query=fenster+abdichten+dämmen+anleitung",
     amazon:amazonLink("fensterdichtung moosgummi selbstklebend") },
-  { id:"duschkabine", emoji:"🚿", titel:"Duschkabine einbauen", schwierigkeit:"Mittel", zeit:"1 Tag", kosten:"150–600€",
+  { id:"duschkabine", emoji:"🚿", titel:"Duschkabine einbauen", schwierigkeit:"Medium", zeit:"1 Tag", kosten:"150–600€",
     img:"https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=120&q=80",
     werkzeug:["Wasserwaage","Akkuschrauber","Dübel + Schrauben","Sanitär-Silikon","Metallsäge"],
-    schritte:["Teile laut Anleitung sortieren","Duschwanne einbauen: Füße bis waagerecht justieren","Ablauf anschließen, auf Dichtigkeit testen","Wandprofil senkrecht anzeichnen, dübeln","Glaselemente einhängen","Alle Verbindungen mit Sanitär-Silikon abdichten","Türen einhängen, Mechanismus prüfen","24h aushärten, dann Wassertest"],
+    schritte:["Teile laut Anleitung sortieren","Duschwanne einbauen: Füße bis waagerecht justieren","Ablauf anschließen, auf Dichtigkeit testen","Wandprofil senkrecht anzeichnen, dübeln","Glaselemente einhängen","All Verbindungen mit Sanitär-Silikon abdichten","Türen einhängen, Mechanismus prüfen","24h aushärten, dann Wassertest"],
     tipp:"Duschwanne IMMER mit Wasser füllen bevor du abdichtest.",
     fehler:"Wanne nicht waagerecht, Ablauf nicht getestet, Silikon auf nasser Fläche.",
     youtube:"https://www.youtube.com/results?search_query=duschkabine+einbauen+anleitung",
     amazon:amazonLink("duschkabine dichtband sanitär silikon") },
-  { id:"aussenputz", emoji:"🧱", titel:"Risse im Außenputz reparieren", schwierigkeit:"Mittel", zeit:"1 Tag", kosten:"30–100€",
+  { id:"aussenputz", emoji:"🧱", titel:"Risse im Außenputz reparieren", schwierigkeit:"Medium", zeit:"1 Tag", kosten:"30–100€",
     img:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=120&q=80",
     werkzeug:["Flex mit Trennscheibe","Putzspachtel","Außenputz-Reparaturmasse","Armierungsband","Grundierung"],
     schritte:["Riss aufweiten: V-förmig aufschlitzen (bessere Haftung)","Losen Putz entfernen, abbürsten","Grundierung auftragen, 30 Min. trocknen","Armierungsband in Riss einlegen","Reparaturmasse in zwei Schichten","Erste Schicht eindrücken, 2h trocknen","Zweite Schicht bündig abglätten","Nach 24h Fassadenfarbe auftragen"],
@@ -257,7 +257,7 @@ const ANLEITUNGEN = [
     fehler:"Riss nicht aufweiten, kein Armierungsband, Farbton nicht anpassen.",
     youtube:"https://www.youtube.com/results?search_query=außenputz+riss+reparieren+anleitung",
     amazon:amazonLink("außenputz reparatur set armierungsband") },
-  { id:"parkett", emoji:"🪵", titel:"Parkett & Vinyl verlegen", schwierigkeit:"Mittel", zeit:"1–2 Tage", kosten:"150–600€",
+  { id:"parkett", emoji:"🪵", titel:"Parkett & Vinyl verlegen", schwierigkeit:"Medium", zeit:"1–2 Tage", kosten:"150–600€",
     img:"https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=120&q=80",
     werkzeug:["Stichsäge","Gummihammer","Zugeisen","Abstandshalter 10mm","Wasserwaage"],
     schritte:["48h akklimatisieren (Pakete geöffnet, liegend im Raum)","Untergrund prüfen: max. 3mm Unebenheit – sonst Ausgleichsmasse (Knauf Nivello)","Trittschalldämmung auslegen, Stöße 15cm überlappen","Erste Reihe: 10mm Abstandshalter zur Wand – IMMER!","Klicksystem: Winkel einsetzen und nach unten drücken","Richtung: längs zur Fensterseite = Raum wirkt größer","Letzte Reihe mit Zugeisen eindrücken","Sockelleisten KLEBEN – nie auf Laminat schrauben!"],
@@ -265,7 +265,7 @@ const ANLEITUNGEN = [
     fehler:"Dehnungsfuge vergessen, zu früh betreten (24h warten), Türrahmen nicht untergeschoben.",
     youtube:"https://www.youtube.com/results?search_query=vinyl+laminat+verlegen+anleitung",
     amazon:amazonLink("spc vinyl klick boden verlegen set") },
-  { id:"kueche-fronten", emoji:"🍳", titel:"Küchenfronten lackieren", schwierigkeit:"Mittel", zeit:"2–3 Tage", kosten:"80–300€",
+  { id:"kueche-fronten", emoji:"🍳", titel:"Küchenfronten lackieren", schwierigkeit:"Medium", zeit:"2–3 Tage", kosten:"80–300€",
     img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=120&q=80",
     werkzeug:["Exzenterschleifer P120/180","Haftgrund Zinsser BIN","Seidenmatt-Lack","Schaumstoffrolle 4mm","Abklebeband","Schraubenzieher"],
     schritte:["Fronten ausbauen und nummerieren","Mit Aceton entfetten – der wichtigste Schritt!","P120 schleifen für Haftung, Staub absaugen","Haftgrund dünn auftragen, 2h trocknen","1. Farbschicht mit Schaumstoffrolle (kurzflorig = keine Struktur)","4h trocknen, P180 leicht anschleifen","2. und 3. Farbschicht mit je 4h Trockenzeit","Fronten einbauen, Scharniere justieren"],
@@ -275,21 +275,21 @@ const ANLEITUNGEN = [
     amazon:amazonLink("zinsser bin haftgrund küche fronten lackieren") },
   { id:"led-strip", emoji:"💡", titel:"LED-Strip & Cove-Licht installieren", schwierigkeit:"Leicht", zeit:"2–4 Stunden", kosten:"30–120€",
     img:"https://images.unsplash.com/photo-1600210492493-0946911123ea?w=120&q=80",
-    werkzeug:["LED-Strip 24V COB","Trafo (20% Reserve)","WAGO-Klemmen","Alu-Profil + Diffusor","Cuttermesser"],
-    schritte:["Länge messen, Wattzahl berechnen (W/m × Meter)","Trafo wählen: min. 20% mehr als Gesamtwatt","Alu-Profil zuschneiden und mit Klebeband oder Schrauben montieren","Strip NUR an Schnittmarkierungen kürzen!","Strip einlegen, Diffusor aufsetzen","Anschluss mit WAGO-Klemmen (kein Löten nötig)","Trailing-Edge-Dimmer anschließen (kein Flimmern!)","Testen bevor alles verklebt wird"],
+    werkzeug:["LED-Strip 24V COB","Trafo (20% Reserve)","WAGO-Klemmen","Alu-Professionall + Diffusor","Cuttermesser"],
+    schritte:["Length messen, Wattzahl berechnen (W/m × Meter)","Trafo wählen: min. 20% mehr als Gesamtwatt","Alu-Professionall zuschneiden und mit Klebeband oder Schrauben montieren","Strip NUR an Schnittmarkierungen kürzen!","Strip einlegen, Diffusor aufsetzen","Anschluss mit WAGO-Klemmen (kein Löten nötig)","Trailing-Edge-Dimmer anschließen (kein Flimmern!)","Testen bevor alles verklebt wird"],
     tipp:"24V = kein Spannungsabfall. Bei 12V und mehr als 3m wird Licht ungleichmäßig.",
     fehler:"Vorderflanken-Dimmer = Flimmern. Trafo zu schwach = überhitzt. Strip falsch herum.",
     youtube:"https://www.youtube.com/results?search_query=led+strip+cove+licht+anleitung",
     amazon:amazonLink("led strip 24v cob warmweiß 2700k trafo dimmer") },
-  { id:"rigips-wand", emoji:"🏗️", titel:"Rigips-Trennwand bauen", schwierigkeit:"Mittel", zeit:"2–3 Tage", kosten:"200–600€",
+  { id:"rigips-wand", emoji:"🏗️", titel:"Rigips-Trennwand bauen", schwierigkeit:"Medium", zeit:"2–3 Tage", kosten:"200–600€",
     img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=120&q=80",
-    werkzeug:["Akkuschrauber","Blechschere für Profile","Wasserwaage 1m","Rigips-Schrauben 3,5×35mm","Spachtel"],
-    schritte:["Grundriss auf Boden anzeichnen, Wasserwaage zur Decke übertragen","UW-Profile an Boden + Decke mit Dübeln alle 50cm","CW-Ständer alle 62,5cm – Raster für 125cm Platten!","Leerrohr für Kabel einziehen VOR dem Beplatten","Erste Seite: Schrauben alle 25cm, Kopf 0,5mm versenkt","Dämmwolle einlegen (Steinwolle für Schallschutz)","Zweite Seite – Plattenstöße versetzt!","Fugenspachtel + Glasflies-Band einbetten, trocknen, schleifen"],
+    werkzeug:["Akkuschrauber","Blechschere für Professionalle","Wasserwaage 1m","Rigips-Schrauben 3,5×35mm","Spachtel"],
+    schritte:["Grundriss auf Boden anzeichnen, Wasserwaage zur Decke übertragen","UW-Professionalle an Boden + Decke mit Dübeln alle 50cm","CW-Ständer alle 62,5cm – Raster für 125cm Platten!","Leerrohr für Kabel einziehen VOR dem Beplatten","Erste Seite: Schrauben alle 25cm, Kopf 0,5mm versenkt","Dämmwolle einlegen (Steinwolle für Schallschutz)","Zweite Seite – Plattenstöße versetzt!","Fugenspachtel + Glasflies-Band einbetten, trocknen, schleifen"],
     tipp:"Im Bad: GKFI (grüne Feuchtraumplatten) verwenden – weiße GKB quillt auf!",
-    fehler:"Ständer falsch abständig, Glasflies vergessen = Riss nach 6 Monaten.",
+    fehler:"Ständer falsch abständig, Glasflies vergessen = Riss nach 6 monthen.",
     youtube:"https://www.youtube.com/results?search_query=rigips+trennwand+bauen+anleitung",
     amazon:amazonLink("rigips ständerwerk cw uw profil trockenbau set") },
-  { id:"wpc-terrasse", emoji:"🌴", titel:"WPC-Terrasse verlegen", schwierigkeit:"Mittel", zeit:"1–2 Tage", kosten:"500–2.000€",
+  { id:"wpc-terrasse", emoji:"🌴", titel:"WPC-Terrasse verlegen", schwierigkeit:"Medium", zeit:"1–2 Tage", kosten:"500–2.000€",
     img:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=120&q=80",
     werkzeug:["Kreissäge oder Stichsäge","Akkuschrauber","Wasserwaage","Stelzlager höhenverstellbar","Abstandshalter 5mm"],
     schritte:["Untergrund reinigen – alter Belag kann bleiben wenn stabil","Stelzlager setzen alle 50cm, Flucht mit Schnur prüfen","2% Gefälle einplanen (weg vom Haus)","Tragebalken auf Stelzlager – Holz oder Alu alle 40–50cm","Erste Diele mit 10mm Abstand zur Wand","Unsichtbare Clips einsetzen – kein Schraubloch sichtbar!","Letzte Reihe zuschneiden","Abschlussprofile an allen Rändern montieren"],
@@ -297,7 +297,7 @@ const ANLEITUNGEN = [
     fehler:"Zu wenig Gefälle = Pfützen, keine Dehnfuge = Wellen im Sommer.",
     youtube:"https://www.youtube.com/results?search_query=wpc+dielen+verlegen+terrasse",
     amazon:amazonLink("wpc dielen terrasse stelzlager clip unsichtbar set") },
-  { id:"arbeitsplatte", emoji:"🔨", titel:"Arbeitsplatte wechseln", schwierigkeit:"Mittel", zeit:"1 Tag", kosten:"100–500€",
+  { id:"arbeitsplatte", emoji:"🔨", titel:"Arbeitsplatte wechseln", schwierigkeit:"Medium", zeit:"1 Tag", kosten:"100–500€",
     img:"https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=120&q=80",
     werkzeug:["Stichsäge mit Holzblatt","Oberfräse für saubere Ausschnitte","Silikon + Pistole","Montagekleber","Maßband"],
     schritte:["Wasser unter Spüle abstellen, Siphon abbauen","Alte Platte von unten lösen (Schrauben in Eckverbindern)","Neue Platte auf Maß zuschneiden – 1mm zu groß lassen","Spülenausschnitt mit Schablone anzeichnen","Stichsäge: erst Loch bohren, dann Richtung Gegenfase schneiden","Schnittkanten SOFORT abdichten – quillt sonst auf!","Platte einlegen, von unten verschrauben","Silikon an Wand und Spülenrand, 24h trocknen"],
@@ -305,7 +305,7 @@ const ANLEITUNGEN = [
     fehler:"Ausschnitt zu groß, Kante nicht abgedichtet, Silikon zu früh belastet.",
     youtube:"https://www.youtube.com/results?search_query=arbeitsplatte+küche+wechseln",
     amazon:amazonLink("holzarbeitsplatte küche massiv buche eiche geölt") },
-  { id:"abdichtung-bad", emoji:"🛡️", titel:"Bad abdichten (Dusche & Wanne)", schwierigkeit:"Mittel", zeit:"2 Tage", kosten:"80–200€",
+  { id:"abdichtung-bad", emoji:"🛡️", titel:"Bad abdichten (Dusche & Wanne)", schwierigkeit:"Medium", zeit:"2 Tage", kosten:"80–200€",
     img:"https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=120&q=80",
     werkzeug:["Dichtschlämme Mapei Mapelastic","Dichtband + Dichtmanschetten","Pinsel 10cm","Zahnspachtel","Latexhandschuhe"],
     schritte:["Untergrund reinigen: kein Staub, kein Fett","1. Lage Dichtschlämme dünn auftragen","Dichtband in ALLE Ecken einbetten während Lage noch nass!","Dichtmanschetten über alle Rohre einbetten","1. Lage trocknen: mind. 4h (besser über Nacht)","2. Lage quer zur ersten – Kreuzverband verhindert Risse","24h trocknen vor Fliesenarbeiten","Mit Sprühflasche testen: kein Durchfeuchten"],
@@ -313,10 +313,10 @@ const ANLEITUNGEN = [
     fehler:"Nur 1 Lage, Band nicht eingebettet, Trockenzeit unterschritten = undicht nach 1 Jahr.",
     youtube:"https://www.youtube.com/results?search_query=bad+abdichten+dichtschlämme+anleitung",
     amazon:amazonLink("mapei mapelastic dichtschlämme bad dusche set") },
-  { id:"bodengleiche-dusche", emoji:"🚿", titel:"Bodengleiche Dusche bauen", schwierigkeit:"Schwer", zeit:"3–5 Tage", kosten:"500–2.000€",
+  { id:"bodengleiche-dusche", emoji:"🚿", titel:"Bodengleiche Dusche bauen", schwierigkeit:"Hard", zeit:"3–5 Tage", kosten:"500–2.000€",
     img:"https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=120&q=80",
     werkzeug:["Ablaufrinne oder Punktablauf","Gefälleestrich-Set","Dichtschlämme 2-lagig","Flexkleber C2","Wasserwaage 1m"],
-    schritte:["Ablauf positionieren: weit vom Duschkopf entfernt","Gefälleestrich anmischen: 1,5–2% Gefälle zur Rinne","Estrich aufbringen, Gefälle prüfen (Wasserwaage + Messen)","48h trocknen, Klopftest: kein Hohlklang!","2-lagige Abdichtung mit Dichtband in allen Ecken","Fliesen mit Flexkleber C2 verlegen – Gefälle beibehalten","Schlüter KERDI-Profil am Übergang Dusche/Bad","Randfuge: NUR Silikon (Soudal S100) – nie Fugenmörtel!"],
+    schritte:["Ablauf positionieren: weit vom Duschkopf entfernt","Gefälleestrich anmischen: 1,5–2% Gefälle zur Rinne","Estrich aufbringen, Gefälle prüfen (Wasserwaage + Messen)","48h trocknen, Klopftest: kein Hohlklang!","2-lagige Abdichtung mit Dichtband in allen Ecken","Fliesen mit Flexkleber C2 verlegen – Gefälle beibehalten","Schlüter KERDI-Professionall am Übergang Dusche/Bad","Randfuge: NUR Silikon (Soudal S100) – nie Fugenmörtel!"],
     tipp:"Wasser-Test: Wasser draufgießen und beobachten – muss restlos ablaufen ohne Pfützen.",
     fehler:"Zu wenig Gefälle, kein Dichtband in Ecken, falscher Kleber.",
     youtube:"https://www.youtube.com/results?search_query=bodengleiche+dusche+bauen+anleitung",
@@ -343,20 +343,20 @@ const ONBOARDING_STEPS = [
   {
     icon: "💬",
     title: "Renovierungs-Experte",
-    desc: "Frag den KI-Chat alles: Kosten, Materialien, Schritt-für-Schritt Anleitungen. Wie ein erfahrener Handwerker auf Abruf.",
+    desc: "Frag den KI-Chat alles: Kosten, Materialien, Schritt-für-Step Anleitungen. Wie ein erfahrener Handwerker auf Abruf.",
     tab: "chat",
     color: "#2A6DB5",
   },
   {
     icon: "📋",
-    title: "16 Profi-Anleitungen",
-    desc: "Von Silikon erneuern bis Mikrozement – hake jeden Schritt während der Arbeit ab. Dein Fortschritt wird gespeichert.",
+    title: "16 Professional-Anleitungen",
+    desc: "Von Silikon erneuern bis Mikrozement – hake jeden Step während der Arbeit ab. Dein Fortschritt wird gespeichert.",
     tab: "anleit",
     color: C.green,
   },
   {
     icon: "🔨",
-    title: "Profis in deiner Nähe",
+    title: "Professionals in deiner Nähe",
     desc: "Wenn du doch lieber einen Handwerker beauftragen möchtest: Finde geprüfte Betriebe direkt in der App.",
     tab: "profis",
     color: "#8B4513",
@@ -395,11 +395,11 @@ function Onboarding({ onDone }) {
         <div style={{ display:"flex", gap:10 }}>
           {!isLast && (
             <button onClick={onDone} style={{ flex:1, padding:"12px", borderRadius:50, border:`1px solid ${C.border}`, background:"none", color:C.muted, fontSize:14, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-              Überspringen
+              Skip
             </button>
           )}
           <button onClick={() => isLast ? onDone() : setStep(s => s+1)} style={{ flex:2, padding:"14px", borderRadius:50, background:current.color, color:"white", border:"none", fontSize:15, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-            {isLast ? "Jetzt loslegen! 🚀" : "Weiter →"}
+            {isLast ? "Jetzt loslegen! 🚀" : "Next →"}
           </button>
         </div>
       </div>
@@ -421,7 +421,7 @@ function AnleitungenTab({ lang = "de" }) {
   }, []);
 
   // Fortschritt speichern
-  const toggleSchritt = (key) => {
+  const toggleStep = (key) => {
     setErledigt(prev => {
       const next = { ...prev, [key]: !prev[key] };
       try { localStorage.setItem("mystorija_anleitungen", JSON.stringify(next)); } catch {}
@@ -457,7 +457,7 @@ function AnleitungenTab({ lang = "de" }) {
           <div style={{ height:"100%", width:`${pct}%`, background:`linear-gradient(to right, ${C.accent}, #E8855A)`, borderRadius:4, transition:"width 0.4s" }} />
         </div>
         {pct === 100 && (
-          <p style={{ fontSize:12, color:C.green, fontWeight:600, marginTop:8, textAlign:"center" }}>🎉 Alle Anleitungen abgeschlossen – du bist ein Profi!</p>
+          <p style={{ fontSize:12, color:C.green, fontWeight:600, marginTop:8, textAlign:"center" }}>🎉 All Anleitungen abgeschlossen – du bist ein Professional!</p>
         )}
       </div>
 
@@ -492,7 +492,7 @@ function AnleitungenTab({ lang = "de" }) {
                     {a.werkzeug.map(w => <span key={w} style={{ fontSize:12, padding:"3px 10px", background:C.card, color:C.text, borderRadius:20, border:`1px solid ${C.border}` }}>{w}</span>)}
                   </div>
                 </div>
-                <div style={{ fontSize:11, color:C.accent, fontWeight:600, marginBottom:10, textTransform:"uppercase", letterSpacing:.5 }}>📋 Schritt für Schritt</div>
+                <div style={{ fontSize:11, color:C.accent, fontWeight:600, marginBottom:10, textTransform:"uppercase", letterSpacing:.5 }}>📋 Step für Schritt</div>
                 {a.schritte.map((s, idx) => {
                   const key = `${a.id}-${idx}`, d = erledigt[key];
                   return (
@@ -503,7 +503,7 @@ function AnleitungenTab({ lang = "de" }) {
                   );
                 })}
                 <div style={{ background:C.accentBg, border:`1px solid ${C.accent}33`, borderRadius:10, padding:"11px 13px", marginTop:10 }}>
-                  <div style={{ fontSize:11, color:C.accent, fontWeight:600, marginBottom:4 }}>💡 Profi-Tipp</div>
+                  <div style={{ fontSize:11, color:C.accent, fontWeight:600, marginBottom:4 }}>💡 Professional-Tipp</div>
                   <p style={{ fontSize:13, color:C.text, lineHeight:1.6 }}>{a.tipp}</p>
                 </div>
                 <div style={{ background:"#FDEEEC", border:"1px solid #F5D0D0", borderRadius:10, padding:"11px 13px", marginTop:8 }}>
@@ -529,15 +529,15 @@ function AnleitungenTab({ lang = "de" }) {
 // ─── OFFLINE EXPERTEN-SYSTEM ─────────────────────────────────────────────────
 function getRenovierungsAntwort(text, hasImage) {
   const t = text.toLowerCase();
-  if (hasImage) return "Tolles Foto! 📸\n\nIch sehe deinen Raum. Hier sind meine ersten Einschätzungen:\n\n🔍 **Was ich empfehle:**\n\n1. **Sofort-Upgrade (unter 50€):** Neue Griffe, frisches Silikon, LED-Leuchte – kleine Änderungen, große Wirkung.\n\n2. **Mittel-Projekt (unter 300€):** Wände streichen, Vinyl-Boden über alte Fliesen, Spiegel tauschen.\n\n3. **Komplett-Upgrade (unter 1.000€):** Mikrozement, neue Armaturen, abgehängte Decke mit LED.\n\n💡 Schreib mir was du ändern möchtest – Boden, Wand, Decke oder Deko – und ich gebe dir einen konkreten Plan!";
+  if (hasImage) return "Tolles Foto! 📸\n\nIch sehe deinen Raum. Hier sind meine ersten Einschätzungen:\n\n🔍 **Was ich empfehle:**\n\n1. **Sofort-Upgrade (unter 50€):** Neue Griffe, frisches Silikon, LED-Leuchte – kleine Änderungen, große Wirkung.\n\n2. **Medium-Projekt (unter 300€):** Wände streichen, Vinyl-Boden über alte Fliesen, Spiegel tauschen.\n\n3. **Komplett-Upgrade (unter 1.000€):** Mikrozement, neue Armaturen, abgehängte Decke mit LED.\n\n💡 Schreib mir was du ändern möchtest – Boden, Wand, Decke oder Deko – und ich gebe dir einen konkreten Plan!";
   if (t.match(/hallo|hi|hey|guten|servus/)) return "Hey! 👋 Schön dass du da bist!\n\nIch bin dein Mystorija – dein DIY-Experte für Renovierungen.\n\n**Was kann ich für dich tun?**\n\n🚿 Bad renovieren\n🍳 Küche aufwerten\n🛋️ Wohnzimmer gestalten\n🛏️ Schlafzimmer umgestalten\n🌿 Terrasse/Balkon\n\nLade ein Foto hoch oder schreib mir welchen Raum du renovieren möchtest!";
-  if (t.match(/silikon|fuge|schimmel/)) return "Silikon erneuern – einer der günstigsten und wirkungsvollsten Upgrades! 🛠️\n\n**Was du brauchst:**\n• Bad-Silikon mit Schimmelschutz: Soudal oder Ottoseal (ca. 8€)\n• Silikon-Entferner (ca. 5€)\n• Cutter-Messer\n• Fugenglätter oder feuchter Finger\n\n**Schritt für Schritt:**\n1. Altes Silikon mit Cutter einschneiden\n2. Silikon-Entferner auftragen, 30 Min warten\n3. Reste abziehen, Fläche entfetten\n4. Abklebeband links und rechts\n5. Silikon gleichmäßig auftragen\n6. Mit feuchtem Finger glattziehen\n7. Band sofort abziehen, 24h trocknen lassen\n\n⏱️ Zeit: 2 Stunden\n💰 Kosten: ca. 15€\n⭐ Schwierigkeit: Anfänger";
-  if (t.match(/vinyl|laminat|boden verlegen|klick/)) return "Boden verlegen – machst du selbst! 💪\n\n**SPC-Vinyl (für Bad & Küche):**\n• 100% wasserfest, über alte Fliesen möglich\n• Kosten: 15–25€/m² bei OBI/Bauhaus\n• Kein Kleber nötig – Klicksystem\n\n**Schritt für Schritt:**\n1. Untergrund prüfen – max. 3mm Unebenheit\n2. Schaumunterlage auslegen\n3. Erste Reihe mit 10mm Abstand zur Wand\n4. Reihe für Reihe einrasten\n5. Letzte Reihe zuschneiden\n6. Sockelleisten kleben\n\n⏱️ Zeit: 1 Tag für 20m²\n💰 Kosten: ab 15€/m²\n⭐ Schwierigkeit: Anfänger";
+  if (t.match(/silikon|fuge|schimmel/)) return "Silikon erneuern – einer der günstigsten und wirkungsvollsten Upgrades! 🛠️\n\n**Was du brauchst:**\n• Bad-Silikon mit Schimmelschutz: Soudal oder Ottoseal (ca. 8€)\n• Silikon-Entferner (ca. 5€)\n• Cutter-Messer\n• Fugenglätter oder feuchter Finger\n\n**Step für Schritt:**\n1. Altes Silikon mit Cutter einschneiden\n2. Silikon-Entferner auftragen, 30 Min warten\n3. Reste abziehen, Fläche entfetten\n4. Abklebeband links und rechts\n5. Silikon gleichmäßig auftragen\n6. Mit feuchtem Finger glattziehen\n7. Band sofort abziehen, 24h trocknen lassen\n\n⏱️ Time: 2 Stunden\n💰 Kosten: ca. 15€\n⭐ Difficulty: Beginner";
+  if (t.match(/vinyl|laminat|boden verlegen|klick/)) return "Boden verlegen – machst du selbst! 💪\n\n**SPC-Vinyl (für Bad & Küche):**\n• 100% wasserfest, über alte Fliesen möglich\n• Kosten: 15–25€/m² bei OBI/Bauhaus\n• Kein Kleber nötig – Klicksystem\n\n**Step für Schritt:**\n1. Untergrund prüfen – max. 3mm Unebenheit\n2. Schaumunterlage auslegen\n3. Erste Reihe mit 10mm Abstand zur Wand\n4. Reihe für Reihe einrasten\n5. Letzte Reihe zuschneiden\n6. Sockelleisten kleben\n\n⏱️ Time: 1 Tag für 20m²\n💰 Kosten: ab 15€/m²\n⭐ Difficulty: Beginner";
   if (t.match(/bad|badezimmer|dusche|wc|toilette|waschtisch/)) return "Badezimmer renovieren – hier ist mein Plan! 🚿\n\n**Budget 50–150€ (Sofort-Upgrades):**\n• Silikon komplett erneuern (Soudal Bad-Silikon)\n• LED-Spiegel mit IP44: Emke Amazon ab 80€\n• Mattschwarz-Accessoires Set: ~40€\n\n**Budget 150–500€:**\n• Armaturen auf Mattschwarz tauschen\n• SPC-Vinyl über alte Fliesen legen\n• Stauraum über WC montieren\n\n**Budget 500–2.000€:**\n• Mikrozement über Fliesen (kein Stemmen!)\n• Walk-In Dusche einbauen\n• Waschtisch komplett tauschen\n\n⚠️ Wichtig: Immer Bad-Silikon mit Schimmelschutz! IP44 bei Lampen Pflicht!";
   if (t.match(/küche|kueche|fronten|schrank|arbeitsplatte|griffe/)) return "Küche aufwerten – top Investition! 🍳\n\n🔩 **Griffe tauschen (30 min, 30–80€)**\n→ 128mm Bügel Mattschwarz auf Amazon.\n\n🎨 **Fronten folieren (1–2 Tage, 80–200€)**\n→ Klebefolie Holz/Beton/Marmor-Optik. Reversibel für Mietwohnung!\n→ Wichtig: erst entfetten mit Aceton!\n\n🖌️ **Fronten lackieren (2–3 Tage, 100–300€)**\n→ Schleifen (P120) → Haftgrund → 3× Seidenmatt-Lack\n→ RAL 7044 Seidengrau oder RAL 5011 Navy = Trend 2025\n\n💡 LED-Strip unter Oberschränken: 20–60€, 2700K warm!";
-  if (t.match(/wohnzimmer|wand streichen|akzent|farbe|streichen/)) return "Wand streichen – einfachstes Upgrade mit größter Wirkung! 🎨\n\n**Die Akzentwand:**\nNur EINE Wand dunkel streichen → sofort anderer Raum!\n\n**Aktuelle Trendfarben 2025:**\n• Dunkelgrün (RAL 6009)\n• Navy Blau (RAL 5011)\n• Anthrazit (RAL 7016)\n• Terrakotta (RAL 3012)\n\n**Schritt für Schritt:**\n1. Wand abkleben (Tesa Precision!)\n2. Testfeld 30×30cm malen – trocknen lassen!\n3. Tiefengrund auftragen\n4. 2 Schichten Farbe (Rolle 18cm)\n5. Klebeband feucht abziehen\n\n💰 Kosten: 30–60€ · ⏱️ Zeit: 1 Tag";
+  if (t.match(/wohnzimmer|wand streichen|akzent|farbe|streichen/)) return "Wand streichen – einfachstes Upgrade mit größter Wirkung! 🎨\n\n**Die Akzentwand:**\nNur EINE Wand dunkel streichen → sofort anderer Raum!\n\n**Aktuelle Trendfarben 2025:**\n• Dunkelgrün (RAL 6009)\n• Navy Blau (RAL 5011)\n• Anthrazit (RAL 7016)\n• Terrakotta (RAL 3012)\n\n**Step für Schritt:**\n1. Wand abkleben (Tesa Precision!)\n2. Testfeld 30×30cm malen – trocknen lassen!\n3. Tiefengrund auftragen\n4. 2 Schichten Farbe (Rolle 18cm)\n5. Klebeband feucht abziehen\n\n💰 Kosten: 30–60€ · ⏱️ Time: 1 Tag";
   if (t.match(/licht|lampe|led|beleuchtung|hell|dunkel|atmosphäre/)) return "Beleuchtung – größter Stimmungsmacher! 💡\n\n**Die wichtigste Regel:**\n2700K = warm = Wohnzimmer/Schlafzimmer/Bad\n4000K = neutral = Küche/Arbeitszimmer\n6000K = kalt = NIE im Wohnbereich!\n\n**Günstige Upgrades:**\n• LED-Strips hinter TV: 20–50€\n• LED-Strip unter Küchenschränken: 20–60€\n• Nachttischlampen statt Deckenlampe: 40–120€\n\n**Badezimmer:**\n⚠️ IP44 Pflicht! Immer auf Verpackung prüfen!\n\n💡 Dimmer einbauen: 15–30€ bei OBI – lohnt sich überall!";
-  if (t.match(/mietwohnung|miete|vermieter|erlaubt/)) return "Mietwohnung renovieren – was ist erlaubt? 🔑\n\n**Ohne Genehmigung erlaubt:**\n✓ Streichen (beim Auszug zurückstreichen)\n✓ Möbel aufstellen, Regale montieren\n✓ Klebefolie auf Fliesen/Fronten (reversibel!)\n✓ Griffe tauschen (Original aufbewahren!)\n✓ LED-Spiegel (Stecker-Anschluss)\n✓ Klick-Bodenbelag ohne Kleber\n\n**NIE ohne Genehmigung:**\n❌ Elektro-Festinstallation\n❌ Tragende Wände verändern\n❌ Gasleitungen\n\n💡 Alles Original-Material aufbewahren!";
+  if (t.match(/mietwohnung|miete|vermieter|erlaubt/)) return "Mietwohnung renovieren – was ist erlaubt? 🔑\n\n**Ohne Genehmigung erlaubt:**\n✓ Streichen (beim Auszug zurückstreichen)\n✓ Möbel aufstellen, Regale montieren\n✓ Klebefolie auf Fliesen/Fronten (reversibel!)\n✓ Griffe tauschen (Original aufbewahren!)\n✓ LED-Spiegel (Stecker-Anschluss)\n✓ Klick-Bodenbelag ohne Kleber\n\n**NIE ohne Genehmigung:**\n❌ Elektro-Festinstallation\n❌ Tragende Wände verändern\n❌ Gasleitungen\n\n💡 Alls Original-Material aufbewahren!";
   return "Super Frage! 💪 Als Renovierungs-Experte helfe ich dir gerne.\n\nSchreib mir mehr Details:\n• **Welchen Raum** möchtest du renovieren?\n• **Was stört dich** am meisten?\n• **Wie viel Budget** hast du ungefähr?\n\nOder lade ein Foto hoch – dann sehe ich direkt was möglich ist!";
 }
 
@@ -611,7 +611,7 @@ function renderMaterialien(text) {
         </div>
       ))}
       <p style={{ fontSize:11, color:C.muted, marginTop:8, fontStyle:"italic" }}>
-        💾 Speichern → Links im Planer klickbar
+        💾 Save → Links im Planner klickbar
       </p>
       <Analytics />
     </>
@@ -663,8 +663,8 @@ function TippsBox() {
     { icon:"🎨", titel:"Farben & Materialien", gut:"Anthrazit-Feinsteinzeug 80x80cm, weiße Fugen, Eichenholz-Waschtisch", schlecht:"Andere Farben", erklaerung:"Nenne konkrete Farbnamen und Materialien: Anthrazit, Navy, Terrakotta, Marmor, Eiche, Mikrozement, Zellige." },
     { icon:"🌿", titel:"Terrasse & Außen", gut:"Füge Grill hinzu, Pergola mit Rankpflanzen, Olivenbaum in Terrakotta-Topf, Lichterketten", schlecht:"Schöner machen", erklaerung:"Für Terrassen: Möbel, Pflanzen, Beleuchtung und Bodenbelag separat nennen. Je mehr Details, desto besser." },
     { icon:"💡", titel:"Stil beschreiben", gut:"Modernes Spa-Bad mit indirektem Licht, mattschwarz Armaturen, Holzakzente", schlecht:"Modern", erklaerung:"Stile: Modern, Skandinavisch, Industrial, Japandi, Mediterran, Luxus, Minimalist, Rustikal." },
-    { icon:"📐", titel:"Mehreres kombinieren", gut:"Dunkle Fliesen, keine Badewanne dafür Dusche, schwarze Armaturen, Wandnische", schlecht:"Alles neu", erklaerung:"Mehrere Änderungen mit Komma trennen – die KI arbeitet alle ab." },
-    { icon:"⚠️", titel:"Was KI schwer kann", gut:"Fliesen dunkler, Farbe ändern, Möbel hinzufügen", schlecht:"Wände verschieben, Fenster vergrößern", erklaerung:"Farben, Materialien & Möbel hinzufügen klappt gut. Strukturelle Änderungen (Wände, Fenster) sind KI-schwierig." },
+    { icon:"📐", titel:"Mehreres kombinieren", gut:"Dunkle Fliesen, keine Badewanne dafür Dusche, schwarze Armaturen, Wandnische", schlecht:"Alls neu", erklaerung:"Mehrere Änderungen mit Komma trennen – die KI arbeitet alle ab." },
+    { icon:"⚠️", titel:"Was KI schwer kann", gut:"Darker tiles, Farbe ändern, Möbel hinzufügen", schlecht:"Wände verschieben, Fenster vergrößern", erklaerung:"Farben, Materialien & Möbel hinzufügen klappt gut. Strukturelle Änderungen (Wände, Fenster) sind KI-schwierig." },
   ];
 
   const VORLAGEN = [
@@ -688,7 +688,7 @@ function TippsBox() {
   return (
     <div style={{ marginTop:8 }}>
       <button onClick={() => setOpen(o => !o)} style={{ display:"flex", alignItems:"center", gap:6, background:"none", border:"none", cursor:"pointer", padding:0, fontFamily:"'DM Sans',sans-serif" }}>
-        <span style={{ fontSize:12, color:C.accent, fontWeight:600 }}>💡 Tipps & Vorlagen für bessere Ergebnisse</span>
+        <span style={{ fontSize:12, color:C.accent, fontWeight:600 }}>💡 Tips & Templates for better results</span>
         <span style={{ fontSize:12, color:C.muted, transform:open?"rotate(90deg)":"none", transition:"0.2s", display:"inline-block" }}>›</span>
       </button>
 
@@ -745,11 +745,11 @@ function TippsBox() {
 }
 
 // ─── MAKEOVER TAB (aus altem Chat – vollständig) ──────────────────────────────
-function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUsed, onNeedUpgrade, onGenerated }) {
+function MakeoverTab({ lang = "de", onSaveToPlanner, savedMakeovers, plan, canGenerate, freeUsed, onNeedUpgrade, onGenerated }) {
   var fileRef = useRef();
   const [file, setFile] = useState(null);
-  const [vorherUrl, setVorherUrl] = useState(null);
-  const [nachherUrl, setNachherUrl] = useState(null);
+  const [vorherUrl, setBeforeUrl] = useState(null);
+  const [nachherUrl, setAfterUrl] = useState(null);
   const [materials, setMaterials] = useState(null);
   const [stil, setStil] = useState("bad-modern");
   const [loading, setLoading] = useState(false);
@@ -761,9 +761,9 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [viewingHistory, setViewingHistory] = useState(null);
   const [isObjReplace, setIsObjReplace] = useState(false);
-  const [nachherBase64, setNachherBase64] = useState(null); // gespeicherte base64 für Refinement
+  const [nachherBase64, setAfterBase64] = useState(null); // gespeicherte base64 für Refinement
   const [laenge, setLaenge] = useState("");
-  const [breite, setBreite] = useState("");
+  const [breite, setWidth] = useState("");
   const [hoehe, setHoehe] = useState("");
 
   // Vorlage aus TippsBox einfügen
@@ -778,7 +778,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
   const [refinementInput, setRefinementInput] = useState("");
   const [refinementHistory, setRefinementHistory] = useState([]);
 
-  // Monatliches Limit tracken
+  // monthliches Limit tracken
   const LIMITS = { free: 0, basic: 50, pro: Infinity };
   const currentLimit = LIMITS[plan] ?? LIMITS.free;
   const isFreeBlocked = !plan || plan === "free";
@@ -802,8 +802,8 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
 
   function handleDatei(e) {
     const f = e.target.files[0]; if (!f) return;
-    setFile(f); setVorherUrl(URL.createObjectURL(f));
-    setNachherUrl(null); setMaterials(null); setError(null); setSaved(false); setViewingHistory(null);
+    setFile(f); setBeforeUrl(URL.createObjectURL(f));
+    setAfterUrl(null); setMaterials(null); setError(null); setSaved(false); setViewingHistory(null);
   }
 
   async function refineMakeover() {
@@ -839,11 +839,11 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
       const data = await res.json();
 
       if (data.imageUrl) {
-        setNachherUrl(data.imageUrl);
+        setAfterUrl(data.imageUrl);
         if (data.materials) setMaterials(data.materials);
         setSaved(false);
         // Base64 direkt vom Server speichern
-        setNachherBase64(data.imageBase64 || null);
+        setAfterBase64(data.imageBase64 || null);
       } else {
         setError(data.error || "Fehler beim Verfeinern.");
       }
@@ -860,12 +860,12 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
       return;
     }
     if (isLimitReached && plan !== "pro") {
-      setError(`Monatliches Limit erreicht (${currentLimit} Makeovers). Upgrade auf Pro für unbegrenzte Generierungen.`);
+      setError(`monthliches Limit reached (${currentLimit} Makeovers). Upgrade auf Pro für unbegrenzte Generierungen.`);
       if (onNeedUpgrade) onNeedUpgrade();
       return;
     }
-    setViewingHistory(null); setLoading(true); setNachherUrl(null); setMaterials(null);
-    setError(null); setProgress(0); setSaved(false); setNachherBase64(null);
+    setViewingHistory(null); setLoading(true); setAfterUrl(null); setMaterials(null);
+    setError(null); setProgress(0); setSaved(false); setAfterBase64(null);
     const timer = setInterval(() => setProgress(p => p < 85 ? p + 2 : p), 600);
 
     (async () => {
@@ -890,14 +890,14 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
         clearInterval(timer);
         if (data.error) { setError(data.error); setLoading(false); return; }
         setProgress(100);
-        setNachherUrl(data.imageUrl);
+        setAfterUrl(data.imageUrl);
         setMaterials(data.materials || null);
         setIsObjReplace(!!data.isObjectReplacement);
         setLoading(false);
         if (onGenerated) onGenerated();
         // Base64 direkt vom Server (kein CORS-Problem)
-        setNachherBase64(data.imageBase64 || null);
-        incrementMonthlyUsage(); // Monatszähler erhöhen
+        setAfterBase64(data.imageBase64 || null);
+        incrementMonthlyUsage(); // monthszähler erhöhen
         // Automatisch analysieren was generiert wurde
         if (data.imageBase64) {
           setMakoverAnalyse(null);
@@ -918,7 +918,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
     })();
   }
 
-  function handleSaveToPlaner() {
+  function handleSaveToPlanner() {
     if (!nachherUrl) return;
     const m = {
       id: Date.now(),
@@ -932,10 +932,10 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
       wunsch,
       analyse: makoverAnalyse || null,  // komplette Analyse speichern
     };
-    onSaveToPlaner(m); setSaved(true);
+    onSaveToPlanner(m); setSaved(true);
   }
 
-  // KI-Analyse in Materialien-Text umwandeln für Einkaufsliste
+  // KI-Analyse in Materialien-Text umwandeln für Shopping list
   function buildMaterialsFromAnalyse(analyse) {
     if (!analyse?.materialien?.length) return materials;
     return analyse.materialien.map(mat => {
@@ -948,7 +948,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
   }
 
   function neuesMakeover() {
-    setFile(null); setVorherUrl(null); setNachherUrl(null); setMaterials(null);
+    setFile(null); setBeforeUrl(null); setAfterUrl(null); setMaterials(null);
     setError(null); setSaved(false); setWunsch(""); setViewingHistory(null);
     setMakoverAnalyse(null); setMakoverAnalyseLoading(false); setRefinementHistory([]);
   }
@@ -984,17 +984,17 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
         {/* Top Bar */}
         <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:16 }}>
           <div>
-            <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20 }}>KI Makeover</h2>
+            <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20 }}>AI Makeover</h2>
             {plan !== "pro" && (
               <p style={{ fontSize:11, fontWeight:600, marginTop:2, color: isFreeBlocked ? "#B91C1C" : isLimitReached ? "#B91C1C" : C.muted }}>
-                {isFreeBlocked ? "🔒 Nur ab Basic Plan" : isLimitReached ? "🔒 Limit erreicht" : `${monthlyUsage} / ${currentLimit} diesen Monat`}
+                {isFreeBlocked ? "🔒 Basic plan required" : isLimitReached ? "🔒 Limit reached" : `${monthlyUsage} / ${currentLimit} diesen month`}
               </p>
             )}
           </div>
           <div style={{ display:"flex", gap:8 }}>
             {(nachherUrl||viewingHistory) && <button onClick={neuesMakeover} style={{ padding:"7px 14px", borderRadius:20, border:`1px solid ${C.border}`, background:C.card, cursor:"pointer", fontSize:12, fontWeight:600, color:C.text, fontFamily:"'DM Sans',sans-serif" }}>+ Neu</button>}
             <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ padding:"7px 14px", borderRadius:20, background:sidebarOpen?C.accent:C.card, color:sidebarOpen?"white":C.text, border:`1px solid ${sidebarOpen?C.accent:C.border}`, cursor:"pointer", fontSize:12, fontWeight:600, fontFamily:"'DM Sans',sans-serif" }}>
-              {savedMakeovers?.length > 0 ? `${savedMakeovers.length} gespeichert` : "Verlauf"}
+              {savedMakeovers?.length > 0 ? `${savedMakeovers.length} gespeichert` : "History"}
             </button>
           </div>
         </div>
@@ -1005,10 +1005,10 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
               <span style={{ fontSize:13, fontWeight:600, color:C.accent }}>{viewingHistory.titel}</span>
               <span style={{ fontSize:12, color:C.muted }}>{viewingHistory.date}</span>
             </div>
-            {viewingHistory.vorherUrl && <div style={{ marginBottom:10 }}><p style={{ fontSize:11, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:1, marginBottom:6 }}>Vorher</p><img src={viewingHistory.vorherUrl} alt="Vorher" style={{ width:"100%", borderRadius:12, maxHeight:200, objectFit:"cover" }} /></div>}
-            <p style={{ fontSize:11, fontWeight:700, color:C.accent, textTransform:"uppercase", letterSpacing:1, marginBottom:6 }}>Nachher</p>
+            {viewingHistory.vorherUrl && <div style={{ marginBottom:10 }}><p style={{ fontSize:11, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:1, marginBottom:6 }}>Before</p><img src={viewingHistory.vorherUrl} alt="Before" style={{ width:"100%", borderRadius:12, maxHeight:200, objectFit:"cover" }} /></div>}
+            <p style={{ fontSize:11, fontWeight:700, color:C.accent, textTransform:"uppercase", letterSpacing:1, marginBottom:6 }}>After</p>
             <div style={{ borderRadius:14, overflow:"hidden", marginBottom:12, boxShadow:"0 6px 24px rgba(0,0,0,0.1)" }}>
-              <img src={viewingHistory.imgUrl} alt="Nachher" style={{ width:"100%", display:"block" }} />
+              <img src={viewingHistory.imgUrl} alt="After" style={{ width:"100%", display:"block" }} />
             </div>
             {viewingHistory.materials && (
               <div style={{ background:C.accentBg, border:`1px solid #F0C4A0`, borderRadius:12, padding:"14px" }}>
@@ -1022,10 +1022,10 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
           <div>
             {/* Maße */}
             <div style={{ marginBottom:14 }}>
-              <p style={{ fontSize:13, fontWeight:700, color:C.text, marginBottom:8 }}>📐 Raummaße <span style={{ fontSize:11, fontWeight:400, color:C.muted }}>(optional, verbessert Ergebnis)</span></p>
+              <p style={{ fontSize:13, fontWeight:700, color:C.text, marginBottom:8 }}>📐 Room dimensions <span style={{ fontSize:11, fontWeight:400, color:C.muted }}>(optional, improves result)</span></p>
               <div style={{ display:"flex", gap:8, alignItems:"center" }}>
                 <div style={{ flex:1 }}>
-                  <p style={{ fontSize:11, color:C.muted, marginBottom:4 }}>Länge</p>
+                  <p style={{ fontSize:11, color:C.muted, marginBottom:4 }}>Length</p>
                   <div style={{ display:"flex", alignItems:"center", gap:4 }}>
                     <input
                       value={laenge} onChange={e => setLaenge(e.target.value.replace(/[^0-9.,]/g,""))}
@@ -1037,10 +1037,10 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                 </div>
                 <span style={{ fontSize:18, color:C.muted, marginTop:16 }}>×</span>
                 <div style={{ flex:1 }}>
-                  <p style={{ fontSize:11, color:C.muted, marginBottom:4 }}>Breite</p>
+                  <p style={{ fontSize:11, color:C.muted, marginBottom:4 }}>Width</p>
                   <div style={{ display:"flex", alignItems:"center", gap:4 }}>
                     <input
-                      value={breite} onChange={e => setBreite(e.target.value.replace(/[^0-9.,]/g,""))}
+                      value={breite} onChange={e => setWidth(e.target.value.replace(/[^0-9.,]/g,""))}
                       placeholder="2,2" type="text" inputMode="decimal"
                       style={{ width:"100%", padding:"8px 10px", borderRadius:9, border:`1.5px solid ${breite?C.accent:C.border}`, fontSize:14, fontFamily:"'DM Sans',sans-serif", background:C.bg, textAlign:"center" }}
                     />
@@ -1048,7 +1048,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                   </div>
                 </div>
                 <div style={{ flex:1 }}>
-                  <p style={{ fontSize:11, color:C.muted, marginBottom:4 }}>Höhe</p>
+                  <p style={{ fontSize:11, color:C.muted, marginBottom:4 }}>Height</p>
                   <div style={{ display:"flex", alignItems:"center", gap:4 }}>
                     <input
                       value={hoehe} onChange={e => setHoehe(e.target.value.replace(/[^0-9.,]/g,""))}
@@ -1068,11 +1068,11 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
 
             {/* Beschreibung */}
             <div style={{ marginBottom:14 }}>
-              <p style={{ fontSize:13, fontWeight:700, color:C.text, marginBottom:8 }}>✏️ Was soll sich ändern? <span style={{ fontSize:11, fontWeight:400, color:C.muted }}>(optional)</span></p>
+              <p style={{ fontSize:13, fontWeight:700, color:C.text, marginBottom:8 }}>✏️ What should change? <span style={{ fontSize:11, fontWeight:400, color:C.muted }}>(optional)</span></p>
               <textarea
                 value={wunsch}
                 onChange={e => setWunsch(e.target.value)}
-                placeholder="z.B. Keine Badewanne dafür eine Dusche, dunkle Fliesen, moderner Stil, Walk-In Dusche einbauen..."
+                placeholder="e.g. No bathtub, add walk-in shower, dark tiles, modern style..."
                 rows={3}
                 style={{ width:"100%", border:`1.5px solid ${wunsch?C.accent:C.border}`, borderRadius:12, padding:"10px 13px", fontSize:13, resize:"none", fontFamily:"'DM Sans',sans-serif", background:C.bg, lineHeight:1.6 }}
               />
@@ -1082,8 +1082,8 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
 
             {/* Upload */}
             <div onClick={() => fileRef.current.click()} style={{ border:`2px dashed ${vorherUrl?C.accent:C.border}`, borderRadius:16, overflow:"hidden", padding:vorherUrl?0:"32px 20px", textAlign:"center", cursor:"pointer", background:vorherUrl?"transparent":C.card, marginBottom:12 }}>
-              {vorherUrl ? <img src={vorherUrl} alt="Vorher" style={{ width:"100%", display:"block", maxHeight:260, objectFit:"cover" }} /> :
-                <div><p style={{ fontSize:36, marginBottom:8 }}>📷</p><p style={{ fontWeight:600, fontSize:15, color:C.text, marginBottom:4 }}>Foto hochladen</p><p style={{ fontSize:13, color:C.muted }}>Bad, Küche, Wohnzimmer...</p></div>}
+              {vorherUrl ? <img src={vorherUrl} alt="Before" style={{ width:"100%", display:"block", maxHeight:260, objectFit:"cover" }} /> :
+                <div><p style={{ fontSize:36, marginBottom:8 }}>📷</p><p style={{ fontWeight:600, fontSize:15, color:C.text, marginBottom:4 }}>Upload photo</p><p style={{ fontSize:13, color:C.muted }}>Bathroom, kitchen, living room...</p></div>}
             </div>
             <input ref={fileRef} type="file" accept="image/*" style={{ display:"none" }} onChange={handleDatei} />
 
@@ -1120,10 +1120,10 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                 {/* Refinement History */}
                 {refinementHistory.length > 0 && (
                   <div style={{ marginBottom:10 }}>
-                    <p style={{ fontSize:11, color:C.muted, marginBottom:6, fontStyle:"italic" }}>Verlauf der Anpassungen:</p>
+                    <p style={{ fontSize:11, color:C.muted, marginBottom:6, fontStyle:"italic" }}>History der Anpassungen:</p>
                     <div style={{ display:"flex", gap:6, overflowX:"auto", paddingBottom:4 }}>
                       {refinementHistory.map((h, i) => (
-                        <div key={i} onClick={() => { setNachherUrl(h.url); setSaved(false); }} style={{ flexShrink:0, cursor:"pointer", borderRadius:8, overflow:"hidden", border:`2px solid ${C.border}`, width:70 }}>
+                        <div key={i} onClick={() => { setAfterUrl(h.url); setSaved(false); }} style={{ flexShrink:0, cursor:"pointer", borderRadius:8, overflow:"hidden", border:`2px solid ${C.border}`, width:70 }}>
                           <img src={h.url} alt="" style={{ width:"100%", height:52, objectFit:"cover", display:"block" }} />
                           <div style={{ padding:"2px 4px", background:C.bg, fontSize:9, color:C.muted, lineHeight:1.3 }}>{i+1}: {h.instruction.slice(0,15)}…</div>
                         </div>
@@ -1134,7 +1134,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
 
                 {/* Generated Image */}
                 <div style={{ borderRadius:14, overflow:"hidden", marginBottom:10, boxShadow:"0 6px 24px rgba(0,0,0,0.1)", position:"relative" }}>
-                  <img src={nachherUrl} alt="Nachher" style={{ width:"100%", display:"block", opacity:refining?0.5:1, transition:"opacity 0.3s" }} />
+                  <img src={nachherUrl} alt="After" style={{ width:"100%", display:"block", opacity:refining?0.5:1, transition:"opacity 0.3s" }} />
                   {refining && (
                     <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:10 }}>
                       <LoadingSpinner size={36} />
@@ -1149,7 +1149,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                     <span style={{ fontSize:16, flexShrink:0 }}>💡</span>
                     <div>
                       <p style={{ fontSize:12, fontWeight:700, color:"#E65100", marginBottom:2 }}>Objekt-Austausch ist KI-schwierig</p>
-                      <p style={{ fontSize:11, color:"#7A4100", lineHeight:1.5 }}>KI-Bildgeneratoren können Materialien &amp; Farben gut ändern, aber Möbel/Sanitär exakt ersetzen ist schwieriger. Falls das Ergebnis nicht passt: Stil-Änderungen (Farbe, Fliesen, Licht) funktionieren besser. Mehrmals "Nochmal" drücken kann helfen.</p>
+                      <p style={{ fontSize:11, color:"#7A4100", lineHeight:1.5 }}>KI-Bildgeneratoren können Materialien &amp; Farben gut ändern, aber Möbel/Sanitär exakt ersetzen ist schwieriger. Falls das Result nicht passt: Stil-Änderungen (Farbe, Fliesen, Licht) funktionieren besser. Mehrmals "Nochmal" drücken kann helfen.</p>
                     </div>
                   </div>
                 )}
@@ -1203,7 +1203,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                     {/* Sofort-Upgrades */}
                     {makoverAnalyse.sofort_upgrades?.length > 0 && (
                       <div style={{ padding:"10px 14px 12px", borderTop:`1px solid ${C.border}`, background:C.greenBg }}>
-                        <p style={{ fontSize:12, fontWeight:700, color:C.green, marginBottom:6 }}>💡 Günstiger Einstieg</p>
+                        <p style={{ fontSize:12, fontWeight:700, color:C.green, marginBottom:6 }}>💡 Budget tip</p>
                         {makoverAnalyse.sofort_upgrades.slice(0,2).map((up,i) => (
                           <p key={i} style={{ fontSize:12, color:"#1A4731", lineHeight:1.5, marginBottom:i<1?4:0 }}>• {up}</p>
                         ))}
@@ -1220,7 +1220,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                       value={refinementInput}
                       onChange={e => setRefinementInput(e.target.value)}
                       onKeyDown={e => { if(e.key==="Enter") refineMakeover(); }}
-                      placeholder="z.B. Fliesen dunkler machen, Spiegel hinzufügen…"
+                      placeholder="z.B. Darker tiles machen, Spiegel hinzufügen…"
                       style={{ flex:1, padding:"9px 13px", borderRadius:10, border:`1px solid ${C.border}`, fontSize:13, fontFamily:"'DM Sans',sans-serif", background:"white" }}
                     />
                     <button onClick={refineMakeover} disabled={refining||!refinementInput.trim()} style={{ padding:"9px 16px", borderRadius:10, background:refining||!refinementInput.trim()?C.border:C.accent, color:"white", border:"none", cursor:"pointer", fontWeight:700, fontSize:14, flexShrink:0 }}>
@@ -1229,7 +1229,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                   </div>
                   {/* Quick suggestions */}
                   <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginTop:8 }}>
-                    {["Fliesen dunkler", "Licht wärmer", "Farbe heller", "Holz hinzufügen", "Spiegel größer", "Armaturen schwarz"].map(s => (
+                    {["Darker tiles", "Warmer light", "Lighter color", "Add wood", "Larger mirror", "Black fixtures"].map(s => (
                       <button key={s} onClick={() => setRefinementInput(s)} style={{ padding:"4px 10px", borderRadius:20, border:`1px solid ${C.accent}44`, background:"white", color:C.accent, fontSize:11, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>{s}</button>
                     ))}
                   </div>
@@ -1237,8 +1237,8 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
 
                 {/* Action Buttons */}
                 <div style={{ display:"flex", gap:8, marginBottom:10 }}>
-                  <button onClick={() => { setNachherUrl(null); setMaterials(null); setRefinementHistory([]); generieren(); }} style={{ flex:1, padding:11, background:C.card, border:`2px solid ${C.border}`, borderRadius:50, fontSize:13, fontWeight:600, cursor:"pointer", color:C.text, fontFamily:"'DM Sans',sans-serif" }}>🔄 Neu</button>
-                  <a href={nachherUrl} download="makeover.jpg" target="_blank" rel="noreferrer" style={{ flex:1, padding:11, background:C.accent, borderRadius:50, fontSize:13, fontWeight:600, color:"white", textDecoration:"none", textAlign:"center", display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"'DM Sans',sans-serif" }}>💾 Speichern</a>
+                  <button onClick={() => { setAfterUrl(null); setMaterials(null); setRefinementHistory([]); generieren(); }} style={{ flex:1, padding:11, background:C.card, border:`2px solid ${C.border}`, borderRadius:50, fontSize:13, fontWeight:600, cursor:"pointer", color:C.text, fontFamily:"'DM Sans',sans-serif" }}>🔄 Neu</button>
+                  <a href={nachherUrl} download="makeover.jpg" target="_blank" rel="noreferrer" style={{ flex:1, padding:11, background:C.accent, borderRadius:50, fontSize:13, fontWeight:600, color:"white", textDecoration:"none", textAlign:"center", display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"'DM Sans',sans-serif" }}>💾 Save</a>
                 </div>
 
                 {materials && (
@@ -1247,11 +1247,11 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                     <div style={{ marginBottom:12 }}>{renderMaterialien(materials)}</div>
                     <p style={{ fontSize:10, color:C.muted, marginBottom:10 }}>* Affiliate-Links – für dich keine Mehrkosten</p>
                     <div style={{ display:"flex", gap:8 }}>
-                      <button onClick={handleSaveToPlaner} style={{ flex:1, padding:"11px", borderRadius:50, background:saved?"#4ade80":"linear-gradient(135deg, #1a1a2e, #2d2d4e)", color:"white", border:"none", cursor:saved?"default":"pointer", fontSize:12, fontWeight:700, fontFamily:"'DM Sans',sans-serif" }}>
+                      <button onClick={handleSaveToPlanner} style={{ flex:1, padding:"11px", borderRadius:50, background:saved?"#4ade80":"linear-gradient(135deg, #1a1a2e, #2d2d4e)", color:"white", border:"none", cursor:saved?"default":"pointer", fontSize:12, fontWeight:700, fontFamily:"'DM Sans',sans-serif" }}>
                         {saved ? T["en"].savedBtn : T["en"].saveBtn}
                       </button>
-                      <button onClick={handleSaveToPlaner} style={{ flex:2, padding:"11px", borderRadius:50, background:saved?"#4ade80":C.accent, color:"white", border:"none", cursor:saved?"default":"pointer", fontSize:12, fontWeight:700, fontFamily:"'DM Sans',sans-serif" }}>
-                        {saved?T["en"].plannerSaved:"Als Projekt in Planer"}
+                      <button onClick={handleSaveToPlanner} style={{ flex:2, padding:"11px", borderRadius:50, background:saved?"#4ade80":C.accent, color:"white", border:"none", cursor:saved?"default":"pointer", fontSize:12, fontWeight:700, fontFamily:"'DM Sans',sans-serif" }}>
+                        {saved?T["en"].plannerSaved:"Als Projekt in Planner"}
                       </button>
                     </div>
                   </div>
@@ -1306,7 +1306,7 @@ function ChatTab({ lang = "de", messages, setMessages }) {
     "LED-Beleuchtung einbauen – wie?",
     "Fliesen über Fliesen legen möglich?",
     "Mikrozement selbst auftragen?",
-    "Küchenfronten lackieren Schritt für Schritt?",
+    "Küchenfronten lackieren Step für Schritt?",
   ];
 
   async function sendMessage(textOverride, imgOverride, mimeOverride) {
@@ -1401,7 +1401,7 @@ function ChatTab({ lang = "de", messages, setMessages }) {
                   <p style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 4 }}>Mystorija</p>
                   <p style={{ fontSize: 13, color: C.text, lineHeight: 1.6 }}>
                     Hey! 👋 Ich bin dein persönlicher Renovierungsexperte – frag mich alles über Bad, Küche, Wohnzimmer, Boden, Licht und mehr.<br /><br />
-                    Ich gebe dir <strong>konkrete Antworten</strong> mit Produktnamen, Preisen und Schritt-für-Schritt Anleitungen. Oder lade ein 📷 Foto hoch und ich analysiere deinen Raum sofort!
+                    Ich gebe dir <strong>konkrete Antworten</strong> mit Produktnamen, Preisen und Schritt-für-Step Anleitungen. Oder lade ein 📷 Foto hoch und ich analysiere deinen Raum sofort!
                   </p>
                 </div>
               </div>
@@ -1495,20 +1495,20 @@ function ChatTab({ lang = "de", messages, setMessages }) {
 }
 
 // ─── HANDWERKER TAB ───────────────────────────────────────────────────────────
-const BRANCHEN = ["Alle","Fliesen & Bad","Maler & Lackierer","Elektriker","Sanitär & Heizung","Trockenbau","Schreiner","Bodenleger"];
+const BRANCHEN = ["All","Tiles & Bathroom","Painter","Elektriker","Plumbing & Heating","Trockenbau","Carpenter","Flooring"];
 
 function HandwerkerTab({ lang = "de" }) {
-  const [filter, setFilter] = useState("Alle");
+  const [filter, setFilter] = useState("All");
   const [ort, setOrt] = useState("");
 
   return (
     <div style={{ display:"flex", flexDirection:"column", height:"100%", overflow:"hidden" }}>
       <div style={{ background:C.card, borderBottom:`1px solid ${C.border}`, padding:"14px 16px 12px", flexShrink:0 }}>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12 }}>
-          <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20 }}>🔨 Profis finden</h2>
-          <span style={{ background:C.accentBg, color:C.accent, borderRadius:20, padding:"4px 12px", fontSize:11, fontWeight:700 }}>Bald verfügbar</span>
+          <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20 }}>🔨 Professionals finden</h2>
+          <span style={{ background:C.accentBg, color:C.accent, borderRadius:20, padding:"4px 12px", fontSize:11, fontWeight:700 }}>Coming soon</span>
         </div>
-        <input value={ort} onChange={e => setOrt(e.target.value)} placeholder="📍 Stadt oder PLZ eingeben…" style={{ width:"100%", border:`1px solid ${C.border}`, borderRadius:10, padding:"9px 13px", fontSize:14, marginBottom:10, fontFamily:"'DM Sans',sans-serif", background:C.bg }} />
+        <input value={ort} onChange={e => setOrt(e.target.value)} placeholder="📍 Enter city or ZIP…" style={{ width:"100%", border:`1px solid ${C.border}`, borderRadius:10, padding:"9px 13px", fontSize:14, marginBottom:10, fontFamily:"'DM Sans',sans-serif", background:C.bg }} />
         <div style={{ display:"flex", gap:6, overflowX:"auto", paddingBottom:4 }}>
           {BRANCHEN.map(b => <button key={b} onClick={() => setFilter(b)} style={{ padding:"5px 12px", borderRadius:20, border:"none", cursor:"pointer", background:filter===b?C.accent:C.bg, color:filter===b?"white":C.muted, fontSize:12, fontWeight:600, whiteSpace:"nowrap", fontFamily:"'DM Sans',sans-serif", flexShrink:0 }}>{b}</button>)}
         </div>
@@ -1518,18 +1518,18 @@ function HandwerkerTab({ lang = "de" }) {
         {/* Handwerker CTA */}
         <div style={{ background:"linear-gradient(135deg, #1a1a2e, #2d2d4e)", borderRadius:16, padding:"20px", marginBottom:20, textAlign:"center" }}>
           <div style={{ fontSize:40, marginBottom:12 }}>🔨</div>
-          <p style={{ color:"white", fontWeight:700, fontSize:16, marginBottom:8 }}>Du bist Handwerker?</p>
+          <p style={{ color:"white", fontWeight:700, fontSize:16, marginBottom:8 }}>Are you a contractor?</p>
           <p style={{ color:"rgba(255,255,255,0.75)", fontSize:13, lineHeight:1.6, marginBottom:16 }}>
-            Werde Teil des Mystorija Handwerker-Netzwerks.<br/>
-            Direkte Anfragen von renovierungswilligen Kunden.
+            Join the Mystorija contractor network.<br/>
+            Direct inquiries from renovation-ready customers.
           </p>
           <div style={{ display:"flex", gap:8, justifyContent:"center", flexWrap:"wrap", marginBottom:12 }}>
-            {["✓ Eigenes Profil","✓ Direktanfragen","✓ Werbung in der App","✓ Bewertungen"].map(f => (
+            {["✓ Eigenes Professionall","✓ Direct inquiries","✓ Werbung in der App","✓ Bewertungen"].map(f => (
               <span key={f} style={{ background:"rgba(255,255,255,0.1)", color:"white", borderRadius:20, padding:"4px 12px", fontSize:11, fontWeight:600 }}>{f}</span>
             ))}
           </div>
           <a href="mailto:info@mystorija.com" style={{ display:"inline-block", background:C.accent, color:"white", borderRadius:50, padding:"11px 24px", fontSize:13, fontWeight:700, textDecoration:"none" }}>
-            Jetzt bewerben – 49,99€/Monat →
+            Apply now – 49,99€/month →
           </a>
         </div>
 
@@ -1538,11 +1538,11 @@ function HandwerkerTab({ lang = "de" }) {
           <div style={{ fontSize:48, marginBottom:16 }}>🏗️</div>
           <p style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:10 }}>Handwerker-Verzeichnis</p>
           <p style={{ fontSize:14, color:C.muted, lineHeight:1.7, maxWidth:280, margin:"0 auto 20px" }}>
-            Wir bauen gerade das Verzeichnis auf. Bald findest du hier geprüfte Handwerker in deiner Nähe.
+            We are currently building the directory. Soon you will find verified contractors near you.
           </p>
           <div style={{ background:C.greenBg, borderRadius:12, padding:"14px 16px" }}>
             <p style={{ fontSize:13, color:C.green, fontWeight:600 }}>
-              💡 Bald verfügbar – wir prüfen jeden Betrieb sorgfältig
+              💡 Coming soon – wir prüfen jeden Betrieb sorgfältig
             </p>
           </div>
         </div>
@@ -1590,7 +1590,7 @@ function EinkaufsListe({ savedMakeovers }) {
     <div style={{ marginTop:24 }}>
       {/* Header */}
       <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12 }}>
-        <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:18 }}>🛒 Einkaufsliste</h3>
+        <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:18 }}>🛒 Shopping list</h3>
         {total > 0 && (
           <span style={{ fontSize:12, color:C.muted, background:C.accentBg, padding:"3px 10px", borderRadius:20 }}>
             {totalChecked}/{total} gekauft
@@ -1625,7 +1625,7 @@ function EinkaufsListe({ savedMakeovers }) {
                   <div style={{ display:"flex", alignItems:"center", gap:8 }}>
                     <span style={{ fontSize:11, color:C.muted }}>{m.date}</span>
                     <span style={{ fontSize:11, background:mChecked===items.length?C.greenBg:C.accentBg, color:mChecked===items.length?C.green:C.accent, padding:"2px 8px", borderRadius:20, fontWeight:600 }}>
-                      {mChecked}/{items.length} {mChecked===items.length?"✓ Alles gekauft":"Produkte"}
+                      {mChecked}/{items.length} {mChecked===items.length?"✓ Alls gekauft":"Produkte"}
                     </span>
                   </div>
                 </div>
@@ -1636,16 +1636,16 @@ function EinkaufsListe({ savedMakeovers }) {
             {/* Produkt-Liste */}
             {isOpen && (
               <div className="fu" style={{ borderTop:`1px solid ${C.border}` }}>
-                {/* Alle abhaken Button */}
+                {/* All abhaken Button */}
                 <div style={{ padding:"8px 14px", background:C.accentBg, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                  <p style={{ fontSize:12, color:C.accent, fontWeight:600 }}>📋 Einkaufsliste für {m.titel}</p>
+                  <p style={{ fontSize:12, color:C.accent, fontWeight:600 }}>📋 Shopping list für {m.titel}</p>
                   <button onClick={() => {
                     const allDone = items.every((_, ii) => checked[`${m.id}-${ii}`]);
                     const update = {};
                     items.forEach((_, ii) => { update[`${m.id}-${ii}`] = !allDone; });
                     setChecked(prev => ({ ...prev, ...update }));
                   }} style={{ fontSize:11, color:C.accent, background:"none", border:`1px solid ${C.accent}44`, borderRadius:20, padding:"3px 10px", cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-                    {items.every((_, ii) => checked[`${m.id}-${ii}`]) ? "Alle abwählen" : "Alle abhaken"}
+                    {items.every((_, ii) => checked[`${m.id}-${ii}`]) ? "All abwählen" : "All abhaken"}
                   </button>
                 </div>
 
@@ -1682,7 +1682,7 @@ function EinkaufsListe({ savedMakeovers }) {
                 {/* Zusammenfassung unten */}
                 <div style={{ padding:"10px 14px", background:C.greenBg, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
                   <span style={{ fontSize:12, color:C.green, fontWeight:600 }}>
-                    {mChecked === items.length ? "🎉 Alle Produkte besorgt!" : `${items.length - mChecked} Produkte noch offen`}
+                    {mChecked === items.length ? "🎉 All Produkte besorgt!" : `${items.length - mChecked} Produkte noch offen`}
                   </span>
                   {mChecked === items.length && (
                     <span style={{ fontSize:11, color:C.green }}>Jetzt loslegen! 💪</span>
@@ -1707,7 +1707,7 @@ const KOMPLETT_PLAENE = [
       { name:"Rohbau & Installation", items:["Neue Leitungen verlegen (Installateur!)","Elektro: Leerrohr für Spiegel, Steckdosen IP44","Rigips Vorbauwand für Unterputz-Spülung","Gefälleestrich für bodengleiche Dusche (1,5%)","Abdichtung: Dichtband + 2× Dichtschlämme","Trockenzeit abwarten (mind. 48h)"] },
       { name:"Fliesen & Oberflächen", items:["Fliesenkleber C2 anrühren (Mapei Keraflex)","Boden fliesen – von Mitte aus starten","Wände fliesen – Werkskante nach außen","Nivelliersystem bei Großformat verwenden","24h trocknen, dann verfugen","Randfugen: Silikon (Bad-Silikon Soudal S100)"] },
       { name:"Sanitär & Elektro", items:["WC montieren (Vorwandinstallation einstellen)","Waschtisch anschließen (Teflonband!)","Dusche/Wanne anschließen, Dichtigkeitstest","Armaturen montieren","Spiegel aufhängen (IP44 prüfen!)","Licht anschließen (Elektriker)"] },
-      { name:"Finishing", items:["Silikon komplett erneuern + glätten","Dichtheit aller Anschlüsse prüfen","Accessoires montieren (Handtuchhalter, Haken)","Alles reinigen","Fotos machen – vorher/nachher!"] },
+      { name:"Finishing", items:["Silikon komplett erneuern + glätten","Dichtheit aller Anschlüsse prüfen","Accessoires montieren (Handtuchhalter, Haken)","Alls reinigen","Fotos machen – vorher/nachher!"] },
     ]
   },
   {
@@ -1716,7 +1716,7 @@ const KOMPLETT_PLAENE = [
       { name:"Planung", items:["Konzept: Nur Fronten oder komplett neu?","Farbkonzept wählen (Testmuster bestellen!)","Arbeitsplatte auswählen","Material bestellen (4 Wochen Lieferzeit!)","Budget aufteilen: Fronten / Platte / Licht / Deko"] },
       { name:"Fronten & Griffe", items:["Alte Fronten abschrauben, beschriften","Fronten schleifen (P120) oder entfetten für Folie","Haftgrund auftragen, trocknen lassen","Farbe auftragen: 3× Seidenmatt-Lack","Neue Griffe montieren (Schablone verwenden!)","Fronten wieder einhängen, Scharniere justieren"] },
       { name:"Arbeitsplatte", items:["Alte Arbeitsplatte demontieren","Neue Arbeitsplatte zuschneiden (Stichsäge)","Schnittkanten SOFORT abdichten","Einbauspüle ausschneiden, einsetzen","Arbeitsplatte verkleben + verschrauben","Silikon Übergang Wand-Arbeitsplatte"] },
-      { name:"Licht & Finishing", items:["LED-Strip unter Oberschränken (2700K)","Pendelleuchten über Insel/Tisch montieren","Alle Fugen mit Silikon abschließen","Armaturen auf Dichtigkeit prüfen","Grundreinigung & Einräumen"] },
+      { name:"Licht & Finishing", items:["LED-Strip unter Oberschränken (2700K)","Pendelleuchten über Insel/Tisch montieren","All Fugen mit Silikon abschließen","Armaturen auf Dichtigkeit prüfen","Grundreinigung & Einräumen"] },
     ]
   },
   {
@@ -1740,7 +1740,7 @@ const KOMPLETT_PLAENE = [
   {
     name:"Terrasse aufwerten", icon:"🌿", dauer:"1–2 Wochenenden", budget:"300–3.000€", desc:"WPC-Boden, Sichtschutz, Lounge",
     phasen:[
-      { name:"Planung & Material", items:["Grundfläche ausmessen (Länge × Breite)","Konzept: Lounge, Essbereich, Pflanzen?","WPC-Menge berechnen (+10% Verschnitt)","Unterkonstruktion planen (alle 50cm)","Material bestellen"] },
+      { name:"Planung & Material", items:["Grundfläche ausmessen (Length × Width)","Konzept: Lounge, Essbereich, Pflanzen?","WPC-Menge berechnen (+10% Verschnitt)","Unterkonstruktion planen (alle 50cm)","Material bestellen"] },
       { name:"Unterkonstruktion", items:["Alten Belag entfernen","Stelzlager setzen (höhenverstellbar)","2% Gefälle einplanen (Wasserablauf)","Tragebalken verlegen und nivellieren"] },
       { name:"WPC-Dielen verlegen", items:["Erste Reihe mit 5mm Abstand zur Wand","Clips einsetzen – unsichtbare Befestigung","Reihe für Reihe arbeiten","Letzte Reihe zuschneiden","Abschlussprofile montieren"] },
       { name:"Sichtschutz & Möbel", items:["Sichtschutz-Pfosten setzen","Latten oder Bambus anbringen","Solar-Lichterketten aufhängen (2200K)","Lounge-Möbel aufstellen","Pflanzkübel mit Olivenbaum/Lavendel"] },
@@ -1748,7 +1748,7 @@ const KOMPLETT_PLAENE = [
   },
 ];
 
-function PlanerTab({ lang = "de", savedMakeovers }) {
+function PlannerTab({ lang = "de", savedMakeovers }) {
   const [ansicht, setAnsicht] = useState("plaene");
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [openPhase, setOpenPhase] = useState(0);
@@ -1838,7 +1838,7 @@ function PlanerTab({ lang = "de", savedMakeovers }) {
                       );
                     })}
                     <button onClick={()=>{ const allDone=phase.items.every((_,ii)=>checked[`${plan.name}-${pi}-${ii}`]); const next={...checked}; phase.items.forEach((_,ii)=>{next[`${plan.name}-${pi}-${ii}`]=!allDone;}); setChecked(next); saveLS(next,null); }} style={{ marginTop:8, fontSize:12, color:C.accent, background:"none", border:`1px solid ${C.accent}44`, borderRadius:20, padding:"4px 12px", cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-                      {phase.items.every((_,ii)=>checked[`${plan.name}-${pi}-${ii}`])?"Phase abwählen":"Alle abhaken"}
+                      {phase.items.every((_,ii)=>checked[`${plan.name}-${pi}-${ii}`])?"Phase abwählen":"All abhaken"}
                     </button>
                   </div>
                 )}
@@ -1909,7 +1909,7 @@ function PlanerTab({ lang = "de", savedMakeovers }) {
                     {phase.items.map((item, ii)=>(
                       <div key={ii} style={{ display:"flex", gap:6, marginBottom:6 }}>
                         <span style={{ width:20, height:20, background:C.accent, color:"white", borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, flexShrink:0, marginTop:6 }}>{ii+1}</span>
-                        <input value={item} onChange={e=>setNewProjekt(p=>{const ph=[...p.phasen];ph[pi]={...ph[pi],items:ph[pi].items.map((it,x)=>x===ii?e.target.value:it)};return{...p,phasen:ph};})} placeholder={`Schritt ${ii+1}`} style={{ flex:1, padding:"6px 10px", borderRadius:8, border:`1px solid ${C.border}`, fontSize:13, fontFamily:"'DM Sans',sans-serif", background:"white" }}
+                        <input value={item} onChange={e=>setNewProjekt(p=>{const ph=[...p.phasen];ph[pi]={...ph[pi],items:ph[pi].items.map((it,x)=>x===ii?e.target.value:it)};return{...p,phasen:ph};})} placeholder={`Step ${ii+1}`} style={{ flex:1, padding:"6px 10px", borderRadius:8, border:`1px solid ${C.border}`, fontSize:13, fontFamily:"'DM Sans',sans-serif", background:"white" }}
                           onKeyDown={e=>{if(e.key==="Enter"){e.preventDefault();setNewProjekt(p=>{const ph=[...p.phasen];ph[pi]={...ph[pi],items:[...ph[pi].items,""]};return{...p,phasen:ph};});}}} />
                         <button onClick={()=>setNewProjekt(p=>{const ph=[...p.phasen];ph[pi]={...ph[pi],items:ph[pi].items.filter((_,x)=>x!==ii)};return{...p,phasen:ph};})} style={{ background:"none", border:"none", color:"#CCC", cursor:"pointer" }}>✕</button>
                       </div>
@@ -1927,11 +1927,11 @@ function PlanerTab({ lang = "de", savedMakeovers }) {
                     setCreating(false); setNewProjekt({name:"",icon:"🏠",phasen:[{name:"Phase 1",items:[""]}]});
                     setSelectedPlan(proj.name); setOpenPhase(0); setAnsicht("plaene");
                   }} style={{ flex:2, padding:"12px", borderRadius:50, background:C.accent, color:"white", border:"none", fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>Erstellen →</button>
-                  <button onClick={()=>setCreating(false)} style={{ flex:1, padding:"12px", borderRadius:50, border:`1px solid ${C.border}`, background:"none", cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>Abbrechen</button>
+                  <button onClick={()=>setCreating(false)} style={{ flex:1, padding:"12px", borderRadius:50, border:`1px solid ${C.border}`, background:"none", cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>Cancel</button>
                 </div>
               </div>
             )}
-            <p style={{ fontSize:12, color:C.muted, textAlign:"center", fontStyle:"italic" }}>Enter = nächster Schritt · Phasen gruppieren verwandte Aufgaben</p>
+            <p style={{ fontSize:12, color:C.muted, textAlign:"center", fontStyle:"italic" }}>Enter = nächster Step · Phasen gruppieren verwandte Aufgaben</p>
           </div>
         )}
         {ansicht === "einkauf" && (
@@ -1939,8 +1939,8 @@ function PlanerTab({ lang = "de", savedMakeovers }) {
             ? <EinkaufsListe savedMakeovers={savedMakeovers} />
             : <div style={{ textAlign:"center", padding:"40px 20px" }}>
                 <p style={{ fontSize:32, marginBottom:12 }}>🛒</p>
-                <p style={{ fontFamily:"'Playfair Display',serif", fontSize:16, marginBottom:8 }}>Noch keine Einkaufsliste</p>
-                <p style={{ fontSize:13, color:C.muted, lineHeight:1.6 }}>Generiere einen Makeover und drücke "Als Projekt in Planer" – dann erscheinen hier alle Materialien zum Abhaken.</p>
+                <p style={{ fontFamily:"'Playfair Display',serif", fontSize:16, marginBottom:8 }}>Noch keine Shopping list</p>
+                <p style={{ fontSize:13, color:C.muted, lineHeight:1.6 }}>Generiere einen Makeover und drücke "Als Projekt in Planner" – dann erscheinen hier alle Materialien zum Abhaken.</p>
               </div>
         )}
       </div>
@@ -1979,7 +1979,7 @@ function InspoTab({ plan, lang = "de" }) {
   const inspoUsage = getMonthlyInspoUsage();
   const inspoLimitReached = inspoUsage >= inspoLimit;
 
-  // Gespeicherte Analysen laden
+  // Savede Analysen laden
   useEffect(() => {
     try {
       const saved = localStorage.getItem("mystorija_inspo");
@@ -2006,7 +2006,7 @@ function InspoTab({ plan, lang = "de" }) {
 
   async function analyse(file, preview) {
     if (isFreeInspo || inspoLimitReached) {
-      setError(isFreeInspo ? "Inspo-Analyse ab Basic Plan (9,99€/Monat)." : `Monatliches Limit erreicht (${inspoLimit} Analysen).`);
+      setError(isFreeInspo ? "Inspo-Analyse ab Basic Plan (9,99€/month)." : `monthliches Limit reached (${inspoLimit} Analysen).`);
       return;
     }
     setLoading(true); setAnalysis(null); setError(null); setShowHistory(false);
@@ -2036,7 +2036,7 @@ function InspoTab({ plan, lang = "de" }) {
     r.readAsDataURL(f);
   }
 
-  const SCHWIERIGKEIT_COLOR = { "Einfach": C.green, "Mittel": C.accent, "Schwierig": "#B91C1C" };
+  const SCHWIERIGKEIT_COLOR = { "Easy": C.green, "Medium": C.accent, "Schwierig": "#B91C1C" };
 
   return (
     <div style={{ overflowY:"auto", height:"100%" }}>
@@ -2045,7 +2045,7 @@ function InspoTab({ plan, lang = "de" }) {
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
           <div>
             <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, marginBottom:4 }}>🔍 Inspo analysieren</h2>
-            <p style={{ fontSize:13, color:C.muted, lineHeight:1.5 }}>Foto hochladen – KI erkennt Materialien, Stil und zeigt wie du es nachmachst.</p>
+            <p style={{ fontSize:13, color:C.muted, lineHeight:1.5 }}>Upload photo – KI erkennt Materialien, Stil und zeigt wie du es nachmachst.</p>
           </div>
           {history.length > 0 && (
             <button onClick={() => setShowHistory(!showHistory)} style={{ flexShrink:0, marginLeft:10, padding:"6px 12px", borderRadius:20, border:`1px solid ${C.border}`, background:showHistory?C.accent:C.card, color:showHistory?"white":C.muted, fontSize:12, cursor:"pointer", fontFamily:"'DM Sans',sans-serif", fontWeight:600 }}>
@@ -2057,7 +2057,7 @@ function InspoTab({ plan, lang = "de" }) {
         {/* Usage Display */}
         {!isFreeInspo && (
           <p style={{ fontSize:11, color: inspoLimitReached?"#B91C1C":C.muted, fontWeight:600, marginTop:6 }}>
-            {inspoLimitReached ? "🔒 Limit erreicht" : `${inspoUsage} / ${plan==="pro"?"∞":inspoLimit} Analysen diesen Monat`}
+            {inspoLimitReached ? "🔒 Limit reached" : `${inspoUsage} / ${plan==="pro"?"∞":inspoLimit} Analysen diesen month`}
           </p>
         )}
 
@@ -2074,7 +2074,7 @@ function InspoTab({ plan, lang = "de" }) {
       {/* History Ansicht */}
       {showHistory && (
         <div style={{ padding:"14px 16px", borderBottom:`1px solid ${C.border}`, background:C.bg }}>
-          <p style={{ fontSize:12, color:C.muted, marginBottom:10, fontStyle:"italic" }}>Gespeicherte Analysen – tippe zum Wiederherstellen</p>
+          <p style={{ fontSize:12, color:C.muted, marginBottom:10, fontStyle:"italic" }}>Savede Analysen – tippe zum Wiederherstellen</p>
           <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
             {history.map(h => (
               <div key={h.id} style={{ display:"flex", gap:10, background:C.card, border:`1px solid ${C.border}`, borderRadius:12, overflow:"hidden", cursor:"pointer" }}
@@ -2196,16 +2196,16 @@ function InspoTab({ plan, lang = "de" }) {
                 {analysis.umsetzung?.map((schritt, i) => (
                   <div key={i} style={{ display:"flex", gap:10, marginBottom:i<analysis.umsetzung.length-1?10:0 }}>
                     <div style={{ width:24, height:24, borderRadius:"50%", background:C.accent, color:"white", display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:700, flexShrink:0 }}>{i+1}</div>
-                    <p style={{ fontSize:13, color:C.text, lineHeight:1.55, flex:1, paddingTop:3 }}>{schritt.replace(/^Schritt \d+:\s*/,"")}</p>
+                    <p style={{ fontSize:13, color:C.text, lineHeight:1.55, flex:1, paddingTop:3 }}>{schritt.replace(/^Step \d+:\s*/,"")}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Profi-Tipps */}
+            {/* Professional-Tipps */}
             {analysis.profi_tipps?.length > 0 && (
               <div style={{ background:"#FFFBEB", border:"1px solid #FDE68A", borderRadius:14, padding:"14px", marginBottom:14 }}>
-                <p style={{ fontSize:13, fontWeight:700, color:"#B45309", marginBottom:8 }}>⚡ Profi-Tipps</p>
+                <p style={{ fontSize:13, fontWeight:700, color:"#B45309", marginBottom:8 }}>⚡ Professional-Tipps</p>
                 {analysis.profi_tipps.map((tip,i) => (
                   <p key={i} style={{ fontSize:13, color:"#7C4A03", lineHeight:1.6, marginBottom:i<analysis.profi_tipps.length-1?6:0 }}>• {tip}</p>
                 ))}
@@ -2266,7 +2266,7 @@ const TRENDS = [
   { cat:"Bad", title:"Hinterleuchteter LED-Spiegel", desc:"IP44, dimmbar, Beschlagschutz. Stecker-Anschluss = kein Elektriker. Sofortiger Wow-Effekt für unter 150€.", how:"DIY – 30 Min", budget:"80–400€", emoji:"💡", img:"https://images.unsplash.com/photo-1600147831337-1f7ea73a3e40?w=600&h=220&fit=crop&q=80", amazon:"led spiegel bad hinterbeleuchtet ip44 dimmbar" },
   { cat:"Bad", title:"Marmor-Look Großformat", desc:"Marmor-Optik Feinsteinzeug – pflegeleichter als echter Marmor. 80×160cm für maximalen Luxus-Effekt.", how:"Fliesenleger", budget:"45–90€/m²", emoji:"🏔️", img:"https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&h=220&fit=crop&q=80", amazon:"marmor optik fliesen großformat bad" },
   { cat:"Bad", title:"Indirekte LED-Deckenbeleuchtung", desc:"LED-Cove-Licht im Badezimmer = Spa-Atmosphäre rund um die Uhr. IP44, 2700K, dimmbar. Rigips-Kastenblende an Decke.", how:"DIY+Elektriker", budget:"200–500€", emoji:"✨", img:"https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&h=220&fit=crop&q=80", amazon:"led strip 2700k bad decke ip44 cove" },
-  { cat:"Bad", title:"Japandi Bad Minimalistisch", desc:"Holz, Beton, Grünpflanze – reduziert auf das Wesentliche. Tadelakt-Wände oder Mikrozement, Hinoki-Holzhocker, bodentiefe Fenster.", how:"Mittel", budget:"2.000–6.000€", emoji:"🎋", img:"https://images.unsplash.com/photo-1604709177225-055f99402ea3?w=600&h=220&fit=crop&q=80", amazon:"japandi bad holzhocker tadelakt" },
+  { cat:"Bad", title:"Japandi Bad Minimalistisch", desc:"Holz, Beton, Grünpflanze – reduziert auf das Wesentliche. Tadelakt-Wände oder Mikrozement, Hinoki-Holzhocker, bodentiefe Fenster.", how:"Medium", budget:"2.000–6.000€", emoji:"🎋", img:"https://images.unsplash.com/photo-1604709177225-055f99402ea3?w=600&h=220&fit=crop&q=80", amazon:"japandi bad holzhocker tadelakt" },
   { cat:"Bad", title:"Badewanne einmauern mit Ablagefläche", desc:"Eingemauerte Wanne mit Ablage/Sitzbank daneben aus Feinsteinzeug. Integriert Stauraum und Sitzfläche. Beton- oder Holzoptik möglich.", how:"Fliesenleger", budget:"1.500–4.000€", emoji:"🛀", img:"https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=600&h=220&fit=crop&q=80", amazon:"eingemauerte badewanne fliesen feinsteinzeug" },
   { cat:"Bad", title:"Doppelwaschbecken Gemeinsam", desc:"Zwei Waschbecken nebeneinander auf einem langen Waschtischunterschrank. Ideal für Paare. Spart morgens Zeit.", how:"Installateur", budget:"600–2.000€", emoji:"👫", img:"https://images.unsplash.com/photo-1575844611782-6c3a7d57ae3d?w=600&h=220&fit=crop&q=80", amazon:"doppelwaschbecken waschtisch 120cm set" },
   { cat:"Bad", title:"Heizkörper als Design-Element", desc:"Handtuchtrockner in Mattschwarz oder Gebürstetes Gold als Statement. Spart Platz und trocknet Handtücher.", how:"Installateur", budget:"150–500€", emoji:"🔥", img:"https://images.unsplash.com/photo-1600147831337-1f7ea73a3e40?w=600&h=220&fit=crop&q=80", amazon:"badheizkörper handtuchtrockner mattschwarz design" },
@@ -2282,16 +2282,16 @@ const TRENDS = [
   { cat:"Küche", title:"LED-Strip unter Oberschränken", desc:"2700K warmweiß unter allen Oberschränken = Arbeitslicht + Atmosphäre. Macht Essen appetitlicher. Komplettset mit Trafo 30€.", how:"DIY – 1 Stunde", budget:"30–80€", emoji:"💡", img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=220&fit=crop&q=80", amazon:"led strip küche unterschrank 2700k warmweiß" },
   { cat:"Küche", title:"Sage Green Shaker Fronten", desc:"Salbeigrün (RAL 6021) mit Messinggriffen und Live-Edge Regal darüber. Warm, bodenständig, Instagram-würdig.", how:"DIY 2-3 Tage", budget:"100–400€", emoji:"🌿", img:"https://images.unsplash.com/photo-1556910638-6cdac31d8c23?w=600&h=220&fit=crop&q=80", amazon:"küche salbeigrün fronten haftgrund seidenmatt" },
   { cat:"Küche", title:"Pendelleuchten über Insel", desc:"3 Pendelleuchten im gleichen Abstand über Insel oder Tisch. Abstand: 65–75cm zur Fläche. Globe, Sputnik oder Industrial.", how:"Elektriker", budget:"100–600€", emoji:"💫", img:"https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&h=220&fit=crop&q=80", amazon:"pendelleuchte küche insel set 3er gold" },
-  { cat:"Küche", title:"Grifflose J-Pull Fronten", desc:"Fräsung oben an der Frontseite statt Griffe = cleaner minimalistischer Look. Tip-On oder J-Pull Profil möglich.", how:"Tischler / Montage", budget:"300–800€", emoji:"🤍", img:"https://images.unsplash.com/photo-1556909048-f0a46d7c3c0a?w=600&h=220&fit=crop&q=80", amazon:"grifflose fronten j-pull küche modern" },
+  { cat:"Küche", title:"Grifflose J-Pull Fronten", desc:"Fräsung oben an der Frontseite statt Griffe = cleaner minimalistischer Look. Tip-On oder J-Pull Professionall möglich.", how:"Tischler / Montage", budget:"300–800€", emoji:"🤍", img:"https://images.unsplash.com/photo-1556909048-f0a46d7c3c0a?w=600&h=220&fit=crop&q=80", amazon:"grifflose fronten j-pull küche modern" },
   { cat:"Küche", title:"Betonsteinoptik Küchenboden", desc:"Großformatige Feinsteinzeug-Fliesen in Betonoptik für den Küchenboden. Pflegeleicht, zeitlos. Über alte Fliesen möglich.", how:"Fliesenleger", budget:"25–50€/m²", emoji:"🔲", img:"https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=600&h=220&fit=crop&q=80", amazon:"beton optik fliesen küche feinsteinzeug grau" },
   { cat:"Küche", title:"Dunstabzug als Statement", desc:"Edelstahl-Esse oder Wand-Haube in Mattschwarz als Designelement statt versteckt. Schornstein-Look oder Glockenform.", how:"Montage", budget:"300–1.500€", emoji:"🏭", img:"https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&h=220&fit=crop&q=80", amazon:"dunstabzugshaube wandhaube mattschwarz design" },
-  { cat:"Küche", title:"Quarzstein Arbeitsplatte", desc:"Quarz (Silestone, Compac) – Naturstein-Look ohne Versiegelung. Hitze- und kratzfest. 2cm oder schlanke 1,2cm Kante.", how:"Profi-Montage", budget:"400–1.200€", emoji:"💎", img:"https://images.unsplash.com/photo-1556909211-36987e6e9a65?w=600&h=220&fit=crop&q=80", amazon:"quarzstein arbeitsplatte silestone küche" },
+  { cat:"Küche", title:"Quarzstein Arbeitsplatte", desc:"Quarz (Silestone, Compac) – Naturstein-Look ohne Versiegelung. Hitze- und kratzfest. 2cm oder schlanke 1,2cm Kante.", how:"Professional-Montage", budget:"400–1.200€", emoji:"💎", img:"https://images.unsplash.com/photo-1556909211-36987e6e9a65?w=600&h=220&fit=crop&q=80", amazon:"quarzstein arbeitsplatte silestone küche" },
   { cat:"Küche", title:"Pantry-Schrank Stauraum", desc:"Hoher Vorratsschrank neben dem Kühlschrank mit ausziehbaren Einsätzen und LED-Innenbeleuchtung. Stauraum verdoppeln.", how:"Tischler / IKEA", budget:"300–1.000€", emoji:"📦", img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=220&fit=crop&q=80", amazon:"pantry schrank küche stauraum lebensmittel" },
-  { cat:"Küche", title:"Mikrozement Küchenrückwand", desc:"Fugenlose Mikrozement-Rückwand statt Fliesen. Einfach zu reinigen, außergewöhnlicher Look. Anthrazit oder Warm-Greige.", how:"Mittel-DIY", budget:"80–200€/m²", emoji:"🏛️", img:"https://images.unsplash.com/photo-1556910638-6cdac31d8c23?w=600&h=220&fit=crop&q=80", amazon:"mikrozement küche rückwand arbeitsbereich" },
+  { cat:"Küche", title:"Mikrozement Küchenrückwand", desc:"Fugenlose Mikrozement-Rückwand statt Fliesen. Easy zu reinigen, außergewöhnlicher Look. Anthrazit oder Warm-Greige.", how:"Medium-DIY", budget:"80–200€/m²", emoji:"🏛️", img:"https://images.unsplash.com/photo-1556910638-6cdac31d8c23?w=600&h=220&fit=crop&q=80", amazon:"mikrozement küche rückwand arbeitsbereich" },
 
   // ── WOHNZIMMER (15) ───────────────────────────────────────────────────────────
   { cat:"Wohnzimmer", title:"Dunkelgrün Akzentwand", desc:"Eine Wand in Flaschengrün RAL 6009. Lammfellrolle, 2 Schichten. 30–60€ für den größten Raumeffekt überhaupt.", how:"DIY – 1 Tag", budget:"30–80€", emoji:"🌿", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"wandfarbe dunkelgrün matt alpina schöner wohnen" },
-  { cat:"Wohnzimmer", title:"Fluted Panel TV-Wand", desc:"Gerillte MDF-Latten hinter dem TV, LED-Strip dahinter. Vorher ölen oder lackieren. Magazin-Look für 150€.", how:"DIY – halber Tag", budget:"80–250€", emoji:"📺", img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=220&fit=crop&q=80", amazon:"mdf fluted panel wandpaneele holzoptik" },
+  { cat:"Wohnzimmer", title:"Fluted Panel TV-Wand", desc:"Gerillte MDF-Latten hinter dem TV, LED-Strip dahinter. Before ölen oder lackieren. Magazin-Look für 150€.", how:"DIY – halber Tag", budget:"80–250€", emoji:"📺", img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=220&fit=crop&q=80", amazon:"mdf fluted panel wandpaneele holzoptik" },
   { cat:"Wohnzimmer", title:"Cove-Licht Deckenrand", desc:"Holzrahmen 15cm an Decke, LED-Strip 2700K dahinter. Wärmstes Licht = Hotel-Feeling. Trafo hinter Kastenblende.", how:"DIY – Wochenende", budget:"150–400€", emoji:"✨", img:"https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&h=220&fit=crop&q=80", amazon:"led strip 2700k cove kastenblende decke" },
   { cat:"Wohnzimmer", title:"Erdtöne Rattan & Jute 2026", desc:"Terrakotta, Ocker, Sandstein. Rattan-Sessel, Jute-Teppich 200×300, handgemachte Keramik. Sofort ohne Handwerker.", how:"Sofort", budget:"200–600€", emoji:"🍂", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"rattan sessel jute teppich terrakotta wohnzimmer" },
   { cat:"Wohnzimmer", title:"Limewash Strukturwand", desc:"Kalkputz-Optik mit lebendiger Textur. Über normaler Farbe möglich. Warm Greige, Rosa, Taubenblau – jede Wand einzigartig.", how:"DIY – 1 Tag", budget:"40–120€", emoji:"🏺", img:"https://images.unsplash.com/photo-1558882224-dda166733046?w=600&h=220&fit=crop&q=80", amazon:"limewash farbe kalkputz optik strukturfarbe" },
@@ -2299,10 +2299,10 @@ const TRENDS = [
   { cat:"Wohnzimmer", title:"Bouclé Sofa Curved", desc:"Geschwungenes Bouclé-Sofa in Creme oder Hellgrau. Der Sofa-Trend 2026. Kombiniert mit Terrakotta-Wand = perfekt.", how:"Kauf", budget:"800–3.000€", emoji:"🛋️", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"bouclé sofa curved wohnzimmer creme" },
   { cat:"Wohnzimmer", title:"Botanisches Wohnzimmer", desc:"Große Monstera, Fiddle Leaf Fig, Olivenbaum als Hauptelemente – nicht als Beiwerk. Körbe als Töpfe, helle Ecken.", how:"Sofort", budget:"100–400€", emoji:"🌱", img:"https://images.unsplash.com/photo-1416879595882-b3d065a0e45d?w=600&h=220&fit=crop&q=80", amazon:"monstera groß topf rattan zimmerpflanzen" },
   { cat:"Wohnzimmer", title:"Smart Home Licht Shelly", desc:"Shelly Relais hinter den Lichtschalter – App-steuerbar, kein Elektriker. Mit Alexa/Google Home. Szenen einrichten.", how:"DIY – 30 Min", budget:"20–60€", emoji:"📱", img:"https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&h=220&fit=crop&q=80", amazon:"shelly dimmer smart home lichtschalter" },
-  { cat:"Wohnzimmer", title:"Holzboden Fischgrät", desc:"Fertigparkett in Fischgrät verlegt – eleganteste Verlegeart. Optisch breiter Raum. Eiche geölt, 12cm Breite.", how:"DIY – Wochenende", budget:"40–80€/m²", emoji:"⬛", img:"https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?w=600&h=220&fit=crop&q=80", amazon:"fertigparkett eiche fischgrät wohnzimmer" },
+  { cat:"Wohnzimmer", title:"Holzboden Fischgrät", desc:"Fertigparkett in Fischgrät verlegt – eleganteste Verlegeart. Optisch breiter Raum. Eiche geölt, 12cm Width.", how:"DIY – Wochenende", budget:"40–80€/m²", emoji:"⬛", img:"https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?w=600&h=220&fit=crop&q=80", amazon:"fertigparkett eiche fischgrät wohnzimmer" },
   { cat:"Wohnzimmer", title:"Bogenlampe Messing XXL", desc:"Große Bogenlampe in gebürstetem Messing oder Schwarz = sofortiger Luxus-Effekt. Kein Elektriker – Stecker.", how:"Kauf+Aufbau", budget:"150–600€", emoji:"🌙", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"bogenlampe messing groß wohnzimmer stehlampe" },
   { cat:"Wohnzimmer", title:"Dunkle Velvet Vorhänge", desc:"Bodenlange Samtvorhänge von Decke bis Boden machen jeden Raum opulenter. Immer 20cm breiter als das Fenster!", how:"Aufhängen", budget:"80–300€", emoji:"🎭", img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=220&fit=crop&q=80", amazon:"samtvorhang velvet dunkel bodenlang ösenvorhang" },
-  { cat:"Wohnzimmer", title:"Galerien-Wand Gallery Wall", desc:"5–9 Bilder in verschiedenen Größen als Wand-Arrangement. Vorher auf dem Boden layouten, dann mit Wasserwaage aufhängen.", how:"DIY", budget:"50–200€", emoji:"🖼️", img:"https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?w=600&h=220&fit=crop&q=80", amazon:"bilderrahmen set gallery wall galerie wand" },
+  { cat:"Wohnzimmer", title:"Galerien-Wand Gallery Wall", desc:"5–9 Bilder in verschiedenen Größen als Wand-Arrangement. Before auf dem Boden layouten, dann mit Wasserwaage aufhängen.", how:"DIY", budget:"50–200€", emoji:"🖼️", img:"https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?w=600&h=220&fit=crop&q=80", amazon:"bilderrahmen set gallery wall galerie wand" },
   { cat:"Wohnzimmer", title:"Stein-Optik Akzentwand", desc:"Leichte 3D-Wandpaneele in Naturstein-Optik (Kalkstein, Schiefer). Kleben, keine Dübel. Kamin oder TV-Wand.", how:"DIY – 2 Stunden", budget:"30–80€/m²", emoji:"🪨", img:"https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?w=600&h=220&fit=crop&q=80", amazon:"wandpaneele steinoptik 3d kalkstein schiefer" },
 
   // ── SCHLAFZIMMER (12) ─────────────────────────────────────────────────────────
@@ -2316,7 +2316,7 @@ const TRENDS = [
   { cat:"Schlafzimmer", title:"Verdunkelungsrollos Kassette", desc:"Kassetten-Rollo direkt am Fensterflügel – komplett dunkel auch im Sommer. Entscheidend für Schlafqualität.", how:"DIY – 30 Min", budget:"30–120€", emoji:"🌚", img:"https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=600&h=220&fit=crop&q=80", amazon:"verdunklungsrollo kassette klebemontage" },
   { cat:"Schlafzimmer", title:"Terrakotta Akzentwand Bett", desc:"Nur die Wand hinter dem Bett in Terrakotta (Alpina Florentiner Erde). Rest weiß. Bouclé-Kissen ergänzen.", how:"DIY – 2h", budget:"20–45€", emoji:"🔶", img:"https://images.unsplash.com/photo-1617325247661-675ab4b64ae2?w=600&h=220&fit=crop&q=80", amazon:"wandfarbe terrakotta alpina florentiner erde" },
   { cat:"Schlafzimmer", title:"Holz-Bettkopfteil Naturholz", desc:"Massivholz-Kopfteil aus roher Eiche oder Nussbaum. Organische Form, kein Schleifen nötig. Charaktervoll.", how:"Kauf/DIY", budget:"150–600€", emoji:"🌲", img:"https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&h=220&fit=crop&q=80", amazon:"kopfteil massivholz eiche nussbaum bett" },
-  { cat:"Schlafzimmer", title:"Einbauschrank mit Schiebetür", desc:"Rahmenlose Schiebetür mit Spiegelfläche = Raum wirkt doppelt so groß. Profil in Mattschwarz oder Weiß.", how:"Tischler", budget:"800–3.000€", emoji:"🪞", img:"https://images.unsplash.com/photo-1540518614846-7eded433c457?w=600&h=220&fit=crop&q=80", amazon:"schiebetür spiegel einbauschrank rahmenlos" },
+  { cat:"Schlafzimmer", title:"Einbauschrank mit Schiebetür", desc:"Rahmenlose Schiebetür mit Spiegelfläche = Raum wirkt doppelt so groß. Professionall in Mattschwarz oder Weiß.", how:"Tischler", budget:"800–3.000€", emoji:"🪞", img:"https://images.unsplash.com/photo-1540518614846-7eded433c457?w=600&h=220&fit=crop&q=80", amazon:"schiebetür spiegel einbauschrank rahmenlos" },
   { cat:"Schlafzimmer", title:"Nachttisch floating Wandmontage", desc:"Schwebender Nachttisch direkt an der Wand – kein Beingestell, minimalistisch, pflegeleicht. Eiche oder Weiß.", how:"DIY – 1h", budget:"60–250€", emoji:"🛋️", img:"https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=600&h=220&fit=crop&q=80", amazon:"nachttisch wandmontage schwebend eiche weiß" },
 
   // ── ESSZIMMER (8) ─────────────────────────────────────────────────────────────
@@ -2348,11 +2348,11 @@ const TRENDS = [
 
   // ── BODEN (8) ─────────────────────────────────────────────────────────────────
   { cat:"Boden", title:"SPC-Vinyl Über Fliesen", desc:"100% wasserfest, Klick-System über alte Fliesen. Kein Stemmen, kein Kleber. Fertig an einem Tag.", how:"DIY – 1 Tag", budget:"15–35€/m²", emoji:"🪵", img:"https://images.unsplash.com/photo-1574739782594-db4ead022697?w=600&h=220&fit=crop&q=80", amazon:"spc vinyl klick wasserfest über fliesen" },
-  { cat:"Boden", title:"Fischgrät-Eichenparkett", desc:"Dielen in Fischgrät-Muster – eleganteste Verlegeart. Eiche geölt 12cm Breite. Wertsteigernd.", how:"DIY/Profi", budget:"40–80€/m²", emoji:"⬛", img:"https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?w=600&h=220&fit=crop&q=80", amazon:"fertigparkett eiche fischgrät verlegen" },
-  { cat:"Boden", title:"Epoxidharz Betonoptik", desc:"Fugenloser Industrieboden über altem Belag. Sehr robust, ideal für Küche und Flur. Vorbereitung ist alles.", how:"Fortgeschritten", budget:"20–50€/m²", emoji:"🔘", img:"https://images.unsplash.com/photo-1574739782594-db4ead022697?w=600&h=220&fit=crop&q=80", amazon:"epoxidharz boden betonoptik set self leveling" },
+  { cat:"Boden", title:"Fischgrät-Eichenparkett", desc:"Dielen in Fischgrät-Muster – eleganteste Verlegeart. Eiche geölt 12cm Width. Wertsteigernd.", how:"DIY/Professional", budget:"40–80€/m²", emoji:"⬛", img:"https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?w=600&h=220&fit=crop&q=80", amazon:"fertigparkett eiche fischgrät verlegen" },
+  { cat:"Boden", title:"Epoxidharz Betonoptik", desc:"Fugenloser Industrieboden über altem Belag. Sehr robust, ideal für Küche und Flur. Vorbereitung ist alles.", how:"Intermediate", budget:"20–50€/m²", emoji:"🔘", img:"https://images.unsplash.com/photo-1574739782594-db4ead022697?w=600&h=220&fit=crop&q=80", amazon:"epoxidharz boden betonoptik set self leveling" },
   { cat:"Boden", title:"Terrakotta Fliesen mediterran", desc:"Handgefertigte Terrakotta-Bodenfliesen – warm, mediterran, zeitlos. Muss versiegelt werden.", how:"Fliesenleger", budget:"20–60€/m²", emoji:"🔶", img:"https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&h=220&fit=crop&q=80", amazon:"terrakotta fliesen handgemacht boden mediterran" },
   { cat:"Boden", title:"Zementfliesen Vintage Muster", desc:"Bunte Musterfliesen in Schwarz-Weiß oder Bunt. Für Küche, Bad oder Flur. Über alte Fliesen möglich.", how:"Fliesenleger", budget:"30–80€/m²", emoji:"🎨", img:"https://images.unsplash.com/photo-1574739782594-db4ead022697?w=600&h=220&fit=crop&q=80", amazon:"zementfliesen muster vintage bunt schwarz weiß" },
-  { cat:"Boden", title:"Teppich als Raumteiler", desc:"Großer Teppich (300×400) definiert den Sitzbereich. Jute, Wolle oder Outdoor-Teppich. Alle Möbelbeine drauf.", how:"Legen", budget:"80–600€", emoji:"🟫", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"großer teppich wohnzimmer jute wolle 300x400" },
+  { cat:"Boden", title:"Teppich als Raumteiler", desc:"Großer Teppich (300×400) definiert den Sitzbereich. Jute, Wolle oder Outdoor-Teppich. All Möbelbeine drauf.", how:"Legen", budget:"80–600€", emoji:"🟫", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"großer teppich wohnzimmer jute wolle 300x400" },
   { cat:"Boden", title:"Dunkler Holzboden Drama", desc:"Dunkles Eichenparkett (Räuchereiche, Nussbaum) + helle Wände = maximaler Kontrast-Effekt.", how:"Verlegen", budget:"45–100€/m²", emoji:"⬛", img:"https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?w=600&h=220&fit=crop&q=80", amazon:"räuchereiche parkett dunkel holzboden verlegen" },
   { cat:"Boden", title:"Weißer Marmorboden Luxus", desc:"Weiße Großformat-Marmorfliesen oder -Optik. Macht Räume größer und heller. Pflegeleichter Feinsteinzeug statt echter Marmor.", how:"Fliesenleger", budget:"40–120€/m²", emoji:"🤍", img:"https://images.unsplash.com/photo-1620626011761-996317702782?w=600&h=220&fit=crop&q=80", amazon:"marmor fliesen weiß groß format luxus" },
 
@@ -2360,7 +2360,7 @@ const TRENDS = [
   { cat:"Terrasse", title:"WPC-Dielen mit Clips", desc:"Wartungsfreie WPC-Dielen auf Stelzlagern. Clip-Befestigung unsichtbar. Über Beton direkt verlegbar.", how:"DIY – Wochenende", budget:"35–65€/m²", emoji:"🌴", img:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=220&fit=crop&q=80", amazon:"wpc dielen terrasse clips stelzlager" },
   { cat:"Terrasse", title:"Outdoor-Lounge Polyrattan", desc:"Modulare Polyrattan-Lounge mit Sunbrella-Kissen. UV-beständig, wetterfest. Outdoor-Teppich als Basis.", how:"Aufbau", budget:"400–1.500€", emoji:"☀️", img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=220&fit=crop&q=80", amazon:"outdoor lounge polyrattan sunbrella terrasse" },
   { cat:"Terrasse", title:"Pergola Douglasie Selbstbau", desc:"Freistehende Pergola aus Douglasie – wetterfest ohne Imprägnierung. Mit Rankpflanzen begrünen.", how:"Wochenende", budget:"400–1.500€", emoji:"🌿", img:"https://images.unsplash.com/photo-1416879595882-b3d065a0e45d?w=600&h=220&fit=crop&q=80", amazon:"pergola bausatz douglasie selbstbau garten" },
-  { cat:"Terrasse", title:"Eingebauter Gasgrill Outdoor", desc:"Modulare Außenküche mit Gasgrill eingebaut, Arbeitsfläche Feinsteinzeug. Das Upgrade für gesellige Abende.", how:"Profi", budget:"1.000–5.000€", emoji:"🔥", img:"https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&h=220&fit=crop&q=80", amazon:"aussenküche gasgrill einbau outdoor garten" },
+  { cat:"Terrasse", title:"Eingebauter Gasgrill Outdoor", desc:"Modulare Außenküche mit Gasgrill eingebaut, Arbeitsfläche Feinsteinzeug. Das Upgrade für gesellige Abende.", how:"Professional", budget:"1.000–5.000€", emoji:"🔥", img:"https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&h=220&fit=crop&q=80", amazon:"aussenküche gasgrill einbau outdoor garten" },
   { cat:"Terrasse", title:"Mediterrane Olivenbaum-Oase", desc:"Olivenbäume in Terrakotta-Töpfen, Lavendel als Sichtschutz, Rankrosen. Kein Handwerker nötig.", how:"Sofort", budget:"200–600€", emoji:"🫒", img:"https://images.unsplash.com/photo-1558882224-dda166733046?w=600&h=220&fit=crop&q=80", amazon:"olivenbaum terrasse terrakotta topf groß" },
   { cat:"Terrasse", title:"Solar Lichterketten 2200K", desc:"Warmweiße Solar-Lichterketten über der Terrasse. Kein Kabel, kein Strom. Automatisch an/aus. 10m ab 20€.", how:"Aufhängen", budget:"20–80€", emoji:"✨", img:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=220&fit=crop&q=80", amazon:"solar lichterkette 2200k warmweiß außen" },
   { cat:"Terrasse", title:"Bambussichtschutz & Privatsphäre", desc:"Bambus-Sichtschutz-Matten auf dem Zaun = sofortige Privatsphäre. 3 Matten = ca. 45€. Natürlicher Look.", how:"30 Min", budget:"30–80€", emoji:"🎋", img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=220&fit=crop&q=80", amazon:"bambussichtschutz balkon terrasse zaun" },
@@ -2371,12 +2371,12 @@ const TRENDS = [
   { cat:"Terrasse", title:"Feuerkorb & Abendatmosphäre", desc:"Gusseiserner Feuerkorb oder Feuerschale + Terracotta-Schüssel mit Bio-Ethanol. Lager-Feuer-Feeling.", how:"Kauf", budget:"50–300€", emoji:"🔥", img:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=220&fit=crop&q=80", amazon:"feuerkorb gusseisen terrasse outdoor feuerschale" },
 ];
 
-const KATEGORIEN = ["Alle", "Bad", "Küche", "Wohnzimmer", "Schlafzimmer", "Esszimmer", "Flur", "Homeoffice", "Boden", "Terrasse"];
+const KATEGORIEN = ["All", "Bad", "Küche", "Wohnzimmer", "Schlafzimmer", "Esszimmer", "Flur", "Homeoffice", "Boden", "Terrasse"];
 
 function IdeenTab({ lang = "de" }) {
-  const [kat, setKat] = useState("Alle");
+  const [kat, setKat] = useState("All");
   const [openTrend, setOpenTrend] = useState(null);
-  const gefiltert = kat === "Alle" ? TRENDS : TRENDS.filter(t => t.cat === kat);
+  const gefiltert = kat === "All" ? TRENDS : TRENDS.filter(t => t.cat === kat);
 
   return (
     <div style={{ overflowY:"auto", height:"100%" }}>
@@ -2464,7 +2464,7 @@ function PricingModal({ onClose, onSuccess, freeUsed }) {
         </div>
 
         {/* Email */}
-        <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Deine E-Mail-Adresse" type="email"
+        <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Deine Email-Adresse" type="email"
           style={{ width:"100%", padding:"11px 14px", borderRadius:10, border:`1.5px solid ${C.border}`, fontSize:14, fontFamily:"'DM Sans',sans-serif", background:C.bg, marginBottom:16, marginTop:12 }} />
 
         {/* Plans */}
@@ -2479,11 +2479,11 @@ function PricingModal({ onClose, onSuccess, freeUsed }) {
               </div>
               <div style={{ textAlign:"right" }}>
                 <p style={{ fontFamily:"'Playfair Display',serif", fontSize:22, color:C.text, fontWeight:700 }}>9,99€</p>
-                <p style={{ fontSize:11, color:C.muted }}>/Monat</p>
+                <p style={{ fontSize:11, color:C.muted }}>/month</p>
               </div>
             </div>
             <div style={{ fontSize:13, color:C.text, lineHeight:1.8, marginBottom:12 }}>
-              {["✓ 20 KI-Makeovers pro Monat", "✓ Alle Stilvorlagen", "✓ Materialien + Amazon-Links", "✓ Anleitungen & Chat"].map(f => <div key={f}>{f}</div>)}
+              {["✓ 20 KI-Makeovers pro month", "✓ All Stilvorlagen", "✓ Materialien + Amazon-Links", "✓ Anleitungen & Chat"].map(f => <div key={f}>{f}</div>)}
             </div>
             <button onClick={() => checkout("basic")} disabled={!!loading} style={{ width:"100%", padding:"12px", borderRadius:50, background:loading==="basic"?C.border:C.text, color:"white", border:"none", fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
               {loading==="basic" ? "Wird geladen…" : "Basic starten →"}
@@ -2500,11 +2500,11 @@ function PricingModal({ onClose, onSuccess, freeUsed }) {
               </div>
               <div style={{ textAlign:"right" }}>
                 <p style={{ fontFamily:"'Playfair Display',serif", fontSize:22, color:C.accent, fontWeight:700 }}>19,99€</p>
-                <p style={{ fontSize:11, color:C.muted }}>/Monat</p>
+                <p style={{ fontSize:11, color:C.muted }}>/month</p>
               </div>
             </div>
             <div style={{ fontSize:13, color:C.text, lineHeight:1.8, marginBottom:12 }}>
-              {["✓ Unbegrenzte KI-Makeovers", "✓ Flux Pro – bessere Bildqualität", "✓ Alle Basic Features", "✓ Priorität bei der Generierung"].map(f => <div key={f} style={{ fontWeight: f.includes("Pro") ? 600 : 400 }}>{f}</div>)}
+              {["✓ Unbegrenzte KI-Makeovers", "✓ Flux Pro – bessere Bildqualität", "✓ All Basic Features", "✓ Priorität bei der Generierung"].map(f => <div key={f} style={{ fontWeight: f.includes("Pro") ? 600 : 400 }}>{f}</div>)}
             </div>
             <button onClick={() => checkout("pro")} disabled={!!loading} style={{ width:"100%", padding:"13px", borderRadius:50, background:loading==="pro"?C.border:C.accent, color:"white", border:"none", fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
               {loading==="pro" ? "Wird geladen…" : "Pro starten →"}
@@ -2513,7 +2513,7 @@ function PricingModal({ onClose, onSuccess, freeUsed }) {
         </div>
 
         <p style={{ fontSize:11, color:C.muted, textAlign:"center" }}>
-          Monatlich kündbar · Zahlung über Stripe gesichert · Keine versteckten Kosten
+          monthlich kündbar · Zahlung über Stripe gesichert · Keine versteckten Kosten
         </p>
       </div>
     </div>
@@ -2526,8 +2526,8 @@ const TABS = [
   { id:"inspo",    labelDE:"Inspo",    labelEN:"Inspo",    icon:"🔍" },
   { id:"ideen",    labelDE:"Ideen",    labelEN:"Ideas",    icon:"💡" },
   { id:"anleit",   labelDE:"Anleit.",  labelEN:"Guides",   icon:"📋" },
-  { id:"planer",   labelDE:"Planer",   labelEN:"Planner",  icon:"📅" },
-  { id:"profis",   labelDE:"Profis",   labelEN:"Pros",     icon:"🔨" },
+  { id:"planer",   labelDE:"Planner",   labelEN:"Planner",  icon:"📅" },
+  { id:"profis",   labelDE:"Professionals",   labelEN:"Pros",     icon:"🔨" },
 ];
 
 
@@ -2537,35 +2537,35 @@ const TABS = [
 const T = {
   de: {
     makeover: "✨ Makeover", chat: "💬 Chat", inspo: "🔍 Inspo",
-    ideen: "💡 Ideen", anleit: "📋 Anleit.", planer: "📅 Planer", profis: "🔨 Profis",
-    generateBtn: "✨ Makeover generieren", uploadHint: "Foto hochladen",
-    uploadSub: "Bad, Küche, Wohnzimmer, Terrasse...",
+    ideen: "💡 Ideen", anleit: "📋 Anleit.", planer: "📅 Planner", profis: "🔨 Professionals",
+    generateBtn: "✨ Makeover generieren", uploadHint: "Upload photo",
+    uploadSub: "Bathroom, kitchen, living room, terrace...",
     wishPlaceholder: "z.B. Dunkle Fliesen, Walk-In Dusche...",
-    generating: "KI generiert dein Makeover...", materials: "Verwendete Materialien:",
-    save: "💾 Speichern", newMakeover: "🔄 Neu",
-    loginBtn: "Anmelden", logoutBtn: "Abmelden",
-    freePlan: "Nur ab Basic Plan", limitReached: "🔒 Limit erreicht",
+    generating: "KI generiert dein Makeover...", materials: "Materials used:",
+    save: "💾 Save", newMakeover: "🔄 Neu",
+    loginBtn: "Sign in", logoutBtn: "Sign out",
+    freePlan: "Basic plan required", limitReached: "🔒 Limit reached",
     inspoHook: "Schönes Bild irgendwo gesehen?",
     inspoSub: "Screenshot hochladen – Mystorija erkennt sofort alle Materialien und Farben.",
-    analyzeBtn: "🔍 Analysieren", trending: "Trends 2026",
-    refineTitle: "✏️ Bild verfeinern – was soll sich noch ändern?",
-    refinePlaceholder: "z.B. Fliesen dunkler, Spiegel hinzufügen...",
-    savedBtn: "Gespeichert!", plannerSaved: "Im Planer gespeichert!",
-    newBtn: "🔄 Neu", saveBtn: "💾 Speichern",
-    toolsLabel: "Benötigtes Werkzeug:", tipsLabel: "Profi-Tipps:",
-    warningLabel: "⚠️ Achtung:",
-    stepsLabel: "Schritte:", diffLabel: "Schwierigkeit:",
-    costLabel: "Budget:", timeLabel: "Zeit:",
+    analyzeBtn: "🔍 Analyze", trending: "Trends 2026",
+    refineTitle: "✏️ Refine image – was soll sich noch ändern?",
+    refinePlaceholder: "z.B. Darker tiles, Spiegel hinzufügen...",
+    savedBtn: "Saved!", plannerSaved: "Saved to Planner!",
+    newBtn: "🔄 Neu", saveBtn: "💾 Save",
+    toolsLabel: "Tools needed:", tipsLabel: "Pro tips:",
+    warningLabel: "⚠️ Watch out:",
+    stepsLabel: "Schritte:", diffLabel: "Difficulty:",
+    costLabel: "Budget:", timeLabel: "Time:",
     guidesTitle: "DIY-Anleitungen", ideasTitle: "Ideen & Trends 2026",
-    plannerTitle: "Planer", prosTitle: "Profis finden",
+    plannerTitle: "Planner", prosTitle: "Professionals finden",
     chatTitle: "Renovierungs-Experte", inspoTitle: "Inspo analysieren",
-    makeoverTitle: "KI Makeover",
+    makeoverTitle: "AI Makeover",
     upgradeMsg: "Ab Basic Plan – jetzt upgraden",
-    limitMsg: "Monatliches Limit erreicht – upgrade auf Pro",
-    dimensionsLabel: "Raummaße (optional)",
-    lengthPh: "Länge m", widthPh: "Breite m", heightPh: "Höhe m",
-    tipsBtn: "💡 Tipps & Vorlagen",
-    viewHistory: "📚 Verlauf",
+    limitMsg: "monthliches Limit reached – upgrade auf Pro",
+    dimensionsLabel: "Room dimensions (optional)",
+    lengthPh: "Length m", widthPh: "Width m", heightPh: "Height m",
+    tipsBtn: "💡 Tips & Templates",
+    viewHistory: "📚 History",
   },
   en: {
     makeover: "✨ Makeover", chat: "💬 Chat", inspo: "🔍 Inspo",
@@ -2647,7 +2647,7 @@ export default function HomeEN() {
   const [freeUsed, setFreeUsed] = useState(0);
   const [chatMessages, setChatMessages] = useState([{
     role:"assistant",
-    text:"Hey! 👋 Ich bin dein persönlicher Renovierungsexperte – frag mich alles über Bad, Küche, Wohnzimmer, Boden, Licht und mehr.\n\nIch gebe dir **konkrete Antworten** mit Produktnamen, Preisen und Schritt-für-Schritt Anleitungen. Oder lade ein 📷 Foto hoch und ich analysiere deinen Raum sofort!",
+    text:"Hey! 👋 Ich bin dein persönlicher Renovierungsexperte – frag mich alles über Bad, Küche, Wohnzimmer, Boden, Licht und mehr.\n\nIch gebe dir **konkrete Antworten** mit Produktnamen, Preisen und Schritt-für-Step Anleitungen. Oder lade ein 📷 Foto hoch und ich analysiere deinen Raum sofort!",
   }]);
 
   useEffect(() => {
@@ -2785,7 +2785,7 @@ export default function HomeEN() {
         <div style={{ flex:1, overflow:"hidden", position:"relative" }}>
           <div style={{ display:activeTab==="makeover"?"flex":"none", height:"100%", overflow:"hidden" }}>
             <MakeoverTab
-              onSaveToPlaner={m => setSavedMakeovers(prev=>[m,...prev])}
+              onSaveToPlanner={m => setSavedMakeovers(prev=>[m,...prev])}
               savedMakeovers={savedMakeovers}
               plan={subscription?.plan || "free"}
               canGenerate={canGenerate()}
@@ -2800,7 +2800,7 @@ export default function HomeEN() {
           {activeTab==="inspo" && <InspoTab plan={subscription?.plan} lang={lang} />}
           {activeTab==="ideen" && <IdeenTab lang={lang} />}
           {activeTab==="anleit" && <AnleitungenTab lang={lang} />}
-          {activeTab==="planer" && <PlanerTab savedMakeovers={savedMakeovers} lang={lang} />}
+          {activeTab==="planer" && <PlannerTab savedMakeovers={savedMakeovers} lang={lang} />}
           {activeTab==="profis" && <HandwerkerTab lang={lang} />}
         </div>
         <div style={{ background:C.card, borderTop:`1px solid ${C.border}`, display:"grid", gridTemplateColumns:"repeat(7, 1fr)", flexShrink:0, overflowX:"auto" }}>
@@ -2821,7 +2821,7 @@ export default function HomeEN() {
             <p style={{ fontSize:13, color:C.muted, marginBottom:16 }}>Code eingeben um Pro freizuschalten</p>
             <input value={secretInput} onChange={e => setSecretInput(e.target.value)} onKeyDown={e => e.key==="Enter" && handleSecretCode(secretInput)} placeholder="Code eingeben..." style={{ width:"100%", padding:"11px 14px", borderRadius:12, border:`2px solid ${C.border}`, fontSize:15, marginBottom:12, fontFamily:"'DM Sans',sans-serif", textAlign:"center", letterSpacing:2 }} autoFocus />
             <div style={{ display:"flex", gap:8 }}>
-              <button onClick={() => { setShowSecretInput(false); setSecretInput(""); }} style={{ flex:1, padding:"11px", borderRadius:50, border:`1px solid ${C.border}`, background:C.bg, cursor:"pointer", fontFamily:"'DM Sans',sans-serif", fontSize:14 }}>Abbrechen</button>
+              <button onClick={() => { setShowSecretInput(false); setSecretInput(""); }} style={{ flex:1, padding:"11px", borderRadius:50, border:`1px solid ${C.border}`, background:C.bg, cursor:"pointer", fontFamily:"'DM Sans',sans-serif", fontSize:14 }}>Cancel</button>
               <button onClick={() => handleSecretCode(secretInput)} style={{ flex:1, padding:"11px", borderRadius:50, background:C.accent, color:"white", border:"none", cursor:"pointer", fontFamily:"'DM Sans',sans-serif", fontSize:14, fontWeight:700 }}>Aktivieren</button>
             </div>
           </div>
