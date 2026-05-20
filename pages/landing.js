@@ -98,6 +98,30 @@ export default function Landing() {
         ))}
       </div>
 
+
+      {/* VORHER/NACHHER */}
+      <section style={{ padding:"0 24px 60px", maxWidth:700, margin:"0 auto" }}>
+        <div style={{ textAlign:"center", marginBottom:20 }}>
+          <div style={{ fontSize:12, fontWeight:700, textTransform:"uppercase", letterSpacing:"1.5px", color:"var(--accent)", marginBottom:8 }}>Echtes Beispiel</div>
+          <p style={{ fontSize:14, color:"var(--muted)" }}>Foto hochgeladen → KI generiert in 20 Sekunden</p>
+        </div>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, borderRadius:20, overflow:"hidden", boxShadow:"0 20px 60px rgba(0,0,0,0.12)" }}>
+          <div style={{ position:"relative" }}>
+            <img src="/before.jpg" alt="Vorher" style={{ width:"100%", height:260, objectFit:"cover", display:"block" }} onError={e => e.target.style.display="none"} />
+            <div style={{ position:"absolute", bottom:10, left:10, background:"rgba(0,0,0,0.7)", color:"white", padding:"4px 12px", borderRadius:20, fontSize:12, fontWeight:700 }}>VORHER</div>
+          </div>
+          <div style={{ position:"relative" }}>
+            <img src="/after.jpg" alt="Nachher" style={{ width:"100%", height:260, objectFit:"cover", display:"block" }} onError={e => e.target.style.display="none"} />
+            <div style={{ position:"absolute", bottom:10, right:10, background:"var(--accent)", color:"white", padding:"4px 12px", borderRadius:20, fontSize:12, fontWeight:700 }}>✨ NACHHER</div>
+          </div>
+        </div>
+        <div style={{ textAlign:"center", marginTop:16 }}>
+          <a href="/app" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"var(--accent)", color:"white", padding:"12px 28px", borderRadius:50, fontSize:14, fontWeight:700, textDecoration:"none" }}>
+            ✨ Jetzt mein Zimmer transformieren
+          </a>
+        </div>
+      </section>
+
       {/* PAIN POINTS */}
       <section style={{ padding:"0 24px 70px", maxWidth:900, margin:"0 auto" }}>
         <div style={{ textAlign:"center", marginBottom:40 }}>
@@ -349,10 +373,27 @@ export default function Landing() {
         </a>
       </section>
 
+
+      {/* KONTAKT */}
+      <section style={{ background:"var(--card)", padding:"50px 24px", borderTop:"1px solid var(--border)" }}>
+        <div style={{ maxWidth:600, margin:"0 auto", textAlign:"center" }}>
+          <div style={{ fontSize:12, fontWeight:700, textTransform:"uppercase", letterSpacing:"1.5px", color:"var(--accent)", marginBottom:10 }}>Kontakt & Support</div>
+          <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:28, marginBottom:12 }}>Fragen? Wir helfen dir gerne</h2>
+          <p style={{ fontSize:16, color:"var(--muted)", marginBottom:28, lineHeight:1.7 }}>
+            Bei Fragen zur App, deinem Abo oder als Handwerker der mitmachen möchte – schreib uns einfach.
+          </p>
+          <a href="mailto:info@mystorija.com" style={{ display:"inline-flex", alignItems:"center", gap:10, background:"var(--accent)", color:"white", padding:"14px 32px", borderRadius:50, fontSize:16, fontWeight:700, textDecoration:"none" }}>
+            ✉️ info@mystorija.com
+          </a>
+          <p style={{ fontSize:13, color:"var(--muted)", marginTop:12 }}>Wir antworten innerhalb von 24 Stunden</p>
+        </div>
+      </section>
+
       {/* FOOTER */}
       <footer style={{ background:"#1A1A1A", padding:"40px 24px", textAlign:"center" }}>
         <div style={{ fontFamily:"'Playfair Display',serif", fontSize:20, color:"white", marginBottom:8 }}>My<span style={{ color:"var(--accent)" }}>storija</span></div>
         <p style={{ fontSize:13, color:"#888", marginBottom:4 }}>KI-gestützte Renovierungs-App · 2026</p>
+        <p style={{ fontSize:13, color:"#888", marginBottom:4 }}>Support: <a href="mailto:info@mystorija.com" style={{ color:"var(--accent)", textDecoration:"none" }}>info@mystorija.com</a></p>
         <p style={{ fontSize:13, color:"#888", marginBottom:4 }}>Support: <a href="mailto:info@mystorija.com" style={{ color:"var(--accent)", textDecoration:"none" }}>info@mystorija.com</a></p>
         <div style={{ marginTop:16, display:"flex", gap:0, justifyContent:"center" }}>
           {[["Impressum","/impressum"],["Datenschutz","/datenschutz"],["App öffnen","/"]].map(([label,href]) => (
