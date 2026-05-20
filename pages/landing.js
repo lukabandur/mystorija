@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 
 export default function Landing() {
-  const [lang, setLang] = React.useState("de");
+  const [lang, setLang] = useState("de");
   const isEN = lang === "en";
   return (
     <>
@@ -35,9 +35,12 @@ export default function Landing() {
       {/* NAV */}
       <nav>
         <a className="logo" href="/landing">My<span>storija</span></a>
-        <div style={{ display:"flex", gap:12, alignItems:"center" }}>
-          <a className="btn-secondary hide-mobile" href="/" style={{ fontSize:13, padding:"8px 18px" }}>App öffnen</a>
-          <a className="btn-primary" href="/" style={{ fontSize:13, padding:"8px 18px" }}>Kostenlos starten ✨</a>
+        <div style={{ display:"flex", gap:10, alignItems:"center" }}>
+          <button onClick={() => setLang(l => l === "de" ? "en" : "de")} style={{ fontSize:12, fontWeight:700, color:"var(--muted)", background:"var(--bg)", padding:"7px 12px", borderRadius:20, border:"1.5px solid var(--border)", cursor:"pointer" }}>
+            {lang === "de" ? "🇬🇧 EN" : "🇩🇪 DE"}
+          </button>
+          <a className="btn-secondary hide-mobile" href="/app" style={{ fontSize:13, padding:"8px 18px" }}>{isEN ? "Open app" : "App öffnen"}</a>
+          <a className="btn-primary" href="/app" style={{ fontSize:13, padding:"8px 18px" }}>{isEN ? "Start free ✨" : "Kostenlos starten ✨"}</a>
         </div>
       </nav>
 
@@ -47,7 +50,7 @@ export default function Landing() {
           🤖 KI-gestützt · Sofort kostenlos starten
         </div>
         <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(36px, 7vw, 58px)", fontWeight:700, lineHeight:1.15, marginBottom:20 }}>
-          {isEN ? <>Your Home,<br /><em style={{ fontStyle:"italic", color:"var(--accent)" }}>reimagined</em> with AI</> : <>Dein Zuhause,<br /><em style={{ fontStyle:"italic", color:"var(--accent)" }}>neu gedacht</em> mit KI</>}
+          {isEN ? "Your Home," : "Dein Zuhause,"}<br /><em style={{ fontStyle:"italic", color:"var(--accent)" }}>{isEN ? "reimagined" : "neu gedacht"}</em>{isEN ? " with AI" : " mit KI"}
         </h1>
         <p style={{ fontSize:18, color:"var(--muted)", maxWidth:520, margin:"0 auto 36px", lineHeight:1.7 }}>
           {isEN ? "Upload a photo – AI generates your dream renovation in seconds. Identify materials, follow guides, get started." : "Foto hochladen – KI generiert deine Traumrenovierung in Sekunden. Materialien erkennen, Anleitungen folgen, loslegen."}
@@ -109,9 +112,9 @@ export default function Landing() {
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))", gap:16, marginBottom:50 }}>
           {[
-            ["🛋️","Endlich ein Bild im Kopf","Du weißt dass du etwas verändern möchtest – aber wie soll es genau aussehen? Lade einfach ein Foto hoch und sieh dein Zuhause neu."],
-            ["🔍","Was steckt hinter diesem Look?","Ein schönes Foto gefunden – aber welche Fliesen sind das, welcher Holzton, was kostet das ungefähr? Mystorija erkennt und erklärt es dir."],
-            ["🔨","Selbst machen oder Profi?","Renovieren muss nicht kompliziert sein. 25 klare Anleitungen zeigen dir Schritt für Schritt was du selbst umsetzen kannst."],
+            ["🛋️",isEN ? "Finally a clear vision" : "Endlich ein Bild im Kopf","Du weißt dass du etwas verändern möchtest – aber wie soll es genau aussehen? Lade einfach ein Foto hoch und sieh dein Zuhause neu."],
+            ["🔍",isEN ? "What makes this look?" : "Was steckt hinter diesem Look?","Ein schönes Foto gefunden – aber welche Fliesen sind das, welcher Holzton, was kostet das ungefähr? Mystorija erkennt und erklärt es dir."],
+            ["🔨",isEN ? "DIY or hire a pro?" : "Selbst machen oder Profi?","Renovieren muss nicht kompliziert sein. 25 klare Anleitungen zeigen dir Schritt für Schritt was du selbst umsetzen kannst."],
           ].map(([icon,title,desc]) => (
             <div key={title} style={{ background:"var(--card)", border:"1.5px solid var(--border)", borderRadius:18, padding:24 }}>
               <div style={{ fontSize:28, marginBottom:12 }}>{icon}</div>
