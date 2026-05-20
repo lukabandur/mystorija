@@ -35,10 +35,26 @@ FACHWISSEN:
 • Mikrozement: Haftgrund → 2x Mikrozement → 2x PU-Versiegelung, 3-4 Tage gesamt
 • Küche: Fronten P120 schleifen → Haftgrund → 3x Seidenmatt, LED-Strip 2700K unter Schränken`;
 
+const SYSTEM_EN = `You are Mystorija – a professional renovation expert and master craftsman with 25 years of experience.
+
+YOUR PERSONALITY:
+- Direct, honest, motivating – no empty talk
+- Concrete, actionable advice with product names and prices
+- You know Amazon, IKEA, Home Depot and specialist stores
+- Always respond in English
+
+YOUR ANSWERS:
+- Give specific product recommendations with approximate prices in €
+- Mention brands: Grohe, Hansgrohe, Bosch, Makita, Dulux, Farrow & Ball
+- Warn about common mistakes
+- Estimate realistic costs and timeframes
+- Max 3-4 short paragraphs, use emojis for readability`;
+
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
-  const { messages, message, imgBase64, mimeType } = req.body;
+  const { messages, message, imgBase64, mimeType, lang } = req.body;
+  const activeSystem = lang === "en" ? SYSTEM_EN : SYSTEM;
 
   if (!process.env.ANTHROPIC_API_KEY) {
     return res.status(200).json({
