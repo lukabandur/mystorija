@@ -2527,7 +2527,7 @@ const TABS = [
   { id:"profis",   label:"Profis",   icon:"🔨" },
 ];
 
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/next";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("makeover");
