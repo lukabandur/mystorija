@@ -743,7 +743,7 @@ function TippsBox() {
 }
 
 // ─── MAKEOVER TAB (aus altem Chat – vollständig) ──────────────────────────────
-function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUsed, onNeedUpgrade, onGenerated }) {
+function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUsed, onNeedUpgrade, onGenerated }) {
   var fileRef = useRef();
   const [file, setFile] = useState(null);
   const [vorherUrl, setVorherUrl] = useState(null);
@@ -1010,7 +1010,7 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUs
             </div>
             {viewingHistory.materials && (
               <div style={{ background:C.accentBg, border:`1px solid #F0C4A0`, borderRadius:12, padding:"14px" }}>
-                <p style={{ fontWeight:700, fontSize:13, color:C.accent, marginBottom:8 }}>Verwendete Materialien:</p>
+                <p style={{ fontWeight:700, fontSize:13, color:C.accent, marginBottom:8 }}>{T[lang].materials}</p>
                 <div>{renderMaterialien(viewingHistory.materials)}</div>
                 <p style={{ fontSize:10, color:C.muted, marginTop:6 }}>* Affiliate-Links – für dich keine Mehrkosten</p>
               </div>
@@ -1095,7 +1095,7 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUs
                   </div>
                 )}
                 <button onClick={generieren} disabled={loading} style={{ width:"100%", padding:15, marginBottom:12, background:loading?"#DDD":isFreeBlocked?"#2A1A0E":"linear-gradient(135deg, #C4622D, #A0522D)", color:loading?"#999":"white", border:"none", borderRadius:50, fontSize:15, fontWeight:700, cursor:loading?"default":"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-                  {loading ? "KI generiert Bild..." : isFreeBlocked ? "🔒 Basic oder Pro erforderlich" : "✨ Makeover generieren"}
+                  {loading ? T[lang].generating : isFreeBlocked ? T[lang].freePlan : T[lang].generateBtn}
                 </button>
               </>
             )}
@@ -1241,7 +1241,7 @@ function MakeoverTab({ onSaveToPlaner, savedMakeovers, plan, canGenerate, freeUs
 
                 {materials && (
                   <div style={{ background:C.accentBg, border:"1px solid #F0C4A0", borderRadius:12, padding:"14px" }}>
-                    <p style={{ fontWeight:700, fontSize:13, color:C.accent, marginBottom:8 }}>Verwendete Materialien:</p>
+                    <p style={{ fontWeight:700, fontSize:13, color:C.accent, marginBottom:8 }}>{T[lang].materials}</p>
                     <div style={{ marginBottom:12 }}>{renderMaterialien(materials)}</div>
                     <p style={{ fontSize:10, color:C.muted, marginBottom:10 }}>* Affiliate-Links – für dich keine Mehrkosten</p>
                     <div style={{ display:"flex", gap:8 }}>
@@ -1948,7 +1948,7 @@ function PlanerTab({ savedMakeovers }) {
 
 
 // ─── INSPO ANALYSE TAB ───────────────────────────────────────────────────────
-function InspoTab({ plan }) {
+function InspoTab({ plan, lang = "de" }) {
   const [imgFile, setImgFile] = useState(null);
   const [imgPreview, setImgPreview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -2063,8 +2063,8 @@ function InspoTab({ plan }) {
         <div style={{ marginTop:12, background:"#1A1A1A", borderRadius:14, padding:"14px 16px", display:"flex", gap:12, alignItems:"center" }}>
           <div style={{ flexShrink:0, fontSize:24 }}>📱</div>
           <div style={{ flex:1 }}>
-            <p style={{ fontSize:13, fontWeight:700, color:"white", marginBottom:3 }}>Schönes Bild irgendwo gesehen?</p>
-            <p style={{ fontSize:11, color:"#aaa", lineHeight:1.5 }}>Mach einfach einen Screenshot von jedem Bild das dir gefällt – Pinterest, Instagram, Zeitschrift, TV, überall. Mystorija erkennt sofort alle Materialien, Farben und Fliesen.</p>
+            <p style={{ fontSize:13, fontWeight:700, color:"white", marginBottom:3 }}>{T[lang].inspoHook}</p>
+            <p style={{ fontSize:11, color:"#aaa", lineHeight:1.5 }}>{T[lang].inspoSub}</p>
           </div>
         </div>
       </div>
@@ -2530,6 +2530,64 @@ const TABS = [
 import { Analytics } from "@vercel/analytics/next";
 import { supabase } from "../lib/supabase";
 
+
+const T = {
+  de: {
+    makeover: T[lang].makeover,
+    chat: "💬 Chat",
+    inspo: "🔍 Inspo",
+    ideen: T[lang].ideen,
+    anleit: T[lang].anleit,
+    planer: T[lang].planer,
+    profis: "🔨 Profis",
+    generateBtn: "✨ Makeover generieren",
+    uploadHint: "Foto hochladen",
+    uploadSub: "Bad, Küche, Wohnzimmer, Terrasse...",
+    wishPlaceholder: "z.B. Dunkle Fliesen, Walk-In Dusche, mattschwarz Armaturen...",
+    generating: "KI generiert dein Makeover...",
+    materials: "Verwendete Materialien:",
+    save: "💾 Speichern",
+    newMakeover: "🔄 Neu",
+    loginBtn: "Anmelden",
+    logoutBtn: "Abmelden",
+    upgrade: "Upgrade",
+    freePlan: "Nur ab Basic Plan",
+    limitReached: "🔒 Limit erreicht",
+    inspoHook: "Schönes Bild irgendwo gesehen?",
+    inspoSub: "Mach einfach einen Screenshot von jedem Bild das dir gefällt – Pinterest, Instagram, Zeitschrift, TV. Mystorija erkennt sofort alle Materialien und Farben.",
+    analyzeBtn: "🔍 Analysieren",
+    chatPlaceholder: "Frag mich alles über Renovierung...",
+    trending: "Trends 2026",
+  },
+  en: {
+    makeover: T[lang].makeover,
+    chat: "💬 Chat",
+    inspo: "🔍 Inspo",
+    ideen: "💡 Ideas",
+    anleit: "📋 Guides",
+    planer: "📅 Planner",
+    profis: "🔨 Pros",
+    generateBtn: "✨ Generate Makeover",
+    uploadHint: "Upload a photo",
+    uploadSub: "Bathroom, kitchen, living room, terrace...",
+    wishPlaceholder: "e.g. Dark tiles, walk-in shower, matte black fixtures...",
+    generating: "AI is generating your makeover...",
+    materials: "Materials used:",
+    save: "💾 Save",
+    newMakeover: "🔄 New",
+    loginBtn: "Sign in",
+    logoutBtn: "Sign out",
+    upgrade: "Upgrade",
+    freePlan: "Basic plan required",
+    limitReached: "🔒 Limit reached",
+    inspoHook: "Seen a beautiful image somewhere?",
+    inspoSub: "Take a screenshot of any image you like – Pinterest, Instagram, magazines, TV. Mystorija instantly recognizes all materials and colors.",
+    analyzeBtn: "🔍 Analyze",
+    chatPlaceholder: "Ask me anything about renovation...",
+    trending: "Trends 2026",
+  }
+};
+
 export default function Home() {
   const [activeTab, setActiveTab] = useState("makeover");
   const [savedMakeovers, setSavedMakeovers] = useState([]);
@@ -2538,6 +2596,7 @@ export default function Home() {
   const [subscription, setSubscription] = useState(null);
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
+  const [lang, setLang] = useState("de");
   const [secretTaps, setSecretTaps] = useState(0);
   const [showSecretInput, setShowSecretInput] = useState(false);
   const [secretInput, setSecretInput] = useState("");
@@ -2688,13 +2747,16 @@ export default function Home() {
                 📲 Installieren
               </button>
             )}
+<button onClick={() => setLang(l => l === "de" ? "en" : "de")} style={{ fontSize:11, fontWeight:700, color:C.muted, background:C.bg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.border}`, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
+                {lang === "de" ? "🇬🇧 EN" : "🇩🇪 DE"}
+              </button>
             {user ? (
               <button onClick={handleLogout} style={{ fontSize:11, color:C.muted, fontWeight:600, background:C.bg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.border}`, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-                Abmelden
+                {T[lang].logoutBtn}
               </button>
             ) : (
               <a href="/login" style={{ fontSize:11, color:C.accent, fontWeight:700, background:C.accentBg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.accent}33`, textDecoration:"none" }}>
-                Anmelden
+                {T[lang].loginBtn}
               </a>
             )}
             {planLabel ? (
@@ -2722,7 +2784,7 @@ export default function Home() {
           <div style={{ display:activeTab==="chat"?"flex":"none", flexDirection:"column", height:"100%" }}>
             <ChatTab messages={chatMessages} setMessages={setChatMessages} />
           </div>
-          {activeTab==="inspo" && <InspoTab plan={subscription?.plan} />}
+          {activeTab==="inspo" && <InspoTab plan={subscription?.plan} lang={lang} />}
           {activeTab==="ideen" && <IdeenTab />}
           {activeTab==="anleit" && <AnleitungenTab />}
           {activeTab==="planer" && <PlanerTab savedMakeovers={savedMakeovers} />}
