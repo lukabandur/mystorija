@@ -611,7 +611,7 @@ function renderMaterialien(text) {
       <p style={{ fontSize:11, color:C.muted, marginTop:8, fontStyle:"italic" }}>
         💾 Speichern → Links im Planer klickbar
       </p>
-      <Analytics />
+
     </>
   );
 }
@@ -2527,7 +2527,6 @@ const TABS = [
   { id:"profis",   label:"Profis",   icon:"🔨" },
 ];
 
-import { Analytics } from "@vercel/analytics/next";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("makeover");
@@ -2716,7 +2715,7 @@ export default function Home() {
           </div>
         </div>
       )}
-      <Analytics />
+
     </>
   );
 }
