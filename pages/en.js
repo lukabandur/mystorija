@@ -103,7 +103,7 @@ export default function LandingEN() {
         <div style={{ textAlign:"center", marginBottom:40 }}>
           <div className="section-label" style={{ textAlign:"center" }}>For everyone who wants to renovate</div>
           <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(26px,5vw,38px)", lineHeight:1.25 }}>
-            {Inspiration is everywhere –<br /><em style={{ color:"var(--accent)" }}>Mystorija helps you get it done</em>}
+            {"Inspiration is everywhere –"}<br /><em style={{ color:"var(--accent)" }}>Mystorija helps you get it done</em>
           </h2>
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))", gap:16, marginBottom:50 }}>
