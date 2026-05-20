@@ -611,7 +611,7 @@ function renderMaterialien(text) {
       <p style={{ fontSize:11, color:C.muted, marginTop:8, fontStyle:"italic" }}>
         💾 Speichern → Links im Planer klickbar
       </p>
-
+      <Analytics />
     </>
   );
 }
@@ -2527,6 +2527,8 @@ const TABS = [
   { id:"profis",   label:"Profis",   icon:"🔨" },
 ];
 
+import { Analytics } from "@vercel/analytics/next";
+import { supabase } from "../lib/supabase";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("makeover");
@@ -2534,9 +2536,18 @@ export default function Home() {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const [subscription, setSubscription] = useState(null);
+  const [user, setUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
   const [secretTaps, setSecretTaps] = useState(0);
   const [showSecretInput, setShowSecretInput] = useState(false);
   const [secretInput, setSecretInput] = useState("");
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    setUser(null);
+    setSubscription(null);
+    try { localStorage.removeItem("mystorija_subscription"); localStorage.removeItem("mystorija_dev"); } catch {}
+  }
 
   function handleSecretCode(code) {
     if (code === "STORIJA2026") {
@@ -2581,6 +2592,23 @@ export default function Home() {
         setSubscription({ plan: "pro", sessionId: "dev", activated: true });
       }
     } catch {}
+
+    // Auth state
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      setAuthLoading(false);
+      // Load subscription from user metadata
+      if (session?.user?.user_metadata?.plan) {
+        setSubscription({ plan: session.user.user_metadata.plan, activated: true });
+      }
+    });
+    const { data: { subscription: authSub } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (session?.user?.user_metadata?.plan) {
+        setSubscription({ plan: session.user.user_metadata.plan, activated: true });
+      }
+    });
+    return () => authSub.unsubscribe();
 
     // Subscription aus localStorage
     try {
@@ -2660,6 +2688,15 @@ export default function Home() {
                 📲 Installieren
               </button>
             )}
+            {user ? (
+              <button onClick={handleLogout} style={{ fontSize:11, color:C.muted, fontWeight:600, background:C.bg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.border}`, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
+                Abmelden
+              </button>
+            ) : (
+              <a href="/login" style={{ fontSize:11, color:C.accent, fontWeight:700, background:C.accentBg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.accent}33`, textDecoration:"none" }}>
+                Anmelden
+              </a>
+            )}
             {planLabel ? (
               <span style={{ fontSize:12, color:C.accent, fontWeight:700, background:C.accentBg, padding:"4px 10px", borderRadius:20 }}>{planLabel}</span>
             ) : (
@@ -2715,7 +2752,7 @@ export default function Home() {
           </div>
         </div>
       )}
-
+      <Analytics />
     </>
   );
 }
