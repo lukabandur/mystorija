@@ -139,7 +139,7 @@ const ANLEITUNGEN = [
     amazon:amazonLink("lammfellrolle teleskopstange set") },
   { id:"skim", emoji:"🔧", titel:"Skim Coat Walls", schwierigkeit:"Medium", zeit:"2–3 days", kosten:"40–120€",
     img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=120&q=80",
-    werkzeug:["Plastering trowel 40cm","Rakel","Schleifgitter 120er","glassflies","Pulverspachtel","Fertigspachtel"],
+    werkzeug:["Plastering trowel 40cm","Rakel","Schleifgitter 120er","glassflies","Pulverspachtel","Donespachtel"],
     schritte:["Q1 – grout: Pulverspachtel einpressen, groutdeckstreifen einlegen","Q2 – Transitions: apply ready-mix filler thinly with trowel","Q3 – Final skim: thin coat over entire surface","glassflies recommended: verhindert Rissbildung","After each layer, go over wet with squeegee","Sand nur Q2/Q3 mit Gitter auf Brett","Before painting: apply diluted primer"],
     tipp:"Powder filler for Q1 (stronger), ready-mix for Q2/Q3 (better sandable).",
     fehler:"Q1 und Q2 verwechseln, zu dick apply, nicht sand.",
@@ -492,7 +492,7 @@ function AnleitungenTab({ lang = "de" }) {
                     {a.werkzeug.map(w => <span key={w} style={{ fontSize:12, padding:"3px 10px", background:C.card, color:C.text, borderRadius:20, border:`1px solid ${C.border}` }}>{w}</span>)}
                   </div>
                 </div>
-                <div style={{ fontSize:11, color:C.accent, fontWeight:600, marginBottom:10, textTransform:"uppercase", letterSpacing:.5 }}>📋 Step für Schritt</div>
+                <div style={{ fontSize:11, color:C.accent, fontWeight:600, marginBottom:10, textTransform:"uppercase", letterSpacing:.5 }}>📋 Step fuer Schritt</div>
                 {a.schritte.map((s, idx) => {
                   const key = `${a.id}-${idx}`, d = erledigt[key];
                   return (
@@ -507,7 +507,7 @@ function AnleitungenTab({ lang = "de" }) {
                   <p style={{ fontSize:13, color:C.text, lineHeight:1.6 }}>{a.tipp}</p>
                 </div>
                 <div style={{ background:"#FDEEEC", border:"1px solid #F5D0D0", borderRadius:10, padding:"11px 13px", marginTop:8 }}>
-                  <div style={{ fontSize:11, color:"#C0392B", fontWeight:600, marginBottom:4 }}>⚠️ Häufige Fehler</div>
+                  <div style={{ fontSize:11, color:"#C0392B", fontWeight:600, marginBottom:4 }}>⚠️ Haeufige Fehler</div>
                   <p style={{ fontSize:13, color:C.muted, lineHeight:1.6 }}>{a.fehler}</p>
                 </div>
                 <div style={{ display:"flex", gap:8, marginTop:10 }}>
@@ -733,7 +733,7 @@ function TippsBox() {
                   }}>
                   <p style={{ fontSize:13, fontWeight:700, color:C.accent, marginBottom:5 }}>{v.roughm}</p>
                   <p style={{ fontSize:12, color:C.text, lineHeight:1.55 }}>"{v.beispiel}"</p>
-                  <p style={{ fontSize:11, color:C.green, marginTop:6, fontWeight:600 }}>↑ Tippen zum Einfügen</p>
+                  <p style={{ fontSize:11, color:C.green, marginTop:6, fontWeight:600 }}>↑ Tippen zum Einfuegen</p>
                 </div>
               ))}
             </div>
@@ -1014,7 +1014,7 @@ function MakeoverTab({ lang = "de", onSaveToPlanner, savedMakeovers, plan, canGe
               <div style={{ background:C.accentBg, border:`1px solid #F0C4A0`, borderRadius:12, padding:"14px" }}>
                 <p style={{ fontWeight:700, fontSize:13, color:C.accent, marginBottom:8 }}>{T["en"].materials}</p>
                 <div>{renderMaterialien(viewingHistory.materials)}</div>
-                <p style={{ fontSize:10, color:C.muted, marginTop:6 }}>* Affiliate-Links – für dich keine Mehrkosten</p>
+                <p style={{ fontSize:10, color:C.muted, marginTop:6 }}>* Affiliate-Links – fuer dich keine Mehrkosten</p>
               </div>
             )}
           </div>
@@ -1093,7 +1093,7 @@ function MakeoverTab({ lang = "de", onSaveToPlanner, savedMakeovers, plan, canGe
                 {plan === "pro" && (
                   <div style={{ background:C.greenBg, border:`1px solid ${C.green}33`, borderRadius:10, padding:"6px 12px", marginBottom:8, display:"flex", alignItems:"center", gap:6 }}>
                     <span style={{ fontSize:12 }}>⭐</span>
-                    <p style={{ fontSize:12, color:C.green, fontWeight:600 }}>Pro: Flux Pro Modell aktiv – höhere Bildqualität</p>
+                    <p style={{ fontSize:12, color:C.green, fontWeight:600 }}>Pro: Flux Pro Modell aktiv – hoehere Bildqualitaet</p>
                   </div>
                 )}
                 <button onClick={generieren} disabled={loading} style={{ width:"100%", padding:15, marginBottom:12, background:loading?"#DDD":isFreeBlocked?"#2A1A0E":"linear-gradient(135deg, #C4622D, #A0522D)", color:loading?"#999":"white", border:"none", borderRadius:50, fontSize:15, fontWeight:700, cursor:loading?"default":"pointer", fontFamily:"'DM Sans',sans-serif" }}>
@@ -1245,7 +1245,7 @@ function MakeoverTab({ lang = "de", onSaveToPlanner, savedMakeovers, plan, canGe
                   <div style={{ background:C.accentBg, border:"1px solid #F0C4A0", borderRadius:12, padding:"14px" }}>
                     <p style={{ fontWeight:700, fontSize:13, color:C.accent, marginBottom:8 }}>{T["en"].materials}</p>
                     <div style={{ marginBottom:12 }}>{renderMaterialien(materials)}</div>
-                    <p style={{ fontSize:10, color:C.muted, marginBottom:10 }}>* Affiliate-Links – für dich keine Mehrkosten</p>
+                    <p style={{ fontSize:10, color:C.muted, marginBottom:10 }}>* Affiliate-Links – fuer dich keine Mehrkosten</p>
                     <div style={{ display:"flex", gap:8 }}>
                       <button onClick={handleSaveToPlanner} style={{ flex:1, padding:"11px", borderRadius:50, background:saved?"#4ade80":"linear-gradient(135deg, #1a1a2e, #2d2d4e)", color:"white", border:"none", cursor:saved?"default":"pointer", fontSize:12, fontWeight:700, fontFamily:"'DM Sans',sans-serif" }}>
                         {saved ? T["en"].savedBtn : T["en"].saveBtn}
@@ -1542,7 +1542,7 @@ function HandwerkerTab({ lang = "de" }) {
           </p>
           <div style={{ background:C.greenBg, borderRadius:12, padding:"14px 16px" }}>
             <p style={{ fontSize:13, color:C.green, fontWeight:600 }}>
-              💡 Coming soon – wir prüfen jeden Betrieb carefully
+              💡 Coming soon – wir pruefen jeden Betrieb carefully
             </p>
           </div>
         </div>
@@ -1882,7 +1882,7 @@ function PlannerTab({ lang = "de", savedMakeovers }) {
                     <div style={{ flex:1, height:6, background:C.border, borderRadius:3, overflow:"hidden" }}>
                       <div style={{ height:"100%", width:`${pct}%`, background:pct===100?C.green:`linear-gradient(to right, ${C.accent}, #E8855A)`, borderRadius:3, transition:"width 0.3s" }} />
                     </div>
-                    <span style={{ fontSize:12, color:pct===100?C.green:C.muted, fontWeight:pct===100?700:400, flexShrink:0 }}>{pct===100?"✓ Fertig!":pct>0?`${pct}%`:"Starten →"}</span>
+                    <span style={{ fontSize:12, color:pct===100?C.green:C.muted, fontWeight:pct===100?700:400, flexShrink:0 }}>{pct===100?"✓ Done!":pct>0?`${pct}%`:"Starten →"}</span>
                   </div>
                 </div>
               );
@@ -1892,14 +1892,14 @@ function PlannerTab({ lang = "de", savedMakeovers }) {
         {ansicht === "eigene" && (
           <div>
             {!creating ? (
-              <button onClick={()=>setCreating(true)} style={{ width:"100%", padding:"14px", borderRadius:14, border:`2px dashed ${C.accent}`, background:C.accentBg, color:C.accent, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif", fontSize:14, marginBottom:14 }}>+ Eigenes Projekt erstellen</button>
+              <button onClick={()=>setCreating(true)} style={{ width:"100%", padding:"14px", borderRadius:14, border:`2px dashed ${C.accent}`, background:C.accentBg, color:C.accent, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif", fontSize:14, marginBottom:14 }}>+ My project erstellen</button>
             ) : (
               <div className="fu" style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, padding:"16px", marginBottom:14 }}>
                 <p style={{ fontWeight:700, fontSize:16, marginBottom:12 }}>New project</p>
                 <div style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:12 }}>
                   {ICONS.map(ic=><button key={ic} onClick={()=>setNewProjekt(p=>({...p,icon:ic}))} style={{ width:36, height:36, borderRadius:10, border:`2px solid ${newProjekt.icon===ic?C.accent:C.border}`, background:newProjekt.icon===ic?C.accentBg:"white", cursor:"pointer", fontSize:18 }}>{ic}</button>)}
                 </div>
-                <input value={newProjekt.name} onChange={e=>setNewProjekt(p=>({...p,name:e.target.value}))} placeholder="Projektname" style={{ width:"100%", padding:"10px 13px", borderRadius:10, border:`1.5px solid ${C.border}`, fontSize:14, fontFamily:"'DM Sans',sans-serif", marginBottom:12, background:C.bg }} />
+                <input value={newProjekt.name} onChange={e=>setNewProjekt(p=>({...p,name:e.target.value}))} placeholder="Project name" style={{ width:"100%", padding:"10px 13px", borderRadius:10, border:`1.5px solid ${C.border}`, fontSize:14, fontFamily:"'DM Sans',sans-serif", marginBottom:12, background:C.bg }} />
                 {newProjekt.phasen.map((phase, pi)=>(
                   <div key={pi} style={{ background:C.accentBg, borderRadius:10, padding:"12px", marginBottom:10 }}>
                     <div style={{ display:"flex", gap:8, marginBottom:8 }}>
@@ -1917,7 +1917,7 @@ function PlannerTab({ lang = "de", savedMakeovers }) {
                     <button onClick={()=>setNewProjekt(p=>{const ph=[...p.phasen];ph[pi]={...ph[pi],items:[...ph[pi].items,""]};return{...p,phasen:ph};})} style={{ fontSize:12, color:C.accent, background:"none", border:"none", cursor:"pointer", padding:"4px 0" }}>+ Schritt</button>
                   </div>
                 ))}
-                <button onClick={()=>setNewProjekt(p=>({...p,phasen:[...p.phasen,{name:`Phase ${p.phasen.length+1}`,items:[""]}]}))} style={{ width:"100%", padding:"8px", borderRadius:10, border:`1px dashed ${C.border}`, background:"none", color:C.muted, cursor:"pointer", fontSize:13, marginBottom:12, fontFamily:"'DM Sans',sans-serif" }}>+ Phase hinzufügen</button>
+                <button onClick={()=>setNewProjekt(p=>({...p,phasen:[...p.phasen,{name:`Phase ${p.phasen.length+1}`,items:[""]}]}))} style={{ width:"100%", padding:"8px", borderRadius:10, border:`1px dashed ${C.border}`, background:"none", color:C.muted, cursor:"pointer", fontSize:13, marginBottom:12, fontFamily:"'DM Sans',sans-serif" }}>+ Phase hinzufuegen</button>
                 <div style={{ display:"flex", gap:10 }}>
                   <button onClick={()=>{
                     if(!newProjekt.name.trim()) return;
@@ -1926,12 +1926,12 @@ function PlannerTab({ lang = "de", savedMakeovers }) {
                     const next=[...eigene,proj]; setEigene(next); saveLS(null,next);
                     setCreating(false); setNewProjekt({name:"",icon:"🏠",phasen:[{name:"Phase 1",items:[""]}]});
                     setSelectedPlan(proj.name); setOpenPhase(0); setAnsicht("plaene");
-                  }} style={{ flex:2, padding:"12px", borderRadius:50, background:C.accent, color:"white", border:"none", fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>Erstellen →</button>
+                  }} style={{ flex:2, padding:"12px", borderRadius:50, background:C.accent, color:"white", border:"none", fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>Create →</button>
                   <button onClick={()=>setCreating(false)} style={{ flex:1, padding:"12px", borderRadius:50, border:`1px solid ${C.border}`, background:"none", cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>Cancel</button>
                 </div>
               </div>
             )}
-            <p style={{ fontSize:12, color:C.muted, textAlign:"center", fontStyle:"italic" }}>Enter = nächster Step · Phases gruppieren verwandte Tasks</p>
+            <p style={{ fontSize:12, color:C.muted, textAlign:"center", fontStyle:"italic" }}>Enter = naechster Step · Phases gruppieren verwandte Tasks</p>
           </div>
         )}
         {ansicht === "einkauf" && (
@@ -1940,7 +1940,7 @@ function PlannerTab({ lang = "de", savedMakeovers }) {
             : <div style={{ textAlign:"center", padding:"40px 20px" }}>
                 <p style={{ fontSize:32, marginBottom:12 }}>🛒</p>
                 <p style={{ fontFamily:"'Playfair Display',serif", fontSize:16, marginBottom:8 }}>Noch keine Shopping list</p>
-                <p style={{ fontSize:13, color:C.muted, lineHeight:1.6 }}>Generiere einen Makeover und drücke "Als Projekt in Planner" – dann erscheinen hier alle Materialien zum Abhaken.</p>
+                <p style={{ fontSize:13, color:C.muted, lineHeight:1.6 }}>Generiere einen Makeover und druecke "Als Projekt in Planner" – dann erscheinen hier alle Materialien zum Abhaken.</p>
               </div>
         )}
       </div>
@@ -2215,7 +2215,7 @@ function InspoTab({ plan, lang = "de" }) {
             {/* Sofort-Upgrades */}
             {analysis.sofort_upgrades?.length > 0 && (
               <div style={{ background:C.greenBg, border:`1px solid ${C.green}44`, borderRadius:14, padding:"14px", marginBottom:14 }}>
-                <p style={{ fontSize:13, fontWeight:700, color:C.green, marginBottom:8 }}>✅ Günstige Sofort-Upgrades</p>
+                <p style={{ fontSize:13, fontWeight:700, color:C.green, marginBottom:8 }}>✅ Guenstige Sofort-Upgrades</p>
                 {analysis.sofort_upgrades.map((up,i) => (
                   <p key={i} style={{ fontSize:13, color:"#1A4731", lineHeight:1.6, marginBottom:i<analysis.sofort_upgrades.length-1?6:0 }}>• {up}</p>
                 ))}
@@ -2224,7 +2224,7 @@ function InspoTab({ plan, lang = "de" }) {
 
             {/* Neues Foto */}
             <button onClick={() => fileRef.current?.click()} style={{ width:"100%", padding:"13px", borderRadius:50, border:`2px solid ${C.accent}`, background:C.accentBg, color:C.accent, fontWeight:700, cursor:"pointer", fontSize:14, fontFamily:"'DM Sans',sans-serif" }}>
-              📷 Nächstes Foto analysieren
+              📷 Naechstes Foto analysieren
             </button>
           </div>
         )}
@@ -2299,7 +2299,7 @@ const TRENDS = [
   { cat:"Living Room", title:"Curved Bouclé Sofa", desc:"Geschwungenes Bouclé-Sofa in Creme oder light grey. Der Sofa-Trend 2026. Kombiniert mit terracotta-wall = perfect.", how:"Kauf", budget:"800–3.000€", emoji:"🛋️", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"bouclé sofa curved living room cream" },
   { cat:"Living Room", title:"Botanisches Wohnzimmer", desc:"Grosse Monstera, Fiddle Leaf Fig, Olivenbaum as Hauptelemente – not as Beiwerk. Koerbe as Toepfe, brighte Ecken.", how:"Sofort", budget:"100–400€", emoji:"🌱", img:"https://images.unsplash.com/photo-1416879595882-b3d065a0e45d?w=600&h=220&fit=crop&q=80", amazon:"monstera large topf rattan zimmerpflanzen" },
   { cat:"Living Room", title:"Smart Home Licht Sbrighty", desc:"Sbrighty Relais hinter den Lichtscholder – App-sexpensivebar, kein Elektriker. Mit Alexa/Google Home. Szenen einrichten.", how:"DIY – 30 Min", budget:"20–60€", emoji:"📱", img:"https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&h=220&fit=crop&q=80", amazon:"sbrighty dimmer smart home lichtscholder" },
-  { cat:"Living Room", title:"woodboden Fischgraet", desc:"Fertigparkett in Fischgraet verlegt – eleganteste Verlegeart. Optisch wideer Raum. oak geoelt, 12cm Width.", how:"DIY – weeksende", budget:"40–80€/m²", emoji:"⬛", img:"https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?w=600&h=220&fit=crop&q=80", amazon:"doneparkett eiche fischgraet wohnzimmer" },
+  { cat:"Living Room", title:"woodboden Fischgraet", desc:"Doneparkett in Fischgraet verlegt – eleganteste Verlegeart. Optisch wideer Raum. oak geoelt, 12cm Width.", how:"DIY – weeksende", budget:"40–80€/m²", emoji:"⬛", img:"https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?w=600&h=220&fit=crop&q=80", amazon:"doneparkett eiche fischgraet wohnzimmer" },
   { cat:"Living Room", title:"Bogenlampe brass XXL", desc:"Grosse Bogenlampe in brushedem brass or black = sofortiger Luxus-Effekt. Kein Elektriker – Stecker.", how:"Kauf+Aufbau", budget:"150–600€", emoji:"🌙", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"bogenlampe messing large wohnzimmer stehlampe" },
   { cat:"Living Room", title:"Dunkle Velvet Vorhaenge", desc:"floorlange Samtvorhaenge from ceiling bis floor machen jeden Raum opulenter. Immer 20cm wideer as the window!", how:"Aufhaengen", budget:"80–300€", emoji:"🎭", img:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=220&fit=crop&q=80", amazon:"samtvorhang velvet dark bodenlang oesenvorhang" },
   { cat:"Living Room", title:"Galerien-wall Gallery Wall", desc:"5–9 Bilder in verschiedenen Groessen as wall-Arrangement. Before on dem floor layouten, dann with Spirit level aufhaengen.", how:"DIY", budget:"50–200€", emoji:"🖼️", img:"https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?w=600&h=220&fit=crop&q=80", amazon:"bilderrahmen set gallery wall galerie wand" },
@@ -2343,11 +2343,11 @@ const TRENDS = [
   { cat:"Home Office", title:"Einbau-Schreibtisch an der wall", desc:"Schwimmendes Schreibtischbrett aus oak oder MDF – 180cm wide, 60cm deep. Kein Gestell, mehr Platz, cleaner Look.", how:"DIY – 2h", budget:"80–250€", emoji:"💻", img:"https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=600&h=220&fit=crop&q=80", amazon:"schreibtisch wandmontage schwebend eiche" },
   { cat:"Home Office", title:"Bücherregal als Hinterground", desc:"Vollgepacktes Buecherregal as Zoom-Hinterground macht Eindruck. Einbau-Billy-Hack or Massregal.", how:"IKEA/Tischler", budget:"200–800€", emoji:"📚", img:"https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=220&fit=crop&q=80", amazon:"büchterregal einbau wand homeoffice" },
   { cat:"Home Office", title:"Akustikpaneele Filz", desc:"Filz- or Schaumstoff-Akustikpaneele reduzieren Echo deutlich – wichtig for Videokonferenzen. Auch dekorativ.", how:"DIY – 1h", budget:"50–200€", emoji:"🎵", img:"https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=600&h=220&fit=crop&q=80", amazon:"akustikpaneele filz homeoffice schall" },
-  { cat:"Home Office", title:"Pegboard wall Organizer", desc:"Lochplatten-System for toolse, Stifte, Notizen. Ikea Skadis or individuell. Flexibel and dekorativ.", how:"DIY – 1h", budget:"30–100€", emoji:"📌", img:"https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=600&h=220&fit=crop&q=80", amazon:"pegboard lochplatte organizer buero wand" },
+  { cat:"Home Office", title:"Pegboard wall Organizer", desc:"Lochplatten-System for toolse, Stifte, Notes. Ikea Skadis or individuell. Flexibel and dekorativ.", how:"DIY – 1h", budget:"30–100€", emoji:"📌", img:"https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=600&h=220&fit=crop&q=80", amazon:"pegboard lochplatte organizer buero wand" },
   { cat:"Home Office", title:"greene Pflanzenwand hinter Schreibtisch", desc:"Eine echte Pflanzenwand or Kunstpflanzenwand as Hinterground. Reduziert Stress, verbessert Luftqualitaet.", how:"DIY/Kauf", budget:"100–500€", emoji:"🌿", img:"https://images.unsplash.com/photo-1416879595882-b3d065a0e45d?w=600&h=220&fit=crop&q=80", amazon:"pflanzenwand vertikal homeoffice kunstpflanze" },
 
   // ── BODEN (8) ─────────────────────────────────────────────────────────────────
-  { cat:"Flooring", title:"SPC-Vinyl Ueber tiles", desc:"100% wasserfest, Klick-System ueber olde tiles. No hacking, no Kleber. Fertig an einem Tag.", how:"DIY – 1 day", budget:"15–35€/m²", emoji:"🪵", img:"https://images.unsplash.com/photo-1574739782594-db4ead022697?w=600&h=220&fit=crop&q=80", amazon:"spc vinyl klick wasserfest ueber fliesen" },
+  { cat:"Flooring", title:"SPC-Vinyl Ueber tiles", desc:"100% wasserfest, Klick-System ueber olde tiles. No hacking, no Kleber. Done an einem Tag.", how:"DIY – 1 day", budget:"15–35€/m²", emoji:"🪵", img:"https://images.unsplash.com/photo-1574739782594-db4ead022697?w=600&h=220&fit=crop&q=80", amazon:"spc vinyl klick wasserfest ueber fliesen" },
   { cat:"Flooring", title:"Fischgraet-oaknparkett", desc:"Dielen in Fischgraet-Muster – eleganteste Verlegeart. oak geoelt 12cm Width. Wertsteigernd.", how:"DIY/Professional", budget:"40–80€/m²", emoji:"⬛", img:"https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?w=600&h=220&fit=crop&q=80", amazon:"doneparkett eiche fischgraet install" },
   { cat:"Flooring", title:"Epoxidharz concreteoptik", desc:"groutloser Industrieboden ueber oldem Belag. Sehr robust, ideal for kitchen and Flur. Preparation is alles.", how:"Intermediate", budget:"20–50€/m²", emoji:"🔘", img:"https://images.unsplash.com/photo-1574739782594-db4ead022697?w=600&h=220&fit=crop&q=80", amazon:"epoxidharz boden betonoptik set self leveling" },
   { cat:"Flooring", title:"terracotta tiles mediterranean", desc:"Handgedonete terracotta-floorfliesen – warm, mediterranean, timeless. Muss versiegelt werden.", how:"tilesleger", budget:"20–60€/m²", emoji:"🔶", img:"https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&h=220&fit=crop&q=80", amazon:"terrakotta fliesen handgemacht boden mediterranean" },
@@ -2391,7 +2391,7 @@ function IdeenTab({ lang = "de" }) {
       </div>
 
       <div style={{ padding:"12px 16px 20px" }}>
-        <p style={{ fontSize:12, color:C.muted, marginBottom:14, fontStyle:"italic" }}>{gefiltert.length} Ideen – tippe für mehr Details</p>
+        <p style={{ fontSize:12, color:C.muted, marginBottom:14, fontStyle:"italic" }}>{gefiltert.length} Ideen – tippe for more details</p>
         {gefiltert.map((trend, i) => (
           <div key={i} className="fu" style={{ background:C.card, border:`1px solid ${openTrend===i?C.accent:C.border}`, borderRadius:16, marginBottom:12, overflow:"hidden", animationDelay:`${i*0.03}s` }}>
             {/* Bild */}
@@ -2492,7 +2492,7 @@ function PricingModal({ onClose, onSuccess, freeUsed }) {
 
           {/* Pro */}
           <div style={{ border:`2px solid ${C.accent}`, borderRadius:16, padding:"16px 18px", background:C.accentBg, position:"relative" }}>
-            <div style={{ position:"absolute", top:-12, left:"50%", transform:"translateX(-50%)", background:C.accent, color:"white", borderRadius:20, padding:"3px 14px", fontSize:11, fontWeight:700, whiteSpace:"nowrap" }}>⭐ MEISTGEWÄHLT</div>
+            <div style={{ position:"absolute", top:-12, left:"50%", transform:"translateX(-50%)", background:C.accent, color:"white", borderRadius:20, padding:"3px 14px", fontSize:11, fontWeight:700, whiteSpace:"nowrap" }}>⭐ MEISTGEWAeHLT</div>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
               <div>
                 <p style={{ fontWeight:700, fontSize:16, color:C.text }}>Pro</p>
@@ -2513,7 +2513,7 @@ function PricingModal({ onClose, onSuccess, freeUsed }) {
         </div>
 
         <p style={{ fontSize:11, color:C.muted, textAlign:"center" }}>
-          monthlich kündbar · Zahlung über stripe gesichert · Keine versteckten Kosten
+          monthlich kuendbar · Zahlung ueber stripe gesichert · Keine versteckten Kosten
         </p>
       </div>
     </div>
