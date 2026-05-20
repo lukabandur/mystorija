@@ -406,7 +406,7 @@ function Onboarding({ onDone }) {
 }
 
 // ─── ANLEITUNGEN TAB (mit localStorage) ──────────────────────────────────────
-function AnleitungenTab() {
+function AnleitungenTab({ lang = "de" }) {
   const [offen, setOffen] = useState(null);
   const [erledigt, setErledigt] = useState({});
 
@@ -1212,7 +1212,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
 
                 {/* ── Refinement Chat ── */}
                 <div style={{ background:C.accentBg, border:`1px solid ${C.accent}44`, borderRadius:14, padding:"12px 14px", marginBottom:10 }}>
-                  <p style={{ fontSize:12, fontWeight:700, color:C.accent, marginBottom:8 }}>✏️ Bild verfeinern – was soll sich noch ändern?</p>
+                  <p style={{ fontSize:12, fontWeight:700, color:C.accent, marginBottom:8 }}>{T[lang].refineTitle}</p>
                   <div style={{ display:"flex", gap:8 }}>
                     <input
                       value={refinementInput}
@@ -1246,10 +1246,10 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                     <p style={{ fontSize:10, color:C.muted, marginBottom:10 }}>* Affiliate-Links – für dich keine Mehrkosten</p>
                     <div style={{ display:"flex", gap:8 }}>
                       <button onClick={handleSaveToPlaner} style={{ flex:1, padding:"11px", borderRadius:50, background:saved?"#4ade80":"linear-gradient(135deg, #1a1a2e, #2d2d4e)", color:"white", border:"none", cursor:saved?"default":"pointer", fontSize:12, fontWeight:700, fontFamily:"'DM Sans',sans-serif" }}>
-                        {saved?"Gespeichert!":"Speichern"}
+                        {saved ? T[lang].savedBtn : T[lang].saveBtn}
                       </button>
                       <button onClick={handleSaveToPlaner} style={{ flex:2, padding:"11px", borderRadius:50, background:saved?"#4ade80":C.accent, color:"white", border:"none", cursor:saved?"default":"pointer", fontSize:12, fontWeight:700, fontFamily:"'DM Sans',sans-serif" }}>
-                        {saved?"Im Planer gespeichert!":"Als Projekt in Planer"}
+                        {saved?T[lang].plannerSaved:"Als Projekt in Planer"}
                       </button>
                     </div>
                   </div>
@@ -1285,7 +1285,7 @@ function renderChatText(text) {
   });
 }
 
-function ChatTab({ messages, setMessages }) {
+function ChatTab({ lang = "de", messages, setMessages }) {
   const [inputText, setInputText] = useState("");
   const [loading, setLoading] = useState(false);
   const [imgFile, setImgFile] = useState(null);
@@ -1495,7 +1495,7 @@ function ChatTab({ messages, setMessages }) {
 // ─── HANDWERKER TAB ───────────────────────────────────────────────────────────
 const BRANCHEN = ["Alle","Fliesen & Bad","Maler & Lackierer","Elektriker","Sanitär & Heizung","Trockenbau","Schreiner","Bodenleger"];
 
-function HandwerkerTab() {
+function HandwerkerTab({ lang = "de" }) {
   const [filter, setFilter] = useState("Alle");
   const [ort, setOrt] = useState("");
 
@@ -1746,7 +1746,7 @@ const KOMPLETT_PLAENE = [
   },
 ];
 
-function PlanerTab({ savedMakeovers }) {
+function PlanerTab({ lang = "de", savedMakeovers }) {
   const [ansicht, setAnsicht] = useState("plaene");
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [openPhase, setOpenPhase] = useState(0);
@@ -2371,7 +2371,7 @@ const TRENDS = [
 
 const KATEGORIEN = ["Alle", "Bad", "Küche", "Wohnzimmer", "Schlafzimmer", "Esszimmer", "Flur", "Homeoffice", "Boden", "Terrasse"];
 
-function IdeenTab() {
+function IdeenTab({ lang = "de" }) {
   const [kat, setKat] = useState("Alle");
   const [openTrend, setOpenTrend] = useState(null);
   const gefiltert = kat === "Alle" ? TRENDS : TRENDS.filter(t => t.cat === kat);
@@ -2517,14 +2517,15 @@ function PricingModal({ onClose, onSuccess, freeUsed }) {
     </div>
   );
 }
+// Tab labels use T[lang] - passed via label prop dynamically
 const TABS = [
-  { id:"makeover", label:"Makeover", icon:"✨" },
-  { id:"chat",     label:"Chat",     icon:"💬" },
-  { id:"inspo",    label:"Inspo",    icon:"🔍" },
-  { id:"ideen",    label:"Ideen",    icon:"💡" },
-  { id:"anleit",   label:"Anleit.",  icon:"📋" },
-  { id:"planer",   label:"Planer",   icon:"📅" },
-  { id:"profis",   label:"Profis",   icon:"🔨" },
+  { id:"makeover", labelDE:"Makeover", labelEN:"Makeover", icon:"✨" },
+  { id:"chat",     labelDE:"Chat",     labelEN:"Chat",     icon:"💬" },
+  { id:"inspo",    labelDE:"Inspo",    labelEN:"Inspo",    icon:"🔍" },
+  { id:"ideen",    labelDE:"Ideen",    labelEN:"Ideas",    icon:"💡" },
+  { id:"anleit",   labelDE:"Anleit.",  labelEN:"Guides",   icon:"📋" },
+  { id:"planer",   labelDE:"Planer",   labelEN:"Planner",  icon:"📅" },
+  { id:"profis",   labelDE:"Profis",   labelEN:"Pros",     icon:"🔨" },
 ];
 
 import { Analytics } from "@vercel/analytics/next";
@@ -2540,13 +2541,31 @@ const T = {
     generateBtn: "✨ Makeover generieren", uploadHint: "Foto hochladen",
     uploadSub: "Bad, Küche, Wohnzimmer, Terrasse...",
     wishPlaceholder: "z.B. Dunkle Fliesen, Walk-In Dusche...",
-    generating: "KI generiert dein Makeover...", materials: "Verwendete Materialien:",
-    save: "💾 Speichern", newMakeover: "🔄 Neu",
+    generating: T[lang].generating, materials: "Verwendete Materialien:",
+    save: T[lang].saveBtn, newMakeover: T[lang].newBtn,
     loginBtn: "Anmelden", logoutBtn: "Abmelden",
     freePlan: "Nur ab Basic Plan", limitReached: "🔒 Limit erreicht",
     inspoHook: "Schönes Bild irgendwo gesehen?",
     inspoSub: "Screenshot hochladen – Mystorija erkennt sofort alle Materialien und Farben.",
     analyzeBtn: "🔍 Analysieren", trending: "Trends 2026",
+    refineTitle: "{T[lang].refineTitle}",
+    refinePlaceholder: T[lang].refinePlaceholder,
+    savedBtn: T[lang].savedBtn, plannerSaved: T[lang].plannerSaved,
+    newBtn: T[lang].newBtn, saveBtn: T[lang].saveBtn,
+    toolsLabel: "Benötigtes Werkzeug:", tipsLabel: "Profi-Tipps:",
+    warningLabel: "⚠️ Achtung:",
+    stepsLabel: "Schritte:", diffLabel: "Schwierigkeit:",
+    costLabel: "Budget:", timeLabel: "Zeit:",
+    guidesTitle: "DIY-Anleitungen", ideasTitle: "Ideen & Trends 2026",
+    plannerTitle: "Planer", prosTitle: "Profis finden",
+    chatTitle: "Renovierungs-Experte", inspoTitle: "Inspo analysieren",
+    makeoverTitle: "KI Makeover",
+    upgradeMsg: "Ab Basic Plan – jetzt upgraden",
+    limitMsg: "Monatliches Limit erreicht – upgrade auf Pro",
+    dimensionsLabel: "Raummaße (optional)",
+    lengthPh: "Länge m", widthPh: "Breite m", heightPh: "Höhe m",
+    tipsBtn: T[lang].tipsBtn,
+    viewHistory: T[lang].viewHistory,
   },
   en: {
     makeover: "✨ Makeover", chat: "💬 Chat", inspo: "🔍 Inspo",
@@ -2561,6 +2580,24 @@ const T = {
     inspoHook: "Seen a beautiful image somewhere?",
     inspoSub: "Take a screenshot of any image – Pinterest, Instagram, magazines. Mystorija instantly recognizes all materials and colors.",
     analyzeBtn: "🔍 Analyze", trending: "Trends 2026",
+    refineTitle: "✏️ Refine – what should change?",
+    refinePlaceholder: "e.g. Make tiles darker, add mirror...",
+    savedBtn: "Saved!", plannerSaved: "Saved to Planner!",
+    newBtn: "🔄 New", saveBtn: "💾 Save",
+    toolsLabel: "Tools needed:", tipsLabel: "Pro Tips:",
+    warningLabel: "⚠️ Watch out:",
+    stepsLabel: "Steps:", diffLabel: "Difficulty:",
+    costLabel: "Budget:", timeLabel: "Time:",
+    guidesTitle: "DIY Guides", ideasTitle: "Ideas & Trends 2026",
+    plannerTitle: "Planner", prosTitle: "Find Pros",
+    chatTitle: "Renovation Expert", inspoTitle: "Inspo Analyzer",
+    makeoverTitle: "AI Makeover",
+    upgradeMsg: "Upgrade to Basic to generate makeоvers",
+    limitMsg: "Monthly limit reached – upgrade to Pro",
+    dimensionsLabel: "Room dimensions (optional)",
+    lengthPh: "Length m", widthPh: "Width m", heightPh: "Height m",
+    tipsBtn: "💡 Tips & Templates",
+    viewHistory: "📚 History",
   }
 };
 
@@ -2761,16 +2798,16 @@ export default function Home() {
             <ChatTab messages={chatMessages} setMessages={setChatMessages} />
           </div>
           {activeTab==="inspo" && <InspoTab plan={subscription?.plan} lang={lang} />}
-          {activeTab==="ideen" && <IdeenTab />}
-          {activeTab==="anleit" && <AnleitungenTab />}
-          {activeTab==="planer" && <PlanerTab savedMakeovers={savedMakeovers} />}
-          {activeTab==="profis" && <HandwerkerTab />}
+          {activeTab==="ideen" && <IdeenTab lang={lang} />}
+          {activeTab==="anleit" && <AnleitungenTab lang={lang} />}
+          {activeTab==="planer" && <PlanerTab savedMakeovers={savedMakeovers} lang={lang} />}
+          {activeTab==="profis" && <HandwerkerTab lang={lang} />}
         </div>
         <div style={{ background:C.card, borderTop:`1px solid ${C.border}`, display:"grid", gridTemplateColumns:"repeat(7, 1fr)", flexShrink:0, overflowX:"auto" }}>
           {TABS.map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ background:"none", border:"none", cursor:"pointer", padding:"7px 1px 10px", display:"flex", flexDirection:"column", alignItems:"center", gap:2, borderTop:`2.5px solid ${activeTab===tab.id?C.accent:"transparent"}`, transition:"border-color 0.2s", minWidth:0 }}>
               <span style={{ fontSize:17 }}>{tab.icon}</span>
-              <span style={{ fontSize:9, fontWeight:600, color:activeTab===tab.id?C.accent:C.muted, fontFamily:"'DM Sans',sans-serif", whiteSpace:"nowrap" }}>{tab.label}</span>
+              <span style={{ fontSize:9, fontWeight:600, color:activeTab===tab.id?C.accent:C.muted, fontFamily:"'DM Sans',sans-serif", whiteSpace:"nowrap" }}>{lang==="en" ? tab.labelEN : tab.labelDE}</span>
             </button>
           ))}
         </div>
