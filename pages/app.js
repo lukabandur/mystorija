@@ -1012,7 +1012,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
             </div>
             {viewingHistory.materials && (
               <div style={{ background:C.accentBg, border:`1px solid #F0C4A0`, borderRadius:12, padding:"14px" }}>
-                <p style={{ fontWeight:700, fontSize:13, color:C.accent, marginBottom:8 }}>{T[lang].materials}</p>
+                <p style={{ fontWeight:700, fontSize:13, color:C.accent, marginBottom:8 }}>{T["de"].materials}</p>
                 <div>{renderMaterialien(viewingHistory.materials)}</div>
                 <p style={{ fontSize:10, color:C.muted, marginTop:6 }}>* Affiliate-Links – für dich keine Mehrkosten</p>
               </div>
@@ -1097,7 +1097,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                   </div>
                 )}
                 <button onClick={generieren} disabled={loading} style={{ width:"100%", padding:15, marginBottom:12, background:loading?"#DDD":isFreeBlocked?"#2A1A0E":"linear-gradient(135deg, #C4622D, #A0522D)", color:loading?"#999":"white", border:"none", borderRadius:50, fontSize:15, fontWeight:700, cursor:loading?"default":"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-                  {loading ? T[lang].generating : isFreeBlocked ? T[lang].freePlan : T[lang].generateBtn}
+                  {loading ? T["de"].generating : isFreeBlocked ? T["de"].freePlan : T["de"].generateBtn}
                 </button>
               </>
             )}
@@ -1214,7 +1214,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
 
                 {/* ── Refinement Chat ── */}
                 <div style={{ background:C.accentBg, border:`1px solid ${C.accent}44`, borderRadius:14, padding:"12px 14px", marginBottom:10 }}>
-                  <p style={{ fontSize:12, fontWeight:700, color:C.accent, marginBottom:8 }}>{T[lang].refineTitle}</p>
+                  <p style={{ fontSize:12, fontWeight:700, color:C.accent, marginBottom:8 }}>{T["de"].refineTitle}</p>
                   <div style={{ display:"flex", gap:8 }}>
                     <input
                       value={refinementInput}
@@ -1243,15 +1243,15 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
 
                 {materials && (
                   <div style={{ background:C.accentBg, border:"1px solid #F0C4A0", borderRadius:12, padding:"14px" }}>
-                    <p style={{ fontWeight:700, fontSize:13, color:C.accent, marginBottom:8 }}>{T[lang].materials}</p>
+                    <p style={{ fontWeight:700, fontSize:13, color:C.accent, marginBottom:8 }}>{T["de"].materials}</p>
                     <div style={{ marginBottom:12 }}>{renderMaterialien(materials)}</div>
                     <p style={{ fontSize:10, color:C.muted, marginBottom:10 }}>* Affiliate-Links – für dich keine Mehrkosten</p>
                     <div style={{ display:"flex", gap:8 }}>
                       <button onClick={handleSaveToPlaner} style={{ flex:1, padding:"11px", borderRadius:50, background:saved?"#4ade80":"linear-gradient(135deg, #1a1a2e, #2d2d4e)", color:"white", border:"none", cursor:saved?"default":"pointer", fontSize:12, fontWeight:700, fontFamily:"'DM Sans',sans-serif" }}>
-                        {saved ? T[lang].savedBtn : T[lang].saveBtn}
+                        {saved ? T["de"].savedBtn : T["de"].saveBtn}
                       </button>
                       <button onClick={handleSaveToPlaner} style={{ flex:2, padding:"11px", borderRadius:50, background:saved?"#4ade80":C.accent, color:"white", border:"none", cursor:saved?"default":"pointer", fontSize:12, fontWeight:700, fontFamily:"'DM Sans',sans-serif" }}>
-                        {saved?T[lang].plannerSaved:"Als Projekt in Planer"}
+                        {saved?T["de"].plannerSaved:"Als Projekt in Planer"}
                       </button>
                     </div>
                   </div>
@@ -2015,7 +2015,7 @@ function InspoTab({ plan, lang = "de" }) {
       const res = await fetch("/api/analyse", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageBase64: compressed, mimeType: file.type }),
+        body: JSON.stringify({ imageBase64: compressed, mimeType: file.type, lang: "de" }),
       });
       const data = await res.json();
       if (data.error) { setError(data.error); }
@@ -2065,8 +2065,8 @@ function InspoTab({ plan, lang = "de" }) {
         <div style={{ marginTop:12, background:"#1A1A1A", borderRadius:14, padding:"14px 16px", display:"flex", gap:12, alignItems:"center" }}>
           <div style={{ flexShrink:0, fontSize:24 }}>📱</div>
           <div style={{ flex:1 }}>
-            <p style={{ fontSize:13, fontWeight:700, color:"white", marginBottom:3 }}>{T[lang].inspoHook}</p>
-            <p style={{ fontSize:11, color:"#aaa", lineHeight:1.5 }}>{T[lang].inspoSub}</p>
+            <p style={{ fontSize:13, fontWeight:700, color:"white", marginBottom:3 }}>{T["de"].inspoHook}</p>
+            <p style={{ fontSize:11, color:"#aaa", lineHeight:1.5 }}>{T["de"].inspoSub}</p>
           </div>
         </div>
       </div>
@@ -2519,7 +2519,7 @@ function PricingModal({ onClose, onSuccess, freeUsed }) {
     </div>
   );
 }
-// Tab labels use T[lang] - passed via label prop dynamically
+// Tab labels
 const TABS = [
   { id:"makeover", labelDE:"Makeover", labelEN:"Makeover", icon:"✨" },
   { id:"chat",     labelDE:"Chat",     labelEN:"Chat",     icon:"💬" },
@@ -2760,16 +2760,16 @@ export default function Home() {
                 📲 Installieren
               </button>
             )}
-<button onClick={() => setLang(l => l === "de" ? "en" : "de")} style={{ fontSize:11, fontWeight:700, color:C.muted, background:C.bg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.border}`, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-                {lang === "de" ? "🇬🇧 EN" : "🇩🇪 DE"}
+<button onClick={() => window.location.href="/en/app"} style={{ fontSize:11, fontWeight:700, color:C.muted, background:C.bg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.border}`, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
+                "🇬🇧 EN"
               </button>
             {user ? (
               <button onClick={handleLogout} style={{ fontSize:11, color:C.muted, fontWeight:600, background:C.bg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.border}`, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-                {T[lang].logoutBtn}
+                {T["de"].logoutBtn}
               </button>
             ) : (
               <a href="/login" style={{ fontSize:11, color:C.accent, fontWeight:700, background:C.accentBg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.accent}33`, textDecoration:"none" }}>
-                {T[lang].loginBtn}
+                {T["de"].loginBtn}
               </a>
             )}
             {planLabel ? (
@@ -2807,7 +2807,7 @@ export default function Home() {
           {TABS.map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ background:"none", border:"none", cursor:"pointer", padding:"7px 1px 10px", display:"flex", flexDirection:"column", alignItems:"center", gap:2, borderTop:`2.5px solid ${activeTab===tab.id?C.accent:"transparent"}`, transition:"border-color 0.2s", minWidth:0 }}>
               <span style={{ fontSize:17 }}>{tab.icon}</span>
-              <span style={{ fontSize:9, fontWeight:600, color:activeTab===tab.id?C.accent:C.muted, fontFamily:"'DM Sans',sans-serif", whiteSpace:"nowrap" }}>{lang==="en" ? tab.labelEN : tab.labelDE}</span>
+              <span style={{ fontSize:9, fontWeight:600, color:activeTab===tab.id?C.accent:C.muted, fontFamily:"'DM Sans',sans-serif", whiteSpace:"nowrap" }}>{tab.labelDE}</span>
             </button>
           ))}
         </div>
