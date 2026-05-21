@@ -18,104 +18,14 @@ YOUR ANSWERS:
 - Realistic cost and time estimates
 - IMPORTANT: Always respond in English, never in German`;
 async function callAPI(messages) {
-  const response = await fetch("/api/chat-proxy", {
+  const response = await fetch("/api/chat", {
     method: "POST",
-    headers: { "Content-Type": "application/json", "anthropic-version": "2023-06-01" },
-    body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 1000, messages }),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ messages, lang: "en" }),
   });
-  const raw = await response.text();
-  let data;
-  try { data = JSON.parse(raw); } catch(e) { throw new Error("HTTP " + response.status + ": " + raw.substring(0,150)); }
-  if (!response.ok || data.error || data.type === "error") throw new Error("HTTP " + response.status + " | " + raw.substring(0,200));
-  return data.content?.[0]?.text || "(leer)";
+  const data = await response.json();
+  return data.reply || data.content || data.error || "Sorry, something went wrong.";
 }
-
-const C = {
-  bg: "#F8F5F0", card: "#FFFFFF", border: "#EDE8DF",
-  accent: "#C4622D", accentBg: "#FFF0E8", text: "#1A1A1A",
-  muted: "#888888", green: "#3A7A56", greenBg: "#EDF5F1",
-  tag: "#F0EDE8",
-};
-
-const globalCSS = `
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap');
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body { font-family: 'DM Sans', sans-serif; background: #F8F5F0; overscroll-behavior: none; }
-  textarea, input, button { font-family: 'DM Sans', sans-serif; }
-
-  /* Smooth scrolling */
-  ::-webkit-scrollbar { width: 3px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: #EDE8DF; border-radius: 3px; }
-
-  /* Animations */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-  @keyframes blink {
-    0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
-    40%            { opacity: 1;   transform: scale(1); }
-  }
-  @keyframes shimmer {
-    0%   { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.5; }
-  }
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(-8px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-
-  /* Card hover lift */
-  .fu { animation: fadeUp 0.35s ease both; }
-  .fi { animation: fadeIn 0.3s ease both; }
-
-  /* Loading skeleton */
-  .skeleton {
-    background: linear-gradient(90deg, #f0ece6 25%, #e8e3dc 50%, #f0ece6 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-    border-radius: 8px;
-  }
-
-  /* Tab active indicator */
-  .tab-active { position: relative; }
-  .tab-active::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 20%; right: 20%;
-    height: 2px;
-    background: #C4622D;
-    border-radius: 2px;
-  }
-
-  /* Button press effect */
-  button:active { transform: scale(0.97); }
-  a:active { transform: scale(0.97); }
-
-  /* Image lazy load fade */
-  img { transition: opacity 0.3s ease; }
-  img[loading="lazy"] { opacity: 0; }
-  img[loading="lazy"].loaded { opacity: 1; }
-
-  /* Focus styles */
-  textarea:focus, input:focus, select:focus { outline: none; }
-
-  /* Blink for loading dots */
-  @keyframes blink { 0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1); } }
-
-  /* Spin */
-  @keyframes spin { to { transform: rotate(360deg); } }
-`;
-
 
 
 function LoadingSpinner({ size }) {
@@ -141,9 +51,9 @@ function amazonLink(q, qBau) {
 
 // ─── ANLEITUNGEN DATEN (16 Stueck) ────────────────────────────────────────────
 const ANLEITUNGEN = [
-  { id:"streichen", emoji:"🖌️", titel:"Paint Walls", schwierigkeit:"Leicht", zeit:"1–2 days", kosten:"30–80€",
+  { id:"streichen", emoji:"🖌️", titel:"Paint Walls", schwierigkeit:"Easy", zeit:"1–2 days", kosten:"30–80€",
     img:"https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=120&q=80",
-    werkzeug:["Teleskopstange","Lammfellrolle 12–18mm","Flachpinsel 5cm","Abklebeband Tesa Precision","Abdeckfolie"],
+    werkzeug:["Extension pole","Lambswool roller 12-18mm","Flat brush 5cm","Masking tape Tesa Precision","Protective sheet"],
     schritte:["Moebel raus / abdecken, Steckdosen abkleben","Risse spachteln, schleifen, Staub absaugen","Abkleben mit Wasserwaage – Band fingerspitzenartig andruecken","Farbton auf Pappe testen – daysslicht UND Kunstlicht!","Erste Schicht mit Rolle gleichmaessig auftragen","Min. 4h trocknen, dann zweite Schicht","Dispersionsfarbe: Band nach Trocknen abziehen. Latexfarbe: Band NASS abziehen!","Anschluesse (Decke, Fenster) mit Pinsel nacharbeiten"],
     tipp:"Lammfellrolle 12–18mm = beste Oberflaeche ohne Flusen.",
     fehler:"Zu wenig abkleben, falscher Abziehmodus, zu dicke Schichten.",
@@ -159,7 +69,7 @@ const ANLEITUNGEN = [
     amazon:amazonLink("glaettekelle donespachtel set") },
   { id:"fliesen", emoji:"⬛", titel:"Fliesen legen", schwierigkeit:"Medium", zeit:"2–4 days", kosten:"100–400€",
     img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=120&q=80",
-    werkzeug:["Zahnkelle 8mm","Nivelliersystem","Fliesenschneider","Fugenmasse","Gummihammer"],
+    werkzeug:["Notched trowel 8mm","Nivelliersystem","Tile cutter","Fugenmasse","Rubber mallet"],
     schritte:["Raumbreite ÷ Fliesenbreite – letzter Streifen mind. ¾ Width","Mitte des Raums als Startpunkt","Untergrund: eben, trocken, tragfaehig","Doppelklebung: Kleber auf Boden UND Fliese","Zahnkelle 8mm gleichmaessig aufziehen","1/3-Verband verlegen","Nivelliersystem bei grossen Formaten","24h trocknen, dann fugen"],
     tipp:"Grosse Formate (60×60+) immer Doppelklebung + Nivelliersystem.",
     fehler:"Untergrund nicht pruefen, Doppelklebung vergessen.",
@@ -167,53 +77,53 @@ const ANLEITUNGEN = [
     amazon:amazonLink("fliesen nivelliersystem zahnkelle") },
   { id:"bad", emoji:"🚿", titel:"Bad ohne Abriss renovieren", schwierigkeit:"Medium", zeit:"3–5 days", kosten:"200–800€",
     img:"https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=120&q=80",
-    werkzeug:["Cuttermesser","Anlauger","Silikon+Pistole","Abdichtband","SMP-Klebstoff"],
+    werkzeug:["Utility knife","Anlauger","Silikon+Pistole","Abdichtband","SMP-Klebstoff"],
     schritte:["Klopftest: hohle Fliesen markieren (>20% = Abriss noetig)","Altes Silikon komplett raus + Untergrund entfetten","Abdichtung: Wanne, Dusche bis 2m, Boden","SMP-Klebstoff: KEINE Dispersionsgrundierung darunter","Neue Fliesen auf alte legen (Boden +1–2cm)","Silikon mit Finger+Spuelmittel glattziehen","Armaturentausch: Wasser ab, Teflonband","Licht, Spiegel, Accessoires"],
     tipp:"Nur Silikon + Oberflaechen = 80% Arbeitsersparnis bei gleichem Ergebnis.",
     fehler:"Abdichtung vergessen, Silikon auf Fett, falscher Kleber.",
     youtube:"https://www.youtube.com/results?search_query=bad+renovieren+ohne+abriss",
     amazon:amazonLink("bad renovierung silikon abdichtband set") },
-  { id:"laminat", emoji:"🪵", titel:"Laminat verlegen", schwierigkeit:"Leicht", zeit:"1 day", kosten:"15–50€/m²",
+  { id:"laminat", emoji:"🪵", titel:"Laminat verlegen", schwierigkeit:"Easy", zeit:"1 day", kosten:"15–50€/m²",
     img:"https://images.unsplash.com/photo-1574739782594-db4ead022697?w=120&q=80",
-    werkzeug:["Stichsaege","Zugeisen","Trittschalldaemmung","Abstandshalter 10mm","Gummihammer"],
+    werkzeug:["Jigsaw","Zugeisen","Underlay","Abstandshalter 10mm","Rubber mallet"],
     schritte:["Untergrund: eben (max. 3mm/2m), trocken","Trittschalldaemmung vollflaechig verlegen","48h Laminat akklimatisieren – Pflicht!","Abstandshalter 10mm an alle Waende","Nut zur Wand, erste Reihe ausrichten","Jede Reihe mind. 40cm versetzt","Letzte Reihe messen, schneiden, einziehen","Sockelleisten an Wand schrauben (NICHT ans Laminat)"],
     tipp:"48h akklimatisieren verhindert, dass sich der Boden nach Verlegen woelbt.",
     fehler:"Dehnungsfuge vergessen, keine Folie auf Beton.",
     youtube:"https://www.youtube.com/results?search_query=laminat+verlegen+anleitung",
     amazon:amazonLink("laminat verlegewerkzeug trittschalldaemmung") },
-  { id:"wandpaneele", emoji:"📐", titel:"Wandpaneele / Fluted Panels", schwierigkeit:"Leicht", zeit:"4–8 hours", kosten:"50–200€",
+  { id:"wandpaneele", emoji:"📐", titel:"Wandpaneele / Fluted Panels", schwierigkeit:"Easy", zeit:"4–8 hours", kosten:"50–200€",
     img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=120&q=80",
-    werkzeug:["Bohrschrauber","Stichsaege","SPC-Kleber","Wasserwaage","Abstandshalter"],
+    werkzeug:["Bohrschrauber","Jigsaw","SPC-Kleber","Spirit level","Abstandshalter"],
     schritte:["Wand: gerade, trocken, tapetenfrei","Paneele 24h akklimatisieren","Erstes Panel mit Wasserwaage ausrichten","Kleber: S-Muster, mind. 5cm vom Rand","Panel andruecken, 2 Min. halten","Stoesse versetzen wie Mauerwerk","Steckdosen: Pappe-Schablone, dann Stichsaege","Abschluss mit Profil oder Anstrich"],
     tipp:"Fluted Panels hinter Bett oder Sofa – meistgesuchter Look 2025.",
     fehler:"Erstes Panel nicht ausrichten, Loesungsmittel-Kleber auf Kunststoff.",
     youtube:"https://www.youtube.com/results?search_query=wandpaneele+fluted+panel",
     amazon:amazonLink("wandpaneele fluted panel MDF") },
-  { id:"led", emoji:"💡", titel:"LED-Beleuchtung einbauen", schwierigkeit:"Leicht", zeit:"2–4 hours", kosten:"30–150€",
+  { id:"led", emoji:"💡", titel:"LED-Beleuchtung einbauen", schwierigkeit:"Easy", zeit:"2–4 hours", kosten:"30–150€",
     img:"https://images.unsplash.com/photo-1600210492493-0946911123ea?w=120&q=80",
-    werkzeug:["WAGO-Klemmen","Seitenschneider","Spannungspruefer","LED-Streifen 24V","Dimmer"],
+    werkzeug:["WAGO connectors","Seitenschneider","Voltage tester","LED-Streifen 24V","Dimmer"],
     schritte:["Sicherung raus! Spannungspruefer nutzen","24V LED-Streifen waehlen","WAGO statt Luesterklemmen","Untergrund entfetten, Ecken mit Verbinder","Streifen kleben, andruecken","Trailing-Edge-Dimmer einbauen","Trafo: min. 20% Leistungsreserve","Test vor dem Abdecken"],
     tipp:"Indirekte LED in Stuckkehle wirkt besser als direkte Spots.",
     fehler:"Zu schwacher Trafo, Streifen knicken, falscher Dimmer.",
     youtube:"https://www.youtube.com/results?search_query=led+streifen+einbauen+anleitung",
     amazon:amazonLink("led streifen 24v wago dimmer set") },
-  { id:"silikon", emoji:"🔲", titel:"Silikon erneuern", schwierigkeit:"Leicht", zeit:"2–3 hours", kosten:"10–25€",
+  { id:"silikon", emoji:"🔲", titel:"Silikon erneuern", schwierigkeit:"Easy", zeit:"2–3 hours", kosten:"10–25€",
     img:"https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=120&q=80",
-    werkzeug:["Silikonentferner","Cuttermesser","Sanitaer-Silikon (Soudal)","Silikonpistole","Spuelmittel"],
+    werkzeug:["Silikonentferner","Utility knife","Sanitaer-Silikon (Soudal)","Silikonpistole","Spuelmittel"],
     schritte:["Altes Silikon mit Cuttermesser raus","Reste mit Entferner loesen (15 Min.)","Untergrund mit Isopropanol entfetten","Malerband beidseitig abkleben","Silikon in einem Zug auftragen","Finger mit Spuelmittel glattziehen","Band SOFORT (nass) abziehen","24h nicht nass"],
     tipp:"Badewanne vor Abdichten mit Wasser fuellen – haelt bei Belastung besser.",
     fehler:"Band zu spaet, fettig, kein Pilzhemmer.",
     youtube:"https://www.youtube.com/results?search_query=silikon+erneuern+bad+anleitung",
     amazon:amazonLink("soudal sanitaer silikon pilzhemmend") },
-  { id:"tapezieren", emoji:"🖼️", titel:"Tapete entfernen & tapezieren", schwierigkeit:"Leicht", zeit:"1–2 days", kosten:"20–80€",
+  { id:"tapezieren", emoji:"🖼️", titel:"Tapete entfernen & tapezieren", schwierigkeit:"Easy", zeit:"1–2 days", kosten:"20–80€",
     img:"https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=120&q=80",
-    werkzeug:["Tapeziertisch","Tapezierbuerste","Tapezierpaste","Cuttermesser","Wasserwalze"],
+    werkzeug:["Tapeziertisch","Tapezierbuerste","Tapezierpaste","Utility knife","Wasserwalze"],
     schritte:["Alte Tapete einweichen: Wasser + Spuelmittel, 15 Min. warten","Tapete in langen Streifen von oben abziehen","Kleisterreste nass abwischen, trocknen lassen","Neue Tapete messen: Raumhoehe + 5cm Zugabe","Kleister anruehren, auf Tapete auftragen","Tapete einschlagen, 5 Min. einweichen","Von oben ansetzen, Luftblasen rausstreichen","Ueberschuss mit Cuttermesser abschneiden"],
     tipp:"Immer in Richtung des Fensterlichts tapezieren – Stoesse werden unsichtbar.",
     fehler:"Zu kurze Einweichzeit, Luftblasen nicht rausstreichen, falscher Kleister.",
     youtube:"https://www.youtube.com/results?search_query=tapete+entfernen+tapezieren+anleitung",
     amazon:amazonLink("tapezierpaste tapezierbuerste set") },
-  { id:"fugenreinigen", emoji:"🧹", titel:"Fugen reinigen & auffrischen", schwierigkeit:"Leicht", zeit:"2–4 hours", kosten:"15–40€",
+  { id:"fugenreinigen", emoji:"🧹", titel:"Fugen reinigen & auffrischen", schwierigkeit:"Easy", zeit:"2–4 hours", kosten:"15–40€",
     img:"https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=120&q=80",
     werkzeug:["Fugenreiniger","Fugenbuerste","Dampfreiniger (optional)","Fugenstift weiss","Schleifklotz"],
     schritte:["Fugenreiniger auftragen, 10–15 Min. einwirken","Mit Fugenbuerste kraeftig schrubben","Dampfreiniger fuer hartnaeckige Stellen","Gruendlich abspuelen, trocknen lassen","Wenn grau/gelblich: Fugenstift auftragen","Bei komplett verfaerbt: ausschleifen + neu verfugen","Fugenschutz-Spray als Abschluss"],
@@ -221,9 +131,9 @@ const ANLEITUNGEN = [
     fehler:"Chlorhaltige Reiniger auf farbigen Fliesen, Fugen nicht vollstaendig trocknen.",
     youtube:"https://www.youtube.com/results?search_query=fugen+reinigen+auffrischen+anleitung",
     amazon:amazonLink("fugenreiniger fugenstift weiss set") },
-  { id:"kueche-fronten", emoji:"🍳", titel:"Replace Kitchen Fronts", schwierigkeit:"Leicht", zeit:"1 day", kosten:"200–800€",
+  { id:"kueche-fronten", emoji:"🍳", titel:"Replace Kitchen Fronts", schwierigkeit:"Easy", zeit:"1 day", kosten:"200–800€",
     img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=120&q=80",
-    werkzeug:["Akkuschrauber","Kreuzschlitzschrauber","Wasserwaage","Massband","Scharnier-Einstellwerkzeug"],
+    werkzeug:["Cordless drill","Kreuzschlitzschrauber","Spirit level","Massband","Scharnier-Einstellwerkzeug"],
     schritte:["Alte Fronten abschrauben: Scharniere loesen","Scharniere auf neue Fronten – gleiche Position messen","Neue Front einhaengen, noch nicht festschrauben","Spaltmass pruefen: 2–3mm gleichmaessig rundum","Scharniere in 3 Richtungen justieren","Erst wenn alles passt: Schrauben fest","Griffe montieren: Schablone, bohren"],
     tipp:"Kuechenfronten-Tausch = halbe neue Kueche fuer 10% des Preises.",
     fehler:"Scharniere falsch justiert, Schablone fuer Griffe nicht genutzt.",
@@ -231,7 +141,7 @@ const ANLEITUNGEN = [
     amazon:amazonLink("kitchen fronts hinge adjustllwerkzeug") },
   { id:"trockenbau", emoji:"🔩", titel:"Trockenbauwand bauen", schwierigkeit:"Medium", zeit:"1–2 days", kosten:"80–200€",
     img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=120&q=80",
-    werkzeug:["Metallprofil-Schere","Akkuschrauber","Wasserwaage + Lot","Rigipsplatten","Schrauben 3,5×35mm"],
+    werkzeug:["Metallprofil-Schere","Cordless drill","Wasserwaage + Lot","Rigipsplatten","Schrauben 3,5×35mm"],
     schritte:["Bodenprofile (UW) mit Lot ausrichten und verschrauben","Deckenprofile parallel befestigen","Staenderprofile (CW) alle 62,5cm einsetzen","Elektro-Leerrohr jetzt einziehen","Erste Lage Rigips verschrauben: alle 25cm","Mineralwolle als Daemmung einlegen","Zweite Seite beplanken","Fugen verspachteln: Fugenband + Q1/Q2"],
     tipp:"CW-Profile alle 62,5cm = perfekter Raster fuer 125cm-Platten.",
     fehler:"Staender falsch messen, keine Daemmung, Schrauben zu tief.",
@@ -245,9 +155,9 @@ const ANLEITUNGEN = [
     fehler:"Naegel nicht versenken, zu dicke Oelschicht, Ecken vergessen.",
     youtube:"https://www.youtube.com/results?search_query=parquet+sanding+oiling+guide",
     amazon:amazonLink("osmo hartwachsoel 3032 parkett") },
-  { id:"fenster-abdichten", emoji:"🪟", titel:"Fenster abdichten", schwierigkeit:"Leicht", zeit:"2–4 hours", kosten:"20–60€",
+  { id:"fenster-abdichten", emoji:"🪟", titel:"Fenster abdichten", schwierigkeit:"Easy", zeit:"2–4 hours", kosten:"20–60€",
     img:"https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=120&q=80",
-    werkzeug:["Dichtungsband selbstklebend","Acryl-Dichtstoff","Silikonpistole","Cuttermesser","Isopropanol"],
+    werkzeug:["Dichtungsband selbstklebend","Acryl-Dichtstoff","Silikonpistole","Utility knife","Isopropanol"],
     schritte:["Alte Dichtungen pruefen: eindruecken – federt? Wenn nicht: erneuern","Alte Gummidichtung aus Nut ziehen","Neue Moosgummi-Dichtung einlegen","Aussenfuge pruefen: Acryl gerissen?","Alte Aussenfuge raus, Untergrund saeubern","Neues Acryl, glatt abziehen, nach 2h uebermalen","Innenfuge: Kompriband einlegen"],
     tipp:"Fensterdichtungen alle 10–15 Jahre erneuern. Kosten 5€, sparen 15% Heizenergie.",
     fehler:"Falsches Dichtungsmass, Acryl auf fettigem Untergrund.",
@@ -255,7 +165,7 @@ const ANLEITUNGEN = [
     amazon:amazonLink("fensterdichtung moosgummi selbstklebend") },
   { id:"duschkabine", emoji:"🚿", titel:"Duschkabine einbauen", schwierigkeit:"Medium", zeit:"1 day", kosten:"150–600€",
     img:"https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=120&q=80",
-    werkzeug:["Wasserwaage","Akkuschrauber","Duebel + Schrauben","Sanitaer-Silikon","Metallsaege"],
+    werkzeug:["Spirit level","Cordless drill","Duebel + Schrauben","Sanitaer-Silikon","Metallsaege"],
     schritte:["Teile laut Anleitung sortieren","Duschwanne einbauen: Fuesse bis waagerecht justieren","Ablauf anschliessen, auf Dichtigkeit testen","Wandprofil senkrecht anzeichnen, duebeln","Glaselemente einhaengen","Alle Verbindungen mit Sanitaer-Silikon abdichten","Tueren einhaengen, Mechanismus pruefen","24h aushaerten, dann Wassertest"],
     tipp:"Duschwanne IMMER mit Wasser fuellen bevor du abdichtest.",
     fehler:"Wanne nicht waagerecht, Ablauf nicht getestet, Silikon auf nasser Flaeche.",
@@ -271,7 +181,7 @@ const ANLEITUNGEN = [
     amazon:amazonLink("aussenputz reparatur set armierungsband") },
   { id:"parkett", emoji:"🪵", titel:"Parkett & Vinyl verlegen", schwierigkeit:"Medium", zeit:"1–2 days", kosten:"150–600€",
     img:"https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=120&q=80",
-    werkzeug:["Stichsaege","Gummihammer","Zugeisen","Abstandshalter 10mm","Wasserwaage"],
+    werkzeug:["Jigsaw","Rubber mallet","Zugeisen","Abstandshalter 10mm","Spirit level"],
     schritte:["48h akklimatisieren (Pakete geoeffnet, liegend im Raum)","Untergrund pruefen: max. 3mm Unebenheit – sonst Ausgleichsmasse (Knauf Nivello)","Trittschalldaemmung auslegen, Stoesse 15cm ueberlappen","Erste Reihe: 10mm Abstandshalter zur Wand – IMMER!","Klicksystem: Winkel einsetzen und nach unten druecken","Richtung: laengs zur Fensterseite = Raum wirkt groesser","Letzte Reihe mit Zugeisen eindruecken","Sockelleisten KLEBEN – nie auf Laminat schrauben!"],
     tipp:"SPC-Vinyl = 100% wasserfest fuer Bad und Kueche. Laminat nur fuer Trockenraeume!",
     fehler:"Dehnungsfuge vergessen, zu frueh betreten (24h warten), Tuerrahmen nicht untergeschoben.",
@@ -285,9 +195,9 @@ const ANLEITUNGEN = [
     fehler:"Zu dicke Schichten = Laeufer. Nicht entfettet = Abloesung nach weeks.",
     youtube:"https://www.youtube.com/results?search_query=kitchen+fronts+painting+guideng",
     amazon:amazonLink("zinsser bin haftgrund kueche fronten lackieren") },
-  { id:"led-strip", emoji:"💡", titel:"LED-Strip & Cove-Licht installieren", schwierigkeit:"Leicht", zeit:"2–4 hours", kosten:"30–120€",
+  { id:"led-strip", emoji:"💡", titel:"LED-Strip & Cove-Licht installieren", schwierigkeit:"Easy", zeit:"2–4 hours", kosten:"30–120€",
     img:"https://images.unsplash.com/photo-1600210492493-0946911123ea?w=120&q=80",
-    werkzeug:["LED-Strip 24V COB","Trafo (20% Reserve)","WAGO-Klemmen","Alu-Profil + Diffusor","Cuttermesser"],
+    werkzeug:["LED-Strip 24V COB","Trafo (20% Reserve)","WAGO connectors","Alu-Profil + Diffusor","Utility knife"],
     schritte:["Length messen, Wattzahl berechnen (W/m × Meter)","Trafo waehlen: min. 20% mehr als Gesamtwatt","Alu-Profil zuschneiden und mit Klebeband oder Schrauben montieren","Strip NUR an Schnittmarkierungen kuerzen!","Strip einlegen, Diffusor aufsetzen","Anschluss mit WAGO-Klemmen (kein Loeten noetig)","Trailing-Edge-Dimmer anschliessen (kein Flimmern!)","Testen bevor alles verklebt wird"],
     tipp:"24V = kein Spannungsabfall. Bei 12V und mehr als 3m wird Licht ungleichmaessig.",
     fehler:"Vorderflanken-Dimmer = Flimmern. Trafo zu schwach = ueberhitzt. Strip falsch herum.",
@@ -295,7 +205,7 @@ const ANLEITUNGEN = [
     amazon:amazonLink("led strip 24v cob warmweiss 2700k trafo dimmer") },
   { id:"rigips-wand", emoji:"🏗️", titel:"Rigips-Trennwand bauen", schwierigkeit:"Medium", zeit:"2–3 days", kosten:"200–600€",
     img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=120&q=80",
-    werkzeug:["Akkuschrauber","Blechschere fuer Profile","Wasserwaage 1m","Rigips-Schrauben 3,5×35mm","Spachtel"],
+    werkzeug:["Cordless drill","Blechschere fuer Profile","Wasserwaage 1m","Rigips-Schrauben 3,5×35mm","Spachtel"],
     schritte:["Grundriss auf Boden anzeichnen, Wasserwaage zur Decke uebertragen","UW-Profile an Boden + Decke mit Duebeln alle 50cm","CW-Staender alle 62,5cm – Raster fuer 125cm Platten!","Leerrohr fuer Kabel einziehen VOR dem Beplatten","Erste Seite: Schrauben alle 25cm, Kopf 0,5mm versenkt","Daemmwolle einlegen (Steinwolle fuer Schallschutz)","Zweite Seite – Plattenstoesse versetzt!","Fugenspachtel + Glasflies-Band einbetten, trocknen, schleifen"],
     tipp:"Im Bad: GKFI (gruene Feuchtraumplatten) verwenden – weisse GKB quillt auf!",
     fehler:"Staender falsch abstaendig, Glasflies vergessen = Riss nach 6 Monaten.",
@@ -303,7 +213,7 @@ const ANLEITUNGEN = [
     amazon:amazonLink("rigips staenderwerk cw uw profil trockenbau set") },
   { id:"wpc-terrasse", emoji:"🌴", titel:"WPC-Terrasse verlegen", schwierigkeit:"Medium", zeit:"1–2 days", kosten:"500–2.000€",
     img:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=120&q=80",
-    werkzeug:["Kreissaege oder Stichsaege","Akkuschrauber","Wasserwaage","Stelzlager hoehenverstellbar","Abstandshalter 5mm"],
+    werkzeug:["Kreissaege oder Stichsaege","Cordless drill","Spirit level","Stelzlager hoehenverstellbar","Abstandshalter 5mm"],
     schritte:["Untergrund reinigen – alter Belag kann bleiben wenn stabil","Stelzlager setzen alle 50cm, Flucht mit Schnur pruefen","2% Gefaelle einplanen (weg vom Haus)","Tragebalken auf Stelzlager – Holz oder Alu alle 40–50cm","Erste Diele mit 10mm Abstand zur Wand","Unsichtbare Clips einsetzen – kein Schraubloch sichtbar!","Letzte Reihe zuschneiden","Abschlussprofile an allen Raendern montieren"],
     tipp:"WPC 48h akklimatisieren. Im Sommer dehnt WPC sich aus – Dehnfugen einhalten!",
     fehler:"Zu wenig Gefaelle = Pfuetzen, keine Dehnfuge = Wellen im Sommer.",
@@ -333,9 +243,9 @@ const ANLEITUNGEN = [
     fehler:"Zu wenig Gefaelle, kein Dichtband in Ecken, falscher Kleber.",
     youtube:"https://www.youtube.com/results?search_query=bodengleiche+dusche+bauen+anleitung",
     amazon:amazonLink("bodengleiche dusche ablaufrinne gefaelleestrich set") },
-  { id:"fliesenspiegel-bekleben", emoji:"🎨", titel:"Kitchen & Tile Film", schwierigkeit:"Leicht", zeit:"2–4 hours", kosten:"30–100€",
+  { id:"fliesenspiegel-bekleben", emoji:"🎨", titel:"Kitchen & Tile Film", schwierigkeit:"Easy", zeit:"2–4 hours", kosten:"30–100€",
     img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=120&q=80",
-    werkzeug:["Klebefolie d-c-fix oder Oracal","Cuttermesser + Stahllineal","Gummirakel","Isopropanol","Foen"],
+    werkzeug:["Klebefolie d-c-fix oder Oracal","Cuttermesser + Stahllineal","Rubber squeegee","Isopropanol","Foen"],
     schritte:["Mit Isopropanol entfetten – komplett trocknen lassen","Folie ausmessen + 3cm Uebermass","Traegerpapier 10cm abziehen, Kante ausrichten","Rakel von oben nach unten – keine Blasen!","Ueberlappungen an Fugen einschneiden","Blasen: Nadel einstechen, Foen erwaermen, herausdruecken","Ecken mit Foen erwaermen fuer bessere Haftung","Schalter: X einschneiden, Ecken ausklappen"],
     tipp:"Spueliwasser (1 Tropfen auf 1L) ermoeglicht Positionieren auf glatten Flaechen.",
     fehler:"Nicht entfettet = Abloesung, zu stark gezogen = Falten.",
