@@ -299,11 +299,29 @@ function MakeoverTab({ plan, canGenerate, freeUsed, onNeedUpgrade, onSaveToPlann
       setResult(d.imageBase64 ? `data:image/jpeg;base64,${d.imageBase64}` : d.imageUrl);
       setMaterials(d.materials);
       setShowRefinement(true);
+      incrementUsage();
     } catch(e) { alert("Error: " + e.message); }
     finally { setLoading(false); }
   }
 
   const isFree = !plan || plan === "free";
+
+  function getMonthlyUsage() {
+    try {
+      const key = `mystorija_usage_${new Date().getFullYear()}_${new Date().getMonth()}`;
+      return parseInt(localStorage.getItem(key) || "0");
+    } catch { return 0; }
+  }
+  function incrementUsage() {
+    try {
+      const key = `mystorija_usage_${new Date().getFullYear()}_${new Date().getMonth()}`;
+      localStorage.setItem(key, String(getMonthlyUsage() + 1));
+    } catch {}
+  }
+  const LIMITS = { free: 0, basic: 50, pro: Infinity };
+  const monthlyLimit = LIMITS[plan] ?? 0;
+  const monthlyUsed = getMonthlyUsage();
+  const limitReached = !isFree && monthlyUsed >= monthlyLimit;
 
   return (
     <div style={{ display:"flex", flexDirection:"column", height:"100%", overflow:"hidden" }}>
@@ -390,8 +408,8 @@ function MakeoverTab({ plan, canGenerate, freeUsed, onNeedUpgrade, onSaveToPlann
         {/* Generate button */}
         {image && !result && (
           <button onClick={()=>generate(wish)} disabled={loading}
-            style={{ width:"100%", padding:14, borderRadius:50, border:"none", background:loading?C.border:(isFree?C.muted:C.accent), color:"white", fontSize:15, fontWeight:700, cursor:loading||isFree?"not-allowed":"pointer", marginBottom:8 }}>
-            {loading ? "AI is generating your makeover..." : isFree ? "🔒 Basic plan required" : "✨ Generate Makeover"}
+            style={{ width:"100%", padding:14, borderRadius:50, border:"none", background:loading?C.border:(isFree||limitReached?C.muted:C.accent), color:"white", fontSize:15, fontWeight:700, cursor:loading||isFree||limitReached?"not-allowed":"pointer", marginBottom:8 }}>
+            {loading ? "AI is generating your makeover..." : isFree ? "🔒 Basic plan required" : limitReached ? `🔒 Monthly limit reached (${monthlyUsed}/${monthlyLimit})` : `✨ Generate Makeover`}
           </button>
         )}
 
@@ -485,7 +503,7 @@ function ChatTab({ plan }) {
     try {
       const r = await fetch("/api/chat", {
         method:"POST", headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({ messages: updated.map(m => ({ role:m.role, content:typeof m.content==="string"?m.content:m.content })), lang:"en" }),
+        body: JSON.stringify({ messages: updated.map(m => ({ role:m.role, content:typeof m.content==="string"?m.content:m.content })), lang:"en", forceEnglish:true }),
       });
       const d = await r.json();
       setMessages(prev => [...prev, { role:"assistant", content: d.reply || d.content || d.error || "Sorry, something went wrong." }]);
