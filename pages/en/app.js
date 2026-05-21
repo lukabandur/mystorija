@@ -9,6 +9,86 @@ const C = {
   muted: "#888888", green: "#3A7A56", greenBg: "#EDF5F1", tag: "#F0EDE8",
 };
 
+const globalCSS = `
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: 'DM Sans', sans-serif; background: #F8F5F0; overscroll-behavior: none; }
+  textarea, input, button { font-family: 'DM Sans', sans-serif; }
+
+  /* Smooth scrolling */
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #EDE8DF; border-radius: 3px; }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes blink {
+    0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+    40%            { opacity: 1;   transform: scale(1); }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.5; }
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-8px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Card hover lift */
+  .fu { animation: fadeUp 0.35s ease both; }
+  .fi { animation: fadeIn 0.3s ease both; }
+
+  /* Loading skeleton */
+  .skeleton {
+    background: linear-gradient(90deg, #f0ece6 25%, #e8e3dc 50%, #f0ece6 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+  }
+
+  /* Tab active indicator */
+  .tab-active { position: relative; }
+  .tab-active::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 20%; right: 20%;
+    height: 2px;
+    background: #C4622D;
+    border-radius: 2px;
+  }
+
+  /* Button press effect */
+  button:active { transform: scale(0.97); }
+  a:active { transform: scale(0.97); }
+
+  /* Image lazy load fade */
+  img { transition: opacity 0.3s ease; }
+  img[loading="lazy"] { opacity: 0; }
+  img[loading="lazy"].loaded { opacity: 1; }
+
+  /* Focus styles */
+  textarea:focus, input:focus, select:focus { outline: none; }
+
+  /* Blink for loading dots */
+  @keyframes blink { 0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1); } }
+
+  /* Spin */
+  @keyframes spin { to { transform: rotate(360deg); } }
+`;
+
+
 const SYSTEM = `You are Mystorija, a professional renovation expert. ALWAYS respond in English only. Be direct, give specific product recommendations with prices in €. Max 3-4 paragraphs. Use emojis.`;
 async function callAPI(messages) {
   const response = await fetch("/api/chat", {
