@@ -251,7 +251,7 @@ export default function LandingEN() {
           {/* Single pricing card centered */}
           <div style={{ maxWidth:460, margin:"0 auto 40px", background:"var(--card)", border:"2px solid var(--accent)", borderRadius:24, padding:36, position:"relative" }}>
             <div style={{ position:"absolute", top:-14, left:"50%", transform:"translateX(-50%)", background:"var(--accent)", color:"white", fontSize:12, fontWeight:700, padding:"5px 18px", borderRadius:50, whiteSpace:"nowrap" }}>
-              🔨 Handwerker Plan
+              🔨 Contractor Plan
             </div>
             <div style={{ textAlign:"center", marginBottom:24 }}>
               <div style={{ fontFamily:"'Playfair Display',serif", fontSize:52, fontWeight:700, lineHeight:1, color:"var(--text)" }}>
@@ -262,12 +262,12 @@ export default function LandingEN() {
 
             <div style={{ borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", padding:"20px 0", marginBottom:24 }}>
               {[
-                ["🏢", "Betriebsprofil", "Mit Fotos, Leistungen, Kontaktdaten und Bewertungen"],
-                ["📣", "Werbeanzeige", "Dein Banner erscheint in Ideen, Trends und Guides – genau wenn Nutzer nach Handwerkern suchen"],
-                ["📩", "Direktanfragen", "Kunden kontaktieren dich direkt aus der App"],
-                ["✅", "Verifizierter Profi", "Badge fuer mehr Vertrauen bei Neukunden"],
-                ["📍", "Regionale Sichtbarkeit", "Wirst in deiner Region angezeigt"],
-                ["⭐", "Bewertungssystem", "Sammle echte Kundenbewertungen"],
+                ["🏢", "Business Profile", "With photos, services, contact details and reviews"],
+                ["📣", "Advertisement", "Your banner appears in Ideas, Trends and Guides – exactly when users look for contractors"],
+                ["📩", "Direct Inquiries", "Customers contact you directly from the app"],
+                ["✅", "Verified Pro", "Badge for more trust with new customers"],
+                ["📍", "Regional Visibility", "Shown in your region"],
+                ["⭐", "Rating System", "Collect real customer reviews"],
               ].map(([icon, title, desc]) => (
                 <div key={title} style={{ display:"flex", gap:12, alignItems:"flex-start", padding:"10px 0", borderBottom:"1px solid var(--border)" }}>
                   <span style={{ fontSize:18, flexShrink:0 }}>{icon}</span>
