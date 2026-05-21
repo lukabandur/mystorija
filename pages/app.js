@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Head from "next/head";
 import { supabase } from "../lib/supabase";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Analytics } from "@vercel/analytics/next";
 
 const SYSTEM = `Du bist Mystorija, ein freundlicher DIY-Renovierungsexperte für den deutschsprachigen Markt. Deine Nutzer sind AMATEURE. Erkläre alles einfach, konkret, auf Deutsch, motivierend. Immer mit Produktnamen, deutschen Preisen (OBI/Bauhaus/Hornbach/Amazon/IKEA). Warne bei Elektro-Festinstallation, Asbest und tragenden Wänden immer klar.`;
@@ -2540,20 +2538,20 @@ const T = {
   de: {
     makeover: "✨ Makeover", chat: "💬 Chat", inspo: "🔍 Inspo",
     ideen: "💡 Ideen", anleit: "📋 Anleit.", planer: "📅 Planer", profis: "🔨 Profis",
-    generateBtn: t("makeover_generieren"), uploadHint: t("foto_hochladen"),
-    uploadSub: t("bad_k_che_wohnzimmer_terrasse_"),
+    generateBtn: "✨ Makeover generieren", uploadHint: "Foto hochladen",
+    uploadSub: "Bad, Küche, Wohnzimmer, Terrasse...",
     wishPlaceholder: "z.B. Dunkle Fliesen, Walk-In Dusche...",
-    generating: t("ki_generiert_dein_makeover_"), materials: t("verwendete_materialien_"),
-    save: t("speichern"), newMakeover: t("neu"),
-    loginBtn: t("anmelden"), logoutBtn: t("abmelden"),
-    freePlan: t("nur_ab_basic_plan"), limitReached: "🔒 Limit erreicht",
+    generating: "KI generiert dein Makeover...", materials: "Verwendete Materialien:",
+    save: "💾 Speichern", newMakeover: "🔄 Neu",
+    loginBtn: "Anmelden", logoutBtn: "Abmelden",
+    freePlan: "Nur ab Basic Plan", limitReached: "🔒 Limit erreicht",
     inspoHook: "Schönes Bild irgendwo gesehen?",
     inspoSub: "Screenshot hochladen – Mystorija erkennt sofort alle Materialien und Farben.",
     analyzeBtn: "🔍 Analysieren", trending: "Trends 2026",
     refineTitle: "✏️ Bild verfeinern – was soll sich noch ändern?",
     refinePlaceholder: "z.B. Fliesen dunkler, Spiegel hinzufügen...",
     savedBtn: "Gespeichert!", plannerSaved: "Im Planer gespeichert!",
-    newBtn: t("neu"), saveBtn: t("speichern"),
+    newBtn: "🔄 Neu", saveBtn: "💾 Speichern",
     toolsLabel: "Benötigtes Werkzeug:", tipsLabel: "Profi-Tipps:",
     warningLabel: "⚠️ Achtung:",
     stepsLabel: "Schritte:", diffLabel: "Schwierigkeit:",
@@ -2602,14 +2600,6 @@ const T = {
     viewHistory: "📚 History",
   }
 };
-
-export async function getStaticProps({ locale }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["common"])),
-    },
-  };
-}
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("makeover");
