@@ -1,7 +1,18 @@
 import React from "react";
 import Head from "next/head";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
 
 export default function Landing() {
+  const { t } = useTranslation("common");
   return (
     <>
       <Head>
@@ -97,31 +108,6 @@ export default function Landing() {
           </div>
         ))}
       </div>
-
-
-      {/* VORHER/NACHHER */}
-      <section style={{ padding:"0 24px 60px", maxWidth:700, margin:"0 auto" }}>
-        <div style={{ textAlign:"center", marginBottom:20 }}>
-          <div style={{ fontSize:12, fontWeight:700, textTransform:"uppercase", letterSpacing:"1.5px", color:"var(--accent)", marginBottom:8 }}>Echtes Beispiel</div>
-          <p style={{ fontSize:14, color:"var(--muted)" }}>Foto hochgeladen → KI generiert in 20 Sekunden</p>
-        </div>
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, borderRadius:20, overflow:"hidden", boxShadow:"0 20px 60px rgba(0,0,0,0.12)" }}>
-          <div style={{ position:"relative" }}>
-            <img src="/before.jpg" alt="Vorher" style={{ width:"100%", height:260, objectFit:"cover", display:"block" }} onError={e => e.target.style.display="none"} />
-            <div style={{ position:"absolute", bottom:10, left:10, background:"rgba(0,0,0,0.7)", color:"white", padding:"4px 12px", borderRadius:20, fontSize:12, fontWeight:700 }}>VORHER</div>
-          </div>
-          <div style={{ position:"relative" }}>
-            <img src="/after.jpg" alt="Nachher" style={{ width:"100%", height:260, objectFit:"cover", display:"block" }} onError={e => e.target.style.display="none"} />
-            <div style={{ position:"absolute", bottom:10, right:10, background:"var(--accent)", color:"white", padding:"4px 12px", borderRadius:20, fontSize:12, fontWeight:700 }}>✨ NACHHER</div>
-          </div>
-        </div>
-        <div style={{ textAlign:"center", marginTop:16 }}>
-          <a href="/app" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"var(--accent)", color:"white", padding:"12px 28px", borderRadius:50, fontSize:14, fontWeight:700, textDecoration:"none" }}>
-            ✨ Jetzt mein Zimmer transformieren
-          </a>
-        </div>
-      </section>
-
       {/* PAIN POINTS */}
       <section style={{ padding:"0 24px 70px", maxWidth:900, margin:"0 auto" }}>
         <div style={{ textAlign:"center", marginBottom:40 }}>
