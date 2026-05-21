@@ -488,7 +488,7 @@ function ChatTab({ plan }) {
         body: JSON.stringify({ messages: updated.map(m => ({ role:m.role, content:typeof m.content==="string"?m.content:m.content })), lang:"en" }),
       });
       const d = await r.json();
-      setMessages(prev => [...prev, { role:"assistant", content: d.content || d.error || "Sorry, something went wrong." }]);
+      setMessages(prev => [...prev, { role:"assistant", content: d.reply || d.content || d.error || "Sorry, something went wrong." }]);
     } catch(e) { setMessages(prev => [...prev, { role:"assistant", content:"Connection error. Please try again." }]); }
     finally { setLoading(false); }
   }
@@ -570,8 +570,30 @@ function InspoTab({ plan }) {
         body: JSON.stringify({ imageBase64, lang:"en" }),
       });
       const d = await r.json();
-      setResult(d.analysis || d.error || "Analysis not available.");
-    } catch(e) { setResult("Error during analysis."); }
+      if (d.error) throw new Error(d.error);
+      // Handle both string analysis and structured JSON
+      const analysis = d.analysis;
+      if (typeof analysis === "object") {
+        const lines = [];
+        if (analysis.style) lines.push(`**Style:** ${analysis.style}`);
+        if (analysis.mood) lines.push(`**Mood:** ${analysis.mood}`);
+        if (analysis.materials?.length) {
+          lines.push("\n**Materials:**");
+          analysis.materials.forEach(m => lines.push(`• ${m.area}: ${m.material} – ${m.color} (~${m.price})`));
+        }
+        if (analysis.steps?.length) {
+          lines.push("\n**How to recreate:**");
+          analysis.steps.forEach((s,i) => lines.push(`${i+1}. ${s}`));
+        }
+        if (analysis.pro_tips?.length) {
+          lines.push("\n**Pro tips:**");
+          analysis.pro_tips.forEach(t => lines.push(`💡 ${t}`));
+        }
+        setResult(lines.join('\n'));
+      } else {
+        setResult(analysis || "Analysis complete.");
+      }
+    } catch(e) { setResult("Error: " + e.message); }
     finally { setLoading(false); }
   }
 
