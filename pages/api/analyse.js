@@ -9,11 +9,17 @@ Das JSON muss exakt dieses Format haben:
 
 Erkenne echte Materialien: Feinsteinzeug, Zellige, Mikrozement, Eiche, Teak, Marmor usw. Nenne Marken wenn erkennbar (Grohe, Hansgrohe, IKEA, Mapei). Sei konkret und präzise.`;
 
+const SYSTEM_EN = `You are an interior design expert who recognizes renovation materials in photos. Respond ONLY with a JSON object, no text before or after, no markdown backticks.
+
+The JSON must have exactly this format:
+{"style":"Style name","mood":"Short description 2 sentences","materials":[{"area":"Area","material":"Material","color":"Color","product":"Product or empty","amazon":"short english search term","price":"Price range"}],"colors":["#hex1","#hex2","#hex3"],"difficulty":"Easy","budget":"500-2000€","timeframe":"1-2 weekends","steps":["Step 1","Step 2","Step 3","Step 4","Step 5"],"pro_tips":["Tip 1","Tip 2"],"quick_upgrades":["Upgrade 1","Upgrade 2","Upgrade 3"]}`;
+
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
-  const { imageBase64, mimeType } = req.body;
-  if (!imageBase64) return res.status(400).json({ error: "Kein Bild" });
+  const { imageBase64, mimeType, lang } = req.body;
+  if (!imageBase64) return res.status(400).json({ error: "No image" });
+  const activeSystem = lang === "en" ? SYSTEM_EN : SYSTEM;
 
   if (!process.env.ANTHROPIC_API_KEY) {
     return res.status(200).json({ error: "ANTHROPIC_API_KEY fehlt in Vercel Environment Variables." });
@@ -33,7 +39,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: "claude-sonnet-4-6",
         max_tokens: 2000,
-        system: SYSTEM,
+        system: activeSystem,
         messages: [{
           role: "user",
           content: [
