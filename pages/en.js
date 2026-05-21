@@ -78,7 +78,7 @@ export default function LandingEN() {
             </div>
           </div>
           <div style={{ display:"grid", gridTemplateColumns:"repeat(7,1fr)", borderTop:"1px solid var(--border)" }}>
-            {[["✨","Makeover",true],["💬","Chat",false],["🔍","Inspo",false],["💡","Ideen",false],["📋","Anleit.",false],["📅","Planer",false],["🔨","Profis",false]].map(([icon,label,active]) => (
+            {[["✨","Makeover",true],["💬","Chat",false],["🔍","Inspo",false],["💡","Ideas",false],["📋","Guides",false],["📅","Planner",false],["🔨","Pros",false]].map(([icon,label,active]) => (
               <div key={label} style={{ padding:"9px 2px 8px", textAlign:"center", borderTop:active?"2.5px solid var(--accent)":"2.5px solid transparent", marginTop:-1 }}>
                 <div style={{ fontSize:16 }}>{icon}</div>
                 <div style={{ fontSize:9, fontWeight:600, color:active?"var(--accent)":"var(--muted)" }}>{label}</div>
@@ -146,31 +146,31 @@ export default function LandingEN() {
         {/* INSPO HOOK */}
         <div style={{ background:"linear-gradient(135deg, #1A1A1A 0%, #2A1A0E 100%)", borderRadius:24, padding:"40px 32px", display:"flex", gap:32, alignItems:"center", flexWrap:"wrap" }}>
           <div style={{ flex:1, minWidth:220 }}>
-            <div className="section-label">🔍 Inspo-Analyse</div>
-            <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:26, color:"white", lineHeight:1.3, margin:"10px 0 14px" }}>Siehst du ein Bild<br />das du liebst?</h3>
-            <p style={{ fontSize:15, color:"#aaa", lineHeight:1.7, marginBottom:20 }}>Mach einen Screenshot von einem Bild das dir gefaellt – Pinterest, Instagram, Zeitschrift, ueberall. Die KI sagt dir sofort alles was du wissen musst:</p>
+            <div className="section-label">🔍 Inspo Analysis</div>
+            <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:26, color:"white", lineHeight:1.3, margin:"10px 0 14px" }}>See an image<br />das du liebst?</h3>
+            <p style={{ fontSize:15, color:"#aaa", lineHeight:1.7, marginBottom:20 }}>Take a screenshot of any image you like – Pinterest, Instagram, magazines, anywhere. The AI instantly tells you everything you need to know:</p>
             {["Which materials were used","Exact color tones and palette","Approximate cost per material","How to recreate it yourself","Direct links to Amazon, OBI, Bauhaus & Hornbach"].map(t => (
               <div key={t} style={{ color:"#ddd", fontSize:14, display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
                 <span style={{ color:"var(--accent)", fontWeight:700, flexShrink:0 }}>✓</span> {t}
               </div>
             ))}
             <a href="/en" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"var(--accent)", color:"white", padding:"12px 24px", borderRadius:50, fontSize:14, fontWeight:700, textDecoration:"none", marginTop:20 }}>
-              🔍 Foto analysieren →
+              🔍 Analyze photo →
             </a>
           </div>
           <div style={{ flexShrink:0 }}>
             <div style={{ background:"#2A2A2A", borderRadius:20, padding:20, width:220 }}>
               <div style={{ background:"#333", borderRadius:12, height:110, display:"flex", alignItems:"center", justifyContent:"center", marginBottom:14, fontSize:36 }}>📸</div>
               <div style={{ background:"var(--accent)", borderRadius:8, padding:"10px 12px", marginBottom:8 }}>
-                <p style={{ fontSize:11, fontWeight:700, color:"white", marginBottom:3 }}>Japandi Bad erkannt</p>
-                <p style={{ fontSize:10, color:"#f0c9b0" }}>Mikrozement · Teak Holz · Matte Black</p>
+                <p style={{ fontSize:11, fontWeight:700, color:"white", marginBottom:3 }}>Japandi Bathroom detected</p>
+                <p style={{ fontSize:10, color:"#f0c9b0" }}>Microcement · Teak Wood · Matte Black</p>
               </div>
               <div style={{ display:"flex", gap:6 }}>
                 {["#4A4A4A","#5A4A3A","#3A3A3A","#6A5A4A"].map(c => (
                   <div key={c} style={{ flex:1, height:16, background:c, borderRadius:4 }} />
                 ))}
               </div>
-              <p style={{ fontSize:10, color:"#888", marginTop:6 }}>Farbpalette erkannt</p>
+              <p style={{ fontSize:10, color:"#888", marginTop:6 }}>Color palette detected</p>
             </div>
           </div>
         </div>
@@ -238,7 +238,7 @@ export default function LandingEN() {
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))", gap:20 }}>
           {[
             { name:"Basic", price:"9,99", featured:false, desc:"Perfect for getting started – all core features.", features:["Unlimited Makeovers","AI Inspo Analysis","100 Ideas & Trends","25 Guides","AI Chat Advisor","Planner & Shopping list"] },
-            { name:"Pro ⭐", price:"19,99", featured:true, desc:"Für ernsthafte Renovierer – unbegrenzt generieren.", features:["Unlimited Makeovers","Everything in Basic","Priority generation","Early access to new features"] },
+            { name:"Pro ⭐", price:"19,99", featured:true, desc:"For serious renovators – unlegrenzt generieren.", features:["Unlimited Makeovers","Everything in Basic","Priority generation","Early access to new features"] },
           ].map(p => (
             <div key={p.name} style={{ background:"var(--card)", border:`1.5px solid ${p.featured?"var(--accent)":"var(--border)"}`, borderRadius:20, padding:28, position:"relative" }}>
               {p.featured && <div style={{ position:"absolute", top:-12, left:"50%", transform:"translateX(-50%)", background:"var(--accent)", color:"white", fontSize:11, fontWeight:700, padding:"4px 14px", borderRadius:50, whiteSpace:"nowrap" }}>⭐ Empfohlen</div>}
@@ -330,9 +330,9 @@ export default function LandingEN() {
 
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))", gap:20, marginBottom:50 }}>
             {[
-              ["🏠", "Für Hausbesitzer", "Teile deine Renovation projekte, zeige Vorher/Nachher Ergebnisse und lass dich von anderen Projekten inspirieren."],
-              ["🔨", "Für Handwerker", "Praesentiere deine Arbeit direkt an renovierungswillige Kunden. Kein Streuen – nur Menschen die wirklich renovieren moechten."],
-              ["💡", "Für Ideen-Sucher", "Sieh was andere aus aehnlichen Raeumen gemacht haben. Echte Projekte, echte Ergebnisse – keine Stock-Fotos."],
+              ["🏠", "For homeowners", "Share your Renovation projekte, zeige Vorher/Nachher Ergebnisse und lass dich von anderen Projekten inspirieren."],
+              ["🔨", "For contractors", "Present your deine Arbeit direkt an renovierungswillige Kunden. Kein Streuen – nur Menschen die wirklich renovieren moechten."],
+              ["💡", "For idea seekers", "Sieh was andere aus aehnlichen Raeumen gemacht haben. Echte Projekte, echte Ergebnisse – keine Stock-Fotos."],
             ].map(([icon, title, desc]) => (
               <div key={title} style={{ background:"#2A2A2A", borderRadius:18, padding:24, border:"1px solid #333" }}>
                 <div style={{ fontSize:32, marginBottom:14 }}>{icon}</div>
@@ -347,7 +347,7 @@ export default function LandingEN() {
             <div style={{ flex:1, minWidth:220 }}>
               <p style={{ fontSize:13, fontWeight:700, textTransform:"uppercase", letterSpacing:"1px", color:"var(--accent)", marginBottom:8 }}>🔨 For Contractors & Businesses</p>
               <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, color:"white", lineHeight:1.3, marginBottom:12 }}>Werde Teil der Mystorija Community</h3>
-              <p style={{ fontSize:14, color:"#aaa", lineHeight:1.6, marginBottom:20 }}>Praesentiere deinen Betrieb direkt an Menschen die gerade renovieren – die aktivste Zielgruppe ueberhaupt. Eintrag ab <strong style={{ color:"var(--accent)" }}>49,99€/Monat</strong>.</p>
+              <p style={{ fontSize:14, color:"#aaa", lineHeight:1.6, marginBottom:20 }}>Present your deinen Betrieb direkt an Menschen die gerade renovieren – die aktivste Zielgruppe ueberhaupt. Eintrag ab <strong style={{ color:"var(--accent)" }}>49,99€/Monat</strong>.</p>
               <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
                 {["✓ Profil mit Fotos & Bewertungen","✓ Direkte Anfragen","✓ Nur verifizierte Betriebe"].map(t => (
                   <span key={t} style={{ fontSize:13, color:"#ccc" }}>{t}</span>
