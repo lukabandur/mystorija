@@ -1077,7 +1077,8 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                 style={{ width:"100%", border:`1.5px solid ${wunsch?C.accent:C.border}`, borderRadius:12, padding:"10px 13px", fontSize:13, resize:"none", fontFamily:"'DM Sans',sans-serif", background:C.bg, lineHeight:1.6 }}
               />
               {/* Tipps ausklappbar */}
-              <TippsBox />
+              <p style={{ fontSize:11, color:C.muted, marginTop:4, marginBottom:8, lineHeight:1.5 }}>💡 Tipp: Nicht das gewünschte Ergebnis? Versuch es auf Englisch – z.B. <em style={{color:C.accent}}>"Add a bed against the wall"</em></p>
+          <TippsBox />
             </div>
 
             {/* Upload */}
