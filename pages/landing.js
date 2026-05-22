@@ -30,9 +30,7 @@ export default function Landing() {
         `}</style>
       
     <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
-    <script>
-      Weglot.initialize({ api_key: 'wg_96964bd6df0c3dbdd98d4a70d22c79696' });
-    </script>
+    <script dangerouslySetInnerHTML={{__html: "Weglot.initialize({ api_key: 'wg_96964bd6df0c3dbdd98d4a70d22c79696' });"}} />
     </Head>
 
       {/* NAV */}
