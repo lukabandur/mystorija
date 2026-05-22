@@ -293,8 +293,6 @@ async function runFlux(base64, prompt, negativePrompt, plan, chatContext) {
   // Strength dynamisch – höher = mehr Änderungen
   const hasObjReplace = chatContext && chatContext.match(/keine|dafür|statt|anstatt|entfernen|remove|ohne|weg/i);
   const hasMinorChange = chatContext && chatContext.match(/farbe|color|heller|dunkler|lighter|darker|ton|shade/i);
-  const hasObjReplace = chatContext && chatContext.match(/keine|dafür|statt|anstatt|entfernen|remove|ohne|weg/i);
-  const hasMinorChange = chatContext && chatContext.match(/farbe|color|heller|dunkler|lighter|darker|ton|shade/i);
   const hasAddObject = chatContext && chatContext.match(/füge|hinzufügen|add|einbauen|place|put|install|stell|hang/i);
   const strength = hasObjReplace ? 0.92 : hasAddObject ? 0.95 : hasMinorChange ? 0.65 : (chatContext ? 0.80 : 0.68);
 
