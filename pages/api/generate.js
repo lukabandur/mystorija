@@ -175,7 +175,7 @@ CRITICAL RULES:
 Write ONE ultra-detailed English prompt for Flux image-to-image renovation. Structure EXACTLY like this:
 
 PART 1 - STRUCTURE (most important):
-"realistic renovation makeover, keep exact room layout and architecture, same ${room type} position, same window and door placement, same ceiling height, same perspective and camera angle, photorealistic interior photography"
+"realistic renovation makeover, keep exact room layout and architecture, same room position, same window and door placement, same ceiling height, same perspective and camera angle, photorealistic interior photography"
 
 PART 2 - USER CHANGES (mandatory):
 Apply these exact changes: "${chatContext}" - be very specific about position (e.g. "king-size bed centered against the north wall", "floating vanity 80cm width on left wall")
