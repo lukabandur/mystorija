@@ -50,7 +50,12 @@ export default function Login() {
         <title>Login – Mystorija</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-      </Head>
+      
+    <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
+    <script>
+      Weglot.initialize({ api_key: 'wg_96964bd6df0c3dbdd98d4a70d22c79696' });
+    </script>
+    </Head>
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'DM Sans', sans-serif; background: ${C.bg}; color: ${C.text}; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
