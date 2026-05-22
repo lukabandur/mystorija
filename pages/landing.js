@@ -28,13 +28,18 @@ export default function Landing() {
           .section-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 10px; }
           @media (max-width: 600px) { .hide-mobile { display: none !important; } }
         `}</style>
-      </Head>
+      
+    <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
+    <script>
+      Weglot.initialize({ api_key: 'wg_96964bd6df0c3dbdd98d4a70d22c79696' });
+    </script>
+    </Head>
 
       {/* NAV */}
       <nav>
         <a className="logo" href="/landing">My<span>storija</span></a>
         <div style={{ display:"flex", gap:10, alignItems:"center" }}>
-          <a href="/en" style={{ fontSize:12, fontWeight:700, color:"var(--muted)", textDecoration:"none", padding:"7px 12px", borderRadius:20, border:"1.5px solid var(--border)", background:"var(--bg)" }}>🇬🇧 English</a>
+          <a href="/en" style={{ display:"flex", alignItems:"center", gap:6, fontSize:12, fontWeight:700, color:"var(--muted)", textDecoration:"none", padding:"7px 12px", borderRadius:20, border:"1.5px solid var(--border)", background:"var(--bg)" }}>🇬🇧 English</a>
           <a className="btn-secondary hide-mobile" href="/app" style={{ fontSize:13, padding:"8px 18px" }}>App öffnen</a>
           <a className="btn-primary" href="/app" style={{ fontSize:13, padding:"8px 18px" }}>Kostenlos starten ✨</a>
         </div>
