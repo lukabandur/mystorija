@@ -168,6 +168,9 @@ CRITICAL RULES:
 3. If user says "walk-in shower" - ADD a detailed walk-in shower
 4. If user says "dark tiles" - make ALL floor/wall tiles dark
 5. Keep same room perspective and architectural structure
+6. If user wants to ADD furniture/objects: specify EXACT position (e.g. "place a king-size bed centered against the main wall", "add a dining table in the center of the room")
+7. For empty rooms: be very explicit about WHERE objects go and their SIZE
+8. Always describe objects in photorealistic detail with brand names and materials
 
 Write ONE ultra-detailed English prompt for Flux image-to-image:
 - START with the mandatory user changes (highest priority)
@@ -290,7 +293,10 @@ async function runFlux(base64, prompt, negativePrompt, plan, chatContext) {
   // Strength dynamisch – höher = mehr Änderungen
   const hasObjReplace = chatContext && chatContext.match(/keine|dafür|statt|anstatt|entfernen|remove|ohne|weg/i);
   const hasMinorChange = chatContext && chatContext.match(/farbe|color|heller|dunkler|lighter|darker|ton|shade/i);
-  const strength = hasObjReplace ? 0.90 : hasMinorChange ? 0.65 : (chatContext ? 0.80 : 0.68);
+  const hasObjReplace = chatContext && chatContext.match(/keine|dafür|statt|anstatt|entfernen|remove|ohne|weg/i);
+  const hasMinorChange = chatContext && chatContext.match(/farbe|color|heller|dunkler|lighter|darker|ton|shade/i);
+  const hasAddObject = chatContext && chatContext.match(/füge|hinzufügen|add|einbauen|place|put|install|stell|hang/i);
+  const strength = hasObjReplace ? 0.92 : hasAddObject ? 0.95 : hasMinorChange ? 0.65 : (chatContext ? 0.80 : 0.68);
 
   // Flux Dev für alle Pläne – optimierte Parameter
   const falEndpoint = "https://fal.run/fal-ai/flux/dev/image-to-image";
