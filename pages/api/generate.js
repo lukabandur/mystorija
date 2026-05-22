@@ -172,26 +172,46 @@ CRITICAL RULES:
 7. For empty rooms: be very explicit about WHERE objects go and their SIZE
 8. Always describe objects in photorealistic detail with brand names and materials
 
-Write ONE ultra-detailed English prompt for Flux image-to-image:
-- START with the mandatory user changes (highest priority)
-- Be hyper-specific: tile sizes (e.g. "120x60cm anthracite matte porcelain tiles"), fixture brands (Grohe, Hansgrohe, TOTO), exact colors (RAL 7016, Farrow & Ball Hague Blue)
-- Lighting: always specify color temperature (2700K warm, 4000K neutral)
-- Materials: brand names, textures, finishes (matte, polished, brushed)
-- Style: photorealistic interior photography, 8K, shot with Sony A7R IV, 24mm lens
-- Always end with: "maintain exact same room angle and perspective, professional architectural photography"
+Write ONE ultra-detailed English prompt for Flux image-to-image renovation. Structure EXACTLY like this:
 
-Return ONLY valid JSON (no markdown): {"description": "current room in 1 sentence", "prompt": "ultra detailed renovation prompt starting with user changes", "negative": "cartoon, illustration, low quality, blurry, distorted perspective, wrong angle"}`
+PART 1 - STRUCTURE (most important):
+"realistic renovation makeover, keep exact room layout and architecture, same ${room type} position, same window and door placement, same ceiling height, same perspective and camera angle, photorealistic interior photography"
+
+PART 2 - USER CHANGES (mandatory):
+Apply these exact changes: "${chatContext}" - be very specific about position (e.g. "king-size bed centered against the north wall", "floating vanity 80cm width on left wall")
+
+PART 3 - MATERIALS & DETAILS:
+- Tile sizes with grout (e.g. "120x60cm matte anthracite porcelain tiles, 2mm grey grout")
+- Fixture brands: Grohe, Hansgrohe, Duravit, TOTO
+- Exact colors: RAL codes or Farrow & Ball names
+- Surfaces: matte, polished, brushed, satin
+
+PART 4 - LIGHTING (critical for realism):
+"warm ambient LED lighting 2700K, indirect cove lighting, recessed spotlights, soft shadows, natural light from window, realistic light reflections on tiles"
+
+PART 5 - QUALITY KEYWORDS:
+"photorealistic, architectural visualization, Architectural Digest quality, shot with Sony A7R IV 24mm, soft natural shadows, depth of field, 8K ultra detailed, interior photography magazine quality"
+
+Return ONLY valid JSON: {"description": "current room in 1 sentence", "prompt": "full structured prompt", "negative": "cartoon, illustration, CGI render, unrealistic, distorted geometry, wrong perspective, extra rooms, hallucination, blurry, low quality, painting, sketch"}`
         : `${dimensionInfo}You are a world-class interior design AI. Analyze this room and create a stunning modern renovation.
 
-Write ONE ultra-detailed English prompt for Flux image-to-image renovation:
-- Bathroom: specify tile size (120x60cm), brands (Grohe/Hansgrohe), LED mirror IP44, floating oak vanity, matte black fixtures, 2700K lighting
-- Kitchen: cabinet color (RAL code), brass/matte black hardware, quartz countertop, zellige tile backsplash, LED strip 2700K
-- Living room: accent wall color (Farrow & Ball/Benjamin Moore), fluted panel detail, cove lighting 2700K, specific furniture (bouclé sofa, rattan chair)
-- Outdoor/terrace: large format outdoor porcelain 60x60cm, WPC decking, outdoor lounge with Sunbrella cushions, olive tree in terracotta, Philippi string lights 2200K
-- Always: photorealistic 8K, Sony A7R IV, 24mm, professional architectural photography, same perspective
-${dimensionInfo ? `- Room dimensions: ${dimensionInfo} - recommend appropriate scale furniture and tiles` : ""}
+Analyze this room and create a stunning realistic renovation prompt. Structure EXACTLY like this:
 
-Return ONLY valid JSON (no markdown): {"description": "current room state", "prompt": "ultra detailed renovation prompt", "negative": "cartoon, illustration, low quality, blurry, distorted"}`;
+PART 1: "realistic renovation makeover, keep exact room layout and architecture, same perspective and camera angle, photorealistic interior photography, architectural visualization"
+
+PART 2 - DETECT room type and apply best 2026 renovation:
+- Bathroom → large format 120x60cm porcelain tiles, floating oak vanity, Grohe matte black fixtures, LED mirror IP44, walk-in shower, indirect 2700K cove lighting
+- Kitchen → navy/sage green shaker fronts, brass hardware, zellige backsplash, quartz countertop, pendant lights 2700K  
+- Living room → dark green/terracotta accent wall, fluted MDF panels, bouclé sofa, cove lighting 2700K
+- Bedroom → accent wall, upholstered headboard, linen curtains, brass wall sconces 2200K
+- Terrace → large format outdoor tiles 80x80cm, lounge set, olive tree in terracotta, string lights 2200K
+${dimensionInfo ? `Room is ${dimensionInfo} - scale furniture accordingly` : ""}
+
+PART 3: "warm ambient LED lighting 2700K, soft shadows, natural light, realistic reflections, indirect cove lighting"
+
+PART 4: "photorealistic, Architectural Digest quality, Sony A7R IV 24mm, 8K ultra detailed, interior photography magazine quality, soft natural shadows, depth of field"
+
+Return ONLY valid JSON: {"description": "current room state", "prompt": "full structured prompt", "negative": "cartoon, CGI, render, unrealistic, distorted, hallucination, wrong perspective, blurry, painting"}`;
 
       const claudeRes = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
@@ -297,19 +317,21 @@ async function runFlux(base64, prompt, negativePrompt, plan, chatContext) {
   const strength = hasObjReplace ? 0.92 : hasAddObject ? 0.95 : hasMinorChange ? 0.65 : (chatContext ? 0.80 : 0.68);
 
   // Flux Dev für alle Pläne – optimierte Parameter
+  // Use Flux Dev with image-to-image + better parameters for structure preservation
   const falEndpoint = "https://fal.run/fal-ai/flux/dev/image-to-image";
 
   const falBody = {
     image_url: imageUrl,
     prompt,
-    negative_prompt: negativePrompt || "cartoon, illustration, painting, drawing, anime, sketch, low quality, blurry, distorted, wrong perspective, extra rooms, different angle, render, CGI, unrealistic, deformed, watermark",
+    negative_prompt: negativePrompt || "cartoon, illustration, painting, drawing, anime, sketch, low quality, blurry, distorted geometry, wrong perspective, extra rooms, different angle, render, CGI, unrealistic, deformed, watermark, hallucination, wrong room, different room",
     strength,
-    num_inference_steps: 45,
-    guidance_scale: 7.0,
+    num_inference_steps: 50,
+    guidance_scale: 8.0,
     num_images: 1,
     enable_safety_checker: false,
     output_format: "jpeg",
     image_size: "landscape_4_3",
+    seed: Math.floor(Math.random() * 1000000),
   };
 
   const falRes = await fetch(falEndpoint, {
