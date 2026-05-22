@@ -2751,7 +2751,12 @@ export default function Home() {
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/icon-192.png" />
         <style dangerouslySetInnerHTML={{ __html:globalCSS }} />
-      </Head>
+      
+    <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
+    <script>
+      Weglot.initialize({ api_key: 'wg_96964bd6df0c3dbdd98d4a70d22c79696' });
+    </script>
+    </Head>
       <div style={{ display:"flex", flexDirection:"column", height:"100vh", background:C.bg, maxWidth:600, margin:"0 auto" }}>
         <div style={{ background:C.card, borderBottom:`1px solid ${C.border}`, padding:"13px 18px", display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0 }}>
           <span onClick={() => { const t = secretTaps+1; setSecretTaps(t); if(t>=5){setShowSecretInput(true);setSecretTaps(0);} }} style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:700, cursor:"default", userSelect:"none" }}>My<span style={{ color:C.accent }}>storija</span></span>
