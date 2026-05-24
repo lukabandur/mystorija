@@ -2764,7 +2764,7 @@ export default function HomeEN() {
         <div style={{ background:C.card, borderBottom:`1px solid ${C.border}`, padding:"13px 18px", display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0 }}>
           <span onClick={() => { const t = secretTaps+1; setSecretTaps(t); if(t>=5){setShowSecretInput(true);setSecretTaps(0);} }} style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:700, cursor:"default", userSelect:"none" }}>My<span style={{ color:C.accent }}>storija</span></span>
           <div style={{ display:"flex", gap:8, alignItems:"center" }}>
-            {!window.navigator.standalone && (
+            {(typeof window === "undefined" || !window.navigator.standalone) && (
               <button onClick={async () => { if (installPrompt) { installPrompt.prompt(); const r = await installPrompt.userChoice; if (r.outcome==="accepted") setShowInstall(false); }}} style={{ fontSize:11, color:C.accent, fontWeight:700, background:C.accentBg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.accent}33`, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
                 📲 Install
               </button>
