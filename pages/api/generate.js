@@ -94,7 +94,7 @@ export default async function handler(req, res) {
     });
   }
 
-  const { imageBase64, chatContext, plan, style, dimensions } = req.body;
+  const { imageBase64, chatContext, plan, style, dimensions, lang } = req.body;
 
   // ── Plan Limit Check ────────────────────────────────────────────────────────
   // Monatliches Limit wird clientseitig im localStorage gezählt
@@ -258,7 +258,7 @@ Return ONLY valid JSON: {"description": "current room state", "prompt": "full st
             return res.json({
               imageUrl: result.imageUrl,
               imageBase64: result.imageBase64,
-              materials: generateMaterials(chatContext, style),
+              materials: generateMaterials(chatContext, style, lang),
               roomDescription,
               isObjectReplacement: !!(chatContext && chatContext.match(/keine|dafür|statt|anstatt|ersetzen|entfernen/i)),
               model: plan === "pro" ? "claude+flux-pro" : "claude+flux-dev",
@@ -420,167 +420,169 @@ function shopLinks(q_amzn, q_bau) {
 }
 
 // ── Materialien generieren ────────────────────────────────────────────────────
-function generateMaterials(chatContext, style) {
+function generateMaterials(chatContext, style, lang) {
+  const isEN = lang === "en";
+  const approx = isEN ? "Approx." : "Ca.";
   const ctx = (chatContext || "").toLowerCase();
   const items = [];
 
   if (ctx.match(/dusche|shower/))
-    items.push(`🚿 **Walk-In Dusche Set** – Glaswand 8mm ESG + Armatur + Ablaufrinne. Ca. 800–2.500€.
+    items.push(`🚿 **${isEN ? "Walk-In Shower Set" : "Walk-In Dusche Set"}** – ${isEN ? "8mm tempered glass + mixer + drain. " : "Glaswand 8mm ESG + Armatur + Ablaufrinne. "}${approx} 800–2.500€.
 ${shopLinks("walk in dusche set glaswand", "walk-in dusche")}`);
 
   if (ctx.match(/badewanne/))
-    items.push(`🛁 **Freistehende Badewanne** – Acryl oval 170×75cm. Ca. 400–1.500€.
+    items.push(`🛁 **${isEN ? "Freestanding Bathtub" : "Freistehende Badewanne"}** – ${isEN ? "Oval acrylic 170×75cm. " : "Acryl oval 170×75cm. "}${approx} 400–1.500€.
 ${shopLinks("freistehende badewanne acryl oval", "freistehende badewanne")}`);
 
   if (ctx.match(/fliesen|tiles/))
-    items.push(`🪨 **Feinsteinzeug 60×120cm** – Betonoptik oder Marmor. Ca. 25–55€/m².
+    items.push(`🪨 **${isEN ? "Porcelain Tile 60×120cm" : "Feinsteinzeug 60×120cm"}** – ${isEN ? "Concrete or marble look. " : "Betonoptik oder Marmor. "}${approx} 25–55€/m².
 ${shopLinks("feinsteinzeug fliesen 60x120 grau", "feinsteinzeug fliesen 60x120")}`);
 
   if (ctx.match(/dunkel|anthrazit|dark|schwarz/))
-    items.push(`⬛ **Mattschwarz Armaturen** – Grohe Essence oder Hansgrohe. Ca. 200–600€.
+    items.push(`⬛ **${isEN ? "Matte Black Fixtures" : "Mattschwarz Armaturen"}** – ${isEN ? "Grohe Essence or Hansgrohe. " : "Grohe Essence oder Hansgrohe. "}${approx} 200–600€.
 ${shopLinks("grohe armatur mattschwarz bad", "armatur mattschwarz bad")}`);
 
   if (ctx.match(/holz|eiche|wood|oak/))
-    items.push(`🪵 **Waschtisch Eiche wandhängend** – Massiv, 80cm. Ca. 400–900€.
+    items.push(`🪵 **${isEN ? "Wall-Hung Oak Vanity 80cm" : "Waschtisch Eiche wandhängend"}** – ${isEN ? "Solid wood. " : "Massiv, 80cm. "}${approx} 400–900€.
 ${shopLinks("waschtisch eiche wandmontage", "waschtisch holz wandmontage")}`);
 
   if (ctx.match(/licht|light|led/))
-    items.push(`💡 **LED-Spiegel IP44** – Hinterbeleuchtet, dimmbar. Ca. 80–300€.
+    items.push(`💡 **LED Mirror IP44** – ${isEN ? "Backlit, dimmable. " : "Hinterbeleuchtet, dimmbar. "}${approx} 80–300€.
 ${shopLinks("led spiegel bad ip44 dimmbar", "led spiegel bad")}`);
 
   if (ctx.match(/mikrozement|beton/))
-    items.push(`🏛️ **Mikrozement Set 10m²** – Haftgrund + Mikrozement + Versiegelung. Ca. 200–400€.
+    items.push(`🏛️ **${isEN ? "Microcement Kit 10m²" : "Mikrozement Set 10m²"}** – ${isEN ? "Primer + microcement + sealer. " : "Haftgrund + Mikrozement + Versiegelung. "}${approx} 200–400€.
 ${shopLinks("mikrozement set komplett boden wand", "mikrozement set")}`);
 
   if (ctx.match(/farbe|streichen|wandfarbe/))
-    items.push(`🎨 **Wandfarbe Premium matt** – Alpina oder Schöner Wohnen. Ca. 20–60€.
+    items.push(`🎨 **${isEN ? "Premium Matt Wall Paint" : "Wandfarbe Premium matt"}** – ${isEN ? "Alpina or Schöner Wohnen. " : "Alpina oder Schöner Wohnen. "}${approx} 20–60€.
 ${shopLinks("wandfarbe matt premium alpina", "wandfarbe innen matt")}`);
 
   if (ctx.match(/parkett|boden|laminat|vinyl/))
-    items.push(`🪵 **SPC-Vinyl / Laminat** – Klicksystem, wasserfest. Ca. 15–35€/m².
+    items.push(`🪵 **${isEN ? "SPC Vinyl / Laminate" : "SPC-Vinyl / Laminat"}** – ${isEN ? "Click system, waterproof. " : "Klicksystem, wasserfest. "}${approx} 15–35€/m².
 ${shopLinks("spc vinyl klick boden wasserfest", "vinyl laminat klick boden")}`);
 
   if (ctx.match(/tapete|tapezier/))
-    items.push(`🌿 **Tapete Premium** – Vliestapete, einfach zu verarbeiten. Ca. 20–60€/Rolle.
+    items.push(`🌿 **${isEN ? "Premium Wallpaper" : "Tapete Premium"}** – ${isEN ? "Non-woven, easy to hang. " : "Vliestapete, einfach zu verarbeiten. "}${approx} 20–60€/roll.
 ${shopLinks("vliestapete premium wohnzimmer", "vliestapete")}`);
 
   if (ctx.match(/terrasse|wpc|dielen/))
-    items.push(`🌴 **WPC-Dielen Set** – Inkl. Stelzlager und Clips. Ca. 35–65€/m².
+    items.push(`🌴 **${isEN ? "Composite Decking Set" : "WPC-Dielen Set"}** – ${isEN ? "Incl. clips + pedestals. " : "Inkl. Stelzlager und Clips. "}${approx} 35–65€/m².
 ${shopLinks("wpc dielen terrasse stelzlager set", "wpc dielen terrasse")}`);
 
-  if (ctx.match(/grill|bbq|außenküche/))
-    items.push(`🔥 **Gasgrill Outdoor** – 3-Brenner, inkl. Seitenkocher. Ca. 300–1.500€.
+  if (ctx.match(/grill|bbq/))
+    items.push(`🔥 **${isEN ? "Outdoor Gas Grill" : "Gasgrill Outdoor"}** – ${isEN ? "3-burner, incl. side cooker. " : "3-Brenner, inkl. Seitenkocher. "}${approx} 300–1.500€.
 ${shopLinks("gasgrill outdoor 3 brenner edelstahl", "gasgrill outdoor")}`);
 
   if (ctx.match(/pergola/))
-    items.push(`🌿 **Pergola Bausatz** – Douglasie, wetterfest. Ca. 400–1.500€.
+    items.push(`🌿 **${isEN ? "Pergola Kit" : "Pergola Bausatz"}** – ${isEN ? "Douglas fir, weather-resistant. " : "Douglasie, wetterfest. "}${approx} 400–1.500€.
 ${shopLinks("pergola bausatz douglasie holz", "pergola bausatz holz")}`);
 
   if (ctx.match(/rigips|trockenbau|wand bauen/))
-    items.push(`🏗️ **Trockenbau Set** – CW/UW-Profile + Rigipsplatten + Schrauben. Ca. 8–15€/m².
+    items.push(`🏗️ **${isEN ? "Drywalling Kit" : "Trockenbau Set"}** – ${isEN ? "CW/UW tracks + plasterboard + screws. " : "CW/UW-Profile + Rigipsplatten + Schrauben. "}${approx} 8–15€/m².
 ${shopLinks("rigips ständerwerk trockenbau set", "trockenbau set rigips")}`);
 
   if (ctx.match(/spiegel/))
-    items.push(`🪞 **Rundspiegel / LED-Spiegel** – Messing oder Mattschwarz. Ca. 80–400€.
+    items.push(`🪞 **${isEN ? "Round / LED Mirror" : "Rundspiegel / LED-Spiegel"}** – ${isEN ? "Brass or matte black. " : "Messing oder Mattschwarz. "}${approx} 80–400€.
 ${shopLinks("spiegel rund messing bad wohnzimmer", "spiegel rund bad")}`);
 
-  // Fallback Style-Materialien
+  // Fallback style-based materials
   if (items.length === 0) {
     const SM = {
       "bad-modern": [
-        `🪨 **Feinsteinzeug Anthrazit 120×60cm** – Ca. 35–55€/m².
+        `🪨 **${isEN ? "Anthracite Porcelain Tile 120×60cm" : "Feinsteinzeug Anthrazit 120×60cm"}** – ${approx} 35–55€/m².
 ${shopLinks("feinsteinzeug anthrazit 120x60", "feinsteinzeug anthrazit")}`,
-        `🚿 **Grohe Armatur Mattschwarz** – Ca. 200–450€.
+        `🚿 **${isEN ? "Matte Black Grohe Tap" : "Grohe Armatur Mattschwarz"}** – ${approx} 200–450€.
 ${shopLinks("grohe armatur mattschwarz", "armatur mattschwarz")}`,
-        `💡 **LED-Spiegel IP44** – Ca. 150–400€.
+        `💡 **LED Mirror IP44** – ${approx} 150–400€.
 ${shopLinks("led spiegel bad ip44 hinterbeleuchtet", "led spiegel bad")}`,
-        `🪵 **Waschtisch Teak wandhängend** – Ca. 600–1.200€.
+        `🪵 **${isEN ? "Wall-Hung Teak Vanity" : "Waschtisch Teak wandhängend"}** – ${approx} 600–1.200€.
 ${shopLinks("waschtisch teak wandmontage", "waschtisch holz")}`,
       ],
       "bad-warm": [
-        `🟫 **Zellige Metro-Fliesen 7,5×15cm** – Ca. 40–80€/m².
+        `🟫 **${isEN ? "Zellige Metro Tiles 7.5×15cm" : "Zellige Metro-Fliesen 7,5×15cm"}** – ${approx} 40–80€/m².
 ${shopLinks("zellige fliesen metro weiß handgemacht", "metro fliesen bad")}`,
-        `🪵 **Eiche Waschtisch 80cm** – Ca. 400–900€.
+        `🪵 **${isEN ? "Oak Vanity 80cm" : "Eiche Waschtisch 80cm"}** – ${approx} 400–900€.
 ${shopLinks("waschtisch eiche massiv bad", "waschtisch eiche")}`,
-        `✨ **Hansgrohe Armatur Gold** – Ca. 250–500€.
+        `✨ **${isEN ? "Hansgrohe Gold Tap" : "Hansgrohe Armatur Gold"}** – ${approx} 250–500€.
 ${shopLinks("hansgrohe armatur gold gebürstet", "armatur gold bad")}`,
       ],
       "bad-mikro": [
-        `🏛️ **Mikrozement Set 10m²** – Ca. 200–400€.
+        `🏛️ **${isEN ? "Microcement Kit 10m²" : "Mikrozement Set 10m²"}** – ${approx} 200–400€.
 ${shopLinks("mikrozement set komplett bad boden", "mikrozement bad")}`,
-        `🖤 **Armatur Mattschwarz** – Ca. 150–400€.
+        `🖤 **${isEN ? "Matte Black Mixer Tap" : "Armatur Mattschwarz"}** – ${approx} 150–400€.
 ${shopLinks("armatur mattschwarz bad unterputz", "armatur mattschwarz")}`,
-        `💡 **LED-Spiegel rechteckig** – Ca. 120–350€.
+        `💡 **${isEN ? "Rectangular LED Mirror" : "LED-Spiegel rechteckig"}** – ${approx} 120–350€.
 ${shopLinks("led spiegel bad rechteckig dimmbar", "led spiegel bad")}`,
       ],
       "kueche-navy": [
-        `🎨 **Haftgrund + Seidenmatt Lack** – Zinsser BIN + Jotun. Ca. 60–120€.
+        `🎨 **${isEN ? "Primer + Satin Lacquer" : "Haftgrund + Seidenmatt Lack"}** – ${isEN ? "Zinsser BIN + Jotun. " : "Zinsser BIN + Jotun. "}${approx} 60–120€.
 ${shopLinks("zinsser bin haftgrund küche lackieren", "haftgrund küchenfronten")}`,
-        `✨ **Messing Griffe 128mm** – Ca. 50–120€.
+        `✨ **${isEN ? "Brass Handles 128mm" : "Messing Griffe 128mm"}** – ${approx} 50–120€.
 ${shopLinks("küchen griffe messing gebürstet 128mm set", "küchen griffe messing")}`,
-        `🪨 **Calacatta Arbeitsplatte** – Quarz oder Feinsteinzeug. Ca. 200–600€.
+        `🪨 **${isEN ? "Calacatta Worktop" : "Calacatta Arbeitsplatte"}** – ${isEN ? "Quartz or porcelain. " : "Quarz oder Feinsteinzeug. "}${approx} 200–600€.
 ${shopLinks("quarz arbeitsplatte calacatta küche", "arbeitsplatte marmor optik")}`,
-        `💡 **LED-Strip 2700K Küche** – Ca. 30–60€.
+        `💡 **${isEN ? "LED Strip 2700K Kitchen" : "LED-Strip 2700K Küche"}** – ${approx} 30–60€.
 ${shopLinks("led strip küche unterschrank 2700k", "led strip küche")}`,
       ],
       "kueche-grau": [
-        `🎨 **Seidenmatt Lack Grau** – RAL 7035 oder 7016. Ca. 30–80€.
+        `🎨 **${isEN ? "Satin Grey Lacquer" : "Seidenmatt Lack Grau"}** – RAL 7035 ${isEN ? "or" : "oder"} 7016. ${approx} 30–80€.
 ${shopLinks("küche lack grau seidenmatt ral", "lack küche grau")}`,
-        `🪨 **Quarz Arbeitsplatte weiß** – Ca. 200–500€.
+        `🪨 **${isEN ? "White Quartz Worktop" : "Quarz Arbeitsplatte weiß"}** – ${approx} 200–500€.
 ${shopLinks("quarz arbeitsplatte weiß küche silestone", "quarz arbeitsplatte küche")}`,
-        `💡 **LED-Strip Neutralweiß 4000K** – Ca. 25–55€.
+        `💡 **LED Strip 4000K** – ${approx} 25–55€.
 ${shopLinks("led strip 4000k neutralweiß küche", "led strip küche neutralweiß")}`,
       ],
       "kueche-gruen": [
-        `🌿 **Seidenmatt Lack Salbeigrün** – RAL 6021. Ca. 30–80€.
+        `🌿 **${isEN ? "Sage Green Satin Lacquer" : "Seidenmatt Lack Salbeigrün"}** – RAL 6021. ${approx} 30–80€.
 ${shopLinks("lack salbeigrün küche seidenmatt ral 6021", "lack küche grün")}`,
-        `✨ **Messing Cup Pulls** – Ca. 40–100€.
+        `✨ **${isEN ? "Brass Cup Pulls" : "Messing Cup Pulls"}** – ${approx} 40–100€.
 ${shopLinks("küchen griffe cup pull messing alt", "küchen griffe messing cup")}`,
-        `🪵 **Live Edge Wandregal Eiche** – Ca. 80–200€.
+        `🪵 **${isEN ? "Live Edge Oak Shelf" : "Live Edge Wandregal Eiche"}** – ${approx} 80–200€.
 ${shopLinks("wandregal massivholz eiche live edge küche", "wandregal massivholz küche")}`,
       ],
       "wohn-gruen": [
-        `🌿 **Wandfarbe Flaschengrün matt** – Alpina. Ca. 25–60€.
+        `🌿 **${isEN ? "Bottle Green Matt Paint" : "Wandfarbe Flaschengrün matt"}** – Alpina. ${approx} 25–60€.
 ${shopLinks("wandfarbe flaschengrün dunkelgrün matt alpina", "wandfarbe dunkelgrün")}`,
-        `🪵 **Fluted Panel MDF** – Ca. 30–60€/m².
+        `🪵 **Fluted MDF Panel** – ${approx} 30–60€/m².
 ${shopLinks("wandpaneele mdf fluted panel holzoptik", "wandpaneele mdf fluted")}`,
-        `💡 **LED-Strip 2700K Cove** – Ca. 25–50€.
+        `💡 **LED Strip 2700K Cove** – ${approx} 25–50€.
 ${shopLinks("led strip 2700k warmweiß dimmbar cove", "led strip 2700k")}`,
-        `🛋️ **Bouclé Kissenbezüge** – Ca. 20–60€.
+        `🛋️ **${isEN ? "Bouclé Cushion Covers" : "Bouclé Kissenbezüge"}** – ${approx} 20–60€.
 ${shopLinks("bouclé kissenbezug creme wohnzimmer", "kissen bouclé wohnzimmer")}`,
       ],
       "wohn-terra": [
-        `🎨 **Wandfarbe Terrakotta** – Alpina Florentiner Erde. Ca. 20–45€.
+        `🎨 **${isEN ? "Terracotta Wall Paint" : "Wandfarbe Terrakotta"}** – Alpina ${isEN ? "Florentine Earth" : "Florentiner Erde"}. ${approx} 20–45€.
 ${shopLinks("wandfarbe terrakotta alpina florentiner erde", "wandfarbe terrakotta")}`,
-        `🪑 **Rattan Sessel** – Ca. 150–500€.
+        `🪑 **${isEN ? "Rattan Armchair" : "Rattan Sessel"}** – ${approx} 150–500€.
 ${shopLinks("rattan sessel wohnzimmer natur", "rattan sessel")}`,
-        `🟫 **Jute Teppich 200×300** – Ca. 80–250€.
+        `🟫 **${isEN ? "Jute Rug 200×300" : "Jute Teppich 200×300"}** – ${approx} 80–250€.
 ${shopLinks("jute teppich naturfarben 200x300", "jute teppich groß")}`,
       ],
       "schlaf-terra": [
-        `🎨 **Wandfarbe Terrakotta** – Ca. 20–45€.
+        `🎨 **${isEN ? "Terracotta Wall Paint" : "Wandfarbe Terrakotta"}** – ${approx} 20–45€.
 ${shopLinks("wandfarbe terrakotta schlafzimmer warm", "wandfarbe terrakotta")}`,
-        `🛏️ **Bouclé Stoff für Kopfteil** – Ca. 15–30€/m².
+        `🛏️ **${isEN ? "Bouclé Fabric for Headboard" : "Bouclé Stoff für Kopfteil"}** – ${approx} 15–30€/m².
 ${shopLinks("bouclé stoff polsterstoff creme meterware", "bouclé stoff meterware")}`,
-        `💡 **Wandleuchten Messing 2x** – Ca. 80–200€.
+        `💡 **${isEN ? "Brass Wall Sconces ×2" : "Wandleuchten Messing 2x"}** – ${approx} 80–200€.
 ${shopLinks("wandleuchte messing schlafzimmer gelenkarm", "wandleuchte messing bett")}`,
       ],
       "schlaf-dunkel": [
-        `🎨 **Wandfarbe Nachtblau / Anthrazit** – Ca. 25–60€.
+        `🎨 **${isEN ? "Navy / Anthracite Wall Paint" : "Wandfarbe Nachtblau / Anthrazit"}** – ${approx} 25–60€.
 ${shopLinks("wandfarbe nachtblau dunkel matt premium", "wandfarbe dunkelblau")}`,
-        `🪟 **Samtvorhänge bodenlang** – Ca. 80–200€.
+        `🪟 **${isEN ? "Floor-Length Velvet Curtains" : "Samtvorhänge bodenlang"}** – ${approx} 80–200€.
 ${shopLinks("samtvorhang velvet dunkel bodenlang öse", "samtvorhang dunkel")}`,
-        `💡 **LED-Cove Strip 2200K** – Ca. 30–70€.
+        `💡 **LED Cove Strip 2200K** – ${approx} 30–70€.
 ${shopLinks("led strip 2200k extra warmweiß dimmbar", "led strip extra warmweiß")}`,
       ],
       "terrasse-wpc": [
-        `🌴 **WPC-Dielen Set 10m²** – Inkl. Clips + Stelzlager. Ca. 35–65€/m².
+        `🌴 **${isEN ? "Composite Decking Set 10m²" : "WPC-Dielen Set 10m²"}** – ${isEN ? "Incl. clips + pedestals. " : "Inkl. Clips + Stelzlager. "}${approx} 35–65€/m².
 ${shopLinks("wpc dielen terrasse 10m2 stelzlager clips", "wpc dielen terrasse set")}`,
-        `☀️ **Outdoor Lounge Set** – Polyrattan, Sunbrella-Kissen. Ca. 400–1.200€.
+        `☀️ **${isEN ? "Outdoor Lounge Set" : "Outdoor Lounge Set"}** – ${isEN ? "Polyrattan, Sunbrella cushions. " : "Polyrattan, Sunbrella-Kissen. "}${approx} 400–1.200€.
 ${shopLinks("outdoor lounge polyrattan set sunbrella terrasse", "outdoor lounge set")}`,
-        `✨ **Solar Lichterketten 2200K** – Ca. 20–60€.
+        `✨ **${isEN ? "Solar String Lights 2200K" : "Solar Lichterketten 2200K"}** – ${approx} 20–60€.
 ${shopLinks("solar lichterketten warmweiß außen terrasse", "lichterketten solar außen")}`,
-        `🌿 **Olivenbaum + Terrakotta Topf** – Ca. 80–300€.
+        `🌿 **${isEN ? "Olive Tree + Terracotta Pot" : "Olivenbaum + Terrakotta Topf"}** – ${approx} 80–300€.
 ${shopLinks("olivenbaum groß topf terrasse balkon", "olivenbaum terrakotta topf")}`,
       ],
     };

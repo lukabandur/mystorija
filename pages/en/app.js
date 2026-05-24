@@ -606,7 +606,7 @@ function renderMaterialien(text) {
         </div>
       ))}
       <p style={{ fontSize:11, color:C.muted, marginTop:8, fontStyle:"italic" }}>
-        💾 Save → Links im Planer klickbar
+        💾 Save → Links clickable in Planner
       </p>
       <Analytics />
     </>
@@ -623,9 +623,9 @@ const STILE_MAKEOVER = [
   { id:"kueche-gruen",  emoji:"🍳", label:"Kitchen: Sage Green" },
   { id:"wohn-gruen",    emoji:"🛋️", label:"Living Room: Green" },
   { id:"wohn-terra",    emoji:"🛋️", label:"Living Room: Terracotta" },
-  { id:"schlaf-terra",  emoji:"🛏️", label:"Schlafzimmer: Terrakotta" },
-  { id:"schlaf-dunkel", emoji:"🛏️", label:"Schlafzimmer: Dunkel" },
-  { id:"terrasse-wpc",  emoji:"🌿", label:"Terrasse: WPC & Lounge" },
+  { id:"schlaf-terra",  emoji:"🛏️", label:"Bedroom: Terracotta" },
+  { id:"schlaf-dunkel", emoji:"🛏️", label:"Bedroom: Dark" },
+  { id:"terrasse-wpc",  emoji:"🌿", label:"Terrace: WPC & Lounge" },
 ];
 
 function compressImageFile(file) {
@@ -875,6 +875,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
             chatContext: wunsch||null,
             plan: plan||"free",
             dimensions: (laenge && breite) ? { laenge, breite, hoehe: hoehe||"2.4" } : null,
+            lang: "en",
           }),
         });
         if (!res.ok) {
@@ -941,7 +942,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
       const preis = mat.price || mat.preis;
       const bereich = mat.area || mat.bereich;
       const farbe = mat.color || mat.farbe;
-      return `🪨 **${mat.material}** – ${bereich}${farbe ? `, ${farbe}` : ""}${preis ? ` · Ca. ${preis}` : ""}.${amazonLink}`;
+      return `🪨 **${mat.material}** – ${bereich}${farbe ? `, ${farbe}` : ""}${preis ? ` · Approx. ${preis}` : ""}.${amazonLink}`;
     }).join("\n");
   }
 
