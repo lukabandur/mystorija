@@ -131,10 +131,59 @@ export default function LandingEN() {
         </div>
       </div>
 
-      {/* MARKETING IMAGES */}
+      {/* MARKETING CARDS (EN) */}
       <div style={{ maxWidth:900, margin:"40px auto 0", padding:"0 20px", display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))", gap:20 }}>
-        <img src="/images/0B12A956-7611-4853-BA4A-BB27E7EE98C0%20(2).png" alt="Mystorija – renovation ideas and guides" style={{ width:"100%", borderRadius:20, boxShadow:"0 8px 40px rgba(0,0,0,0.12)", display:"block" }} loading="lazy" />
-        <img src="/images/BCC60902-D627-4932-94B8-1B7A5004FD64.png" alt="Mystorija – before and after AI makeover" style={{ width:"100%", borderRadius:20, boxShadow:"0 8px 40px rgba(0,0,0,0.12)", display:"block" }} loading="lazy" />
+
+        {/* Card 1 */}
+        <div style={{ background:"#FBF7F3", borderRadius:20, padding:"32px 28px", boxShadow:"0 8px 40px rgba(0,0,0,0.08)", border:"1px solid var(--border)" }}>
+          <p style={{ fontSize:13, fontWeight:700, color:"var(--accent)", textTransform:"uppercase", letterSpacing:"1px", marginBottom:14 }}>🔍 The Problem</p>
+          <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(20px,4vw,26px)", lineHeight:1.3, marginBottom:8 }}>
+            Looking for a tool that gives you <em style={{ color:"var(--accent)" }}>ideas</em>… and <em style={{ color:"var(--accent)" }}>guides</em> to renovate?
+          </h3>
+          <div style={{ background:"var(--accent)", color:"white", borderRadius:50, padding:"10px 20px", display:"inline-block", fontWeight:700, fontSize:15, margin:"14px 0 20px" }}>
+            Then Mystorija is the right choice!
+          </div>
+          <div style={{ display:"flex", flexDirection:"column", gap:10, marginBottom:20 }}>
+            {[["💡","AI ideas for every room"],["📋","Step-by-step guides"],["🛒","Materials & costs at a glance"],["🏆","Tips, tricks & expert knowledge"]].map(([icon,text]) => (
+              <div key={text} style={{ display:"flex", alignItems:"center", gap:10 }}>
+                <span style={{ background:"var(--accent)", color:"white", borderRadius:50, width:28, height:28, display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, flexShrink:0 }}>{icon}</span>
+                <span style={{ fontSize:14, fontWeight:500 }}>{text}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{ background:"var(--accent-bg)", borderRadius:14, padding:"14px 16px", borderLeft:"3px solid var(--accent)" }}>
+            <p style={{ fontSize:14, fontWeight:600, color:"var(--text)" }}>Everything you need for your project –<br /><strong style={{ color:"var(--accent)" }}>in one app.</strong></p>
+          </div>
+        </div>
+
+        {/* Card 2 */}
+        <div style={{ background:"#1A1A1A", borderRadius:20, padding:"32px 28px", boxShadow:"0 8px 40px rgba(0,0,0,0.2)" }}>
+          <p style={{ fontSize:13, fontWeight:700, color:"var(--accent)", textTransform:"uppercase", letterSpacing:"1px", marginBottom:14 }}>✨ The Solution</p>
+          <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(18px,3.5vw,24px)", color:"white", lineHeight:1.35, marginBottom:14 }}>
+            You love an interior look, but don't know <em style={{ color:"var(--accent)" }}>where to find it</em> or how to recreate it?
+          </h3>
+          <div style={{ background:"var(--accent)", color:"white", borderRadius:50, padding:"8px 18px", display:"inline-block", fontWeight:700, fontSize:14, marginBottom:20 }}>
+            Here's the solution 💡
+          </div>
+          <div style={{ display:"flex", flexDirection:"column", gap:10, marginBottom:22 }}>
+            {[["📸","Upload a photo – room or interior"],["✨","AI design ideas in seconds"],["📋","Step-by-step guides"],["🛒","Materials, shops & costs"]].map(([icon,text]) => (
+              <div key={text} style={{ display:"flex", alignItems:"center", gap:10 }}>
+                <span style={{ background:"#333", color:"var(--accent)", borderRadius:50, width:28, height:28, display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, flexShrink:0 }}>{icon}</span>
+                <span style={{ fontSize:14, color:"#ddd" }}>{text}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{ borderTop:"1px solid #333", paddingTop:16 }}>
+            <p style={{ fontFamily:"'Playfair Display',serif", fontSize:18, color:"white", marginBottom:4 }}>My<span style={{ color:"var(--accent)" }}>storija</span></p>
+            <p style={{ fontSize:12, color:"#888", marginBottom:12 }}>Your Home. Your Idea. Our AI.</p>
+            <div style={{ display:"flex", flexWrap:"wrap", gap:8 }}>
+              {["Simple","Fast","Personal","Professional","Affordable"].map(t => (
+                <span key={t} style={{ fontSize:11, color:"var(--accent)", fontWeight:700 }}>✓ {t}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+
       </div>
 
       {/* STATS */}
