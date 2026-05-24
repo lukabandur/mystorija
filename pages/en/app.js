@@ -2791,12 +2791,23 @@ export default function HomeEN() {
             
           </div>
         </div>
-        {/* iOS install hint — shown in Safari before app is installed */}
-        {typeof window !== "undefined" && /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.navigator.standalone && (
-          <div style={{ background:C.accentBg, borderBottom:`1px solid ${C.accent}33`, padding:"8px 16px", display:"flex", alignItems:"center", justifyContent:"space-between", gap:10, flexShrink:0 }}>
-            <span style={{ fontSize:12, color:C.accent, fontWeight:600 }}>📲 Add to Home Screen: tap <strong>Share ⬆</strong> → "Add to Home Screen"</span>
-          </div>
-        )}
+        {/* Install hint per platform */}
+        {typeof window !== "undefined" && !window.navigator.standalone && (() => {
+          const ua = navigator.userAgent;
+          const isIOS = /iphone|ipad|ipod/i.test(ua);
+          const isDesktop = !/android|iphone|ipad|ipod/i.test(ua);
+          if (isIOS) return (
+            <div style={{ background:C.accentBg, borderBottom:`1px solid ${C.accent}33`, padding:"8px 16px", flexShrink:0 }}>
+              <span style={{ fontSize:12, color:C.accent, fontWeight:600 }}>📲 Add to Home Screen: tap <strong>Share ⬆</strong> → "Add to Home Screen"</span>
+            </div>
+          );
+          if (isDesktop) return (
+            <div style={{ background:C.accentBg, borderBottom:`1px solid ${C.accent}33`, padding:"8px 16px", flexShrink:0 }}>
+              <span style={{ fontSize:12, color:C.accent, fontWeight:600 }}>💻 Install as app: address bar → <strong>⊕ Install</strong> · or click "📲 Install" above</span>
+            </div>
+          );
+          return null;
+        })()}
         <div style={{ flex:1, overflow:"hidden", position:"relative" }}>
           <div style={{ display:activeTab==="makeover"?"flex":"none", height:"100%", overflow:"hidden" }}>
             <MakeoverTab
