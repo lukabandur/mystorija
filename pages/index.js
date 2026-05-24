@@ -5,15 +5,12 @@ export default function Landing() {
   const [installPrompt, setInstallPrompt] = useState(null);
   const [installed, setInstalled] = useState(false);
 
-  const [showInstallHelp, setShowInstallHelp] = useState(false);
-  const isIOS = typeof navigator !== "undefined" && /iphone|ipad|ipod/i.test(navigator.userAgent);
-
   useEffect(() => {
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
-    if (window.__dip) { setInstallPrompt(window.__dip); }
+    if (window.__dip) setInstallPrompt(window.__dip);
     const handler = (e) => { e.preventDefault(); setInstallPrompt(e); window.__dip = e; };
     window.addEventListener("beforeinstallprompt", handler);
-    window.addEventListener("appinstalled", () => { setInstalled(true); setShowInstallHelp(false); });
+    window.addEventListener("appinstalled", () => setInstalled(true));
     return () => window.removeEventListener("beforeinstallprompt", handler);
   }, []);
 
@@ -23,44 +20,13 @@ export default function Landing() {
       const { outcome } = await installPrompt.userChoice;
       if (outcome === "accepted") { setInstallPrompt(null); setInstalled(true); }
     } else {
-      setShowInstallHelp(true);
+      window.location.href = "/app";
     }
   }
 
   return (
     <>
       <script dangerouslySetInnerHTML={{ __html: `window.__dip=null;window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__dip=e;});` }} />
-
-      {showInstallHelp && (
-        <div onClick={() => setShowInstallHelp(false)} style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.5)", zIndex:9999, display:"flex", alignItems:"flex-end", justifyContent:"center" }}>
-          <div onClick={e => e.stopPropagation()} style={{ background:"white", borderRadius:"20px 20px 0 0", padding:"28px 24px 36px", width:"100%", maxWidth:500 }}>
-            <div style={{ width:40, height:4, background:"#ddd", borderRadius:2, margin:"0 auto 20px" }} />
-            <h3 style={{ fontFamily:"serif", fontSize:20, marginBottom:6 }}>📲 Mystorija installieren</h3>
-            <p style={{ fontSize:13, color:"#888", marginBottom:20 }}>Füge die App zum Home-Bildschirm hinzu – kein App Store nötig.</p>
-            {isIOS ? (
-              <div>
-                {[["1","Safari öffnen (falls noch nicht)"],["2","Teilen-Button ⬆ unten antippen"],["3","Nach unten scrollen → 'Zum Home-Bildschirm'"],["4","'Hinzufügen' tippen – fertig! ✓"]].map(([n,t]) => (
-                  <div key={n} style={{ display:"flex", gap:12, alignItems:"flex-start", marginBottom:12 }}>
-                    <span style={{ background:"#C4622D", color:"white", borderRadius:50, width:24, height:24, display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:700, flexShrink:0 }}>{n}</span>
-                    <p style={{ fontSize:14, paddingTop:3 }}>{t}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div>
-                {[["1","Chrome öffnen (falls noch nicht)"],["2","⋮ Menü oben rechts antippen"],["3","'App installieren' oder 'Zum Startbildschirm'"],["4","Bestätigen – fertig! ✓"]].map(([n,t]) => (
-                  <div key={n} style={{ display:"flex", gap:12, alignItems:"flex-start", marginBottom:12 }}>
-                    <span style={{ background:"#C4622D", color:"white", borderRadius:50, width:24, height:24, display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:700, flexShrink:0 }}>{n}</span>
-                    <p style={{ fontSize:14, paddingTop:3 }}>{t}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-            <button onClick={() => setShowInstallHelp(false)} style={{ marginTop:16, width:"100%", padding:"13px", background:"#C4622D", color:"white", borderRadius:50, border:"none", fontSize:15, fontWeight:700, cursor:"pointer" }}>Verstanden</button>
-          </div>
-        </div>
-      )}
-
       <Head>
         <title>Mystorija – KI-Renovierung für dein Zuhause</title>
         <meta name="description" content="Foto hochladen – KI generiert deine Traumrenovierung in Sekunden. 97 Ideen, 25 Anleitungen, Materialien sofort kaufen." />
