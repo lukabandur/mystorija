@@ -1,12 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 
 export default function LandingEN() {
+  const [installPrompt, setInstallPrompt] = useState(null);
+  const [installed, setInstalled] = useState(false);
+
+  useEffect(() => {
+    const handler = (e) => { e.preventDefault(); setInstallPrompt(e); };
+    window.addEventListener("beforeinstallprompt", handler);
+    window.addEventListener("appinstalled", () => setInstalled(true));
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
+
+  async function triggerInstall() {
+    if (installPrompt) {
+      installPrompt.prompt();
+      const { outcome } = await installPrompt.userChoice;
+      if (outcome === "accepted") { setInstallPrompt(null); setInstalled(true); }
+    } else {
+      window.location.href = "/en/app";
+    }
+  }
+
   return (
     <>
       <Head>
         <title>Mystorija – AI Home Renovation</title>
-        <meta name="description" content="Upload photo – KI generiert deine Traumrenovierung in Sekunden. 97 Ideen, 25 Guides, Materialien sofort kaufen." />
+        <meta name="description" content="Upload a photo – AI generates your dream renovation in seconds. 97 ideas, 25 guides, materials to buy instantly." />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#C4622D" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -36,7 +56,7 @@ export default function LandingEN() {
         <div style={{ display:"flex", gap:10, alignItems:"center" }}>
           <a href="/" style={{ fontSize:12, fontWeight:700, color:"var(--muted)", textDecoration:"none", padding:"7px 12px", borderRadius:20, border:"1.5px solid var(--border)", background:"var(--bg)" }}>🇩🇪 Deutsch</a>
           <a className="btn-secondary hide-mobile" href="/en/app" style={{ fontSize:13, padding:"8px 18px" }}>Open app</a>
-          <a className="btn-primary" href="/en/app" style={{ fontSize:13, padding:"8px 18px" }}>Kostenlos starten ✨</a>
+          <a className="btn-primary" href="/en/app" style={{ fontSize:13, padding:"8px 18px" }}>Start free ✨</a>
         </div>
       </nav>
 
@@ -53,7 +73,9 @@ export default function LandingEN() {
         </p>
         <div style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap" }}>
           <a className="btn-primary" href="/en/app" style={{ fontSize:15, padding:"14px 28px" }}>✨ Start for free</a>
-          <a className="btn-secondary" href="#features" style={{ fontSize:15, padding:"14px 28px" }}>Learn more</a>
+          <button onClick={triggerInstall} style={{ display:"inline-flex", alignItems:"center", gap:8, background:"var(--card)", color:"var(--text)", padding:"14px 28px", borderRadius:50, fontSize:15, fontWeight:600, border:"1.5px solid var(--border)", cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
+            📲 {installed ? "Installed ✓" : "Install app"}
+          </button>
         </div>
       </section>
 
@@ -85,6 +107,22 @@ export default function LandingEN() {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* INSTALL STRIP */}
+      <div style={{ maxWidth:560, margin:"16px auto 0", padding:"0 20px" }}>
+        <div style={{ background:"var(--accent-bg)", border:"1px solid #f0c9b0", borderRadius:14, padding:"12px 18px", display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, flexWrap:"wrap" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+            <span style={{ fontSize:22 }}>📲</span>
+            <div>
+              <p style={{ fontSize:13, fontWeight:700, color:"var(--text)" }}>Install as app – no App Store needed</p>
+              <p style={{ fontSize:12, color:"var(--muted)" }}>iPhone: tap Share ⬆ → "Add to Home Screen" · Android: tap "Install app" above</p>
+            </div>
+          </div>
+          <button onClick={triggerInstall} style={{ flexShrink:0, background:"var(--accent)", color:"white", padding:"9px 18px", borderRadius:50, fontSize:13, fontWeight:700, border:"none", cursor:"pointer", fontFamily:"'DM Sans',sans-serif", whiteSpace:"nowrap" }}>
+            {installed ? "✓ Installed" : "Install →"}
+          </button>
         </div>
       </div>
 
@@ -339,13 +377,6 @@ export default function LandingEN() {
             </div>
           </div>
         </div>
-      </section>
-      <section style={{ background:"var(--accent)", padding:"60px 24px", textAlign:"center" }}>
-        <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:32, color:"white", marginBottom:12 }}>Add to your homescreen</h2>
-        <p style={{ fontSize:16, color:"rgba(255,255,255,0.85)", maxWidth:480, margin:"0 auto 28px", lineHeight:1.7 }}>Mystorija works like a native app – installable on iPhone and Android. No App Store needed.</p>
-        <a href="/en/app" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"white", color:"var(--accent)", padding:"14px 28px", borderRadius:50, fontSize:15, fontWeight:700, textDecoration:"none" }}>
-          📲 Open & install app
-        </a>
       </section>
 
       

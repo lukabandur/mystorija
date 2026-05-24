@@ -1855,7 +1855,7 @@ function PlanerTab({ lang = "de", savedMakeovers }) {
   return (
     <div style={{ display:"flex", flexDirection:"column", height:"100%", overflow:"hidden" }}>
       <div style={{ display:"flex", borderBottom:`1px solid ${C.border}`, background:C.card, flexShrink:0 }}>
-        {[["plaene","📋 Projekte"],["eigene","✏️ Eigene"],["einkauf","🛒 Einkauf"]].map(([id,label])=>(
+        {[["plaene","📋 Projects"],["eigene","✏️ My Plans"],["einkauf","🛒 Shopping"]].map(([id,label])=>(
           <button key={id} onClick={()=>setAnsicht(id)} style={{ flex:1, padding:"12px 8px", background:"transparent", border:"none", borderBottom:`2px solid ${ansicht===id?C.accent:"transparent"}`, color:ansicht===id?C.accent:C.muted, fontSize:13, fontWeight:ansicht===id?600:400, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>{label}</button>
         ))}
       </div>
