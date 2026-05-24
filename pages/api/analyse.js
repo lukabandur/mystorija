@@ -44,7 +44,7 @@ export default async function handler(req, res) {
           role: "user",
           content: [
             { type: "image", source: { type: "base64", media_type: media, data: b64 } },
-            { type: "text", text: "Analysiere dieses Bild. Antworte nur mit dem JSON-Objekt." },
+            { type: "text", text: lang === "en" ? "Analyze this image. Respond with the JSON object only." : "Analysiere dieses Bild. Antworte nur mit dem JSON-Objekt." },
           ],
         }],
       }),
@@ -53,13 +53,13 @@ export default async function handler(req, res) {
     if (!response.ok) {
       const errText = await response.text();
       console.error("Anthropic error:", response.status, errText);
-      return res.status(200).json({ error: `API Fehler ${response.status}: ${response.statusText}` });
+      return res.status(200).json({ error: lang === "en" ? `API error ${response.status}: ${response.statusText}` : `API Fehler ${response.status}: ${response.statusText}` });
     }
 
     const data = await response.json();
     const raw = data.content?.map(b => b.text || "").join("").trim();
 
-    if (!raw) return res.status(200).json({ error: "Leere Antwort von KI." });
+    if (!raw) return res.status(200).json({ error: lang === "en" ? "No response from AI." : "Leere Antwort von KI." });
 
     // Robust JSON extraction
     let result;
@@ -78,12 +78,13 @@ export default async function handler(req, res) {
       result = JSON.parse(cleaned);
     } catch (parseErr) {
       console.error("Parse error:", parseErr.message, "Raw:", raw.slice(0, 300));
-      return res.status(200).json({ error: "KI-Antwort konnte nicht verarbeitet werden. Bitte erneut versuchen." });
+      return res.status(200).json({ error: lang === "en" ? "Could not process AI response. Please try again." : "KI-Antwort konnte nicht verarbeitet werden. Bitte erneut versuchen." });
     }
 
-    // Validate required fields
-    if (!result.stil || !result.materialien) {
-      return res.status(200).json({ error: "Unvollständige Analyse. Bitte erneut versuchen." });
+    // Validate: require at least a style/mood field — materials may be empty for some images
+    const hasContent = result.stil || result.style || result.stimmung || result.mood;
+    if (!hasContent) {
+      return res.status(200).json({ error: lang === "en" ? "Incomplete analysis. Please try again." : "Unvollständige Analyse. Bitte erneut versuchen." });
     }
 
     res.status(200).json({ analysis: result });
