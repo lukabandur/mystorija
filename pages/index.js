@@ -48,7 +48,7 @@ export default function Landing() {
               </div>
             ) : (
               <div>
-                {[["1","Chrome öffnen (falls noch nicht)"],["2","⋮ Menü oben rechts antippen"],["3","„App installieren" oder „Zum Startbildschirm""],["4","Bestätigen – fertig! ✓"]].map(([n,t]) => (
+                {[["1","Chrome öffnen (falls noch nicht)"],["2","⋮ Menü oben rechts antippen"],["3","'App installieren' oder 'Zum Startbildschirm'"],["4","Bestätigen – fertig! ✓"]].map(([n,t]) => (
                   <div key={n} style={{ display:"flex", gap:12, alignItems:"flex-start", marginBottom:12 }}>
                     <span style={{ background:"#C4622D", color:"white", borderRadius:50, width:24, height:24, display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:700, flexShrink:0 }}>{n}</span>
                     <p style={{ fontSize:14, paddingTop:3 }}>{t}</p>
