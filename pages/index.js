@@ -1,6 +1,28 @@
+import { useState, useEffect } from "react";
 import Head from "next/head";
 
 export default function Landing() {
+  const [installPrompt, setInstallPrompt] = useState(null);
+  const [installed, setInstalled] = useState(false);
+
+  useEffect(() => {
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
+    const handler = (e) => { e.preventDefault(); setInstallPrompt(e); };
+    window.addEventListener("beforeinstallprompt", handler);
+    window.addEventListener("appinstalled", () => setInstalled(true));
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
+
+  async function triggerInstall() {
+    if (installPrompt) {
+      installPrompt.prompt();
+      const { outcome } = await installPrompt.userChoice;
+      if (outcome === "accepted") { setInstallPrompt(null); setInstalled(true); }
+    } else {
+      window.location.href = "/app";
+    }
+  }
+
   return (
     <>
       <Head>
@@ -8,6 +30,8 @@ export default function Landing() {
         <meta name="description" content="Foto hochladen – KI generiert deine Traumrenovierung in Sekunden. 97 Ideen, 25 Anleitungen, Materialien sofort kaufen." />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#C4622D" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icon.svg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
         <style>{`
@@ -52,7 +76,9 @@ export default function Landing() {
         </p>
         <div style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap" }}>
           <a className="btn-primary" href="/app" style={{ fontSize:15, padding:"14px 28px" }}>✨ Jetzt kostenlos testen</a>
-          <a className="btn-secondary" href="#features" style={{ fontSize:15, padding:"14px 28px" }}>Mehr erfahren</a>
+          <button onClick={triggerInstall} style={{ display:"inline-flex", alignItems:"center", gap:8, background:"var(--card)", color:"var(--text)", padding:"14px 28px", borderRadius:50, fontSize:15, fontWeight:600, border:"1.5px solid var(--border)", cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
+            📲 {installed ? "Installiert ✓" : "App installieren"}
+          </button>
         </div>
       </section>
 
@@ -84,6 +110,22 @@ export default function Landing() {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* INSTALL STRIP */}
+      <div style={{ maxWidth:560, margin:"16px auto 0", padding:"0 20px" }}>
+        <div style={{ background:"var(--accent-bg)", border:"1px solid #f0c9b0", borderRadius:14, padding:"12px 18px", display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, flexWrap:"wrap" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+            <span style={{ fontSize:22 }}>📲</span>
+            <div>
+              <p style={{ fontSize:13, fontWeight:700, color:"var(--text)" }}>Als App installieren – kein App Store nötig</p>
+              <p style={{ fontSize:12, color:"var(--muted)" }}>iPhone: Teilen ⬆ → „Zum Home-Bildschirm" · Android: oben „App installieren" tippen</p>
+            </div>
+          </div>
+          <button onClick={triggerInstall} style={{ flexShrink:0, background:"var(--accent)", color:"white", padding:"9px 18px", borderRadius:50, fontSize:13, fontWeight:700, border:"none", cursor:"pointer", fontFamily:"'DM Sans',sans-serif", whiteSpace:"nowrap" }}>
+            {installed ? "✓ Installiert" : "Installieren →"}
+          </button>
         </div>
       </div>
 
