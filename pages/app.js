@@ -2632,12 +2632,14 @@ export default function Home() {
   }
   const [installPrompt, setInstallPrompt] = useState(null);
   const [showInstall, setShowInstall] = useState(false);
+  const [showInstallTip, setShowInstallTip] = useState(false);
 
   // Service Worker + PWA Install
   useEffect(() => {
     if (typeof window !== "undefined" && "serviceWorker" in navigator) {
       navigator.serviceWorker.register("/sw.js").catch(() => {});
     }
+    if (window.__dip) { setInstallPrompt(window.__dip); setShowInstall(true); }
     const handler = (e) => { e.preventDefault(); setInstallPrompt(e); setShowInstall(true); };
     window.addEventListener("beforeinstallprompt", handler);
     return () => window.removeEventListener("beforeinstallprompt", handler);
@@ -2757,9 +2759,40 @@ export default function Home() {
           <span onClick={() => { const t = secretTaps+1; setSecretTaps(t); if(t>=5){setShowSecretInput(true);setSecretTaps(0);} }} style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:700, cursor:"default", userSelect:"none" }}>My<span style={{ color:C.accent }}>storija</span></span>
           <div style={{ display:"flex", gap:8, alignItems:"center" }}>
             {(typeof window === "undefined" || !window.navigator.standalone) && (
-              <button onClick={async () => { if (installPrompt) { installPrompt.prompt(); const r = await installPrompt.userChoice; if (r.outcome==="accepted") setShowInstall(false); }}} style={{ fontSize:11, color:C.accent, fontWeight:700, background:C.accentBg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.accent}33`, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-                📲 Installieren
-              </button>
+              <div style={{ position:"relative" }}>
+                <button onClick={async () => {
+                  if (installPrompt) {
+                    installPrompt.prompt();
+                    const r = await installPrompt.userChoice;
+                    if (r.outcome==="accepted") setShowInstall(false);
+                  } else {
+                    setShowInstallTip(v => !v);
+                  }
+                }} style={{ fontSize:11, color:C.accent, fontWeight:700, background:C.accentBg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.accent}33`, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
+                  📲 Installieren
+                </button>
+                {showInstallTip && typeof window !== "undefined" && (() => {
+                  const ua = navigator.userAgent;
+                  const isIOS = /iphone|ipad|ipod/i.test(ua);
+                  const isAndroid = /android/i.test(ua);
+                  return (
+                    <div onClick={() => setShowInstallTip(false)} style={{ position:"absolute", top:"calc(100% + 8px)", right:0, background:C.card, border:`1px solid ${C.accent}44`, borderRadius:14, padding:"12px 16px", zIndex:9999, boxShadow:"0 6px 24px rgba(0,0,0,0.14)", cursor:"pointer", minWidth:220 }}>
+                      <div style={{ fontSize:12, color:C.accent, fontWeight:700, marginBottom:6 }}>
+                        {isIOS ? "📲 iPhone/iPad" : isAndroid ? "📲 Android" : "💻 Computer"}
+                      </div>
+                      <div style={{ fontSize:13, color:C.text, lineHeight:1.5 }}>
+                        {isIOS
+                          ? <><strong>1.</strong> Teilen-Symbol <strong>⬆</strong> antippen<br/><strong>2.</strong> &ldquo;Zum Home-Bildschirm&rdquo; wahlen</>
+                          : isAndroid
+                          ? <><strong>1.</strong> Chrome-Menu <strong>⋮</strong> oben rechts<br/><strong>2.</strong> &ldquo;App installieren&rdquo; tippen</>
+                          : <><strong>1.</strong> Adressleiste: Symbol <strong>⊕</strong> klicken<br/><strong>2.</strong> &ldquo;Installieren&rdquo; bestatigen</>
+                        }
+                      </div>
+                      <div style={{ fontSize:10, color:C.muted, marginTop:8 }}>Tippen zum Schliessen</div>
+                    </div>
+                  );
+                })()}
+              </div>
             )}
 <button onClick={() => window.location.href="/en/app"} style={{ fontSize:11, fontWeight:700, color:C.muted, background:C.bg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.border}`, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
                 🇬🇧 EN
