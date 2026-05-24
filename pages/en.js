@@ -133,8 +133,8 @@ export default function LandingEN() {
 
       {/* MARKETING IMAGES */}
       <div style={{ maxWidth:900, margin:"40px auto 0", padding:"0 20px", display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))", gap:20 }}>
-        <img src="/images/ad1.jpg" alt="Mystorija – renovation ideas and guides" style={{ width:"100%", borderRadius:20, boxShadow:"0 8px 40px rgba(0,0,0,0.12)", display:"block" }} loading="lazy" />
-        <img src="/images/ad2.jpg" alt="Mystorija – before and after AI makeover" style={{ width:"100%", borderRadius:20, boxShadow:"0 8px 40px rgba(0,0,0,0.12)", display:"block" }} loading="lazy" />
+        <img src="/images/0B12A956-7611-4853-BA4A-BB27E7EE98C0%20(2).png" alt="Mystorija – renovation ideas and guides" style={{ width:"100%", borderRadius:20, boxShadow:"0 8px 40px rgba(0,0,0,0.12)", display:"block" }} loading="lazy" />
+        <img src="/images/BCC60902-D627-4932-94B8-1B7A5004FD64.png" alt="Mystorija – before and after AI makeover" style={{ width:"100%", borderRadius:20, boxShadow:"0 8px 40px rgba(0,0,0,0.12)", display:"block" }} loading="lazy" />
       </div>
 
       {/* STATS */}
