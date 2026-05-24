@@ -2783,6 +2783,12 @@ export default function Home() {
             
           </div>
         </div>
+        {/* iOS Install-Hinweis */}
+        {typeof window !== "undefined" && /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.navigator.standalone && (
+          <div style={{ background:C.accentBg, borderBottom:`1px solid ${C.accent}33`, padding:"8px 16px", display:"flex", alignItems:"center", justifyContent:"space-between", gap:10, flexShrink:0 }}>
+            <span style={{ fontSize:12, color:C.accent, fontWeight:600 }}>📲 Zum Home-Bildschirm: <strong>Teilen ⬆</strong> → „Zum Home-Bildschirm"</span>
+          </div>
+        )}
         <div style={{ flex:1, overflow:"hidden", position:"relative" }}>
           <div style={{ display:activeTab==="makeover"?"flex":"none", height:"100%", overflow:"hidden" }}>
             <MakeoverTab
