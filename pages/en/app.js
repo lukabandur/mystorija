@@ -900,7 +900,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
           fetch("/api/analyse", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ imageBase64: data.imageBase64, mimeType: "image/jpeg" }),
+            body: JSON.stringify({ imageBase64: data.imageBase64, mimeType: "image/jpeg", lang: "en" }),
           }).then(r => r.json()).then(d => {
             if (d.analysis) setMakoverAnalyse(d.analysis);
           }).catch(() => {}).finally(() => setMakoverAnalyseLoading(false));
@@ -919,7 +919,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
       id: Date.now(),
       date: new Date().toLocaleDateString("de-DE"),
       time: new Date().toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"}),
-      titel: wunsch ? wunsch.slice(0,40) : (makoverAnalyse?.stil || "Makeover"),
+      titel: wunsch ? wunsch.slice(0,40) : (makoverAnalyse?.style || makoverAnalyse?.stil || "Makeover"),
       vorherUrl, imgUrl: nachherUrl,
       materials: makoverAnalyse
         ? buildMaterialsFromAnalyse(makoverAnalyse)  // KI-erkannte Materialien bevorzugen
@@ -932,13 +932,16 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
 
   // KI-Analyse in Materialien-Text umwandeln fuer Shopping list
   function buildMaterialsFromAnalyse(analyse) {
-    if (!analyse?.materialien?.length) return materials;
-    return analyse.materialien.map(mat => {
+    const mats = analyse?.materials || analyse?.materialien;
+    if (!mats?.length) return materials;
+    return mats.map(mat => {
       const amazonLink = mat.amazon
         ? ` [Amazon →](https://www.amazon.de/s?k=${encodeURIComponent(mat.amazon)}&tag=mystorija-21)`
         : "";
-      const preis = mat.preis ? ` · Ca. ${mat.preis}` : "";
-      return `🪨 **${mat.material}** – ${mat.bereich}${mat.farbe ? `, ${mat.farbe}` : ""}${preis}.${amazonLink}`;
+      const preis = mat.price || mat.preis;
+      const bereich = mat.area || mat.bereich;
+      const farbe = mat.color || mat.farbe;
+      return `🪨 **${mat.material}** – ${bereich}${farbe ? `, ${farbe}` : ""}${preis ? ` · Ca. ${preis}` : ""}.${amazonLink}`;
     }).join("\n");
   }
 
@@ -1164,12 +1167,12 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                     {/* Header */}
                     <div style={{ padding:"12px 14px", background:`linear-gradient(135deg, ${C.accent}18, ${C.accentBg})`, borderBottom:`1px solid ${C.border}`, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
                       <div>
-                        <p style={{ fontFamily:"'Playfair Display',serif", fontSize:15, fontWeight:700, color:C.text }}>{makoverAnalyse.stil}</p>
-                        <p style={{ fontSize:11, color:C.muted, marginTop:2 }}>{makoverAnalyse.stimmung?.split(".")[0]}.</p>
+                        <p style={{ fontFamily:"'Playfair Display',serif", fontSize:15, fontWeight:700, color:C.text }}>{makoverAnalyse.style || makoverAnalyse.stil}</p>
+                        <p style={{ fontSize:11, color:C.muted, marginTop:2 }}>{(makoverAnalyse.mood || makoverAnalyse.stimmung)?.split(".")[0]}.</p>
                       </div>
-                      {/* Farbpalette */}
+                      {/* Color palette */}
                       <div style={{ display:"flex", gap:4 }}>
-                        {makoverAnalyse.farben?.slice(0,4).map((f,i) => (
+                        {(makoverAnalyse.colors || makoverAnalyse.farben)?.slice(0,4).map((f,i) => (
                           <div key={i} style={{ width:18, height:18, borderRadius:4, background:f, border:"1.5px solid rgba(0,0,0,0.1)" }} title={f} />
                         ))}
                       </div>
@@ -1178,12 +1181,14 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                     {/* Materialien */}
                     <div style={{ padding:"10px 14px 6px" }}>
                       <p style={{ fontSize:12, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:0.5, marginBottom:8 }}>Detected Materials & Furniture</p>
-                      {makoverAnalyse.materialien?.map((mat, i) => (
-                        <div key={i} style={{ display:"flex", alignItems:"center", gap:8, padding:"7px 0", borderBottom:i<makoverAnalyse.materialien.length-1?`1px solid ${C.border}`:"none" }}>
-                          <span style={{ fontSize:10, background:C.tag, color:C.muted, padding:"2px 7px", borderRadius:20, flexShrink:0, whiteSpace:"nowrap" }}>{mat.bereich}</span>
+                      {(makoverAnalyse.materials || makoverAnalyse.materialien)?.map((mat, i) => {
+                        const mats = makoverAnalyse.materials || makoverAnalyse.materialien;
+                        return (
+                        <div key={i} style={{ display:"flex", alignItems:"center", gap:8, padding:"7px 0", borderBottom:i<mats.length-1?`1px solid ${C.border}`:"none" }}>
+                          <span style={{ fontSize:10, background:C.tag, color:C.muted, padding:"2px 7px", borderRadius:20, flexShrink:0, whiteSpace:"nowrap" }}>{mat.area || mat.bereich}</span>
                           <div style={{ flex:1, minWidth:0 }}>
                             <p style={{ fontSize:13, fontWeight:600, color:C.text }}>{mat.material}</p>
-                            {mat.farbe && <p style={{ fontSize:11, color:C.muted }}>{mat.farbe}{mat.preis ? ` · ${mat.preis}` : ""}</p>}
+                            {(mat.color || mat.farbe) && <p style={{ fontSize:11, color:C.muted }}>{mat.color || mat.farbe}{(mat.price || mat.preis) ? ` · ${mat.price || mat.preis}` : ""}</p>}
                           </div>
                           {mat.amazon && (
                             <a href={`https://www.amazon.de/s?k=${encodeURIComponent(mat.amazon)}&tag=${AFFILIATE_TAG}`} target="_blank" rel="noopener noreferrer"
@@ -1192,14 +1197,14 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                             </a>
                           )}
                         </div>
-                      ))}
+                      ); })}
                     </div>
 
-                    {/* Sofort-Upgrades */}
-                    {makoverAnalyse.sofort_upgrades?.length > 0 && (
+                    {/* Quick Wins */}
+                    {(makoverAnalyse.quick_upgrades || makoverAnalyse.sofort_upgrades)?.length > 0 && (
                       <div style={{ padding:"10px 14px 12px", borderTop:`1px solid ${C.border}`, background:C.greenBg }}>
-                        <p style={{ fontSize:12, fontWeight:700, color:C.green, marginBottom:6 }}>💡 Guenstiger Einstieg</p>
-                        {makoverAnalyse.sofort_upgrades.slice(0,2).map((up,i) => (
+                        <p style={{ fontSize:12, fontWeight:700, color:C.green, marginBottom:6 }}>💡 Quick Wins</p>
+                        {(makoverAnalyse.quick_upgrades || makoverAnalyse.sofort_upgrades).slice(0,2).map((up,i) => (
                           <p key={i} style={{ fontSize:12, color:"#1A4731", lineHeight:1.5, marginBottom:i<1?4:0 }}>• {up}</p>
                         ))}
                       </div>
@@ -1215,7 +1220,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                       value={refinementInput}
                       onChange={e => setRefinementInput(e.target.value)}
                       onKeyDown={e => { if(e.key==="Enter") refineMakeover(); }}
-                      placeholder="z.B. Darker tiles machen, Spiegel hinzufuegen…"
+                      placeholder="e.g. Darker tiles, add a mirror, lighter colors…"
                       style={{ flex:1, padding:"9px 13px", borderRadius:10, border:`1px solid ${C.border}`, fontSize:13, fontFamily:"'DM Sans',sans-serif", background:"white" }}
                     />
                     <button onClick={refineMakeover} disabled={refining||!refinementInput.trim()} style={{ padding:"9px 16px", borderRadius:10, background:refining||!refinementInput.trim()?C.border:C.accent, color:"white", border:"none", cursor:"pointer", fontWeight:700, fontSize:14, flexShrink:0 }}>
@@ -1335,12 +1340,12 @@ function ChatTab({ lang = "de", messages, setMessages }) {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: apiMessages }),
+        body: JSON.stringify({ messages: apiMessages, lang: "en" }),
       });
       const data = await res.json();
-      setMessages(prev => [...prev, { role: "assistant", text: data.reply || "Keine Antwort erhalten." }]);
+      setMessages(prev => [...prev, { role: "assistant", text: data.reply || "Sorry, no response received." }]);
     } catch (err) {
-      setMessages(prev => [...prev, { role: "assistant", text: "❌ Verbindungsfehler. Bitte erneut versuchen." }]);
+      setMessages(prev => [...prev, { role: "assistant", text: "❌ Connection error. Please try again." }]);
     }
     setLoading(false);
   }
@@ -2010,7 +2015,7 @@ function InspoTab({ plan, lang = "de" }) {
       const res = await fetch("/api/analyse", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageBase64: compressed, mimeType: file.type, lang: "de" }),
+        body: JSON.stringify({ imageBase64: compressed, mimeType: file.type, lang: "en" }),
       });
       const data = await res.json();
       if (data.error) { setError(data.error); }
@@ -2031,7 +2036,7 @@ function InspoTab({ plan, lang = "de" }) {
     r.readAsDataURL(f);
   }
 
-  const SCHWIERIGKEIT_COLOR = { "Easy": C.green, "Medium": C.accent, "Schwierig": "#B91C1C" };
+  const SCHWIERIGKEIT_COLOR = { "Easy": C.green, "Medium": C.accent, "Hard": "#B91C1C", "Difficult": "#B91C1C", "Schwierig": "#B91C1C" };
 
   return (
     <div style={{ overflowY:"auto", height:"100%" }}>
@@ -2069,14 +2074,14 @@ function InspoTab({ plan, lang = "de" }) {
       {/* History Ansicht */}
       {showHistory && (
         <div style={{ padding:"14px 16px", borderBottom:`1px solid ${C.border}`, background:C.bg }}>
-          <p style={{ fontSize:12, color:C.muted, marginBottom:10, fontStyle:"italic" }}>Saved analyses – tippe zum Wiederherstellen</p>
+          <p style={{ fontSize:12, color:C.muted, marginBottom:10, fontStyle:"italic" }}>Saved analyses – tap to restore</p>
           <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
             {history.map(h => (
               <div key={h.id} style={{ display:"flex", gap:10, background:C.card, border:`1px solid ${C.border}`, borderRadius:12, overflow:"hidden", cursor:"pointer" }}
                 onClick={() => { setImgPreview(h.preview); setAnalysis(h.analysis); setShowHistory(false); }}>
                 <img src={h.preview} alt="" style={{ width:64, height:56, objectFit:"cover", flexShrink:0 }} />
                 <div style={{ flex:1, padding:"8px 10px" }}>
-                  <p style={{ fontSize:13, fontWeight:700, color:C.text }}>{h.analysis?.stil || "Analyse"}</p>
+                  <p style={{ fontSize:13, fontWeight:700, color:C.text }}>{h.analysis?.style || h.analysis?.stil || "Analysis"}</p>
                   <p style={{ fontSize:11, color:C.muted }}>{h.date} · {h.analysis?.budget || ""}</p>
                 </div>
                 <button onClick={e => { e.stopPropagation(); deleteFromHistory(h.id); }} style={{ background:"none", border:"none", color:"#CCC", cursor:"pointer", padding:"8px", fontSize:16, alignSelf:"center" }}>✕</button>
@@ -2094,7 +2099,7 @@ function InspoTab({ plan, lang = "de" }) {
               <img src={imgPreview} alt="" style={{ width:"100%", maxHeight:260, objectFit:"cover", display:"block" }} />
               <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%)" }} />
               <div style={{ position:"absolute", bottom:12, left:14, right:14, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                <p style={{ color:"white", fontWeight:700, fontSize:13 }}>📷 Foto hochgeladen</p>
+                <p style={{ color:"white", fontWeight:700, fontSize:13 }}>📷 Photo uploaded</p>
                 <button onClick={e => { e.stopPropagation(); setImgFile(null); setImgPreview(null); setAnalysis(null); }} style={{ background:"rgba(255,255,255,0.2)", border:"none", color:"white", borderRadius:20, padding:"4px 10px", fontSize:12, cursor:"pointer" }}>Different Photo</button>
               </div>
             </div>
@@ -2125,12 +2130,12 @@ function InspoTab({ plan, lang = "de" }) {
         {/* Analysis Result */}
         {analysis && (
           <div className="fu">
-            {/* Stil & Stimmung */}
+            {/* Style & Mood */}
             <div style={{ background:`linear-gradient(135deg, ${C.accent}22, ${C.accentBg})`, border:`1px solid ${C.accent}44`, borderRadius:14, padding:"16px", marginBottom:14 }}>
-              <p style={{ fontFamily:"'Playfair Display',serif", fontSize:20, color:C.text, marginBottom:6 }}>✨ {analysis.stil}</p>
-              <p style={{ fontSize:13, color:C.text, lineHeight:1.65, marginBottom:12 }}>{analysis.stimmung}</p>
+              <p style={{ fontFamily:"'Playfair Display',serif", fontSize:20, color:C.text, marginBottom:6 }}>✨ {analysis.style || analysis.stil}</p>
+              <p style={{ fontSize:13, color:C.text, lineHeight:1.65, marginBottom:12 }}>{analysis.mood || analysis.stimmung}</p>
               <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
-                {analysis.farben?.map((f,i) => (
+                {(analysis.colors || analysis.farben)?.map((f,i) => (
                   <div key={i} style={{ display:"flex", alignItems:"center", gap:6 }}>
                     <div style={{ width:24, height:24, borderRadius:6, background:f, border:"2px solid rgba(0,0,0,0.1)", flexShrink:0 }} />
                     <span style={{ fontSize:11, color:C.muted }}>{f}</span>
@@ -2139,38 +2144,40 @@ function InspoTab({ plan, lang = "de" }) {
               </div>
             </div>
 
-            {/* Eckdaten */}
+            {/* Stats */}
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:8, marginBottom:14 }}>
               {[
                 { label:"Budget", val:analysis.budget, icon:"💶" },
-                { label:"Zeitaufwand", val:analysis.zeitaufwand, icon:"⏱" },
-                { label:"Schwierigkeit", val:analysis.schwierigkeit, icon:"🔧" },
+                { label:"Timeframe", val:analysis.timeframe || analysis.zeitaufwand, icon:"⏱" },
+                { label:"Difficulty", val:analysis.difficulty || analysis.schwierigkeit, icon:"🔧" },
               ].map(({label,val,icon}) => (
                 <div key={label} style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:12, padding:"10px 10px 8px", textAlign:"center" }}>
                   <p style={{ fontSize:16, marginBottom:4 }}>{icon}</p>
                   <p style={{ fontSize:10, color:C.muted, marginBottom:3 }}>{label}</p>
-                  <p style={{ fontSize:12, fontWeight:700, color: label==="Schwierigkeit" ? (SCHWIERIGKEIT_COLOR[val]||C.text) : C.text, lineHeight:1.3 }}>{val}</p>
+                  <p style={{ fontSize:12, fontWeight:700, color: label==="Difficulty" ? (SCHWIERIGKEIT_COLOR[val]||C.text) : C.text, lineHeight:1.3 }}>{val}</p>
                 </div>
               ))}
             </div>
 
-            {/* Materialien */}
+            {/* Materials */}
             <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, marginBottom:14, overflow:"hidden" }}>
               <div style={{ padding:"12px 14px", background:C.accentBg, borderBottom:`1px solid ${C.border}` }}>
                 <p style={{ fontSize:14, fontWeight:700, color:C.accent }}>🪨 Detected Materials</p>
               </div>
-              {analysis.materialien?.map((mat, i) => (
-                <div key={i} style={{ padding:"12px 14px", borderBottom:i<analysis.materialien.length-1?`1px solid ${C.border}`:"none" }}>
+              {(analysis.materials || analysis.materialien)?.map((mat, i) => {
+                const mats = analysis.materials || analysis.materialien;
+                return (
+                <div key={i} style={{ padding:"12px 14px", borderBottom:i<mats.length-1?`1px solid ${C.border}`:"none" }}>
                   <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:4 }}>
                     <div style={{ flex:1 }}>
                       <div style={{ display:"flex", gap:6, alignItems:"center", marginBottom:2 }}>
-                        <span style={{ fontSize:11, background:C.tag, color:C.muted, padding:"1px 7px", borderRadius:20, flexShrink:0 }}>{mat.bereich}</span>
-                        {mat.farbe && <span style={{ fontSize:11, color:C.muted }}>{mat.farbe}</span>}
+                        <span style={{ fontSize:11, background:C.tag, color:C.muted, padding:"1px 7px", borderRadius:20, flexShrink:0 }}>{mat.area || mat.bereich}</span>
+                        {(mat.color || mat.farbe) && <span style={{ fontSize:11, color:C.muted }}>{mat.color || mat.farbe}</span>}
                       </div>
                       <p style={{ fontSize:14, fontWeight:700, color:C.text, marginBottom:2 }}>{mat.material}</p>
-                      {mat.produkt && <p style={{ fontSize:12, color:C.muted }}>{mat.produkt}</p>}
+                      {(mat.product || mat.produkt) && <p style={{ fontSize:12, color:C.muted }}>{mat.product || mat.produkt}</p>}
                     </div>
-                    {mat.preis && <span style={{ fontSize:12, fontWeight:600, color:C.green, flexShrink:0, marginLeft:10 }}>{mat.preis}</span>}
+                    {(mat.price || mat.preis) && <span style={{ fontSize:12, fontWeight:600, color:C.green, flexShrink:0, marginLeft:10 }}>{mat.price || mat.preis}</span>}
                   </div>
                   {mat.amazon && (
                     <a href={`https://www.amazon.de/s?k=${encodeURIComponent(mat.amazon)}&tag=${AFFILIATE_TAG}`} target="_blank" rel="noopener noreferrer"
@@ -2179,47 +2186,53 @@ function InspoTab({ plan, lang = "de" }) {
                     </a>
                   )}
                 </div>
-              ))}
+                );
+              })}
             </div>
 
-            {/* So machst du es nach */}
+            {/* How to recreate */}
             <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, marginBottom:14, overflow:"hidden" }}>
               <div style={{ padding:"12px 14px", background:"#F0F7FF", borderBottom:`1px solid ${C.border}` }}>
-                <p style={{ fontSize:14, fontWeight:700, color:"#1E40AF" }}>🔨 So machst du es nach</p>
+                <p style={{ fontSize:14, fontWeight:700, color:"#1E40AF" }}>🔨 How to recreate this</p>
               </div>
               <div style={{ padding:"12px 14px" }}>
-                {analysis.umsetzung?.map((schritt, i) => (
-                  <div key={i} style={{ display:"flex", gap:10, marginBottom:i<analysis.umsetzung.length-1?10:0 }}>
+                {(analysis.steps || analysis.umsetzung)?.map((schritt, i) => {
+                  const steps = analysis.steps || analysis.umsetzung;
+                  return (
+                  <div key={i} style={{ display:"flex", gap:10, marginBottom:i<steps.length-1?10:0 }}>
                     <div style={{ width:24, height:24, borderRadius:"50%", background:C.accent, color:"white", display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:700, flexShrink:0 }}>{i+1}</div>
                     <p style={{ fontSize:13, color:C.text, lineHeight:1.55, flex:1, paddingTop:3 }}>{schritt.replace(/^Step \d+:\s*/,"")}</p>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
-            {/* Profi-Tipps */}
-            {analysis.profi_tipps?.length > 0 && (
+            {/* Pro Tips */}
+            {(analysis.pro_tips || analysis.profi_tipps)?.length > 0 && (
               <div style={{ background:"#FFFBEB", border:"1px solid #FDE68A", borderRadius:14, padding:"14px", marginBottom:14 }}>
-                <p style={{ fontSize:13, fontWeight:700, color:"#B45309", marginBottom:8 }}>⚡ Profi-Tipps</p>
-                {analysis.profi_tipps.map((tip,i) => (
-                  <p key={i} style={{ fontSize:13, color:"#7C4A03", lineHeight:1.6, marginBottom:i<analysis.profi_tipps.length-1?6:0 }}>• {tip}</p>
-                ))}
+                <p style={{ fontSize:13, fontWeight:700, color:"#B45309", marginBottom:8 }}>⚡ Pro Tips</p>
+                {(analysis.pro_tips || analysis.profi_tipps).map((tip,i) => {
+                  const tips = analysis.pro_tips || analysis.profi_tipps;
+                  return <p key={i} style={{ fontSize:13, color:"#7C4A03", lineHeight:1.6, marginBottom:i<tips.length-1?6:0 }}>• {tip}</p>;
+                })}
               </div>
             )}
 
-            {/* Sofort-Upgrades */}
-            {analysis.sofort_upgrades?.length > 0 && (
+            {/* Quick Upgrades */}
+            {(analysis.quick_upgrades || analysis.sofort_upgrades)?.length > 0 && (
               <div style={{ background:C.greenBg, border:`1px solid ${C.green}44`, borderRadius:14, padding:"14px", marginBottom:14 }}>
-                <p style={{ fontSize:13, fontWeight:700, color:C.green, marginBottom:8 }}>✅ Guenstige Sofort-Upgrades</p>
-                {analysis.sofort_upgrades.map((up,i) => (
-                  <p key={i} style={{ fontSize:13, color:"#1A4731", lineHeight:1.6, marginBottom:i<analysis.sofort_upgrades.length-1?6:0 }}>• {up}</p>
-                ))}
+                <p style={{ fontSize:13, fontWeight:700, color:C.green, marginBottom:8 }}>✅ Quick Upgrades</p>
+                {(analysis.quick_upgrades || analysis.sofort_upgrades).map((up,i) => {
+                  const ups = analysis.quick_upgrades || analysis.sofort_upgrades;
+                  return <p key={i} style={{ fontSize:13, color:"#1A4731", lineHeight:1.6, marginBottom:i<ups.length-1?6:0 }}>• {up}</p>;
+                })}
               </div>
             )}
 
-            {/* Neues Foto */}
+            {/* Next photo */}
             <button onClick={() => fileRef.current?.click()} style={{ width:"100%", padding:"13px", borderRadius:50, border:`2px solid ${C.accent}`, background:C.accentBg, color:C.accent, fontWeight:700, cursor:"pointer", fontSize:14, fontFamily:"'DM Sans',sans-serif" }}>
-              📷 Naechstes Foto analysieren
+              📷 Analyze next photo
             </button>
           </div>
         )}
@@ -2802,7 +2815,7 @@ export default function HomeEN() {
           {TABS.map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ background:"none", border:"none", cursor:"pointer", padding:"7px 1px 10px", display:"flex", flexDirection:"column", alignItems:"center", gap:2, borderTop:`2.5px solid ${activeTab===tab.id?C.accent:"transparent"}`, transition:"border-color 0.2s", minWidth:0 }}>
               <span style={{ fontSize:17 }}>{tab.icon}</span>
-              <span style={{ fontSize:9, fontWeight:600, color:activeTab===tab.id?C.accent:C.muted, fontFamily:"'DM Sans',sans-serif", whiteSpace:"nowrap" }}>{tab.labelDE}</span>
+              <span style={{ fontSize:9, fontWeight:600, color:activeTab===tab.id?C.accent:C.muted, fontFamily:"'DM Sans',sans-serif", whiteSpace:"nowrap" }}>{tab.labelEN}</span>
             </button>
           ))}
         </div>
