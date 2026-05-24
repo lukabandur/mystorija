@@ -57,11 +57,14 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
   const { messages, message, imgBase64, mimeType, lang } = req.body;
-  const activeSystem = lang === "en" ? SYSTEM_EN : SYSTEM;
+  const isEN = lang === "en";
+  const activeSystem = isEN ? SYSTEM_EN : SYSTEM;
 
   if (!process.env.ANTHROPIC_API_KEY) {
     return res.status(200).json({
-      reply: "⚠️ **Kein API-Key konfiguriert.** Bitte `ANTHROPIC_API_KEY` in den Vercel Environment Variables eintragen.",
+      reply: isEN
+        ? "⚠️ **No API key configured.** Please add `ANTHROPIC_API_KEY` in the Vercel Environment Variables."
+        : "⚠️ **Kein API-Key konfiguriert.** Bitte `ANTHROPIC_API_KEY` in den Vercel Environment Variables eintragen.",
     });
   }
 
@@ -80,7 +83,7 @@ export default async function handler(req, res) {
             role: m.role,
             content: [
               { type: "image", source: { type: "base64", media_type: media, data: b64 } },
-              { type: "text", text: m.content || m.text || "Was siehst du auf diesem Foto?" },
+              { type: "text", text: m.content || m.text || (isEN ? "What do you see in this photo?" : "Was siehst du auf diesem Foto?") },
             ],
           };
         }
@@ -95,7 +98,7 @@ export default async function handler(req, res) {
         const b64 = imgBase64.includes(",") ? imgBase64.split(",")[1] : imgBase64;
         content.push({ type: "image", source: { type: "base64", media_type: mimeType || "image/jpeg", data: b64 } });
       }
-      content.push({ type: "text", text: message || "Hallo!" });
+      content.push({ type: "text", text: message || (isEN ? "Hello!" : "Hallo!") });
       apiMessages = [{ role: "user", content: content.length === 1 ? content[0].text : content }];
     }
 
@@ -124,15 +127,17 @@ export default async function handler(req, res) {
     if (!response.ok) {
       const err = await response.text();
       console.error("Anthropic error:", response.status, err);
-      return res.status(200).json({ reply: `❌ API Fehler ${response.status}. Bitte ANTHROPIC_API_KEY in Vercel prüfen.` });
+      return res.status(200).json({ reply: isEN
+        ? `❌ API Error ${response.status}. Please check ANTHROPIC_API_KEY in Vercel.`
+        : `❌ API Fehler ${response.status}. Bitte ANTHROPIC_API_KEY in Vercel prüfen.` });
     }
 
     const data = await response.json();
     const reply = data.content?.map(b => b.text || "").join("").trim();
-    res.status(200).json({ reply: reply || "Entschuldigung, keine Antwort erhalten." });
+    res.status(200).json({ reply: reply || (isEN ? "Sorry, no response received." : "Entschuldigung, keine Antwort erhalten.") });
 
   } catch (err) {
     console.error("Chat error:", err);
-    res.status(200).json({ reply: `❌ Serverfehler: ${err.message}` });
+    res.status(200).json({ reply: `❌ ${isEN ? "Server error" : "Serverfehler"}: ${err.message}` });
   }
 }

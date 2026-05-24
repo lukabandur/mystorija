@@ -208,7 +208,7 @@ const ANLEITUNGEN = [
     img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=120&q=80",
     werkzeug:["Cordless drill","Kreuzschlitzschrauber","Spirit level","Massband","Scharnier-Einstellwerkzeug"],
     schritte:["Alte Fronten abschrauben: Scharniere loesen","Scharniere auf neue Fronten – gleiche Position messen","Neue Front einhaengen, noch nicht festschrauben","Spaltmass pruefen: 2–3mm gleichmaessig rundum","Scharniere in 3 Richtungen justieren","Erst wenn alles passt: Schrauben fest","Griffe montieren: Schablone, bohren"],
-    tipp:"Kuechenfronten-Tausch = halbe neue Kueche fuer 10% des Preises.",
+    tipp:"Swapping cabinet fronts = half a new kitchen for 10% of the price.",
     fehler:"Scharniere falsch justiert, Schablone fuer Griffe nicht genutzt.",
     youtube:"https://www.youtube.com/results?search_query=kuechenfronten+austauschen+anleitung",
     amazon:amazonLink("kuechenfronten scharnier einstellwerkzeug") },
@@ -256,7 +256,7 @@ const ANLEITUNGEN = [
     img:"https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=120&q=80",
     werkzeug:["Jigsaw","Rubber mallet","Zugeisen","Abstandshalter 10mm","Spirit level"],
     schritte:["48h akklimatisieren (Pakete geoeffnet, liegend im Raum)","Untergrund pruefen: max. 3mm Unebenheit – sonst Ausgleichsmasse (Knauf Nivello)","Trittschalldaemmung auslegen, Stoesse 15cm ueberlappen","Erste Reihe: 10mm Abstandshalter zur Wand – IMMER!","Klicksystem: Winkel einsetzen und nach unten druecken","Richtung: laengs zur Fensterseite = Raum wirkt groesser","Letzte Reihe mit Zugeisen eindruecken","Sockelleisten KLEBEN – nie auf Laminat schrauben!"],
-    tipp:"SPC-Vinyl = 100% wasserfest fuer Bad und Kueche. Laminat nur fuer Trockenraeume!",
+    tipp:"SPC vinyl = 100% waterproof for bathroom & kitchen. Laminate only for dry rooms!",
     fehler:"Dehnungsfuge vergessen, zu frueh betreten (24h warten), Tuerrahmen nicht untergeschoben.",
     youtube:"https://www.youtube.com/results?search_query=vinyl+laminat+verlegen+anleitung",
     amazon:amazonLink("spc vinyl klick boden verlegen set") },
@@ -487,7 +487,7 @@ function AnleitungenTab({ lang = "de" }) {
                     {a.werkzeug.map(w => <span key={w} style={{ fontSize:12, padding:"3px 10px", background:C.card, color:C.text, borderRadius:20, border:`1px solid ${C.border}` }}>{w}</span>)}
                   </div>
                 </div>
-                <div style={{ fontSize:11, color:C.accent, fontWeight:600, marginBottom:10, textTransform:"uppercase", letterSpacing:.5 }}>📋 Step fuer Schritt</div>
+                <div style={{ fontSize:11, color:C.accent, fontWeight:600, marginBottom:10, textTransform:"uppercase", letterSpacing:.5 }}>📋 Step by Step</div>
                 {a.schritte.map((s, idx) => {
                   const key = `${a.id}-${idx}`, d = erledigt[key];
                   return (
@@ -521,19 +521,19 @@ function AnleitungenTab({ lang = "de" }) {
 }
 
 
-// ─── OFFLINE EXPERTEN-SYSTEM ─────────────────────────────────────────────────
+// ─── OFFLINE EXPERT SYSTEM ───────────────────────────────────────────────────
 function getRenovierungsAntwort(text, hasImage) {
   const t = text.toLowerCase();
-  if (hasImage) return "Tolles Foto! 📸\n\nIch sehe deinen Raum. Hier sind meine ersten Einschaetzungen:\n\n🔍 **Was ich empfehle:**\n\n1. **Sofort-Upgrade (unter 50€):** Neue Griffe, frisches Silikon, LED-Leuchte – kleine Aenderungen, grosse Wirkung.\n\n2. **Mittel-Projekt (unter 300€):** Waende streichen, Vinyl-Boden ueber alte Fliesen, Spiegel tauschen.\n\n3. **Komplett-Upgrade (unter 1.000€):** Mikrozement, neue Armaturen, abgehaengte Decke mit LED.\n\n💡 Schreib mir was du aendern moechtest – Boden, Wand, Decke oder Deko – und ich gebe dir einen konkreten Plan!";
-  if (t.match(/hallo|hi|hey|guten|servus/)) return "Hey! 👋 Schoen dass du da bist!\n\nIch bin dein Mystorija – dein DIY-Experte fuer Renovierungen.\n\n**Was kann ich fuer dich tun?**\n\n🚿 Bad renovieren\n🍳 Kueche aufwerten\n🛋️ Wohnzimmer gestalten\n🛏️ Schlafzimmer umgestalten\n🌿 Terrasse/Balkon\n\nLade ein Foto hoch oder schreib mir welchen Raum du renovieren moechtest!";
-  if (t.match(/silikon|fuge|schimmel/)) return "Silikon erneuern – einer der guenstigsten und wirkungsvollsten Upgrades! 🛠️\n\n**Was du brauchst:**\n• Bad-Silikon mit Schimmelschutz: Soudal oder Ottoseal (ca. 8€)\n• Silikon-Entferner (ca. 5€)\n• Cutter-Messer\n• Fugenglaetter oder feuchter Finger\n\n**Step fuer Schritt:**\n1. Altes Silikon mit Cutter einschneiden\n2. Silikon-Entferner auftragen, 30 Min warten\n3. Reste abziehen, Flaeche entfetten\n4. Masking tape links und rechts\n5. Silikon gleichmaessig auftragen\n6. Mit feuchtem Finger glattziehen\n7. Band sofort abziehen, 24h trocknen lassen\n\n⏱️ Zeit: 2 hours\n💰 Kosten: ca. 15€\n⭐ Schwierigkeit: Anfaenger";
-  if (t.match(/vinyl|laminat|boden verlegen|klick/)) return "Boden verlegen – machst du selbst! 💪\n\n**SPC-Vinyl (fuer Bad & Kueche):**\n• 100% wasserfest, ueber alte Fliesen moeglich\n• Kosten: 15–25€/m² bei OBI/Bauhaus\n• Kein Kleber noetig – Klicksystem\n\n**Step fuer Schritt:**\n1. Untergrund pruefen – max. 3mm Unebenheit\n2. Schaumunterlage auslegen\n3. Erste Reihe mit 10mm Abstand zur Wand\n4. Reihe fuer Reihe einrasten\n5. Letzte Reihe zuschneiden\n6. Sockelleisten kleben\n\n⏱️ Zeit: 1 day fuer 20m²\n💰 Kosten: ab 15€/m²\n⭐ Schwierigkeit: Anfaenger";
-  if (t.match(/bad|badezimmer|dusche|wc|toilette|waschtisch/)) return "Badezimmer renovieren – hier ist mein Plan! 🚿\n\n**Budget 50–150€ (Sofort-Upgrades):**\n• Silikon komplett erneuern (Soudal Bad-Silikon)\n• LED-Spiegel mit IP44: Emke Amazon ab 80€\n• Mattschwarz-Accessoires Set: ~40€\n\n**Budget 150–500€:**\n• Armaturen auf Mattschwarz tauschen\n• SPC-Vinyl ueber alte Fliesen legen\n• Stauraum ueber WC montieren\n\n**Budget 500–2.000€:**\n• Mikrozement ueber Fliesen (kein Stemmen!)\n• Walk-In Dusche einbauen\n• Waschtisch komplett tauschen\n\n⚠️ Wichtig: Immer Bad-Silikon mit Schimmelschutz! IP44 bei Lampen Pflicht!";
-  if (t.match(/kueche|kueche|fronten|schrank|arbeitsplatte|griffe/)) return "Kueche aufwerten – top Investition! 🍳\n\n🔩 **Griffe tauschen (30 min, 30–80€)**\n→ 128mm Buegel Mattschwarz auf Amazon.\n\n🎨 **Fronten folieren (1–2 days, 80–200€)**\n→ Klebefolie Holz/Beton/Marmor-Optik. Reversibel fuer Mietwohnung!\n→ Wichtig: erst entfetten mit Aceton!\n\n🖌️ **Fronten lackieren (2–3 days, 100–300€)**\n→ Schleifen (P120) → Haftgrund → 3× Seidenmatt-Lack\n→ RAL 7044 Seidengrau oder RAL 5011 Navy = Trend 2025\n\n💡 LED-Strip unter Oberschraenken: 20–60€, 2700K warm!";
-  if (t.match(/wohnzimmer|wand streichen|akzent|farbe|streichen/)) return "Wand streichen – einfachstes Upgrade mit groesster Wirkung! 🎨\n\n**Die Akzentwand:**\nNur EINE Wand dunkel streichen → sofort anderer Raum!\n\n**Aktuelle Trendfarben 2025:**\n• Dunkelgruen (RAL 6009)\n• Navy Blau (RAL 5011)\n• Anthrazit (RAL 7016)\n• Terrakotta (RAL 3012)\n\n**Step fuer Schritt:**\n1. Wand abkleben (Tesa Precision!)\n2. Testfeld 30×30cm malen – trocknen lassen!\n3. Tiefengrund auftragen\n4. 2 Schichten Farbe (Rolle 18cm)\n5. Klebeband feucht abziehen\n\n💰 Kosten: 30–60€ · ⏱️ Zeit: 1 day";
-  if (t.match(/licht|lampe|led|beleuchtung|hell|dunkel|atmosphaere/)) return "Beleuchtung – groesster Stimmungsmacher! 💡\n\n**Die wichtigste Regel:**\n2700K = warm = Wohnzimmer/Schlafzimmer/Bad\n4000K = neutral = Kueche/Arbeitszimmer\n6000K = kalt = NIE im Wohnbereich!\n\n**Guenstige Upgrades:**\n• LED-Strips hinter TV: 20–50€\n• LED-Strip unter Kuechenschraenken: 20–60€\n• Nachttischlampen statt Deckenlampe: 40–120€\n\n**Badezimmer:**\n⚠️ IP44 Pflicht! Immer auf Verpackung pruefen!\n\n💡 Dimmer einbauen: 15–30€ bei OBI – lohnt sich ueberall!";
-  if (t.match(/mietwohnung|miete|vermieter|erlaubt/)) return "Mietwohnung renovieren – was ist erlaubt? 🔑\n\n**Ohne Genehmigung erlaubt:**\n✓ Streichen (beim Auszug zurueckstreichen)\n✓ Moebel aufstellen, Regale montieren\n✓ Klebefolie auf Fliesen/Fronten (reversibel!)\n✓ Griffe tauschen (Original aufbewahren!)\n✓ LED-Spiegel (Stecker-Anschluss)\n✓ Klick-Bodenbelag ohne Kleber\n\n**NIE ohne Genehmigung:**\n❌ Elektro-Festinstallation\n❌ Tragende Waende veraendern\n❌ Gasleitungen\n\n💡 Alles Original-Material aufbewahren!";
-  return "Super Frage! 💪 Als Renovation Expert helfe ich dir gerne.\n\nSchreib mir mehr Details:\n• **Welchen Raum** moechtest du renovieren?\n• **Was stoert dich** am meisten?\n• **Wie viel Budget** hast du ungefaehr?\n\nOder lade ein Foto hoch – dann sehe ich direkt was moeglich ist!";
+  if (hasImage) return "Great photo! 📸\n\nI can see your room. Here are my initial thoughts:\n\n🔍 **What I recommend:**\n\n1. **Quick upgrade (under €50):** New handles, fresh sealant, LED light – small changes, big impact.\n\n2. **Mid-range project (under €300):** Paint walls, vinyl flooring over old tiles, replace mirror.\n\n3. **Full upgrade (under €1,000):** Microcement, new fixtures, suspended ceiling with LED.\n\n💡 Tell me what you'd like to change – floor, walls, ceiling or decor – and I'll give you a concrete plan!";
+  if (t.match(/hello|hi|hey/)) return "Hey! 👋 Great to have you here!\n\nI'm Mystorija – your DIY renovation expert.\n\n**How can I help you?**\n\n🚿 Renovate bathroom\n🍳 Upgrade kitchen\n🛋️ Style living room\n🛏️ Transform bedroom\n🌿 Terrace/balcony\n\nUpload a photo or tell me which room you want to renovate!";
+  if (t.match(/silicone|sealant|grout|mold/)) return "Replacing sealant – one of the cheapest and most effective upgrades! 🛠️\n\n**What you need:**\n• Bathroom silicone with mold protection: Soudal or Ottoseal (~€8)\n• Silicone remover (~€5)\n• Utility knife\n• Smoothing tool or damp finger\n\n**Step by step:**\n1. Score old silicone with utility knife\n2. Apply silicone remover, wait 30 min\n3. Remove residue, degrease surface\n4. Apply masking tape left and right\n5. Apply silicone evenly\n6. Smooth with damp finger\n7. Remove tape immediately, let dry 24h\n\n⏱️ Time: 2 hours\n💰 Cost: ~€15\n⭐ Difficulty: Beginner";
+  if (t.match(/vinyl|laminate|floor|click/)) return "Laying flooring – you can do this yourself! 💪\n\n**SPC Vinyl (for bathroom & kitchen):**\n• 100% waterproof, can go over old tiles\n• Cost: €15–25/m² at OBI/Bauhaus\n• No glue needed – click system\n\n**Step by step:**\n1. Check subfloor – max. 3mm unevenness\n2. Lay foam underlay\n3. First row with 10mm gap from wall\n4. Snap rows together one by one\n5. Cut last row to size\n6. Glue skirting boards\n\n⏱️ Time: 1 day for 20m²\n💰 Cost: from €15/m²\n⭐ Difficulty: Beginner";
+  if (t.match(/bathroom|shower|toilet|basin|sink/)) return "Renovate bathroom – here's my plan! 🚿\n\n**Budget €50–150 (quick upgrades):**\n• Replace all sealant (Soudal bathroom silicone)\n• LED mirror with IP44: Emke on Amazon from €80\n• Matte black accessories set: ~€40\n\n**Budget €150–500:**\n• Swap fixtures to matte black\n• SPC vinyl over old tiles\n• Add storage above toilet\n\n**Budget €500–2,000:**\n• Microcement over tiles (no breaking needed!)\n• Install walk-in shower\n• Full basin replacement\n\n⚠️ Important: Always use bathroom silicone with mold protection! IP44 rating required for lights!";
+  if (t.match(/kitchen|cabinet|countertop|handles|fronts/)) return "Upgrade kitchen – great investment! 🍳\n\n🔩 **Replace handles (30 min, €30–80)**\n→ 128mm bar handle matte black on Amazon.\n\n🎨 **Wrap fronts in foil (1–2 days, €80–200)**\n→ Adhesive film in wood/concrete/marble look. Reversible for rental!\n→ Important: degrease with acetone first!\n\n🖌️ **Paint fronts (2–3 days, €100–300)**\n→ Sand (P120) → primer → 3× satin lacquer\n→ RAL 7044 silk grey or RAL 5011 navy = trend 2025\n\n💡 LED strip under wall units: €20–60, 2700K warm!";
+  if (t.match(/living room|wall paint|accent wall|color|paint/)) return "Paint a wall – easiest upgrade with biggest impact! 🎨\n\n**The accent wall:**\nPaint just ONE wall dark → instantly different room!\n\n**Current trend colors 2025:**\n• Dark green (RAL 6009)\n• Navy blue (RAL 5011)\n• Anthracite (RAL 7016)\n• Terracotta (RAL 3012)\n\n**Step by step:**\n1. Tape wall (Tesa Precision!)\n2. Test patch 30×30cm – let dry!\n3. Apply primer\n4. 2 coats of paint (18cm roller)\n5. Remove tape while damp\n\n💰 Cost: €30–60 · ⏱️ Time: 1 day";
+  if (t.match(/light|lamp|led|lighting|bright|dark|atmosphere/)) return "Lighting – the biggest mood maker! 💡\n\n**The most important rule:**\n2700K = warm = living room/bedroom/bathroom\n4000K = neutral = kitchen/home office\n6000K = cold = NEVER in living areas!\n\n**Affordable upgrades:**\n• LED strips behind TV: €20–50\n• LED strip under kitchen cabinets: €20–60\n• Bedside lamps instead of ceiling light: €40–120\n\n**Bathroom:**\n⚠️ IP44 required! Always check packaging!\n\n💡 Install dimmer: €15–30 at OBI – worth it everywhere!";
+  if (t.match(/rental|tenant|landlord|allowed/)) return "Renovating a rental – what's allowed? 🔑\n\n**Allowed without permission:**\n✓ Painting (paint back when you leave)\n✓ Furniture, mounting shelves\n✓ Adhesive film on tiles/fronts (reversible!)\n✓ Replace handles (keep originals!)\n✓ LED mirror (plug-in connection)\n✓ Click flooring without glue\n\n**NEVER without permission:**\n❌ Fixed electrical installations\n❌ Removing load-bearing walls\n❌ Gas pipes\n\n💡 Keep all original materials!";
+  return "Great question! 💪 As your renovation expert I'm happy to help.\n\nTell me more:\n• **Which room** do you want to renovate?\n• **What bothers you** most?\n• **What's your budget** roughly?\n\nOr upload a photo – then I can see directly what's possible!";
 }
 
 // ─── AFFILIATE Renderer ───────────────────────────────────────────────────────
@@ -620,9 +620,9 @@ const STILE_MAKEOVER = [
   { id:"bad-mikro",     emoji:"🚿", label:"Bad: Mikrozement" },
   { id:"kueche-navy",   emoji:"🍳", label:"Kitchen: Navy & Wood" },
   { id:"kueche-grau",   emoji:"🍳", label:"Kitchen: Silk Grey" },
-  { id:"kueche-gruen",  emoji:"🍳", label:"Kueche: Salbeigruen" },
-  { id:"wohn-gruen",    emoji:"🛋️", label:"Wohnzimmer: Gruen" },
-  { id:"wohn-terra",    emoji:"🛋️", label:"Wohnzimmer: Terrakotta" },
+  { id:"kueche-gruen",  emoji:"🍳", label:"Kitchen: Sage Green" },
+  { id:"wohn-gruen",    emoji:"🛋️", label:"Living Room: Green" },
+  { id:"wohn-terra",    emoji:"🛋️", label:"Living Room: Terracotta" },
   { id:"schlaf-terra",  emoji:"🛏️", label:"Schlafzimmer: Terrakotta" },
   { id:"schlaf-dunkel", emoji:"🛏️", label:"Schlafzimmer: Dunkel" },
   { id:"terrasse-wpc",  emoji:"🌿", label:"Terrasse: WPC & Lounge" },
@@ -664,19 +664,19 @@ function TippsBox() {
 
   const VORLAGEN = [
     {
-      raum: "🚿 Bad", beispiel: "Keine Badewanne, dafuer eine bodengleiche Walk-In Dusche mit Regendusche. Dunkle Anthrazit-Fliesen 80x80cm, mattschwarz Armaturen, schwebender Eichen-Waschtisch, LED-Spiegel.",
+      raum: "🚿 Bathroom", beispiel: "No bathtub, instead a walk-in shower with rain head. Dark anthracite tiles 80x80cm, matte black fixtures, floating oak vanity, LED mirror.",
     },
     {
-      raum: "🍳 Kueche", beispiel: "Navy-blaue Fronten, Messing-Griffe, offene Eichenregale statt Haengeschraenke, weisse Zellige-Fliesen als Rueckwand, LED-Strip unter den Oberschraenken.",
+      raum: "🍳 Kitchen", beispiel: "Navy blue fronts, brass handles, open oak shelves instead of wall cabinets, white zellige tile backsplash, LED strip under wall units.",
     },
     {
-      raum: "🛋️ Wohnzimmer", beispiel: "Dunkelgruene Akzentwand hinter dem Sofa, warmes indirektes Deckenlicht, gerillte Holzpaneele hinter dem TV, bouclé-Sofa, Terrakotta-Vasen.",
+      raum: "🛋️ Living Room", beispiel: "Dark green accent wall behind sofa, warm indirect ceiling light, fluted wood panels behind TV, bouclé sofa, terracotta vases.",
     },
     {
-      raum: "🌿 Terrasse", beispiel: "Grossformatige Aussenfliesen 60x60cm grau, Lounge-Sofa mit cremefarbenen Outdoor-Kissen, Esstisch mit weissen Stuehlen, Pergola mit Rankpflanzen, Olivenbaum in Terrakotta-Topf, Lichterketten, Grill rechts hinten.",
+      raum: "🌿 Terrace", beispiel: "Large outdoor tiles 60x60cm grey, lounge sofa with cream outdoor cushions, dining table with white chairs, pergola with climbing plants, olive tree in terracotta pot, string lights, grill at the back right.",
     },
     {
-      raum: "🏡 Terrasse modern", beispiel: "WPC-Dielen in Teak-Optik, modulare Lounge-Gruppe, Sichtschutz aus Holzlatten, Aussenkueche mit Grill eingebaut, grosse Terrakotta-Toepfe mit Lavendel und Olivenbaum, Solar-Lichterketten 2200K.",
+      raum: "🏡 Modern Terrace", beispiel: "WPC decking in teak look, modular lounge set, wooden slat privacy screen, built-in outdoor kitchen with grill, large terracotta pots with lavender and olive tree, solar string lights 2200K.",
     },
   ];
 
@@ -1301,7 +1301,7 @@ function ChatTab({ lang = "de", messages, setMessages }) {
     "How to install LED lighting?",
     "Can you tile over existing tiles?",
     "How to apply microcement yourself?",
-    "Kuechenfronten lackieren Step fuer Schritt?",
+    "How to paint kitchen cabinet fronts step by step?",
   ];
 
   async function sendMessage(textOverride, imgOverride, mimeOverride) {
@@ -1395,8 +1395,8 @@ function ChatTab({ lang = "de", messages, setMessages }) {
                 <div>
                   <p style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 4 }}>Mystorija</p>
                   <p style={{ fontSize: 13, color: C.text, lineHeight: 1.6 }}>
-                    Hey! 👋 Ich bin dein persoenlicher Renovierungsexperte – frag mich alles ueber Bad, Kueche, Wohnzimmer, Boden, Licht und mehr.<br /><br />
-                    Ich gebe dir <strong>konkrete Antworten</strong> mit Produktnamen, Preisen und Schritt-fuer-Step Anleitungen. Oder lade ein 📷 Foto hoch und ich analysiere deinen Raum sofort!
+                    Hey! 👋 I'm your personal renovation expert – ask me anything about bathrooms, kitchens, living rooms, flooring, lighting and more.<br /><br />
+                    I'll give you <strong>concrete answers</strong> with product names, prices and step-by-step guides. Or upload a 📷 photo and I'll analyze your room instantly!
                   </p>
                 </div>
               </div>
@@ -1702,25 +1702,25 @@ const KOMPLETT_PLAENE = [
       { name:"Rohbau & Installation", items:["Neue Leitungen verlegen (Installateur!)","Elektro: Leerrohr fuer Spiegel, Steckdosen IP44","Rigips Vorbauwand fuer Unterputz-Spuelung","Gefaelleestrich fuer bodengleiche Dusche (1,5%)","Abdichtung: Dichtband + 2× Dichtschlaemme","Trockenzeit abwarten (mind. 48h)"] },
       { name:"Fliesen & Oberflaechen", items:["Fliesenkleber C2 anruehren (Mapei Keraflex)","Boden fliesen – von Mitte aus starten","Waende fliesen – Werkskante nach aussen","Nivelliersystem bei Grossformat verwenden","24h trocknen, dann verfugen","Randfugen: Silikon (Bad-Silikon Soudal S100)"] },
       { name:"Sanitaer & Elektro", items:["WC montieren (Vorwandinstallation einstellen)","Waschtisch anschliessen (Teflonband!)","Dusche/Wanne anschliessen, Dichtigkeitstest","Armaturen montieren","Spiegel aufhaengen (IP44 pruefen!)","Licht anschliessen (Elektriker)"] },
-      { name:"Finishing", items:["Silikon komplett erneuern + glaetten","Dichtheit aller Anschluesse pruefen","Accessoires montieren (Handtuchhalter, Haken)","Alles reinigen","Fotos machen – vorher/nachher!"] },
+      { name:"Finishing", items:["Replace all sealant + smooth","Check all connections for leaks","Mount accessories (towel rail, hooks)","Clean everything","Take photos – before/after!"] },
     ]
   },
   {
-    name:"Kitchen Renovation", icon:"🍳", dauer:"1–2 weeks", budget:"500–8.000€", desc:"Von neuen Fronten bis zur kompletten Kuechenerneuerung",
+    name:"Kitchen Renovation", icon:"🍳", dauer:"1–2 weeks", budget:"500–8,000€", desc:"From new fronts to a complete kitchen overhaul",
     phasen:[
-      { name:"Planung", items:["Konzept: Nur Fronten oder komplett neu?","Farbkonzept waehlen (Testmuster bestellen!)","Arbeitsplatte auswaehlen","Material bestellen (4 weeks Lieferzeit!)","Budget aufteilen: Fronten / Platte / Licht / Deko"] },
-      { name:"Fronten & Griffe", items:["Alte Fronten abschrauben, beschriften","Fronten schleifen (P120) oder entfetten fuer Folie","Haftgrund auftragen, trocknen lassen","Farbe auftragen: 3× Seidenmatt-Lack","Neue Griffe montieren (Schablone verwenden!)","Fronten wieder einhaengen, Scharniere justieren"] },
-      { name:"Arbeitsplatte", items:["Alte Arbeitsplatte demontieren","Neue Arbeitsplatte zuschneiden (Jigsaw)","Schnittkanten SOFORT abdichten","Einbauspuele ausschneiden, einsetzen","Arbeitsplatte verkleben + verschrauben","Silikon Uebergang Wand-Arbeitsplatte"] },
-      { name:"Licht & Finishing", items:["LED-Strip unter Oberschraenken (2700K)","Pendelleuchten ueber Insel/Tisch montieren","Alle Fugen mit Silikon abschliessen","Armaturen auf Dichtigkeit pruefen","Grundreinigung & Einraeumen"] },
+      { name:"Planning", items:["Concept: fronts only or full renovation?","Choose color scheme (order test samples!)","Select countertop","Order materials (4 weeks delivery time!)","Split budget: fronts / countertop / lighting / decor"] },
+      { name:"Fronts & Handles", items:["Remove old fronts, label them","Sand fronts (P120) or degrease for film","Apply primer, let dry","Paint: 3× satin lacquer","Mount new handles (use template!)","Rehang fronts, adjust hinges"] },
+      { name:"Countertop", items:["Remove old countertop","Cut new countertop to size (jigsaw)","Seal cut edges IMMEDIATELY","Cut out and fit sink","Glue + screw countertop","Silicone joint wall-countertop"] },
+      { name:"Lighting & Finishing", items:["LED strip under wall units (2700K)","Mount pendant lights over island/table","Seal all joints with silicone","Check fixtures for leaks","Deep clean & unpack"] },
     ]
   },
   {
-    name:"Wohnzimmer transformieren", icon:"🛋️", dauer:"1–3 days", budget:"100–2.000€", desc:"Akzentwand, Licht, Boden – der komplette Look",
+    name:"Transform Living Room", icon:"🛋️", dauer:"1–3 days", budget:"100–2,000€", desc:"Accent wall, lighting, flooring – the complete look",
     phasen:[
-      { name:"Planung", items:["Farbkonzept auf Pinterest sammeln","Welche Wand wird Akzentwand?","Bodenbelag: Bleibt er oder wird getauscht?","Lichtkonzept: Deckenlampe raus, Stehlampe + Spots","Budget aufteilen: Farbe / Boden / Moebel / Licht"] },
-      { name:"Accent Wall", items:["Move furniture from wall","Tesa Precision abkleben (Decke, Boden, Waende)","Tiefengrund auftragen wenn noetig","2 Schichten Wandfarbe mit Lammfellrolle","Band nass abziehen bei Latexfarbe","Trockenzeit: mind. 4h zwischen Schichten"] },
-      { name:"Boden verlegen", items:["Alten Boden pruefen – Unebenheiten ausgleichen","Trittschalldaemmung auslegen","10mm Abstandshalter an alle Waende","Vinyl/Laminat Reihe fuer Reihe einrasten","Sockelleisten kleben (NICHT nageln)"] },
-      { name:"Licht & Finishing", items:["LED-Strip hinter TV (2700K)","Cove-Licht an Deckenrand bauen","Stehlampen positionieren","Rearrange furniture","Deko aufstellen, Pflanzen platzieren","Fotos machen!"] },
+      { name:"Planning", items:["Collect color ideas on Pinterest","Which wall will be the accent wall?","Flooring: keep or replace?","Lighting concept: remove ceiling lamp, add floor lamp + spots","Split budget: paint / floor / furniture / lighting"] },
+      { name:"Accent Wall", items:["Move furniture away from wall","Tape with Tesa Precision (ceiling, floor, walls)","Apply primer if needed","2 coats of wall paint with lambswool roller","Remove tape while damp for latex paint","Drying time: at least 4h between coats"] },
+      { name:"Lay Flooring", items:["Check old floor – level out unevenness","Lay acoustic underlay","10mm spacers against all walls","Snap vinyl/laminate rows together","Glue skirting boards (do NOT nail to laminate)"] },
+      { name:"Lighting & Finishing", items:["LED strip behind TV (2700K)","Build cove light at ceiling edge","Position floor lamps","Rearrange furniture","Place decor, position plants","Take photos!"] },
     ]
   },
   {
@@ -2260,7 +2260,7 @@ const TRENDS = [
   { cat:"Bathroom", title:"Schwebender Holz-Waschtisch", desc:"Teak oder Eiche, wandhaengend. Rigips-Vorwand wenn kein Hohlraum. Macht Boden optisch groesser – Spa-Feeling sofort.", how:"Installateur + DIY", budget:"400–1.200€", emoji:"🪵", img:"https://images.unsplash.com/photo-1604709177225-055f99402ea3?w=600&h=220&fit=crop&q=80", amazon:"waschtisch eiche teak schwebend wandmontage" },
   { cat:"Bathroom", title:"Hinterleuchteter LED-Spiegel", desc:"IP44, dimmbar, Beschlagschutz. Stecker-Anschluss = kein Elektriker. Sofortiger Wow-Effekt fuer unter 150€.", how:"DIY – 30 Min", budget:"80–400€", emoji:"💡", img:"https://images.unsplash.com/photo-1600147831337-1f7ea73a3e40?w=600&h=220&fit=crop&q=80", amazon:"led spiegel bad hinterbeleuchtet ip44 dimmbar" },
   { cat:"Bathroom", title:"Marmor-Look Grossformat", desc:"Marmor-Optik Feinsteinzeug – pflegeleichter als echter Marmor. 80×160cm fuer maximalen Luxus-Effekt.", how:"Fliesenleger", budget:"45–90€/m²", emoji:"🏔️", img:"https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&h=220&fit=crop&q=80", amazon:"marmor optik fliesen grossformat bad" },
-  { cat:"Bathroom", title:"Indirekte LED-Deckenbeleuchtung", desc:"LED-Cove-Licht im Badezimmer = Spa-Atmosphaere rund um die Uhr. IP44, 2700K, dimmbar. Rigips-Kastenblende an Decke.", how:"DIY+Elektriker", budget:"200–500€", emoji:"✨", img:"https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&h=220&fit=crop&q=80", amazon:"led strip 2700k bad decke ip44 cove" },
+  { cat:"Bathroom", title:"Indirect LED Ceiling Lighting", desc:"LED cove lighting in the bathroom = spa atmosphere around the clock. IP44, 2700K, dimmable. Drywall box frame on ceiling.", how:"DIY+Electrician", budget:"200–500€", emoji:"✨", img:"https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&h=220&fit=crop&q=80", amazon:"led strip 2700k bad decke ip44 cove" },
   { cat:"Bathroom", title:"Japandi Bad Minimalistisch", desc:"Holz, Beton, Gruenpflanze – reduziert auf das Wesentliche. Tadelakt-Waende oder Mikrozement, Hinoki-Holzhocker, bodentiefe Fenster.", how:"Medium", budget:"2.000–6.000€", emoji:"🎋", img:"https://images.unsplash.com/photo-1604709177225-055f99402ea3?w=600&h=220&fit=crop&q=80", amazon:"japandi bad holzhocker tadelakt" },
   { cat:"Bathroom", title:"Badewanne einmauern mit Ablageflaeche", desc:"Eingemauerte Wanne mit Ablage/Sitzbank daneben aus Feinsteinzeug. Integriert Stauraum und Sitzflaeche. Beton- oder Holzoptik moeglich.", how:"Fliesenleger", budget:"1.500–4.000€", emoji:"🛀", img:"https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=600&h=220&fit=crop&q=80", amazon:"eingemauerte badewanne fliesen feinsteinzeug" },
   { cat:"Bathroom", title:"Doppelwaschbecken Gemeinsam", desc:"Zwei Waschbecken nebeneinander auf einem langen Waschtischunterschrank. Ideal fuer Paare. Spart morgens Zeit.", how:"Installateur", budget:"600–2.000€", emoji:"👫", img:"https://images.unsplash.com/photo-1575844611782-6c3a7d57ae3d?w=600&h=220&fit=crop&q=80", amazon:"doppelwaschbecken waschtisch 120cm set" },
@@ -2268,21 +2268,21 @@ const TRENDS = [
   { cat:"Bathroom", title:"Wandnische mit Beleuchtung", desc:"In der Duschwand eine Nische aussparen: Ablageflaeche fuer Shampoo und dekorative Kerzen. Mit LED-Strip beleuchtet = Highlight.", how:"Fliesenleger", budget:"200–600€", emoji:"💎", img:"https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&h=220&fit=crop&q=80", amazon:"duschablage nische edelstahl einbau led" },
 
   // ── KUeCHE (15) ────────────────────────────────────────────────────────────────
-  { cat:"Kitchen", title:"Navy Blue Shaker Kueche", desc:"Dunkelblau mit Messing-Griffen und Marmor-Arbeitsplatte. RAL 5011 Stahlblau oder F&B Hague Blue. Klassisch und zeitlos.", how:"DIY 2-3 days", budget:"150–500€", emoji:"🔵", img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=220&fit=crop&q=80", amazon:"kueche navy blau fronten lackieren" },
+  { cat:"Kitchen", title:"Navy Blue Shaker Kitchen", desc:"Dark blue with brass handles and marble countertop. RAL 5011 steel blue or F&B Hague Blue. Classic and timeless.", how:"DIY 2-3 days", budget:"150–500€", emoji:"🔵", img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=220&fit=crop&q=80", amazon:"kueche navy blau fronten lackieren" },
   { cat:"Kitchen", title:"Opene Eichenregale", desc:"Haengeschraenke raus, schwebende 4cm-Massivholzbretter rein. Raum wirkt sofort groesser. OBI schneidet auf Mass.", how:"DIY – halber day", budget:"100–350€", emoji:"📚", img:"https://images.unsplash.com/photo-1556909211-36987e6e9a65?w=600&h=220&fit=crop&q=80", amazon:"massivholz regal eiche 4cm kueche schwebregal" },
-  { cat:"Kitchen", title:"Kuecheninsel aus KALLAX", desc:"IKEA KALLAX + dicke Massivholzplatte = guenstige Insel. Barhocker dazu = Familientreffpunkt. Unter 600€.", how:"DIY – weekend", budget:"300–700€", emoji:"🏝️", img:"https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&h=220&fit=crop&q=80", amazon:"kuecheninsel massivholzplatte eiche ikea kallax" },
-  { cat:"Kitchen", title:"Zellige Rueckwand Metro", desc:"Handgemachte 7,5×15cm Fliesen als Kuechenrueckwand. Direkt ueber alte Fliesen. Weiss, Cremé oder Salbeigruen.", how:"DIY – 1 day", budget:"50–150€", emoji:"⬜", img:"https://images.unsplash.com/photo-1556909048-f0a46d7c3c0a?w=600&h=220&fit=crop&q=80", amazon:"metro fliesen zellige kueche rueckwand" },
+  { cat:"Kitchen", title:"KALLAX Kitchen Island", desc:"IKEA KALLAX + thick solid wood top = affordable island. Add bar stools = family gathering spot. Under €600.", how:"DIY – weekend", budget:"300–700€", emoji:"🏝️", img:"https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&h=220&fit=crop&q=80", amazon:"kuecheninsel massivholzplatte eiche ikea kallax" },
+  { cat:"Kitchen", title:"Zellige Metro Tile Backsplash", desc:"Handmade 7.5×15cm tiles as kitchen backsplash. Directly over old tiles. White, cream or sage green.", how:"DIY – 1 day", budget:"50–150€", emoji:"⬜", img:"https://images.unsplash.com/photo-1556909048-f0a46d7c3c0a?w=600&h=220&fit=crop&q=80", amazon:"metro fliesen zellige kueche rueckwand" },
   { cat:"Kitchen", title:"Messing & Kupfer Hardware", desc:"Griffe, Armatur, Haengelampen in gebuerstetem Messing. 128mm Buegel-Griffe tauschen = 30 Min, grosser Effekt.", how:"DIY – 30 Min", budget:"40–200€", emoji:"✨", img:"https://images.unsplash.com/photo-1556910638-6cdac31d8c23?w=600&h=220&fit=crop&q=80", amazon:"kuechen griffe messing gebuerstet set 20stueck" },
   { cat:"Kitchen", title:"Holz-Arbeitsplatte Butcher Block", desc:"Massivholz (Buche/Eiche/Nussbaum) als Kontrast zu dunklen Fronten. Jaehrlich Osmo-Oel. Schnittkanten SOFORT abdichten!", how:"DIY bei Tausch", budget:"80–350€", emoji:"🪵", img:"https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=600&h=220&fit=crop&q=80", amazon:"holzarbeitsplatte kueche massiv buche eiche geoelt" },
   { cat:"Kitchen", title:"LED-Strip unter Oberschraenken", desc:"2700K warmweiss unter allen Oberschraenken = Arbeitslicht + Atmosphaere. Macht Essen appetitlicher. Komplettset mit Trafo 30€.", how:"DIY – 1 hour", budget:"30–80€", emoji:"💡", img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=220&fit=crop&q=80", amazon:"led strip kueche unterschrank 2700k warmweiss" },
   { cat:"Kitchen", title:"Sage Green Shaker Fronten", desc:"Salbeigruen (RAL 6021) mit Messinggriffen und Live-Edge Regal darueber. Warm, bodenstaendig, Instagram-wuerdig.", how:"DIY 2-3 days", budget:"100–400€", emoji:"🌿", img:"https://images.unsplash.com/photo-1556910638-6cdac31d8c23?w=600&h=220&fit=crop&q=80", amazon:"kueche salbeigruen fronten haftgrund seidenmatt" },
   { cat:"Kitchen", title:"Pendelleuchten ueber Insel", desc:"3 Pendelleuchten im gleichen Abstand ueber Insel oder Tisch. Abstand: 65–75cm zur Flaeche. Globe, Sputnik oder Industrial.", how:"Elektriker", budget:"100–600€", emoji:"💫", img:"https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&h=220&fit=crop&q=80", amazon:"pendelleuchte kueche insel set 3er gold" },
   { cat:"Kitchen", title:"Grifflose J-Pull Fronten", desc:"Fraesung oben an der Frontseite statt Griffe = cleaner minimalistischer Look. Tip-On oder J-Pull Profil moeglich.", how:"Tischler / Montage", budget:"300–800€", emoji:"🤍", img:"https://images.unsplash.com/photo-1556909048-f0a46d7c3c0a?w=600&h=220&fit=crop&q=80", amazon:"grifflose fronten j-pull kueche modern" },
-  { cat:"Kitchen", title:"Betonsteinoptik Kuechenboden", desc:"Grossformatige Feinsteinzeug-Fliesen in Betonoptik fuer den Kuechenboden. Pflegeleicht, zeitlos. Ueber alte Fliesen moeglich.", how:"Fliesenleger", budget:"25–50€/m²", emoji:"🔲", img:"https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=600&h=220&fit=crop&q=80", amazon:"beton optik fliesen kueche feinsteinzeug grau" },
+  { cat:"Kitchen", title:"Concrete Look Kitchen Floor", desc:"Large-format porcelain tiles in concrete look for the kitchen floor. Easy to clean, timeless. Can go over old tiles.", how:"Tiler", budget:"25–50€/m²", emoji:"🔲", img:"https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=600&h=220&fit=crop&q=80", amazon:"beton optik fliesen kueche feinsteinzeug grau" },
   { cat:"Kitchen", title:"Dunstabzug als Statement", desc:"Edelstahl-Esse oder Wand-Haube in Mattschwarz als Designelement statt versteckt. Schornstein-Look oder Glockenform.", how:"Montage", budget:"300–1.500€", emoji:"🏭", img:"https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&h=220&fit=crop&q=80", amazon:"dunstabzugshaube wandhaube mattschwarz design" },
   { cat:"Kitchen", title:"Quarzstein Arbeitsplatte", desc:"Quarz (Silestone, Compac) – Naturstein-Look ohne Versiegelung. Hitze- und kratzfest. 2cm oder schlanke 1,2cm Kante.", how:"Profi-Montage", budget:"400–1.200€", emoji:"💎", img:"https://images.unsplash.com/photo-1556909211-36987e6e9a65?w=600&h=220&fit=crop&q=80", amazon:"quarzstein arbeitsplatte silestone kueche" },
   { cat:"Kitchen", title:"Pantry-Schrank Stauraum", desc:"Hoher Vorratsschrank neben dem Kuehlschrank mit ausziehbaren Einsaetzen und LED-Innenbeleuchtung. Stauraum verdoppeln.", how:"Tischler / IKEA", budget:"300–1.000€", emoji:"📦", img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=220&fit=crop&q=80", amazon:"pantry schrank kueche stauraum lebensmittel" },
-  { cat:"Kitchen", title:"Mikrozement Kuechenrueckwand", desc:"Fugenlose Mikrozement-Rueckwand statt Fliesen. Einfach zu reinigen, aussergewoehnlicher Look. Anthrazit oder Warm-Greige.", how:"Mittel-DIY", budget:"80–200€/m²", emoji:"🏛️", img:"https://images.unsplash.com/photo-1556910638-6cdac31d8c23?w=600&h=220&fit=crop&q=80", amazon:"mikrozement kueche rueckwand arbeitsbereich" },
+  { cat:"Kitchen", title:"Microcement Kitchen Backsplash", desc:"Seamless microcement backsplash instead of tiles. Easy to clean, extraordinary look. Anthracite or warm greige.", how:"Intermediate DIY", budget:"80–200€/m²", emoji:"🏛️", img:"https://images.unsplash.com/photo-1556910638-6cdac31d8c23?w=600&h=220&fit=crop&q=80", amazon:"mikrozement kueche rueckwand arbeitsbereich" },
 
   // ── WOHNZIMMER (15) ───────────────────────────────────────────────────────────
   { cat:"Living Room", title:"Dunkelgruen Akzentwand", desc:"Eine Wand in Flaschengruen RAL 6009. Lammfellrolle, 2 Schichten. 30–60€ fuer den groessten Raumeffekt ueberhaupt.", how:"DIY – 1 day", budget:"30–80€", emoji:"🌿", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"wandfarbe dunkelgruen matt alpina schoener wohnen" },
@@ -2292,7 +2292,7 @@ const TRENDS = [
   { cat:"Living Room", title:"Limewash Strukturwand", desc:"Kalkputz-Optik mit lebendiger Textur. Ueber normaler Farbe moeglich. Warm Greige, Rosa, Taubenblau – jede Wand einzigartig.", how:"DIY – 1 day", budget:"40–120€", emoji:"🏺", img:"https://images.unsplash.com/photo-1558882224-dda166733046?w=600&h=220&fit=crop&q=80", amazon:"limewash farbe kalkputz optik strukturfarbe" },
   { cat:"Living Room", title:"Einbauregal Boden bis Decke", desc:"MDF Regal von Wand zu Wand. LED-Strip dahinter in der Kastenblende. Weiss lackiert oder Eiche furniert.", how:"2 weekends", budget:"400–1.500€", emoji:"📖", img:"https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?w=600&h=220&fit=crop&q=80", amazon:"einbauregal mdf wohnzimmer boden decke" },
   { cat:"Living Room", title:"Bouclé Sofa Curved", desc:"Geschwungenes Bouclé-Sofa in Creme oder Hellgrau. Der Sofa-Trend 2026. Kombiniert mit Terrakotta-Wand = perfekt.", how:"Kauf", budget:"800–3.000€", emoji:"🛋️", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"bouclé sofa curved wohnzimmer creme" },
-  { cat:"Living Room", title:"Botanisches Wohnzimmer", desc:"Grosse Monstera, Fiddle Leaf Fig, Olivenbaum als Hauptelemente – nicht als Beiwerk. Koerbe als Toepfe, helle Ecken.", how:"Sofort", budget:"100–400€", emoji:"🌱", img:"https://images.unsplash.com/photo-1416879595882-b3d065a0e45d?w=600&h=220&fit=crop&q=80", amazon:"monstera gross topf rattan zimmerpflanzen" },
+  { cat:"Living Room", title:"Botanical Living Room", desc:"Large monstera, fiddle leaf fig, olive tree as main elements – not just accessories. Baskets as pots, bright corners.", how:"Immediately", budget:"100–400€", emoji:"🌱", img:"https://images.unsplash.com/photo-1416879595882-b3d065a0e45d?w=600&h=220&fit=crop&q=80", amazon:"monstera gross topf rattan zimmerpflanzen" },
   { cat:"Living Room", title:"Smart Home Licht Shelly", desc:"Shelly Relais hinter den Lichtschalter – App-steuerbar, kein Elektriker. Mit Alexa/Google Home. Szenen einrichten.", how:"DIY – 30 Min", budget:"20–60€", emoji:"📱", img:"https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&h=220&fit=crop&q=80", amazon:"shelly dimmer smart home lichtschalter" },
   { cat:"Living Room", title:"Holzboden Fischgraet", desc:"Fertigparkett in Fischgraet verlegt – eleganteste Verlegeart. Optisch breiter Raum. Eiche geoelt, 12cm Width.", how:"DIY – weekend", budget:"40–80€/m²", emoji:"⬛", img:"https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?w=600&h=220&fit=crop&q=80", amazon:"doneparkett eiche fischgraet wohnzimmer" },
   { cat:"Living Room", title:"Bogenlampe Messing XXL", desc:"Grosse Bogenlampe in gebuerstetem Messing oder Schwarz = sofortiger Luxus-Effekt. Kein Elektriker – Stecker.", how:"Kauf+Aufbau", budget:"150–600€", emoji:"🌙", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"bogenlampe messing gross wohnzimmer stehlampe" },
@@ -2344,9 +2344,9 @@ const TRENDS = [
   // ── BODEN (8) ─────────────────────────────────────────────────────────────────
   { cat:"Flooring", title:"SPC-Vinyl Ueber Fliesen", desc:"100% wasserfest, Klick-System ueber alte Fliesen. Kein Stemmen, kein Kleber. Fertig an einem day.", how:"DIY – 1 day", budget:"15–35€/m²", emoji:"🪵", img:"https://images.unsplash.com/photo-1574739782594-db4ead022697?w=600&h=220&fit=crop&q=80", amazon:"spc vinyl klick wasserfest ueber fliesen" },
   { cat:"Flooring", title:"Fischgraet-Eichenparkett", desc:"Dielen in Fischgraet-Muster – eleganteste Verlegeart. Eiche geoelt 12cm Width. Wertsteigernd.", how:"DIY/Profi", budget:"40–80€/m²", emoji:"⬛", img:"https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?w=600&h=220&fit=crop&q=80", amazon:"doneparkett eiche fischgraet verlegen" },
-  { cat:"Flooring", title:"Epoxidharz Betonoptik", desc:"Fugenloser Industrieboden ueber altem Belag. Sehr robust, ideal fuer Kueche und Flur. Vorbereitung ist alles.", how:"Intermediate", budget:"20–50€/m²", emoji:"🔘", img:"https://images.unsplash.com/photo-1574739782594-db4ead022697?w=600&h=220&fit=crop&q=80", amazon:"epoxidharz boden betonoptik set self leveling" },
+  { cat:"Flooring", title:"Epoxy Resin Concrete Look", desc:"Seamless industrial floor over existing surface. Very durable, ideal for kitchen and hallway. Preparation is everything.", how:"Intermediate", budget:"20–50€/m²", emoji:"🔘", img:"https://images.unsplash.com/photo-1574739782594-db4ead022697?w=600&h=220&fit=crop&q=80", amazon:"epoxidharz boden betonoptik set self leveling" },
   { cat:"Flooring", title:"Terrakotta Fliesen mediterran", desc:"Handgedonete Terrakotta-Bodenfliesen – warm, mediterran, zeitlos. Muss versiegelt werden.", how:"Fliesenleger", budget:"20–60€/m²", emoji:"🔶", img:"https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&h=220&fit=crop&q=80", amazon:"terrakotta fliesen handgemacht boden mediterran" },
-  { cat:"Flooring", title:"Zementfliesen Vintage Muster", desc:"Bunte Musterfliesen in Schwarz-Weiss oder Bunt. Fuer Kueche, Bad oder Flur. Ueber alte Fliesen moeglich.", how:"Fliesenleger", budget:"30–80€/m²", emoji:"🎨", img:"https://images.unsplash.com/photo-1574739782594-db4ead022697?w=600&h=220&fit=crop&q=80", amazon:"zementfliesen muster vintage bunt schwarz weiss" },
+  { cat:"Flooring", title:"Cement Tile Vintage Pattern", desc:"Colorful patterned tiles in black-white or multicolor. For kitchen, bathroom or hallway. Can go over old tiles.", how:"Tiler", budget:"30–80€/m²", emoji:"🎨", img:"https://images.unsplash.com/photo-1574739782594-db4ead022697?w=600&h=220&fit=crop&q=80", amazon:"zementfliesen muster vintage bunt schwarz weiss" },
   { cat:"Flooring", title:"Teppich als Raumteiler", desc:"Grosser Teppich (300×400) definiert den Sitzbereich. Jute, Wolle oder Outdoor-Teppich. Alle Moebelbeine drauf.", how:"Legen", budget:"80–600€", emoji:"🟫", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"grosser teppich wohnzimmer jute wolle 300x400" },
   { cat:"Flooring", title:"Dunkler Holzboden Drama", desc:"Dunkles Eichenparkett (Raeuchereiche, Nussbaum) + helle Waende = maximaler Kontrast-Effekt.", how:"Verlegen", budget:"45–100€/m²", emoji:"⬛", img:"https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?w=600&h=220&fit=crop&q=80", amazon:"raeuchereiche parkett dunkel holzboden verlegen" },
   { cat:"Flooring", title:"Weisser Marmorboden Luxus", desc:"Weisse Grossformat-Marmorfliesen oder -Optik. Macht Raeume groesser und heller. Pflegeleichter Feinsteinzeug statt echter Marmor.", how:"Fliesenleger", budget:"40–120€/m²", emoji:"🤍", img:"https://images.unsplash.com/photo-1620626011761-996317702782?w=600&h=220&fit=crop&q=80", amazon:"marmor fliesen weiss gross format luxus" },
@@ -2642,7 +2642,7 @@ export default function HomeEN() {
   const [freeUsed, setFreeUsed] = useState(0);
   const [chatMessages, setChatMessages] = useState([{
     role:"assistant",
-    text:"Hey! 👋 Ich bin dein persoenlicher Renovierungsexperte – frag mich alles ueber Bad, Kueche, Wohnzimmer, Boden, Licht und mehr.\n\nIch gebe dir **konkrete Antworten** mit Produktnamen, Preisen und Schritt-fuer-Step Anleitungen. Oder lade ein 📷 Foto hoch und ich analysiere deinen Raum sofort!",
+    text:"Hey! 👋 I'm your personal renovation expert – ask me anything about bathrooms, kitchens, living rooms, flooring, lighting and more.\n\nI'll give you **concrete answers** with product names, prices and step-by-step guides. Or upload a 📷 photo and I'll analyze your room instantly!",
   }]);
 
   useEffect(() => {
