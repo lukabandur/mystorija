@@ -4,12 +4,15 @@ import Head from "next/head";
 export default function LandingEN() {
   const [installPrompt, setInstallPrompt] = useState(null);
   const [installed, setInstalled] = useState(false);
+  const [showInstallHelp, setShowInstallHelp] = useState(false);
 
   useEffect(() => {
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
-    const handler = (e) => { e.preventDefault(); setInstallPrompt(e); };
+    // Pick up prompt captured before React mounted
+    if (window.__dip) { setInstallPrompt(window.__dip); }
+    const handler = (e) => { e.preventDefault(); setInstallPrompt(e); window.__dip = e; };
     window.addEventListener("beforeinstallprompt", handler);
-    window.addEventListener("appinstalled", () => setInstalled(true));
+    window.addEventListener("appinstalled", () => { setInstalled(true); setShowInstallHelp(false); });
     return () => window.removeEventListener("beforeinstallprompt", handler);
   }, []);
 
@@ -19,12 +22,48 @@ export default function LandingEN() {
       const { outcome } = await installPrompt.userChoice;
       if (outcome === "accepted") { setInstallPrompt(null); setInstalled(true); }
     } else {
-      window.location.href = "/en/app";
+      setShowInstallHelp(true);
     }
   }
 
+  const isIOS = typeof navigator !== "undefined" && /iphone|ipad|ipod/i.test(navigator.userAgent);
+
   return (
     <>
+      {/* Capture beforeinstallprompt before React mounts */}
+      <script dangerouslySetInnerHTML={{ __html: `window.__dip=null;window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__dip=e;});` }} />
+
+      {/* Install help modal */}
+      {showInstallHelp && (
+        <div onClick={() => setShowInstallHelp(false)} style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.5)", zIndex:9999, display:"flex", alignItems:"flex-end", justifyContent:"center" }}>
+          <div onClick={e => e.stopPropagation()} style={{ background:"white", borderRadius:"20px 20px 0 0", padding:"28px 24px 36px", width:"100%", maxWidth:500 }}>
+            <div style={{ width:40, height:4, background:"#ddd", borderRadius:2, margin:"0 auto 20px" }} />
+            <h3 style={{ fontFamily:"serif", fontSize:20, marginBottom:6 }}>📲 Install Mystorija</h3>
+            <p style={{ fontSize:13, color:"#888", marginBottom:20 }}>Add it to your home screen for the best experience.</p>
+            {isIOS ? (
+              <div>
+                {[["1","Open in Safari (if not already)"],["2","Tap the Share button ⬆ at the bottom"],["3","Scroll down and tap \"Add to Home Screen\""],["4","Tap \"Add\" – done! ✓"]].map(([n,t]) => (
+                  <div key={n} style={{ display:"flex", gap:12, alignItems:"flex-start", marginBottom:12 }}>
+                    <span style={{ background:"#C4622D", color:"white", borderRadius:50, width:24, height:24, display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:700, flexShrink:0 }}>{n}</span>
+                    <p style={{ fontSize:14, paddingTop:3 }}>{t}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div>
+                {[["1","Open in Chrome (if not already)"],["2","Tap the ⋮ menu (top right)"],["3","Tap \"Install app\" or \"Add to Home Screen\""],["4","Confirm – done! ✓"]].map(([n,t]) => (
+                  <div key={n} style={{ display:"flex", gap:12, alignItems:"flex-start", marginBottom:12 }}>
+                    <span style={{ background:"#C4622D", color:"white", borderRadius:50, width:24, height:24, display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:700, flexShrink:0 }}>{n}</span>
+                    <p style={{ fontSize:14, paddingTop:3 }}>{t}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+            <button onClick={() => setShowInstallHelp(false)} style={{ marginTop:16, width:"100%", padding:"13px", background:"#C4622D", color:"white", borderRadius:50, border:"none", fontSize:15, fontWeight:700, cursor:"pointer" }}>Got it</button>
+          </div>
+        </div>
+      )}
+
       <Head>
         <title>Mystorija – AI Home Renovation</title>
         <meta name="description" content="Upload a photo – AI generates your dream renovation in seconds. 97 ideas, 25 guides, materials to buy instantly." />
@@ -127,6 +166,12 @@ export default function LandingEN() {
             {installed ? "✓ Installed" : "Install →"}
           </button>
         </div>
+      </div>
+
+      {/* MARKETING IMAGES */}
+      <div style={{ maxWidth:900, margin:"40px auto 0", padding:"0 20px", display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))", gap:20 }}>
+        <img src="/images/ad1.jpg" alt="Mystorija – renovation ideas and guides" style={{ width:"100%", borderRadius:20, boxShadow:"0 8px 40px rgba(0,0,0,0.12)", display:"block" }} loading="lazy" />
+        <img src="/images/ad2.jpg" alt="Mystorija – before and after AI makeover" style={{ width:"100%", borderRadius:20, boxShadow:"0 8px 40px rgba(0,0,0,0.12)", display:"block" }} loading="lazy" />
       </div>
 
       {/* STATS */}
