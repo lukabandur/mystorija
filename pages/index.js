@@ -1,12 +1,11 @@
-import React, { useState } from "react";
 import Head from "next/head";
 
-export default function LandingEN() {
+export default function Landing() {
   return (
     <>
       <Head>
-        <title>Mystorija – AI Home Renovation</title>
-        <meta name="description" content="Upload photo – KI generiert deine Traumrenovierung in Sekunden. 97 Ideen, 25 Guides, Materialien sofort kaufen." />
+        <title>Mystorija – KI-Renovierung für dein Zuhause</title>
+        <meta name="description" content="Foto hochladen – KI generiert deine Traumrenovierung in Sekunden. 97 Ideen, 25 Anleitungen, Materialien sofort kaufen." />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#C4622D" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -33,27 +32,26 @@ export default function LandingEN() {
       {/* NAV */}
       <nav>
         <a className="logo" href="/landing">My<span>storija</span></a>
-        <div style={{ display:"flex", gap:10, alignItems:"center" }}>
-          <a href="/de" style={{ fontSize:12, fontWeight:700, color:"var(--muted)", textDecoration:"none", padding:"7px 12px", borderRadius:20, border:"1.5px solid var(--border)", background:"var(--bg)" }}>🇩🇪 Deutsch</a>
-          <a className="btn-secondary hide-mobile" href="/app" style={{ fontSize:13, padding:"8px 18px" }}>Open app</a>
-          <a className="btn-primary" href="/app" style={{ fontSize:13, padding:"8px 18px" }}>Start free ✨</a>
+        <div style={{ display:"flex", gap:12, alignItems:"center" }}>
+          <a className="btn-secondary hide-mobile" href="/app" style={{ fontSize:13, padding:"8px 18px" }}>App öffnen</a>
+          <a className="btn-primary" href="/app" style={{ fontSize:13, padding:"8px 18px" }}>Kostenlos starten ✨</a>
         </div>
       </nav>
 
       {/* HERO */}
       <section style={{ padding:"80px 24px 60px", textAlign:"center", maxWidth:700, margin:"0 auto" }}>
         <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"var(--accent-bg)", color:"var(--accent)", border:"1px solid #f0c9b0", borderRadius:50, padding:"6px 14px", fontSize:13, fontWeight:600, marginBottom:28 }}>
-          🤖 AI-powered · Start free instantly
+          🤖 KI-gestützt · Sofort kostenlos starten
         </div>
         <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(36px, 7vw, 58px)", fontWeight:700, lineHeight:1.15, marginBottom:20 }}>
-          Your Home,<br /><em style={{ fontStyle:"italic", color:"var(--accent)" }}>reimagined</em> with AI
+          Dein Zuhause,<br /><em style={{ fontStyle:"italic", color:"var(--accent)" }}>neu gedacht</em> mit KI
         </h1>
         <p style={{ fontSize:18, color:"var(--muted)", maxWidth:520, margin:"0 auto 36px", lineHeight:1.7 }}>
-          Upload a photo – AI generates your dream renovation in seconds. Identify materials, follow guides, get started.
+          Foto hochladen – KI generiert deine Traumrenovierung in Sekunden. Materialien erkennen, Anleitungen folgen, loslegen.
         </p>
         <div style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap" }}>
-          <a className="btn-primary" href="/" style={{ fontSize:15, padding:"14px 28px" }}>✨ Start for free</a>
-          <a className="btn-secondary" href="#features" style={{ fontSize:15, padding:"14px 28px" }}>Learn more</a>
+          <a className="btn-primary" href="/app" style={{ fontSize:15, padding:"14px 28px" }}>✨ Jetzt kostenlos testen</a>
+          <a className="btn-secondary" href="#features" style={{ fontSize:15, padding:"14px 28px" }}>Mehr erfahren</a>
         </div>
       </section>
 
@@ -62,23 +60,23 @@ export default function LandingEN() {
         <div style={{ background:"var(--card)", border:"1.5px solid var(--border)", borderRadius:24, overflow:"hidden", boxShadow:"0 20px 60px rgba(0,0,0,0.08)" }}>
           <div style={{ background:"var(--card)", padding:"12px 18px", borderBottom:"1px solid var(--border)", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
             <span style={{ fontFamily:"'Playfair Display',serif", fontSize:18, fontWeight:700 }}>My<span style={{ color:"var(--accent)" }}>storija</span></span>
-            <span style={{ fontSize:12, color:"#888", fontWeight:600 }}>KI-renovation</span>
+            <span style={{ fontSize:12, color:"#888", fontWeight:600 }}>KI-Renovierung</span>
           </div>
           <div style={{ padding:20, background:"var(--bg)" }}>
             <div style={{ border:"2px dashed var(--border)", borderRadius:16, padding:28, textAlign:"center", background:"var(--card)", marginBottom:14 }}>
               <div style={{ fontSize:40 }}>📸</div>
-              <p style={{ fontWeight:700, marginTop:8 }}>Upload photo</p>
-              <p style={{ fontSize:13, color:"var(--muted)", marginTop:4 }}>Bad, Kueche, Wohnzimmer, Terrasse...</p>
+              <p style={{ fontWeight:700, marginTop:8 }}>Foto hochladen</p>
+              <p style={{ fontSize:13, color:"var(--muted)", marginTop:4 }}>Bad, Küche, Wohnzimmer, Terrasse...</p>
             </div>
             <div style={{ background:"white", border:"1.5px solid var(--border)", borderRadius:12, padding:"11px 13px", fontSize:13, color:"#888", marginBottom:12 }}>
               z.B. Dunkle Fliesen, Walk-In Dusche, mattschwarz Armaturen...
             </div>
             <div style={{ background:"linear-gradient(135deg, #C4622D, #A0522D)", color:"white", padding:14, borderRadius:50, textAlign:"center", fontWeight:700, fontSize:14 }}>
-              ✨ Generate Makeover
+              ✨ Makeover generieren
             </div>
           </div>
           <div style={{ display:"grid", gridTemplateColumns:"repeat(7,1fr)", borderTop:"1px solid var(--border)" }}>
-            {[["✨","Makeover",true],["💬","Chat",false],["🔍","Inspo",false],["💡","Ideas",false],["📋","Guides",false],["📅","Planner",false],["🔨","Pros",false]].map(([icon,label,active]) => (
+            {[["✨","Makeover",true],["💬","Chat",false],["🔍","Inspo",false],["💡","Ideen",false],["📋","Anleit.",false],["📅","Planer",false],["🔨","Profis",false]].map(([icon,label,active]) => (
               <div key={label} style={{ padding:"9px 2px 8px", textAlign:"center", borderTop:active?"2.5px solid var(--accent)":"2.5px solid transparent", marginTop:-1 }}>
                 <div style={{ fontSize:16 }}>{icon}</div>
                 <div style={{ fontSize:9, fontWeight:600, color:active?"var(--accent)":"var(--muted)" }}>{label}</div>
@@ -90,26 +88,27 @@ export default function LandingEN() {
 
       {/* STATS */}
       <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"var(--border)", borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", margin:"60px 0" }}>
-        {[["100", "Ideas & Trends"],["50", "DIY Guides"],["20s", "to makeover"]].map(([num,label]) => (
+        {[["100","Ideen & Trends"],["50","DIY-Anleitungen"],["20s","bis zum Makeover"]].map(([num,label]) => (
           <div key={label} style={{ background:"var(--card)", padding:"28px 20px", textAlign:"center" }}>
             <div style={{ fontFamily:"'Playfair Display',serif", fontSize:36, fontWeight:700, color:"var(--accent)" }}>{num}</div>
             <div style={{ fontSize:13, color:"var(--muted)", marginTop:4 }}>{label}</div>
           </div>
         ))}
       </div>
+
       {/* PAIN POINTS */}
       <section style={{ padding:"0 24px 70px", maxWidth:900, margin:"0 auto" }}>
         <div style={{ textAlign:"center", marginBottom:40 }}>
-          <div className="section-label" style={{ textAlign:"center" }}>For everyone who wants to renovate</div>
+          <div className="section-label" style={{ textAlign:"center" }}>Für jeden der renovieren möchte</div>
           <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(26px,5vw,38px)", lineHeight:1.25 }}>
-            {"Inspiration is everywhere –"}<br /><em style={{ color:"var(--accent)" }}>Mystorija helps you get it done</em>
+            Inspiration ist überall –<br /><em style={{ color:"var(--accent)" }}>Mystorija hilft dir umzusetzen</em>
           </h2>
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))", gap:16, marginBottom:50 }}>
           {[
-            ["🛋️","Finally a clear vision","You know you want to change something – but what should it look like? Just upload a photo and see your home transformed."],
-            ["🔍","What makes this look?","Found a beautiful photo – but what tiles are those, what wood tone, how much does it cost? Mystorija recognizes and explains it all."],
-            ["🔨","DIY or hire a pro?","Renovation doesn't have to be complicated. 25 clear guides show you step by step what you can do yourself."],
+            ["🛋️","Endlich ein Bild im Kopf","Du weißt dass du etwas verändern möchtest – aber wie soll es genau aussehen? Lade einfach ein Foto hoch und sieh dein Zuhause neu."],
+            ["🔍","Was steckt hinter diesem Look?","Ein schönes Foto gefunden – aber welche Fliesen sind das, welcher Holzton, was kostet das ungefähr? Mystorija erkennt und erklärt es dir."],
+            ["🔨","Selbst machen oder Profi?","Renovieren muss nicht kompliziert sein. 25 klare Anleitungen zeigen dir Schritt für Schritt was du selbst umsetzen kannst."],
           ].map(([icon,title,desc]) => (
             <div key={title} style={{ background:"var(--card)", border:"1.5px solid var(--border)", borderRadius:18, padding:24 }}>
               <div style={{ fontSize:28, marginBottom:12 }}>{icon}</div>
@@ -122,31 +121,31 @@ export default function LandingEN() {
         {/* INSPO HOOK */}
         <div style={{ background:"linear-gradient(135deg, #1A1A1A 0%, #2A1A0E 100%)", borderRadius:24, padding:"40px 32px", display:"flex", gap:32, alignItems:"center", flexWrap:"wrap" }}>
           <div style={{ flex:1, minWidth:220 }}>
-            <div className="section-label">🔍 Inspo Analysis</div>
-            <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:26, color:"white", lineHeight:1.3, margin:"10px 0 14px" }}>See an image<br />you love?</h3>
-            <p style={{ fontSize:15, color:"#aaa", lineHeight:1.7, marginBottom:20 }}>Take a screenshot of any image you like – Pinterest, Instagram, magazines, anywhere. The AI instantly tells you everything you need to know:</p>
-            {["Which materials were used","Exact color tones and palette","Approximate cost per material","How to recreate it yourself","Direct links to Amazon, OBI, Bauhaus & Hornbach"].map(t => (
+            <div className="section-label">🔍 Inspo-Analyse</div>
+            <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:26, color:"white", lineHeight:1.3, margin:"10px 0 14px" }}>Siehst du ein Bild<br />das du liebst?</h3>
+            <p style={{ fontSize:15, color:"#aaa", lineHeight:1.7, marginBottom:20 }}>Egal ob Pinterest, Instagram oder Magazin – lade es hoch. Die KI sagt dir sofort alles was du wissen musst:</p>
+            {["Welche Materialien verwendet wurden","Genaue Farbtöne und Farbpalette","Ungefähre Kosten pro Material","Wie du es selbst nachmachen kannst","Direktlinks zu Amazon, OBI, Bauhaus & Hornbach"].map(t => (
               <div key={t} style={{ color:"#ddd", fontSize:14, display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
                 <span style={{ color:"var(--accent)", fontWeight:700, flexShrink:0 }}>✓</span> {t}
               </div>
             ))}
-            <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"var(--accent)", color:"white", padding:"12px 24px", borderRadius:50, fontSize:14, fontWeight:700, textDecoration:"none", marginTop:20 }}>
-              🔍 Analyze photo →
+            <a href="/app" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"var(--accent)", color:"white", padding:"12px 24px", borderRadius:50, fontSize:14, fontWeight:700, textDecoration:"none", marginTop:20 }}>
+              🔍 Foto analysieren →
             </a>
           </div>
           <div style={{ flexShrink:0 }}>
             <div style={{ background:"#2A2A2A", borderRadius:20, padding:20, width:220 }}>
               <div style={{ background:"#333", borderRadius:12, height:110, display:"flex", alignItems:"center", justifyContent:"center", marginBottom:14, fontSize:36 }}>📸</div>
               <div style={{ background:"var(--accent)", borderRadius:8, padding:"10px 12px", marginBottom:8 }}>
-                <p style={{ fontSize:11, fontWeight:700, color:"white", marginBottom:3 }}>Japandi Bathroom detected</p>
-                <p style={{ fontSize:10, color:"#f0c9b0" }}>Microcement · Teak Wood · Matte Black</p>
+                <p style={{ fontSize:11, fontWeight:700, color:"white", marginBottom:3 }}>Japandi Bad erkannt</p>
+                <p style={{ fontSize:10, color:"#f0c9b0" }}>Mikrozement · Teak Holz · Matte Black</p>
               </div>
               <div style={{ display:"flex", gap:6 }}>
                 {["#4A4A4A","#5A4A3A","#3A3A3A","#6A5A4A"].map(c => (
                   <div key={c} style={{ flex:1, height:16, background:c, borderRadius:4 }} />
                 ))}
               </div>
-              <p style={{ fontSize:10, color:"#888", marginTop:6 }}>Color palette detected</p>
+              <p style={{ fontSize:10, color:"#888", marginTop:6 }}>Farbpalette erkannt</p>
             </div>
           </div>
         </div>
@@ -154,17 +153,17 @@ export default function LandingEN() {
 
       {/* FEATURES */}
       <section style={{ padding:"70px 24px", maxWidth:900, margin:"0 auto" }} id="features">
-        <div className="section-label">What Mystorija can do</div>
-        <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,5vw,40px)", fontWeight:700, lineHeight:1.25, marginBottom:14 }}>Everything you need for your renovation</h2>
-        <p style={{ fontSize:17, color:"var(--muted)", maxWidth:560, lineHeight:1.7, marginBottom:48 }}>From inspiration to finished guide – Mystorija guides you through every step.</p>
+        <div className="section-label">Was Mystorija kann</div>
+        <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,5vw,40px)", fontWeight:700, lineHeight:1.25, marginBottom:14 }}>Alles was du für deine Renovierung brauchst</h2>
+        <p style={{ fontSize:17, color:"var(--muted)", maxWidth:560, lineHeight:1.7, marginBottom:48 }}>Von der Inspiration bis zur fertigen Anleitung – Mystorija begleitet dich durch jeden Schritt.</p>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))", gap:20 }}>
           {[
-            ["✨","AI Makeover","Upload a photo, describe your wishes – AI shows you your room renovated. In seconds, not months."],
-            ["🔍","Inspo Analysis","Upload a Pinterest screenshot – AI instantly recognizes all materials, colors and shows how to recreate it."],
-            ["💡","100 Ideas & Trends","Bathroom, kitchen, living room, terrace and more. Current 2026 trends with costs and direct shop links."],
-            ["📋","25 Guides","From painting walls to building a shower. With tool list, pro tips and video links."],
-            ["💬","AI Advisor","Ask anything about renovation: costs, materials, permits. Like an experienced friend."],
-            ["🛒","Materialien kaufen","AI recognizes materials used and links directly to Amazon, OBI, Bauhaus & Hornbach."],
+            ["✨","KI-Makeover","Foto hochladen, Wünsche beschreiben – die KI zeigt dir deinen Raum renoviert. In Sekunden, nicht Monaten."],
+            ["🔍","Inspo analysieren","Pinterest-Screenshot hochladen – KI erkennt sofort alle Materialien, Farben und zeigt wie du es nachmachst."],
+            ["💡","100 Ideen & Trends","Bad, Küche, Wohnzimmer, Terrasse und mehr. Aktuelle Trends 2026 mit Kosten und direkten Shop-Links."],
+            ["📋","25 Anleitungen","Von Wände streichen bis Dusche bauen. Mit Werkzeug-Liste, Profi-Tipps und Video-Links."],
+            ["💬","KI-Berater","Frag alles rund ums Renovieren: Kosten, Materialien, Genehmigungen. Wie ein erfahrener Freund."],
+            ["🛒","Materialien kaufen","KI erkennt verwendete Materialien und verlinkt direkt zu Amazon, OBI, Bauhaus & Hornbach."],
           ].map(([icon,title,desc]) => (
             <div key={title} style={{ background:"var(--card)", border:"1.5px solid var(--border)", borderRadius:18, padding:24 }}>
               <div style={{ fontSize:32, marginBottom:14 }}>{icon}</div>
@@ -178,14 +177,14 @@ export default function LandingEN() {
       {/* HOW IT WORKS */}
       <section style={{ background:"var(--card)", padding:"70px 24px" }}>
         <div style={{ maxWidth:900, margin:"0 auto" }}>
-          <div className="section-label">How it works</div>
-          <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,5vw,40px)", fontWeight:700, lineHeight:1.25, marginBottom:14 }}>3 steps to your dream renovation</h2>
-          <p style={{ fontSize:17, color:"var(--muted)", maxWidth:560, lineHeight:1.7, marginBottom:48 }}>No architecture degree, no 3D software. Just upload a photo and get started.</p>
+          <div className="section-label">So einfach geht's</div>
+          <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,5vw,40px)", fontWeight:700, lineHeight:1.25, marginBottom:14 }}>In 3 Schritten zur Traumrenovierung</h2>
+          <p style={{ fontSize:17, color:"var(--muted)", maxWidth:560, lineHeight:1.7, marginBottom:48 }}>Kein Architekturstudium, kein 3D-Programm. Einfach Foto hochladen und loslegen.</p>
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))", gap:0 }}>
             {[
-              ["1","Upload a photo","Take a photo of your room – no matter how it looks."],
-              ["2","Describe your wishes","\"Dunkle Fliesen, keine Badewanne, Walk-In Dusche, mattschwarz Armaturen\""],
-              ["3","AI generates your makeover","In ~20 seconds you see your renovated room – with materials and shopping list."],
+              ["1","Foto hochladen","Mach ein Foto von deinem Raum – egal wie er gerade aussieht."],
+              ["2","Wünsche beschreiben","\"Dunkle Fliesen, keine Badewanne, Walk-In Dusche, mattschwarz Armaturen\""],
+              ["3","KI generiert dein Makeover","In ~20 Sekunden siehst du deinen renovierten Raum – mit Materialien und Einkaufsliste."],
             ].map(([num,title,desc], i) => (
               <div key={num} style={{ textAlign:"center", padding:"28px 20px", position:"relative" }}>
                 <div style={{ width:44, height:44, borderRadius:"50%", background:"var(--accent)", color:"white", fontSize:18, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px", fontFamily:"'Playfair Display',serif" }}>{num}</div>
@@ -201,20 +200,20 @@ export default function LandingEN() {
       {/* PRICING */}
       <section style={{ padding:"70px 24px", maxWidth:900, margin:"0 auto" }} id="preise">
         <div className="section-label">Preise</div>
-        <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,5vw,40px)", fontWeight:700, lineHeight:1.25, marginBottom:14 }}>Transparent. Fair. No surprises.</h2>
-        <p style={{ fontSize:17, color:"var(--muted)", maxWidth:560, lineHeight:1.7, marginBottom:24 }}>Start free and upgrade when you need more.</p>
+        <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,5vw,40px)", fontWeight:700, lineHeight:1.25, marginBottom:14 }}>Transparent. Fair. Keine Überraschungen.</h2>
+        <p style={{ fontSize:17, color:"var(--muted)", maxWidth:560, lineHeight:1.7, marginBottom:24 }}>Starte kostenlos und upgrade wenn du mehr willst.</p>
         <div style={{ background:"var(--accent-bg)", border:"1.5px solid #f0c9b0", borderRadius:16, padding:"18px 24px", marginBottom:36, display:"flex", gap:16, alignItems:"center", flexWrap:"wrap" }}>
           <div style={{ fontSize:24 }}>⏱️</div>
           <div style={{ flex:1 }}>
-            <p style={{ fontSize:15, fontWeight:700, marginBottom:4 }}>See your result in 20 seconds</p>
-            <p style={{ fontSize:13, color:"var(--muted)" }}>No account needed. No download. Just upload a photo and get started – free now.</p>
+            <p style={{ fontSize:15, fontWeight:700, marginBottom:4 }}>In 20 Sekunden siehst du dein Ergebnis</p>
+            <p style={{ fontSize:13, color:"var(--muted)" }}>Kein Account nötig. Kein Download. Einfach Foto hochladen und loslegen – jetzt kostenlos.</p>
           </div>
-          <a href="/" style={{ flexShrink:0, background:"var(--accent)", color:"white", padding:"10px 20px", borderRadius:50, fontSize:13, fontWeight:700, textDecoration:"none", whiteSpace:"nowrap" }}>Start now →</a>
+          <a href="/app" style={{ flexShrink:0, background:"var(--accent)", color:"white", padding:"10px 20px", borderRadius:50, fontSize:13, fontWeight:700, textDecoration:"none", whiteSpace:"nowrap" }}>Jetzt starten →</a>
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))", gap:20 }}>
           {[
-            { name:"Basic", price:"9,99", featured:false, desc:"Perfect for getting started – all core features.", features:["Unlimited Makeovers","AI Inspo Analysis","100 Ideas & Trends","25 Guides","AI Chat Advisor","Planner & Shopping list"] },
-            { name:"Pro ⭐", price:"19,99", featured:true, desc:"For serious renovators – unlegrenzt generieren.", features:["Unlimited Makeovers","Everything in Basic","Priority generation","Early access to new features"] },
+            { name:"Basic", price:"9,99", featured:false, desc:"Ideal für den Start – alle Kern-Features.", features:["Unbegrenzte Makeovers","KI-Inspo-Analyse","100 Ideen & Trends","25 Anleitungen","KI-Chat Berater","Planer & Einkaufsliste"] },
+            { name:"Pro ⭐", price:"19,99", featured:true, desc:"Für ernsthafte Renovierer – unbegrenzt generieren.", features:["Unbegrenzte Makeovers","Alles aus Basic","Priorität bei der Generierung","Früher Zugang zu neuen Features"] },
           ].map(p => (
             <div key={p.name} style={{ background:"var(--card)", border:`1.5px solid ${p.featured?"var(--accent)":"var(--border)"}`, borderRadius:20, padding:28, position:"relative" }}>
               {p.featured && <div style={{ position:"absolute", top:-12, left:"50%", transform:"translateX(-50%)", background:"var(--accent)", color:"white", fontSize:11, fontWeight:700, padding:"4px 14px", borderRadius:50, whiteSpace:"nowrap" }}>⭐ Empfohlen</div>}
@@ -226,8 +225,8 @@ export default function LandingEN() {
               <ul style={{ listStyle:"none", display:"flex", flexDirection:"column", gap:10, marginBottom:24 }}>
                 {p.features.map(f => <li key={f} style={{ fontSize:14, display:"flex", alignItems:"flex-start", gap:8 }}><span style={{ color:"var(--green)", fontWeight:700, flexShrink:0 }}>✓</span>{f}</li>)}
               </ul>
-              <a href="/" style={{ display:"block", width:"100%", textAlign:"center", padding:13, borderRadius:50, fontSize:14, fontWeight:700, textDecoration:"none", background:p.featured?"var(--accent)":"transparent", color:p.featured?"white":"var(--text)", border:p.featured?"none":"1.5px solid var(--border)" }}>
-                {p.featured ? "Go Pro ✨" : "Start now"}
+              <a href="/app" style={{ display:"block", width:"100%", textAlign:"center", padding:13, borderRadius:50, fontSize:14, fontWeight:700, textDecoration:"none", background:p.featured?"var(--accent)":"transparent", color:p.featured?"white":"var(--text)", border:p.featured?"none":"1.5px solid var(--border)" }}>
+                {p.featured ? "Pro werden ✨" : "Jetzt starten"}
               </a>
             </div>
           ))}
@@ -239,35 +238,35 @@ export default function LandingEN() {
       <section style={{ padding:"70px 24px", background:"var(--bg)" }}>
         <div style={{ maxWidth:860, margin:"0 auto" }}>
           <div style={{ textAlign:"center", marginBottom:48 }}>
-            <div style={{ fontSize:12, fontWeight:700, textTransform:"uppercase", letterSpacing:"1.5px", color:"var(--accent)", marginBottom:10 }}>For Contractors & Businesses</div>
+            <div style={{ fontSize:12, fontWeight:700, textTransform:"uppercase", letterSpacing:"1.5px", color:"var(--accent)", marginBottom:10 }}>Für Handwerker & Betriebe</div>
             <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(26px,5vw,38px)", lineHeight:1.25, marginBottom:14 }}>
-              Your business –<br /><em style={{ color:"var(--accent)" }}>directly with renovation-ready customers</em>
+              Dein Betrieb –<br /><em style={{ color:"var(--accent)" }}>direkt bei renovierungswilligen Kunden</em>
             </h2>
             <p style={{ fontSize:16, color:"var(--muted)", maxWidth:540, margin:"0 auto", lineHeight:1.7 }}>
-              Mystorija users are actively renovating. No better moment to present your business.
+              Mystorija-Nutzer sind aktiv am Renovieren. Kein besserer Moment um deinen Betrieb zu präsentieren.
             </p>
           </div>
 
           {/* Single pricing card centered */}
           <div style={{ maxWidth:460, margin:"0 auto 40px", background:"var(--card)", border:"2px solid var(--accent)", borderRadius:24, padding:36, position:"relative" }}>
             <div style={{ position:"absolute", top:-14, left:"50%", transform:"translateX(-50%)", background:"var(--accent)", color:"white", fontSize:12, fontWeight:700, padding:"5px 18px", borderRadius:50, whiteSpace:"nowrap" }}>
-              🔨 Contractor Plan
+              🔨 Handwerker Plan
             </div>
             <div style={{ textAlign:"center", marginBottom:24 }}>
               <div style={{ fontFamily:"'Playfair Display',serif", fontSize:52, fontWeight:700, lineHeight:1, color:"var(--text)" }}>
                 <sup style={{ fontSize:22, verticalAlign:"super" }}>€</sup>49<sub style={{ fontSize:18, color:"var(--muted)", fontFamily:"'DM Sans',sans-serif", fontWeight:400 }}>,99/Monat</sub>
               </div>
-              <p style={{ fontSize:14, color:"var(--muted)", marginTop:6 }}>Cancel anytime · No setup fee</p>
+              <p style={{ fontSize:14, color:"var(--muted)", marginTop:6 }}>Monatlich kündbar · Keine Einrichtungsgebühr</p>
             </div>
 
             <div style={{ borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", padding:"20px 0", marginBottom:24 }}>
               {[
-                ["🏢", "Business Profile", "With photos, services, contact details and reviews"],
-                ["📣", "Advertisement", "Your banner appears in Ideas, Trends and Guides – exactly when users look for contractors"],
-                ["📩", "Direct Inquiries", "Customers contact you directly from the app"],
-                ["✅", "Verified Pro", "Badge for more trust with new customers"],
-                ["📍", "Regional Visibility", "Shown in your region"],
-                ["⭐", "Rating System", "Collect real customer reviews"],
+                ["🏢", "Betriebsprofil", "Mit Fotos, Leistungen, Kontaktdaten und Bewertungen"],
+                ["📣", "Werbeanzeige", "Dein Banner erscheint in Ideen, Trends und Anleitungen – genau wenn Nutzer nach Handwerkern suchen"],
+                ["📩", "Direktanfragen", "Kunden kontaktieren dich direkt aus der App"],
+                ["✅", "Verifizierter Profi", "Badge für mehr Vertrauen bei Neukunden"],
+                ["📍", "Regionale Sichtbarkeit", "Wirst in deiner Region angezeigt"],
+                ["⭐", "Bewertungssystem", "Sammle echte Kundenbewertungen"],
               ].map(([icon, title, desc]) => (
                 <div key={title} style={{ display:"flex", gap:12, alignItems:"flex-start", padding:"10px 0", borderBottom:"1px solid var(--border)" }}>
                   <span style={{ fontSize:18, flexShrink:0 }}>{icon}</span>
@@ -280,11 +279,21 @@ export default function LandingEN() {
             </div>
 
             <a href="mailto:info@mystorija.com" style={{ display:"block", width:"100%", textAlign:"center", padding:"14px", borderRadius:50, fontSize:15, fontWeight:700, textDecoration:"none", background:"var(--accent)", color:"white" }}>
-              Apply now →
+              Jetzt bewerben →
             </a>
             <p style={{ textAlign:"center", fontSize:12, color:"var(--muted)", marginTop:10 }}>
-              Write us: <strong>info@mystorija.com</strong>
+              Schreib uns: <strong>info@mystorija.com</strong>
             </p>
+          </div>
+
+          {/* Why now */}
+          <div style={{ background:"var(--card)", border:"1.5px solid var(--border)", borderRadius:18, padding:"22px 28px", display:"flex", gap:16, alignItems:"center", flexWrap:"wrap" }}>
+            <div style={{ fontSize:32 }}>📊</div>
+            <div style={{ flex:1 }}>
+              <p style={{ fontSize:15, fontWeight:700, marginBottom:4 }}>Jetzt einsteigen – Early-Preis sichern</p>
+              <p style={{ fontSize:13, color:"var(--muted)", lineHeight:1.6 }}>Wer jetzt einsteigt sichert sich bevorzugte Platzierung und den günstigsten Einstiegspreis. Warteliste ist offen.</p>
+            </div>
+            <a href="mailto:info@mystorija.com" style={{ flexShrink:0, background:"var(--accent)", color:"white", padding:"11px 20px", borderRadius:50, fontSize:13, fontWeight:700, textDecoration:"none" }}>Kontakt →</a>
           </div>
         </div>
       </section>
@@ -297,18 +306,18 @@ export default function LandingEN() {
           <div style={{ textAlign:"center", marginBottom:50 }}>
             <div style={{ fontSize:12, fontWeight:700, textTransform:"uppercase", letterSpacing:"1.5px", color:"var(--accent)", marginBottom:10 }}>Community</div>
             <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(26px,5vw,38px)", color:"white", lineHeight:1.25, marginBottom:14 }}>
-              A community is growing here<br /><em style={{ color:"var(--accent)" }}>around renovation</em>
+              Hier entsteht eine Community<br /><em style={{ color:"var(--accent)" }}>rund ums Renovieren</em>
             </h2>
             <p style={{ fontSize:16, color:"#aaa", maxWidth:560, margin:"0 auto", lineHeight:1.7 }}>
-              Mystorija verbindet Menschen die renovieren moechten mit Handwerkern die helfen koennen. Zeige deine Projekte, hol dir Inspiration und finde den richtigen Profi.
+              Mystorija verbindet Menschen die renovieren möchten mit Handwerkern die helfen können. Zeige deine Projekte, hol dir Inspiration und finde den richtigen Profi.
             </p>
           </div>
 
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))", gap:20, marginBottom:50 }}>
             {[
-              ["🏠", "For homeowners", "Share your Renovation projekte, zeige Vorher/Nachher Ergebnisse und lass dich von anderen Projekten inspirieren."],
-              ["🔨", "For contractors", "Present your deine Arbeit direkt an renovierungswillige Kunden. Kein Streuen – nur Menschen die wirklich renovieren moechten."],
-              ["💡", "For idea seekers", "Sieh was andere aus aehnlichen Raeumen gemacht haben. Echte Projekte, echte Ergebnisse – keine Stock-Fotos."],
+              ["🏠", "Für Hausbesitzer", "Teile deine Renovierungsprojekte, zeige Vorher/Nachher Ergebnisse und lass dich von anderen Projekten inspirieren."],
+              ["🔨", "Für Handwerker", "Präsentiere deine Arbeit direkt an renovierungswillige Kunden. Kein Streuen – nur Menschen die wirklich renovieren möchten."],
+              ["💡", "Für Ideen-Sucher", "Sieh was andere aus ähnlichen Räumen gemacht haben. Echte Projekte, echte Ergebnisse – keine Stock-Fotos."],
             ].map(([icon, title, desc]) => (
               <div key={title} style={{ background:"#2A2A2A", borderRadius:18, padding:24, border:"1px solid #333" }}>
                 <div style={{ fontSize:32, marginBottom:14 }}>{icon}</div>
@@ -321,9 +330,9 @@ export default function LandingEN() {
           {/* Handwerker CTA */}
           <div style={{ background:"linear-gradient(135deg, #2A1A0E, #3A2010)", border:"1px solid #C4622D44", borderRadius:20, padding:"32px", display:"flex", gap:24, alignItems:"center", flexWrap:"wrap" }}>
             <div style={{ flex:1, minWidth:220 }}>
-              <p style={{ fontSize:13, fontWeight:700, textTransform:"uppercase", letterSpacing:"1px", color:"var(--accent)", marginBottom:8 }}>🔨 For Contractors & Businesses</p>
+              <p style={{ fontSize:13, fontWeight:700, textTransform:"uppercase", letterSpacing:"1px", color:"var(--accent)", marginBottom:8 }}>🔨 Für Handwerker & Betriebe</p>
               <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, color:"white", lineHeight:1.3, marginBottom:12 }}>Werde Teil der Mystorija Community</h3>
-              <p style={{ fontSize:14, color:"#aaa", lineHeight:1.6, marginBottom:20 }}>Present your deinen Betrieb direkt an Menschen die gerade renovieren – die aktivste Zielgruppe ueberhaupt. Eintrag ab <strong style={{ color:"var(--accent)" }}>49,99€/Monat</strong>.</p>
+              <p style={{ fontSize:14, color:"#aaa", lineHeight:1.6, marginBottom:20 }}>Präsentiere deinen Betrieb direkt an Menschen die gerade renovieren – die aktivste Zielgruppe überhaupt. Eintrag ab <strong style={{ color:"var(--accent)" }}>49,99€/Monat</strong>.</p>
               <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
                 {["✓ Profil mit Fotos & Bewertungen","✓ Direkte Anfragen","✓ Nur verifizierte Betriebe"].map(t => (
                   <span key={t} style={{ fontSize:13, color:"#ccc" }}>{t}</span>
@@ -341,36 +350,19 @@ export default function LandingEN() {
         </div>
       </section>
       <section style={{ background:"var(--accent)", padding:"60px 24px", textAlign:"center" }}>
-        <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:32, color:"white", marginBottom:12 }}>Add to your homescreen</h2>
-        <p style={{ fontSize:16, color:"rgba(255,255,255,0.85)", maxWidth:480, margin:"0 auto 28px", lineHeight:1.7 }}>Mystorija works like a native app – installable on iPhone and Android. No App Store needed.</p>
-        <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"white", color:"var(--accent)", padding:"14px 28px", borderRadius:50, fontSize:15, fontWeight:700, textDecoration:"none" }}>
-          📲 Open & install app
+        <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:32, color:"white", marginBottom:12 }}>App auf deinen Homescreen</h2>
+        <p style={{ fontSize:16, color:"rgba(255,255,255,0.85)", maxWidth:480, margin:"0 auto 28px", lineHeight:1.7 }}>Mystorija funktioniert wie eine native App – installierbar auf iPhone und Android. Kein App Store nötig.</p>
+        <a href="/app" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"white", color:"var(--accent)", padding:"14px 28px", borderRadius:50, fontSize:15, fontWeight:700, textDecoration:"none" }}>
+          📲 App öffnen & installieren
         </a>
       </section>
 
-      
-      {/* CONTACT */}
-      <section style={{ background:"var(--card)", padding:"50px 24px", borderTop:"1px solid var(--border)" }}>
-        <div style={{ maxWidth:600, margin:"0 auto", textAlign:"center" }}>
-          <div style={{ fontSize:12, fontWeight:700, textTransform:"uppercase", letterSpacing:"1.5px", color:"var(--accent)", marginBottom:10 }}>Contact & Support</div>
-          <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:28, marginBottom:12 }}>Questions? We are happy to help</h2>
-          <p style={{ fontSize:16, color:"var(--muted)", marginBottom:28, lineHeight:1.7 }}>
-            Questions about the app, your subscription or as a contractor who wants to join – just write us.
-          </p>
-          <a href="mailto:info@mystorija.com" style={{ display:"inline-flex", alignItems:"center", gap:10, background:"var(--accent)", color:"white", padding:"14px 32px", borderRadius:50, fontSize:16, fontWeight:700, textDecoration:"none" }}>
-            ✉️ info@mystorija.com
-          </a>
-          <p style={{ fontSize:13, color:"var(--muted)", marginTop:12 }}>We respond within 24 hours</p>
-        </div>
-      </section>
-{/* FOOTER */}
+      {/* FOOTER */}
       <footer style={{ background:"#1A1A1A", padding:"40px 24px", textAlign:"center" }}>
         <div style={{ fontFamily:"'Playfair Display',serif", fontSize:20, color:"white", marginBottom:8 }}>My<span style={{ color:"var(--accent)" }}>storija</span></div>
-        <p style={{ fontSize:13, color:"#888", marginBottom:4 }}>AI-powered renovation app · 2026</p>
-        <p style={{ fontSize:13, color:"#888", marginBottom:4 }}>Support: <a href="mailto:info@mystorija.com" style={{ color:"var(--accent)", textDecoration:"none" }}>info@mystorija.com</a></p>
-        <p style={{ fontSize:13, color:"#888", marginBottom:4 }}>Support: <a href="mailto:info@mystorija.com" style={{ color:"var(--accent)", textDecoration:"none" }}>info@mystorija.com</a></p>
+        <p style={{ fontSize:13, color:"#888", marginBottom:4 }}>KI-gestützte Renovierungs-App · 2026</p>
         <div style={{ marginTop:16, display:"flex", gap:0, justifyContent:"center" }}>
-          {[["Imprint","/impressum"],["Privacy","/datenschutz"],["Open app","/en/app"]].map(([label,href]) => (
+          {[["Impressum","/impressum"],["Datenschutz","/datenschutz"],["App öffnen","/"]].map(([label,href]) => (
             <a key={label} href={href} style={{ color:"#888", textDecoration:"none", margin:"0 12px", fontSize:13 }}>{label}</a>
           ))}
         </div>
