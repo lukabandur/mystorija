@@ -2752,7 +2752,7 @@ export default function Home() {
         <link rel="apple-touch-icon" href="/icon-192.png" />
         <style dangerouslySetInnerHTML={{ __html:globalCSS }} />
       
-    <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
+        <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
     <script dangerouslySetInnerHTML={{__html: "Weglot.initialize({ api_key: 'wg_96964bd6df0c3dbdd98d4a70d22c79696' });"}} />
     </Head>
       <div style={{ display:"flex", flexDirection:"column", height:"100vh", background:C.bg, maxWidth:600, margin:"0 auto" }}>
