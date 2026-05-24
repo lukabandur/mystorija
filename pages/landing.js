@@ -29,7 +29,7 @@ export default function Landing() {
           @media (max-width: 600px) { .hide-mobile { display: none !important; } }
         `}</style>
       
-    <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
+        <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
     <script dangerouslySetInnerHTML={{__html: "Weglot.initialize({ api_key: 'wg_96964bd6df0c3dbdd98d4a70d22c79696' });"}} />
     </Head>
 
