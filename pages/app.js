@@ -6,16 +6,13 @@ import { Analytics } from "@vercel/analytics/next";
 const SYSTEM = `Du bist Mystorija, ein freundlicher DIY-Renovierungsexperte für den deutschsprachigen Markt. Deine Nutzer sind AMATEURE. Erkläre alles einfach, konkret, auf Deutsch, motivierend. Immer mit Produktnamen, deutschen Preisen (OBI/Bauhaus/Hornbach/Amazon/IKEA). Warne bei Elektro-Festinstallation, Asbest und tragenden Wänden immer klar.`;
 
 async function callAPI(messages) {
-  const response = await fetch("/api/chat-proxy", {
+  const response = await fetch("/api/chat", {
     method: "POST",
-    headers: { "Content-Type": "application/json", "anthropic-version": "2023-06-01" },
-    body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 1000, messages }),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ messages, lang: "de" }),
   });
-  const raw = await response.text();
-  let data;
-  try { data = JSON.parse(raw); } catch(e) { throw new Error("HTTP " + response.status + ": " + raw.substring(0,150)); }
-  if (!response.ok || data.error || data.type === "error") throw new Error("HTTP " + response.status + " | " + raw.substring(0,200));
-  return data.content?.[0]?.text || "(leer)";
+  const data = await response.json();
+  return data.reply || "(leer)";
 }
 
 const C = {
@@ -1341,7 +1338,7 @@ function ChatTab({ lang = "de", messages, setMessages }) {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: apiMessages }),
+        body: JSON.stringify({ messages: apiMessages, lang: "de" }),
       });
       const data = await res.json();
       setMessages(prev => [...prev, { role: "assistant", text: data.reply || "Keine Antwort erhalten." }]);

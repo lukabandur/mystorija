@@ -654,12 +654,12 @@ function TippsBox() {
   const [tab, setTab] = useState("tipps"); // "tipps" | "vorlage"
 
   const TIPPS = [
-    { icon:"🔄", titel:"Objekte ersetzen", gut:"Keine Badewanne, dafuer eine Walk-In Dusche mit Regendusche", schlecht:"Dusche", erklaerung:"Sag was weg soll UND was kommen soll. 'Dafuer', 'stattdessen', 'anstatt' helfen der KI." },
-    { icon:"🎨", titel:"Farben & Materialien", gut:"Anthrazit-Feinsteinzeug 80x80cm, weisse Fugen, Eichenholz-Waschtisch", schlecht:"Andere Farben", erklaerung:"Nenne konkrete Farbnamen und Materialien: Anthrazit, Navy, Terrakotta, Marmor, Eiche, Mikrozement, Zellige." },
-    { icon:"🌿", titel:"Terrasse & Aussen", gut:"Fuege Grill hinzu, Pergola mit Rankpflanzen, Olivenbaum in Terrakotta-Topf, Lichterketten", schlecht:"Schoener machen", erklaerung:"Fuer Terrassen: Moebel, Pflanzen, Beleuchtung und Bodenbelag separat nennen. Je mehr Details, desto besser." },
-    { icon:"💡", titel:"Stil beschreiben", gut:"Modernes Spa-Bad mit indirektem Licht, mattschwarz Armaturen, Holzakzente", schlecht:"Modern", erklaerung:"Stile: Modern, Skandinavisch, Industrial, Japandi, Mediterran, Luxus, Minimalist, Rustikal." },
-    { icon:"📐", titel:"Mehreres kombinieren", gut:"Dunkle Fliesen, keine Badewanne dafuer Dusche, schwarze Armaturen, Wandnische", schlecht:"Alles neu", erklaerung:"Mehrere Aenderungen mit Komma trennen – die KI arbeitet alle ab." },
-    { icon:"⚠️", titel:"Was KI schwer kann", gut:"Darker tiles, Farbe aendern, Moebel hinzufuegen", schlecht:"Waende verschieben, Fenster vergroessern", erklaerung:"Farben, Materialien & Moebel hinzufuegen klappt gut. Strukturelle Aenderungen (Waende, Fenster) sind KI-schwierig." },
+    { icon:"🔄", titel:"Replace objects", gut:"No bathtub, instead a walk-in shower with rain head", schlecht:"Shower", erklaerung:"Say what should go AND what should replace it. 'Instead of', 'replace with', 'swap for' help the AI understand." },
+    { icon:"🎨", titel:"Colours & Materials", gut:"Anthracite porcelain 80x80cm, white grout, oak wood vanity", schlecht:"Different colours", erklaerung:"Name specific colours and materials: anthracite, navy, terracotta, marble, oak, microcement, zellige." },
+    { icon:"🌿", titel:"Terrace & Outdoors", gut:"Add grill, pergola with climbing plants, olive tree in terracotta pot, string lights", schlecht:"Make it nicer", erklaerung:"For terraces: name furniture, plants, lighting and flooring separately. More detail = better result." },
+    { icon:"💡", titel:"Describe a style", gut:"Modern spa bathroom with indirect lighting, matte black fixtures, wood accents", schlecht:"Modern", erklaerung:"Styles: Modern, Scandinavian, Industrial, Japandi, Mediterranean, Luxury, Minimalist, Rustic." },
+    { icon:"📐", titel:"Combine several changes", gut:"Dark tiles, no bathtub instead shower, black fixtures, wall niche", schlecht:"Make everything new", erklaerung:"Separate multiple changes with commas – the AI will apply all of them." },
+    { icon:"⚠️", titel:"What AI struggles with", gut:"Darker tiles, change colour, add furniture", schlecht:"Move walls, enlarge windows", erklaerung:"Colours, materials & adding furniture works well. Structural changes (walls, windows) are difficult for AI." },
   ];
 
   const VORLAGEN = [
@@ -691,7 +691,7 @@ function TippsBox() {
         <div className="fu" style={{ marginTop:10, background:C.accentBg, border:`1px solid ${C.accent}33`, borderRadius:12, overflow:"hidden" }}>
           {/* Tab-Switcher */}
           <div style={{ display:"flex", borderBottom:`1px solid ${C.accent}33` }}>
-            {[["tipps","💡 Tipps"],["vorlage","📋 Vorlagen"]].map(([id,label]) => (
+            {[["tipps","💡 Tips"],["vorlage","📋 Templates"]].map(([id,label]) => (
               <button key={id} onClick={() => setTab(id)} style={{ flex:1, padding:"9px", background:tab===id?"white":"transparent", border:"none", borderBottom:`2px solid ${tab===id?C.accent:"transparent"}`, color:tab===id?C.accent:C.muted, fontSize:12, fontWeight:tab===id?700:400, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>{label}</button>
             ))}
           </div>
@@ -718,7 +718,7 @@ function TippsBox() {
 
           {tab === "vorlage" && (
             <div style={{ padding:"12px", display:"flex", flexDirection:"column", gap:8 }}>
-              <p style={{ fontSize:12, fontWeight:700, color:C.accent, marginBottom:4 }}>Tippe auf eine Vorlage um sie zu verwenden:</p>
+              <p style={{ fontSize:12, fontWeight:700, color:C.accent, marginBottom:4 }}>Tap a template to use it:</p>
               {VORLAGEN.map((v, i) => (
                 <div key={i} style={{ background:"white", borderRadius:10, padding:"11px 13px", cursor:"pointer", border:`1px solid ${C.border}` }}
                   onClick={() => {
@@ -728,7 +728,7 @@ function TippsBox() {
                   }}>
                   <p style={{ fontSize:13, fontWeight:700, color:C.accent, marginBottom:5 }}>{v.raum}</p>
                   <p style={{ fontSize:12, color:C.text, lineHeight:1.55 }}>"{v.beispiel}"</p>
-                  <p style={{ fontSize:11, color:C.green, marginTop:6, fontWeight:600 }}>↑ Tippen zum Einfuegen</p>
+                  <p style={{ fontSize:11, color:C.green, marginTop:6, fontWeight:600 }}>↑ Tap to insert</p>
                 </div>
               ))}
             </div>
