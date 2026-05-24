@@ -1473,7 +1473,7 @@ function ChatTab({ lang = "de", messages, setMessages }) {
             value={inputText}
             onChange={e => setInputText(e.target.value)}
             onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
-            placeholder="Stell eine Frage zur Renovierung…"
+            placeholder="Ask a renovation question…"
             rows={1}
             style={{ flex:1, resize:"none", border:`1.5px solid ${C.border}`, borderRadius:12, padding:"10px 14px", fontSize:14, fontFamily:"'DM Sans', sans-serif", background:C.bg, lineHeight:1.5, minHeight:42, maxHeight:120 }}
             onFocus={e => { e.target.style.borderColor = C.accent; }}
@@ -1893,10 +1893,10 @@ function PlanerTab({ lang = "de", savedMakeovers }) {
         {ansicht === "eigene" && (
           <div>
             {!creating ? (
-              <button onClick={()=>setCreating(true)} style={{ width:"100%", padding:"14px", borderRadius:14, border:`2px dashed ${C.accent}`, background:C.accentBg, color:C.accent, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif", fontSize:14, marginBottom:14 }}>+ Eigenes Projekt erstellen</button>
+              <button onClick={()=>setCreating(true)} style={{ width:"100%", padding:"14px", borderRadius:14, border:`2px dashed ${C.accent}`, background:C.accentBg, color:C.accent, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif", fontSize:14, marginBottom:14 }}>+ Create your own project</button>
             ) : (
               <div className="fu" style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, padding:"16px", marginBottom:14 }}>
-                <p style={{ fontWeight:700, fontSize:16, marginBottom:12 }}>Neues Projekt</p>
+                <p style={{ fontWeight:700, fontSize:16, marginBottom:12 }}>New Project</p>
                 <div style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:12 }}>
                   {ICONS.map(ic=><button key={ic} onClick={()=>setNewProjekt(p=>({...p,icon:ic}))} style={{ width:36, height:36, borderRadius:10, border:`2px solid ${newProjekt.icon===ic?C.accent:C.border}`, background:newProjekt.icon===ic?C.accentBg:"white", cursor:"pointer", fontSize:18 }}>{ic}</button>)}
                 </div>
@@ -1927,7 +1927,7 @@ function PlanerTab({ lang = "de", savedMakeovers }) {
                     const next=[...eigene,proj]; setEigene(next); saveLS(null,next);
                     setCreating(false); setNewProjekt({name:"",icon:"🏠",phasen:[{name:"Phase 1",items:[""]}]});
                     setSelectedPlan(proj.name); setOpenPhase(0); setAnsicht("plaene");
-                  }} style={{ flex:2, padding:"12px", borderRadius:50, background:C.accent, color:"white", border:"none", fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>Erstellen →</button>
+                  }} style={{ flex:2, padding:"12px", borderRadius:50, background:C.accent, color:"white", border:"none", fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>Create →</button>
                   <button onClick={()=>setCreating(false)} style={{ flex:1, padding:"12px", borderRadius:50, border:`1px solid ${C.border}`, background:"none", cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>Cancel</button>
                 </div>
               </div>
@@ -2748,9 +2748,9 @@ export default function HomeEN() {
       {showOnboarding && <Onboarding onDone={finishOnboarding} />}
       {showPricing && <PricingModal onClose={() => setShowPricing(false)} freeUsed={freeUsed} />}
       <Head>
-        <title>Mystorija – KI-Renovierung & Inspo</title>
+        <title>Mystorija – AI Renovation & Inspo</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        <meta name="description" content="Mystorija – KI-Renovierung, Inspiration & DIY Guides fuer dein Zuhause" />
+        <meta name="description" content="Mystorija – AI Renovation, Inspiration & DIY Guides for your home" />
         <meta name="theme-color" content="#C4622D" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
