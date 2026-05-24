@@ -917,8 +917,8 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
     if (!nachherUrl) return;
     const m = {
       id: Date.now(),
-      date: new Date().toLocaleDateString("de-DE"),
-      time: new Date().toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"}),
+      date: new Date().toLocaleDateString("en-GB"),
+      time: new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"}),
       titel: wunsch ? wunsch.slice(0,40) : (makoverAnalyse?.style || makoverAnalyse?.stil || "Makeover"),
       vorherUrl, imgUrl: nachherUrl,
       materials: makoverAnalyse
@@ -1495,7 +1495,7 @@ function ChatTab({ lang = "de", messages, setMessages }) {
 }
 
 // ─── HANDWERKER TAB ───────────────────────────────────────────────────────────
-const BRANCHEN = ["All","Fliesen & Bad","Maler & Lackierer","Elektriker","Sanitaer & Heizung","Trockenbau","Schreiner","Bodenleger"];
+const BRANCHEN = ["All","Tiling & Bathroom","Painters & Decorators","Electricians","Plumbing & Heating","Drywalling","Carpenters","Flooring"];
 
 function HandwerkerTab({ lang = "de" }) {
   const [filter, setFilter] = useState("All");
@@ -1700,14 +1700,14 @@ function EinkaufsListe({ savedMakeovers }) {
 // ─── PLANER TAB – komplett neu ────────────────────────────────────────────────
 const KOMPLETT_PLAENE = [
   {
-    name:"Bad Komplettsanierung", icon:"🚿", dauer:"2–4 weeks", budget:"3.000–15.000€", desc:"Vom leeren Raum zum Traumbad",
+    name:"Complete Bathroom Renovation", icon:"🚿", dauer:"2–4 weeks", budget:"€3,000–15,000", desc:"From bare walls to dream bathroom",
     phasen:[
-      { name:"Planung & Vorbereitung", items:["Grundriss aufzeichnen, Masse nehmen","Sanitaer-Konzept festlegen (WC, Dusche, Wanne?)","Materialien auswaehlen: Fliesen, Armaturen, Sanitaer","Angebote einholen: Installateur, Fliesenleger","Material bestellen (Lieferzeiten beachten!)"] },
-      { name:"Abriss & Entkernung", items:["Wasser & Strom abstellen","Altes Sanitaer demontieren (WC, Wanne, Waschbecken)","Fliesen stemmen (Stemmhammer leihen)","Alten Estrich pruefen – ggf. erneuern","Waende auf Schimmel pruefen","Schutt entsorgen (Container bestellen)"] },
-      { name:"Rohbau & Installation", items:["Neue Leitungen verlegen (Installateur!)","Elektro: Leerrohr fuer Spiegel, Steckdosen IP44","Rigips Vorbauwand fuer Unterputz-Spuelung","Gefaelleestrich fuer bodengleiche Dusche (1,5%)","Abdichtung: Dichtband + 2× Dichtschlaemme","Trockenzeit abwarten (mind. 48h)"] },
-      { name:"Fliesen & Oberflaechen", items:["Fliesenkleber C2 anruehren (Mapei Keraflex)","Boden fliesen – von Mitte aus starten","Waende fliesen – Werkskante nach aussen","Nivelliersystem bei Grossformat verwenden","24h trocknen, dann verfugen","Randfugen: Silikon (Bad-Silikon Soudal S100)"] },
-      { name:"Sanitaer & Elektro", items:["WC montieren (Vorwandinstallation einstellen)","Waschtisch anschliessen (Teflonband!)","Dusche/Wanne anschliessen, Dichtigkeitstest","Armaturen montieren","Spiegel aufhaengen (IP44 pruefen!)","Licht anschliessen (Elektriker)"] },
-      { name:"Finishing", items:["Replace all sealant + smooth","Check all connections for leaks","Mount accessories (towel rail, hooks)","Clean everything","Take photos – before/after!"] },
+      { name:"Planning & Prep", items:["Draw floor plan, take measurements","Decide layout: WC, shower, bath?","Select materials: tiles, fixtures, sanitaryware","Get quotes: plumber, tiler","Order materials (allow for delivery lead times!)"] },
+      { name:"Demolition", items:["Turn off water & electricity","Remove old sanitaryware (WC, bath, basin)","Chisel out old tiles (rent electric chipper)","Check existing screed – replace if needed","Check walls for mould","Dispose of rubble (order skip)"] },
+      { name:"Rough Work & Installation", items:["Lay new pipework (plumber!)","Electrics: conduit for mirror, IP44 sockets","Plasterboard partition wall for concealed cistern","Sloped screed for level-access shower (1.5%)","Waterproofing: sealing tape + 2× waterproof slurry","Wait for curing time (min. 48h)"] },
+      { name:"Tiling & Surfaces", items:["Mix tile adhesive C2 (e.g. Mapei Keraflex)","Tile floor – start from centre","Tile walls – factory edge facing out","Use levelling system for large format tiles","Allow 24h to dry, then grout","Edge joints: silicone (bathroom-grade)"] },
+      { name:"Sanitary & Electrics", items:["Mount WC (adjust concealed cistern)","Connect basin (use PTFE tape!)","Connect shower/bath, test for leaks","Fit taps and mixers","Hang mirror (check IP44 rating!)","Connect lighting (electrician)"] },
+      { name:"Finishing", items:["Replace all sealant + smooth","Check all connections for leaks","Mount accessories (towel rail, hooks)","Clean everything thoroughly","Take before/after photos!"] },
     ]
   },
   {
@@ -1729,21 +1729,21 @@ const KOMPLETT_PLAENE = [
     ]
   },
   {
-    name:"Schlafzimmer upgraden", icon:"🛏️", dauer:"1–2 days", budget:"100–1.500€", desc:"Kopfteil, Farbe, Licht – Hotel-Feeling",
+    name:"Upgrade Bedroom", icon:"🛏️", dauer:"1–2 days", budget:"€100–1,500", desc:"Headboard, colour, lighting – hotel feeling",
     phasen:[
-      { name:"Planung", items:["Farbkonzept: Akzentwand welche Farbe?","Kopfteil: DIY oder kaufen?","Licht: Wandleuchten links/rechts vom Bett","Verdunkelungsrollo oder Vorhang planen"] },
-      { name:"Akzentwand hinter Bett", items:["Bett wegschieben","Wand abkleben, Tiefengrund","2 Schichten Farbe (Terrakotta, Salbeigruen, Navy)","Band abziehen, trocknen lassen"] },
-      { name:"Kopfteil DIY", items:["MDF 18mm auf Mass (OBI schneidet zu)","5cm Schaumstoff RG35 aufkleben","Bouclé-Stoff spannen und tackern","An Wand haengen (verdeckte Schrauben)"] },
-      { name:"Licht & Atmosphaere", items:["Wandleuchten beidseitig montieren (2200K)","Verdunkelungsrollo direkt am Fenster","Vorhangstange moeglichst hoch montieren","Bettwaesche wechseln (Leinen = Trend 2025)","Deko: 1 grosse Pflanze, Kerzen, Tablett"] },
+      { name:"Planning", items:["Colour concept: which wall gets the accent?","Headboard: DIY or buy?","Lighting: wall sconces left/right of the bed","Plan blackout blind or curtain"] },
+      { name:"Accent Wall Behind Bed", items:["Move bed away from wall","Tape edges, apply deep primer","2 coats of paint (terracotta, sage green, navy)","Remove tape while damp, let dry"] },
+      { name:"DIY Headboard", items:["18mm MDF cut to size (hardware store cuts it)","Glue on 5cm foam RG35","Stretch and staple bouclé fabric","Hang on wall (concealed screws)"] },
+      { name:"Lighting & Atmosphere", items:["Mount wall sconces on both sides (2200K)","Fit blackout blind directly at window","Hang curtain rod as high as possible","Swap bedding (linen = 2025 trend)","Decor: 1 large plant, candles, tray"] },
     ]
   },
   {
-    name:"Terrasse aufwerten", icon:"🌿", dauer:"1–2 weekends", budget:"300–3.000€", desc:"WPC-Boden, Sichtschutz, Lounge",
+    name:"Upgrade Terrace", icon:"🌿", dauer:"1–2 weekends", budget:"€300–3,000", desc:"Composite decking, privacy screen, lounge area",
     phasen:[
-      { name:"Planung & Material", items:["Grundflaeche ausmessen (Length × Width)","Konzept: Lounge, Essbereich, Pflanzen?","WPC-Menge berechnen (+10% Verschnitt)","Unterkonstruktion planen (alle 50cm)","Material bestellen"] },
-      { name:"Unterkonstruktion", items:["Alten Belag entfernen","Stelzlager setzen (hoehenverstellbar)","2% Gefaelle einplanen (Wasserablauf)","Tragebalken verlegen und nivellieren"] },
-      { name:"WPC-Dielen verlegen", items:["Erste Reihe mit 5mm Abstand zur Wand","Clips einsetzen – unsichtbare Befestigung","Reihe fuer Reihe arbeiten","Letzte Reihe zuschneiden","Abschlussprofile montieren"] },
-      { name:"Sichtschutz & Moebel", items:["Sichtschutz-Pfosten setzen","Latten oder Bambus anbringen","Solar-Lichterketten aufhaengen (2200K)","Lounge-Moebel aufstellen","Pflanzkuebel mit Olivenbaum/Lavendel"] },
+      { name:"Planning & Materials", items:["Measure total area (Length × Width)","Concept: lounge, dining, plants?","Calculate WPC quantity (+10% wastage)","Plan subframe (every 50cm)","Order materials"] },
+      { name:"Subframe", items:["Remove old surface","Set adjustable pedestals","Plan 2% fall for drainage","Lay and level support beams"] },
+      { name:"Lay Composite Decking", items:["First row with 5mm gap from wall","Insert clips – invisible fixing","Work row by row","Cut last row to width","Fit end profiles"] },
+      { name:"Privacy Screen & Furniture", items:["Set privacy screen posts","Attach slats or bamboo panels","Hang solar string lights (2200K)","Set up lounge furniture","Plant pots with olive tree/lavender"] },
     ]
   },
 ];
@@ -1988,7 +1988,7 @@ function InspoTab({ plan, lang = "de" }) {
   }, []);
 
   function saveToHistory(preview, result) {
-    const entry = { id: Date.now(), preview, analysis: result, date: new Date().toLocaleDateString("de-DE") };
+    const entry = { id: Date.now(), preview, analysis: result, date: new Date().toLocaleDateString("en-GB") };
     setHistory(prev => {
       const next = [entry, ...prev].slice(0, 20); // max 20
       try { localStorage.setItem("mystorija_inspo", JSON.stringify(next)); } catch {}
@@ -2057,7 +2057,7 @@ function InspoTab({ plan, lang = "de" }) {
         {/* Usage Display */}
         {!isFreeInspo && (
           <p style={{ fontSize:11, color: inspoLimitReached?"#B91C1C":C.muted, fontWeight:600, marginTop:6 }}>
-            {inspoLimitReached ? "🔒 Limit reached" : `${inspoUsage} / ${plan==="pro"?"∞":inspoLimit} Analysen this month`}
+            {inspoLimitReached ? "🔒 Limit reached" : `${inspoUsage} / ${plan==="pro"?"∞":inspoLimit} analyses this month`}
           </p>
         )}
 
@@ -2120,7 +2120,7 @@ function InspoTab({ plan, lang = "de" }) {
               {[0,1,2].map(j => <div key={j} style={{ width:10, height:10, borderRadius:"50%", background:C.accent, animation:`blink 1.2s ease ${j*0.2}s infinite` }} />)}
             </div>
             <p style={{ fontSize:14, fontWeight:600, color:C.text }}>AI analyzing materials...</p>
-            <p style={{ fontSize:12, color:C.muted, marginTop:4 }}>Erkennt Fliesen, Holz, Armaturen, Farben</p>
+            <p style={{ fontSize:12, color:C.muted, marginTop:4 }}>Detects tiles, wood, fixtures, colors</p>
           </div>
         )}
 
@@ -2201,7 +2201,7 @@ function InspoTab({ plan, lang = "de" }) {
                   return (
                   <div key={i} style={{ display:"flex", gap:10, marginBottom:i<steps.length-1?10:0 }}>
                     <div style={{ width:24, height:24, borderRadius:"50%", background:C.accent, color:"white", display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:700, flexShrink:0 }}>{i+1}</div>
-                    <p style={{ fontSize:13, color:C.text, lineHeight:1.55, flex:1, paddingTop:3 }}>{schritt.replace(/^Step \d+:\s*/,"")}</p>
+                    <p style={{ fontSize:13, color:C.text, lineHeight:1.55, flex:1, paddingTop:3 }}>{String(schritt).replace(/^Step \d+:\s*/,"")}</p>
                   </div>
                   );
                 })}
