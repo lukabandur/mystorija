@@ -331,28 +331,28 @@ const ONBOARDING_STEPS = [
   {
     icon: "✨",
     title: "AI Makeover",
-    desc: "Lade ein Foto deines Raumes hoch. Die KI zeigt dir in 20 Sekunden wie er nach der Renovierung aussehen koennte.",
+    desc: "Upload a photo of your room. The AI shows you in 20 seconds what it could look like after renovation.",
     tab: "makeover",
     color: C.accent,
   },
   {
     icon: "💬",
     title: "Renovation Expert",
-    desc: "Frag den KI-Chat alles: Kosten, Materialien, Schritt-fuer-Step Anleitungen. Wie ein erfahrener Handwerker auf Abruf.",
+    desc: "Ask the AI chat anything: costs, materials, step-by-step guides. Like an experienced contractor on demand.",
     tab: "chat",
     color: "#2A6DB5",
   },
   {
     icon: "📋",
-    title: "16 Profi-Anleitungen",
-    desc: "Von Silikon erneuern bis Mikrozement – hake jeden Step waehrend der Arbeit ab. Your Progress wird gespeichert.",
+    title: "16 Pro Guides",
+    desc: "From resealing to microcement – check off every step as you work. Your progress is saved automatically.",
     tab: "anleit",
     color: C.green,
   },
   {
     icon: "🔨",
-    title: "Profis in deiner Naehe",
-    desc: "Wenn du doch lieber einen Handwerker beauftragen moechtest: Finde gepruefte Betriebe direkt in der App.",
+    title: "Pros Near You",
+    desc: "If you'd rather hire a contractor: find verified tradespeople directly in the app.",
     tab: "profis",
     color: "#8B4513",
   },
@@ -394,7 +394,7 @@ function Onboarding({ onDone }) {
             </button>
           )}
           <button onClick={() => isLast ? onDone() : setStep(s => s+1)} style={{ flex:2, padding:"14px", borderRadius:50, background:current.color, color:"white", border:"none", fontSize:15, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-            {isLast ? "Jetzt loslegen! 🚀" : "Next →"}
+            {isLast ? "Let's go! 🚀" : "Next →"}
           </button>
         </div>
       </div>
@@ -452,7 +452,7 @@ function AnleitungenTab({ lang = "de" }) {
           <div style={{ height:"100%", width:`${pct}%`, background:`linear-gradient(to right, ${C.accent}, #E8855A)`, borderRadius:4, transition:"width 0.4s" }} />
         </div>
         {pct === 100 && (
-          <p style={{ fontSize:12, color:C.green, fontWeight:600, marginTop:8, textAlign:"center" }}>🎉 Alle Anleitungen abgeschlossen – du bist ein Profi!</p>
+          <p style={{ fontSize:12, color:C.green, fontWeight:600, marginTop:8, textAlign:"center" }}>🎉 All guides completed – you're a pro!</p>
         )}
       </div>
 
@@ -502,7 +502,7 @@ function AnleitungenTab({ lang = "de" }) {
                   <p style={{ fontSize:13, color:C.text, lineHeight:1.6 }}>{a.tipp}</p>
                 </div>
                 <div style={{ background:"#FDEEEC", border:"1px solid #F5D0D0", borderRadius:10, padding:"11px 13px", marginTop:8 }}>
-                  <div style={{ fontSize:11, color:"#C0392B", fontWeight:600, marginBottom:4 }}>⚠️ Haeufige Fehler</div>
+                  <div style={{ fontSize:11, color:"#C0392B", fontWeight:600, marginBottom:4 }}>⚠️ Common Mistakes</div>
                   <p style={{ fontSize:13, color:C.muted, lineHeight:1.6 }}>{a.fehler}</p>
                 </div>
                 <div style={{ display:"flex", gap:8, marginTop:10 }}>
@@ -829,7 +829,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
       });
       if (!res.ok) {
         const txt = await res.text();
-        throw new Error(`Server Fehler ${res.status}: ${txt.slice(0, 100)}`);
+        throw new Error(`Server error ${res.status}: ${txt.slice(0, 100)}`);
       }
       const data = await res.json();
 
@@ -840,7 +840,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
         // Base64 direkt vom Server speichern
         setNachherBase64(data.imageBase64 || null);
       } else {
-        setError(data.error || "Fehler beim Verfeinern.");
+        setError(data.error || "Error while refining.");
       }
     } catch (err) {
       setError(err.message);
@@ -855,7 +855,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
       return;
     }
     if (isLimitReached && plan !== "pro") {
-      setError(`Monthly limit reached (${currentLimit} Makeovers). Upgrade auf Pro fuer unbegrenzte Generierungen.`);
+      setError(`Monthly limit reached (${currentLimit} Makeovers). Upgrade to Pro for unlimited generations.`);
       if (onNeedUpgrade) onNeedUpgrade();
       return;
     }
@@ -879,7 +879,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
         });
         if (!res.ok) {
           const txt = await res.text();
-          throw new Error(`Server Fehler ${res.status}: ${txt.slice(0, 100)}`);
+          throw new Error(`Server error ${res.status}: ${txt.slice(0, 100)}`);
         }
         const data = await res.json();
         clearInterval(timer);
@@ -954,13 +954,13 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
       {sidebarOpen && (
         <div style={{ width:220, borderRight:`1px solid ${C.border}`, background:C.card, overflowY:"auto", flexShrink:0, display:"flex", flexDirection:"column" }}>
           <div style={{ padding:"12px 12px 8px", borderBottom:`1px solid ${C.border}`, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-            <p style={{ fontSize:13, fontWeight:700, color:C.text }}>Meine Makeovers</p>
+            <p style={{ fontSize:13, fontWeight:700, color:C.text }}>My Makeovers</p>
             <button onClick={() => setSidebarOpen(false)} style={{ background:"none", border:"none", cursor:"pointer", fontSize:16, color:C.muted }}>✕</button>
           </div>
-          <button onClick={() => { neuesMakeover(); setSidebarOpen(false); }} style={{ margin:"8px", padding:"8px 12px", borderRadius:8, background:C.accent, color:"white", border:"none", cursor:"pointer", fontSize:13, fontWeight:600, fontFamily:"'DM Sans',sans-serif" }}>+ Neues Makeover</button>
+          <button onClick={() => { neuesMakeover(); setSidebarOpen(false); }} style={{ margin:"8px", padding:"8px 12px", borderRadius:8, background:C.accent, color:"white", border:"none", cursor:"pointer", fontSize:13, fontWeight:600, fontFamily:"'DM Sans',sans-serif" }}>+ New Makeover</button>
           <div style={{ flex:1, overflowY:"auto", padding:"0 8px 8px" }}>
             {(!savedMakeovers||savedMakeovers.length===0) ? (
-              <p style={{ fontSize:12, color:C.muted, textAlign:"center", padding:"20px 8px" }}>Noch keine gespeicherten Makeovers</p>
+              <p style={{ fontSize:12, color:C.muted, textAlign:"center", padding:"20px 8px" }}>No saved makeovers yet</p>
             ) : savedMakeovers.map(m => (
               <div key={m.id} onClick={() => { setViewingHistory(m); setSidebarOpen(false); }} style={{ borderRadius:8, overflow:"hidden", marginBottom:8, cursor:"pointer", border:`2px solid ${viewingHistory?.id===m.id?C.accent:C.border}`, background:C.bg }}>
                 {m.imgUrl && <img src={m.imgUrl} alt="" style={{ width:"100%", height:70, objectFit:"cover", display:"block" }} />}
@@ -982,14 +982,14 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
             <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20 }}>KI Makeover</h2>
             {plan !== "pro" && (
               <p style={{ fontSize:11, fontWeight:600, marginTop:2, color: isFreeBlocked ? "#B91C1C" : isLimitReached ? "#B91C1C" : C.muted }}>
-                {isFreeBlocked ? "🔒 Basic plan required" : isLimitReached ? "🔒 Limit reached" : `${monthlyUsage} / ${currentLimit} diesen Monat`}
+                {isFreeBlocked ? "🔒 Basic plan required" : isLimitReached ? "🔒 Limit reached" : `${monthlyUsage} / ${currentLimit} this month`}
               </p>
             )}
           </div>
           <div style={{ display:"flex", gap:8 }}>
             {(nachherUrl||viewingHistory) && <button onClick={neuesMakeover} style={{ padding:"7px 14px", borderRadius:20, border:`1px solid ${C.border}`, background:C.card, cursor:"pointer", fontSize:12, fontWeight:600, color:C.text, fontFamily:"'DM Sans',sans-serif" }}>+ Neu</button>}
             <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ padding:"7px 14px", borderRadius:20, background:sidebarOpen?C.accent:C.card, color:sidebarOpen?"white":C.text, border:`1px solid ${sidebarOpen?C.accent:C.border}`, cursor:"pointer", fontSize:12, fontWeight:600, fontFamily:"'DM Sans',sans-serif" }}>
-              {savedMakeovers?.length > 0 ? `${savedMakeovers.length} gespeichert` : "History"}
+              {savedMakeovers?.length > 0 ? `${savedMakeovers.length} saved` : "History"}
             </button>
           </div>
         </div>
@@ -1000,16 +1000,16 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
               <span style={{ fontSize:13, fontWeight:600, color:C.accent }}>{viewingHistory.titel}</span>
               <span style={{ fontSize:12, color:C.muted }}>{viewingHistory.date}</span>
             </div>
-            {viewingHistory.vorherUrl && <div style={{ marginBottom:10 }}><p style={{ fontSize:11, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:1, marginBottom:6 }}>Vorher</p><img src={viewingHistory.vorherUrl} alt="Vorher" style={{ width:"100%", borderRadius:12, maxHeight:200, objectFit:"cover" }} /></div>}
-            <p style={{ fontSize:11, fontWeight:700, color:C.accent, textTransform:"uppercase", letterSpacing:1, marginBottom:6 }}>Nachher</p>
+            {viewingHistory.vorherUrl && <div style={{ marginBottom:10 }}><p style={{ fontSize:11, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:1, marginBottom:6 }}>Before</p><img src={viewingHistory.vorherUrl} alt="Before" style={{ width:"100%", borderRadius:12, maxHeight:200, objectFit:"cover" }} /></div>}
+            <p style={{ fontSize:11, fontWeight:700, color:C.accent, textTransform:"uppercase", letterSpacing:1, marginBottom:6 }}>After</p>
             <div style={{ borderRadius:14, overflow:"hidden", marginBottom:12, boxShadow:"0 6px 24px rgba(0,0,0,0.1)" }}>
-              <img src={viewingHistory.imgUrl} alt="Nachher" style={{ width:"100%", display:"block" }} />
+              <img src={viewingHistory.imgUrl} alt="After" style={{ width:"100%", display:"block" }} />
             </div>
             {viewingHistory.materials && (
               <div style={{ background:C.accentBg, border:`1px solid #F0C4A0`, borderRadius:12, padding:"14px" }}>
-                <p style={{ fontWeight:700, fontSize:13, color:C.accent, marginBottom:8 }}>{T["de"].materials}</p>
+                <p style={{ fontWeight:700, fontSize:13, color:C.accent, marginBottom:8 }}>{T["en"].materials}</p>
                 <div>{renderMaterialien(viewingHistory.materials)}</div>
-                <p style={{ fontSize:10, color:C.muted, marginTop:6 }}>* Affiliate-Links – fuer dich keine Mehrkosten</p>
+                <p style={{ fontSize:10, color:C.muted, marginTop:6 }}>* Affiliate links – no extra cost to you</p>
               </div>
             )}
           </div>
@@ -1056,7 +1056,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
               </div>
               {laenge && breite && (
                 <p style={{ fontSize:11, color:C.green, marginTop:5, fontWeight:600 }}>
-                  ✓ {(parseFloat(laenge.replace(",",".")) * parseFloat(breite.replace(",","."))).toFixed(1)} m² – wird an KI uebergeben
+                  ✓ {(parseFloat(laenge.replace(",",".")) * parseFloat(breite.replace(",","."))).toFixed(1)} m² – passed to AI
                 </p>
               )}
             </div>
@@ -1088,11 +1088,11 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                 {plan === "pro" && (
                   <div style={{ background:C.greenBg, border:`1px solid ${C.green}33`, borderRadius:10, padding:"6px 12px", marginBottom:8, display:"flex", alignItems:"center", gap:6 }}>
                     <span style={{ fontSize:12 }}>⭐</span>
-                    <p style={{ fontSize:12, color:C.green, fontWeight:600 }}>Pro: Flux Pro Modell aktiv – hoehere Bildqualitaet</p>
+                    <p style={{ fontSize:12, color:C.green, fontWeight:600 }}>Pro: Flux Pro model active – higher image quality</p>
                   </div>
                 )}
                 <button onClick={generieren} disabled={loading} style={{ width:"100%", padding:15, marginBottom:12, background:loading?"#DDD":isFreeBlocked?"#2A1A0E":"linear-gradient(135deg, #C4622D, #A0522D)", color:loading?"#999":"white", border:"none", borderRadius:50, fontSize:15, fontWeight:700, cursor:loading?"default":"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-                  {loading ? T["de"].generating : isFreeBlocked ? T["de"].freePlan : T["de"].generateBtn}
+                  {loading ? T["en"].generating : isFreeBlocked ? T["en"].freePlan : T["en"].generateBtn}
                 </button>
               </>
             )}
@@ -1103,19 +1103,19 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                   <div style={{ height:"100%", width:`${progress}%`, background:C.accent, borderRadius:3, transition:"width 0.6s" }} />
                 </div>
                 <p style={{ fontSize:12, color:C.muted, textAlign:"center" }}>
-                  {progress<40?"Analysiere Bild...":progress<80?"KI generiert Makeover...":"Fast done..."}
+                  {progress<40?"Analyzing photo...":progress<80?"AI generating makeover...":"Almost done..."}
                 </p>
               </div>
             )}
 
-            {error && <div style={{ background:"#FFF5F5", border:"1px solid #F5D0D0", borderRadius:12, padding:"12px 14px", marginBottom:14 }}><p style={{ fontSize:13, color:"#B91C1C", fontWeight:600 }}>Fehler</p><p style={{ fontSize:12, color:"#7F1D1D", marginTop:4 }}>{error}</p></div>}
+            {error && <div style={{ background:"#FFF5F5", border:"1px solid #F5D0D0", borderRadius:12, padding:"12px 14px", marginBottom:14 }}><p style={{ fontSize:13, color:"#B91C1C", fontWeight:600 }}>Error</p><p style={{ fontSize:12, color:"#7F1D1D", marginTop:4 }}>{error}</p></div>}
 
             {nachherUrl && (
               <div>
                 {/* Refinement History */}
                 {refinementHistory.length > 0 && (
                   <div style={{ marginBottom:10 }}>
-                    <p style={{ fontSize:11, color:C.muted, marginBottom:6, fontStyle:"italic" }}>History der Anpassungen:</p>
+                    <p style={{ fontSize:11, color:C.muted, marginBottom:6, fontStyle:"italic" }}>Refinement history:</p>
                     <div style={{ display:"flex", gap:6, overflowX:"auto", paddingBottom:4 }}>
                       {refinementHistory.map((h, i) => (
                         <div key={i} onClick={() => { setNachherUrl(h.url); setSaved(false); }} style={{ flexShrink:0, cursor:"pointer", borderRadius:8, overflow:"hidden", border:`2px solid ${C.border}`, width:70 }}>
@@ -1133,7 +1133,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                   {refining && (
                     <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:10 }}>
                       <LoadingSpinner size={36} />
-                      <p style={{ fontSize:13, color:C.text, fontWeight:600, background:"rgba(255,255,255,0.9)", padding:"4px 12px", borderRadius:20 }}>Verfeinere Bild…</p>
+                      <p style={{ fontSize:13, color:C.text, fontWeight:600, background:"rgba(255,255,255,0.9)", padding:"4px 12px", borderRadius:20 }}>Refining image…</p>
                     </div>
                   )}
                 </div>
@@ -1143,8 +1143,8 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                   <div style={{ background:"#FFF8E1", border:"1px solid #FFD54F", borderRadius:10, padding:"10px 13px", marginBottom:10, display:"flex", gap:8 }}>
                     <span style={{ fontSize:16, flexShrink:0 }}>💡</span>
                     <div>
-                      <p style={{ fontSize:12, fontWeight:700, color:"#E65100", marginBottom:2 }}>Objekt-Austausch ist KI-schwierig</p>
-                      <p style={{ fontSize:11, color:"#7A4100", lineHeight:1.5 }}>KI-Bildgeneratoren koennen Materialien &amp; Farben gut aendern, aber Moebel/Sanitaer exakt ersetzen ist schwieriger. Falls das Ergebnis nicht passt: Stil-Aenderungen (Farbe, Fliesen, Licht) funktionieren besser. Mehrmals "Nochmal" druecken kann helfen.</p>
+                      <p style={{ fontSize:12, fontWeight:700, color:"#E65100", marginBottom:2 }}>Object replacement is challenging for AI</p>
+                      <p style={{ fontSize:11, color:"#7A4100", lineHeight:1.5 }}>AI image generators can change materials & colors well, but replacing furniture/fixtures exactly is harder. If the result doesn't look right: style changes (color, tiles, lighting) work better. Pressing "New" multiple times can help.</p>
                     </div>
                   </div>
                 )}
@@ -1155,7 +1155,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
                     <div style={{ display:"flex", gap:4 }}>
                       {[0,1,2].map(j => <div key={j} style={{ width:7, height:7, borderRadius:"50%", background:C.accent, animation:`blink 1.2s ease ${j*0.2}s infinite` }} />)}
                     </div>
-                    <p style={{ fontSize:13, color:C.muted }}>KI analysiert verwendete Materialien…</p>
+                    <p style={{ fontSize:13, color:C.muted }}>AI analyzing materials used…</p>
                   </div>
                 )}
 
@@ -1177,7 +1177,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
 
                     {/* Materialien */}
                     <div style={{ padding:"10px 14px 6px" }}>
-                      <p style={{ fontSize:12, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:0.5, marginBottom:8 }}>Erkannte Materialien & Moebel</p>
+                      <p style={{ fontSize:12, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:0.5, marginBottom:8 }}>Detected Materials & Furniture</p>
                       {makoverAnalyse.materialien?.map((mat, i) => (
                         <div key={i} style={{ display:"flex", alignItems:"center", gap:8, padding:"7px 0", borderBottom:i<makoverAnalyse.materialien.length-1?`1px solid ${C.border}`:"none" }}>
                           <span style={{ fontSize:10, background:C.tag, color:C.muted, padding:"2px 7px", borderRadius:20, flexShrink:0, whiteSpace:"nowrap" }}>{mat.bereich}</span>
@@ -1209,7 +1209,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
 
                 {/* ── Refinement Chat ── */}
                 <div style={{ background:C.accentBg, border:`1px solid ${C.accent}44`, borderRadius:14, padding:"12px 14px", marginBottom:10 }}>
-                  <p style={{ fontSize:12, fontWeight:700, color:C.accent, marginBottom:8 }}>{T["de"].refineTitle}</p>
+                  <p style={{ fontSize:12, fontWeight:700, color:C.accent, marginBottom:8 }}>{T["en"].refineTitle}</p>
                   <div style={{ display:"flex", gap:8 }}>
                     <input
                       value={refinementInput}
@@ -1238,15 +1238,15 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
 
                 {materials && (
                   <div style={{ background:C.accentBg, border:"1px solid #F0C4A0", borderRadius:12, padding:"14px" }}>
-                    <p style={{ fontWeight:700, fontSize:13, color:C.accent, marginBottom:8 }}>{T["de"].materials}</p>
+                    <p style={{ fontWeight:700, fontSize:13, color:C.accent, marginBottom:8 }}>{T["en"].materials}</p>
                     <div style={{ marginBottom:12 }}>{renderMaterialien(materials)}</div>
-                    <p style={{ fontSize:10, color:C.muted, marginBottom:10 }}>* Affiliate-Links – fuer dich keine Mehrkosten</p>
+                    <p style={{ fontSize:10, color:C.muted, marginBottom:10 }}>* Affiliate links – no extra cost to you</p>
                     <div style={{ display:"flex", gap:8 }}>
                       <button onClick={handleSaveToPlaner} style={{ flex:1, padding:"11px", borderRadius:50, background:saved?"#4ade80":"linear-gradient(135deg, #1a1a2e, #2d2d4e)", color:"white", border:"none", cursor:saved?"default":"pointer", fontSize:12, fontWeight:700, fontFamily:"'DM Sans',sans-serif" }}>
-                        {saved ? T["de"].savedBtn : T["de"].saveBtn}
+                        {saved ? T["en"].savedBtn : T["en"].saveBtn}
                       </button>
                       <button onClick={handleSaveToPlaner} style={{ flex:2, padding:"11px", borderRadius:50, background:saved?"#4ade80":C.accent, color:"white", border:"none", cursor:saved?"default":"pointer", fontSize:12, fontWeight:700, fontFamily:"'DM Sans',sans-serif" }}>
-                        {saved?T["de"].plannerSaved:"Save to Planner"}
+                        {saved?T["en"].plannerSaved:"Save to Planner"}
                       </button>
                     </div>
                   </div>
@@ -1311,7 +1311,7 @@ function ChatTab({ lang = "de", messages, setMessages }) {
 
     const userMsg = {
       role: "user",
-      text: text.trim() || "Analysiere dieses Bild.",
+      text: text.trim() || "Analyze this image.",
       img: img || null,
       imgBase64: img || null,
       mimeType: mimeOverride || (imgFile?.type) || "image/jpeg",
@@ -1352,7 +1352,7 @@ function ChatTab({ lang = "de", messages, setMessages }) {
     r.onload = ev => {
       setImgPreview(ev.target.result);
       // Auto send with the image
-      sendMessage("Analysiere dieses Foto meines Raumes bitte.", ev.target.result, f.type);
+      sendMessage("Please analyze this photo of my room.", ev.target.result, f.type);
     };
     r.readAsDataURL(f);
   }
@@ -1360,7 +1360,7 @@ function ChatTab({ lang = "de", messages, setMessages }) {
   function clearChat() {
     setMessages([{
       role: "assistant",
-      text: "Chat geleert. 👋 Womit kann ich dir helfen?\n\nStell mir eine Frage oder lade ein **Foto** deines Raumes hoch – ich analysiere es sofort!",
+      text: "Chat cleared. 👋 How can I help you?\n\nAsk me a question or upload a **photo** of your room – I'll analyze it instantly!",
     }]);
   }
 
@@ -1426,7 +1426,7 @@ function ChatTab({ lang = "de", messages, setMessages }) {
               <img src={msg.img} alt="" style={{ maxWidth: 240, borderRadius: 12, marginBottom: 6, boxShadow: "0 2px 12px rgba(0,0,0,.1)", border: `2px solid ${C.accent}` }} />
             )}
             {msg.img === "[Foto]" && (
-              <div style={{ maxWidth: 240, borderRadius: 12, marginBottom: 6, background: C.tag, border: `1px solid ${C.border}`, padding: "6px 10px", fontSize: 11, color: C.muted }}>📷 Foto gesendet</div>
+              <div style={{ maxWidth: 240, borderRadius: 12, marginBottom: 6, background: C.tag, border: `1px solid ${C.border}`, padding: "6px 10px", fontSize: 11, color: C.muted }}>📷 Photo sent</div>
             )}
             <div style={{
               maxWidth: "90%",
@@ -1503,7 +1503,7 @@ function HandwerkerTab({ lang = "de" }) {
           <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20 }}>🔨 Find Pros</h2>
           <span style={{ background:C.accentBg, color:C.accent, borderRadius:20, padding:"4px 12px", fontSize:11, fontWeight:700 }}>Coming soon</span>
         </div>
-        <input value={ort} onChange={e => setOrt(e.target.value)} placeholder="📍 Stadt oder PLZ eingeben…" style={{ width:"100%", border:`1px solid ${C.border}`, borderRadius:10, padding:"9px 13px", fontSize:14, marginBottom:10, fontFamily:"'DM Sans',sans-serif", background:C.bg }} />
+        <input value={ort} onChange={e => setOrt(e.target.value)} placeholder="📍 Enter city or postcode…" style={{ width:"100%", border:`1px solid ${C.border}`, borderRadius:10, padding:"9px 13px", fontSize:14, marginBottom:10, fontFamily:"'DM Sans',sans-serif", background:C.bg }} />
         <div style={{ display:"flex", gap:6, overflowX:"auto", paddingBottom:4 }}>
           {BRANCHEN.map(b => <button key={b} onClick={() => setFilter(b)} style={{ padding:"5px 12px", borderRadius:20, border:"none", cursor:"pointer", background:filter===b?C.accent:C.bg, color:filter===b?"white":C.muted, fontSize:12, fontWeight:600, whiteSpace:"nowrap", fontFamily:"'DM Sans',sans-serif", flexShrink:0 }}>{b}</button>)}
         </div>
@@ -1515,11 +1515,11 @@ function HandwerkerTab({ lang = "de" }) {
           <div style={{ fontSize:40, marginBottom:12 }}>🔨</div>
           <p style={{ color:"white", fontWeight:700, fontSize:16, marginBottom:8 }}>Are you a contractor?</p>
           <p style={{ color:"rgba(255,255,255,0.75)", fontSize:13, lineHeight:1.6, marginBottom:16 }}>
-            Werde Teil des Mystorija Handwerker-Netzwerks.<br/>
-            Direkte Anfragen von renovierungswilligen Kunden.
+            Join the Mystorija contractor network.<br/>
+            Direct inquiries from renovation-ready customers.
           </p>
           <div style={{ display:"flex", gap:8, justifyContent:"center", flexWrap:"wrap", marginBottom:12 }}>
-            {["✓ Eigenes Profil","✓ Direktanfragen","✓ Werbung in der App","✓ Bewertungen"].map(f => (
+            {["✓ Own profile","✓ Direct inquiries","✓ In-app advertising","✓ Reviews"].map(f => (
               <span key={f} style={{ background:"rgba(255,255,255,0.1)", color:"white", borderRadius:20, padding:"4px 12px", fontSize:11, fontWeight:600 }}>{f}</span>
             ))}
           </div>
@@ -1533,11 +1533,11 @@ function HandwerkerTab({ lang = "de" }) {
           <div style={{ fontSize:48, marginBottom:16 }}>🏗️</div>
           <p style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:10 }}>Contractor Directory</p>
           <p style={{ fontSize:14, color:C.muted, lineHeight:1.7, maxWidth:280, margin:"0 auto 20px" }}>
-            Wir bauen gerade das Verzeichnis auf. Bald findest du hier gepruefte Handwerker in deiner Naehe.
+            We're currently building the directory. Soon you'll find verified contractors near you right here.
           </p>
           <div style={{ background:C.greenBg, borderRadius:12, padding:"14px 16px" }}>
             <p style={{ fontSize:13, color:C.green, fontWeight:600 }}>
-              💡 Coming soon – wir pruefen jeden Betrieb sorgfaeltig
+              💡 Coming soon – we carefully verify every business
             </p>
           </div>
         </div>
@@ -1631,7 +1631,7 @@ function EinkaufsListe({ savedMakeovers }) {
             {/* Produkt-Liste */}
             {isOpen && (
               <div className="fu" style={{ borderTop:`1px solid ${C.border}` }}>
-                {/* Alle abhaken Button */}
+                {/* Check all Button */}
                 <div style={{ padding:"8px 14px", background:C.accentBg, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
                   <p style={{ fontSize:12, color:C.accent, fontWeight:600 }}>📋 Shopping list for {m.titel}</p>
                   <button onClick={() => {
@@ -1640,7 +1640,7 @@ function EinkaufsListe({ savedMakeovers }) {
                     items.forEach((_, ii) => { update[`${m.id}-${ii}`] = !allDone; });
                     setChecked(prev => ({ ...prev, ...update }));
                   }} style={{ fontSize:11, color:C.accent, background:"none", border:`1px solid ${C.accent}44`, borderRadius:20, padding:"3px 10px", cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-                    {items.every((_, ii) => checked[`${m.id}-${ii}`]) ? "Alle abwaehlen" : "Alle abhaken"}
+                    {items.every((_, ii) => checked[`${m.id}-${ii}`]) ? "Deselect all" : "Check all"}
                   </button>
                 </div>
 
@@ -1833,7 +1833,7 @@ function PlanerTab({ lang = "de", savedMakeovers }) {
                       );
                     })}
                     <button onClick={()=>{ const allDone=phase.items.every((_,ii)=>checked[`${plan.name}-${pi}-${ii}`]); const next={...checked}; phase.items.forEach((_,ii)=>{next[`${plan.name}-${pi}-${ii}`]=!allDone;}); setChecked(next); saveLS(next,null); }} style={{ marginTop:8, fontSize:12, color:C.accent, background:"none", border:`1px solid ${C.accent}44`, borderRadius:20, padding:"4px 12px", cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-                      {phase.items.every((_,ii)=>checked[`${plan.name}-${pi}-${ii}`])?"Phase abwaehlen":"Alle abhaken"}
+                      {phase.items.every((_,ii)=>checked[`${plan.name}-${pi}-${ii}`])?"Deselect phase":"Check all"}
                     </button>
                   </div>
                 )}
@@ -1856,7 +1856,7 @@ function PlanerTab({ lang = "de", savedMakeovers }) {
       <div style={{ flex:1, overflowY:"auto", padding:"14px 16px" }}>
         {ansicht === "plaene" && (
           <div>
-            <p style={{ fontSize:12, color:C.muted, marginBottom:14, fontStyle:"italic" }}>Choose a project – all steps sind vorgegeben. Fortschritt wird gespeichert.</p>
+            <p style={{ fontSize:12, color:C.muted, marginBottom:14, fontStyle:"italic" }}>Choose a project – all steps are provided. Progress is saved automatically.</p>
             {allePlane.map((plan, i) => {
               const { done, total, pct } = planProgress(plan);
               return (
@@ -1869,7 +1869,7 @@ function PlanerTab({ lang = "de", savedMakeovers }) {
                       <div style={{ display:"flex", gap:6, marginTop:6, flexWrap:"wrap" }}>
                         {plan.dauer && <span style={{ fontSize:11, background:C.accentBg, color:C.accent, padding:"2px 8px", borderRadius:20 }}>⏱ {plan.dauer}</span>}
                         {plan.budget && <span style={{ fontSize:11, background:C.greenBg, color:C.green, padding:"2px 8px", borderRadius:20 }}>💶 {plan.budget}</span>}
-                        <span style={{ fontSize:11, background:C.tag, color:C.muted, padding:"2px 8px", borderRadius:20 }}>{plan.phasen.length} Phasen · {total} steps</span>
+                        <span style={{ fontSize:11, background:C.tag, color:C.muted, padding:"2px 8px", borderRadius:20 }}>{plan.phasen.length} phases · {total} steps</span>
                       </div>
                     </div>
                   </div>
@@ -1877,7 +1877,7 @@ function PlanerTab({ lang = "de", savedMakeovers }) {
                     <div style={{ flex:1, height:6, background:C.border, borderRadius:3, overflow:"hidden" }}>
                       <div style={{ height:"100%", width:`${pct}%`, background:pct===100?C.green:`linear-gradient(to right, ${C.accent}, #E8855A)`, borderRadius:3, transition:"width 0.3s" }} />
                     </div>
-                    <span style={{ fontSize:12, color:pct===100?C.green:C.muted, fontWeight:pct===100?700:400, flexShrink:0 }}>{pct===100?"✓ Fertig!":pct>0?`${pct}%`:"Starten →"}</span>
+                    <span style={{ fontSize:12, color:pct===100?C.green:C.muted, fontWeight:pct===100?700:400, flexShrink:0 }}>{pct===100?"✓ Done!":pct>0?`${pct}%`:"Start →"}</span>
                   </div>
                 </div>
               );
@@ -2001,7 +2001,7 @@ function InspoTab({ plan, lang = "de" }) {
 
   async function analyse(file, preview) {
     if (isFreeInspo || inspoLimitReached) {
-      setError(isFreeInspo ? "Inspo-Analyse ab Basic Plan (9,99€/month)." : `Monthly limit reached (${inspoLimit} Analysen).`);
+      setError(isFreeInspo ? "Inspo analysis available from Basic Plan (€9.99/month)." : `Monthly limit reached (${inspoLimit} analyses).`);
       return;
     }
     setLoading(true); setAnalysis(null); setError(null); setShowHistory(false);
@@ -2052,7 +2052,7 @@ function InspoTab({ plan, lang = "de" }) {
         {/* Usage Display */}
         {!isFreeInspo && (
           <p style={{ fontSize:11, color: inspoLimitReached?"#B91C1C":C.muted, fontWeight:600, marginTop:6 }}>
-            {inspoLimitReached ? "🔒 Limit reached" : `${inspoUsage} / ${plan==="pro"?"∞":inspoLimit} Analysen diesen Monat`}
+            {inspoLimitReached ? "🔒 Limit reached" : `${inspoUsage} / ${plan==="pro"?"∞":inspoLimit} Analysen this month`}
           </p>
         )}
 
@@ -2060,8 +2060,8 @@ function InspoTab({ plan, lang = "de" }) {
         <div style={{ marginTop:12, background:"#1A1A1A", borderRadius:14, padding:"14px 16px", display:"flex", gap:12, alignItems:"center" }}>
           <div style={{ flexShrink:0, fontSize:24 }}>📱</div>
           <div style={{ flex:1 }}>
-            <p style={{ fontSize:13, fontWeight:700, color:"white", marginBottom:3 }}>{T["de"].inspoHook}</p>
-            <p style={{ fontSize:11, color:"#aaa", lineHeight:1.5 }}>{T["de"].inspoSub}</p>
+            <p style={{ fontSize:13, fontWeight:700, color:"white", marginBottom:3 }}>{T["en"].inspoHook}</p>
+            <p style={{ fontSize:11, color:"#aaa", lineHeight:1.5 }}>{T["en"].inspoSub}</p>
           </div>
         </div>
       </div>
@@ -2095,7 +2095,7 @@ function InspoTab({ plan, lang = "de" }) {
               <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%)" }} />
               <div style={{ position:"absolute", bottom:12, left:14, right:14, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
                 <p style={{ color:"white", fontWeight:700, fontSize:13 }}>📷 Foto hochgeladen</p>
-                <button onClick={e => { e.stopPropagation(); setImgFile(null); setImgPreview(null); setAnalysis(null); }} style={{ background:"rgba(255,255,255,0.2)", border:"none", color:"white", borderRadius:20, padding:"4px 10px", fontSize:12, cursor:"pointer" }}>Anderes Foto</button>
+                <button onClick={e => { e.stopPropagation(); setImgFile(null); setImgPreview(null); setAnalysis(null); }} style={{ background:"rgba(255,255,255,0.2)", border:"none", color:"white", borderRadius:20, padding:"4px 10px", fontSize:12, cursor:"pointer" }}>Different Photo</button>
               </div>
             </div>
           ) : (
@@ -2114,7 +2114,7 @@ function InspoTab({ plan, lang = "de" }) {
             <div style={{ display:"flex", justifyContent:"center", gap:6, marginBottom:10 }}>
               {[0,1,2].map(j => <div key={j} style={{ width:10, height:10, borderRadius:"50%", background:C.accent, animation:`blink 1.2s ease ${j*0.2}s infinite` }} />)}
             </div>
-            <p style={{ fontSize:14, fontWeight:600, color:C.text }}>KI analysiert Materialien...</p>
+            <p style={{ fontSize:14, fontWeight:600, color:C.text }}>AI analyzing materials...</p>
             <p style={{ fontSize:12, color:C.muted, marginTop:4 }}>Erkennt Fliesen, Holz, Armaturen, Farben</p>
           </div>
         )}
@@ -2157,7 +2157,7 @@ function InspoTab({ plan, lang = "de" }) {
             {/* Materialien */}
             <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, marginBottom:14, overflow:"hidden" }}>
               <div style={{ padding:"12px 14px", background:C.accentBg, borderBottom:`1px solid ${C.border}` }}>
-                <p style={{ fontSize:14, fontWeight:700, color:C.accent }}>🪨 Erkannte Materialien</p>
+                <p style={{ fontSize:14, fontWeight:700, color:C.accent }}>🪨 Detected Materials</p>
               </div>
               {analysis.materialien?.map((mat, i) => (
                 <div key={i} style={{ padding:"12px 14px", borderBottom:i<analysis.materialien.length-1?`1px solid ${C.border}`:"none" }}>
@@ -2288,7 +2288,7 @@ const TRENDS = [
   { cat:"Living Room", title:"Dunkelgruen Akzentwand", desc:"Eine Wand in Flaschengruen RAL 6009. Lammfellrolle, 2 Schichten. 30–60€ fuer den groessten Raumeffekt ueberhaupt.", how:"DIY – 1 day", budget:"30–80€", emoji:"🌿", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"wandfarbe dunkelgruen matt alpina schoener wohnen" },
   { cat:"Living Room", title:"Fluted Panel TV-Wand", desc:"Gerillte MDF-Latten hinter dem TV, LED-Strip dahinter. Vorher oelen oder lackieren. Magazin-Look fuer 150€.", how:"DIY – halber day", budget:"80–250€", emoji:"📺", img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=220&fit=crop&q=80", amazon:"mdf fluted panel wandpaneele holzoptik" },
   { cat:"Living Room", title:"Cove-Licht Deckenrand", desc:"Holzrahmen 15cm an Decke, LED-Strip 2700K dahinter. Waermstes Licht = Hotel-Feeling. Trafo hinter Kastenblende.", how:"DIY – weekend", budget:"150–400€", emoji:"✨", img:"https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&h=220&fit=crop&q=80", amazon:"led strip 2700k cove kastenblende decke" },
-  { cat:"Living Room", title:"Erdtoene Rattan & Jute 2026", desc:"Terrakotta, Ocker, Sandstein. Rattan-Sessel, Jute-Teppich 200×300, handgemachte Keramik. Sofort ohne Handwerker.", how:"Sofort", budget:"200–600€", emoji:"🍂", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"rattan sessel jute teppich terrakotta wohnzimmer" },
+  { cat:"Living Room", title:"Earth Tones Rattan & Jute 2026", desc:"Terracotta, ochre, sandstone. Rattan armchair, jute rug 200×300, handmade ceramics. No contractor needed.", how:"Immediately", budget:"200–600€", emoji:"🍂", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"rattan sessel jute teppich terrakotta wohnzimmer" },
   { cat:"Living Room", title:"Limewash Strukturwand", desc:"Kalkputz-Optik mit lebendiger Textur. Ueber normaler Farbe moeglich. Warm Greige, Rosa, Taubenblau – jede Wand einzigartig.", how:"DIY – 1 day", budget:"40–120€", emoji:"🏺", img:"https://images.unsplash.com/photo-1558882224-dda166733046?w=600&h=220&fit=crop&q=80", amazon:"limewash farbe kalkputz optik strukturfarbe" },
   { cat:"Living Room", title:"Einbauregal Boden bis Decke", desc:"MDF Regal von Wand zu Wand. LED-Strip dahinter in der Kastenblende. Weiss lackiert oder Eiche furniert.", how:"2 weekends", budget:"400–1.500€", emoji:"📖", img:"https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?w=600&h=220&fit=crop&q=80", amazon:"einbauregal mdf wohnzimmer boden decke" },
   { cat:"Living Room", title:"Bouclé Sofa Curved", desc:"Geschwungenes Bouclé-Sofa in Creme oder Hellgrau. Der Sofa-Trend 2026. Kombiniert mit Terrakotta-Wand = perfekt.", how:"Kauf", budget:"800–3.000€", emoji:"🛋️", img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=220&fit=crop&q=80", amazon:"bouclé sofa curved wohnzimmer creme" },
@@ -2356,7 +2356,7 @@ const TRENDS = [
   { cat:"Terrace", title:"Outdoor-Lounge Polyrattan", desc:"Modulare Polyrattan-Lounge mit Sunbrella-Kissen. UV-bestaendig, wetterfest. Outdoor-Teppich als Basis.", how:"Aufbau", budget:"400–1.500€", emoji:"☀️", img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=220&fit=crop&q=80", amazon:"outdoor lounge polyrattan sunbrella terrasse" },
   { cat:"Terrace", title:"Pergola Douglasie Selbstbau", desc:"Freistehende Pergola aus Douglasie – wetterfest ohne Impraegnierung. Mit Rankpflanzen begruenen.", how:"weekend", budget:"400–1.500€", emoji:"🌿", img:"https://images.unsplash.com/photo-1416879595882-b3d065a0e45d?w=600&h=220&fit=crop&q=80", amazon:"pergola bausatz douglasie selbstbau garten" },
   { cat:"Terrace", title:"Eingebauter Gasgrill Outdoor", desc:"Modulare Aussenkueche mit Gasgrill eingebaut, Arbeitsflaeche Feinsteinzeug. Das Upgrade fuer gesellige Abende.", how:"Pro", budget:"1.000–5.000€", emoji:"🔥", img:"https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&h=220&fit=crop&q=80", amazon:"aussenkueche gasgrill einbau outdoor garten" },
-  { cat:"Terrace", title:"Mediterrane Olivenbaum-Oase", desc:"Olivenbaeume in Terrakotta-Toepfen, Lavendel als Sichtschutz, Rankrosen. Kein Handwerker noetig.", how:"Sofort", budget:"200–600€", emoji:"🫒", img:"https://images.unsplash.com/photo-1558882224-dda166733046?w=600&h=220&fit=crop&q=80", amazon:"olivenbaum terrasse terrakotta topf gross" },
+  { cat:"Terrace", title:"Mediterranean Olive Tree Oasis", desc:"Olive trees in terracotta pots, lavender as privacy screen, climbing roses. No contractor needed.", how:"Immediately", budget:"200–600€", emoji:"🫒", img:"https://images.unsplash.com/photo-1558882224-dda166733046?w=600&h=220&fit=crop&q=80", amazon:"olivenbaum terrasse terrakotta topf gross" },
   { cat:"Terrace", title:"Solar Lichterketten 2200K", desc:"Warmweisse Solar-Lichterketten ueber der Terrasse. Kein Kabel, kein Strom. Automatisch an/aus. 10m ab 20€.", how:"Aufhaengen", budget:"20–80€", emoji:"✨", img:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=220&fit=crop&q=80", amazon:"solar lichterkette 2200k warmweiss aussen" },
   { cat:"Terrace", title:"Bambussichtschutz & Privatsphaere", desc:"Bambus-Sichtschutz-Matten auf dem Zaun = sofortige Privatsphaere. 3 Matten = ca. 45€. Natuerlicher Look.", how:"30 Min", budget:"30–80€", emoji:"🎋", img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=220&fit=crop&q=80", amazon:"bambussichtschutz balkon terrasse zaun" },
   { cat:"Terrace", title:"Outdoor-Teppich als Basis", desc:"Outdoor-Teppich unter der Lounge-Gruppe definiert den Bereich und macht ihn gemuetlicher. UV-bestaendig, waschbar.", how:"Legen", budget:"50–300€", emoji:"🟫", img:"https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=600&h=220&fit=crop&q=80", amazon:"outdoor teppich terrasse wetterfest uv" },
@@ -2437,7 +2437,7 @@ function PricingModal({ onClose, onSuccess, freeUsed }) {
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
-      else alert("Fehler: " + (data.error || "Unbekannt"));
+      else alert("Error: " + (data.error || "Unknown"));
     } catch (e) {
       alert("Verbindungsfehler. Bitte erneut versuchen.");
     }
@@ -2604,7 +2604,7 @@ export default function HomeEN() {
   const [subscription, setSubscription] = useState(null);
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
-  const [lang, setLang] = useState("de");
+  const [lang, setLang] = useState("en");
   const [secretTaps, setSecretTaps] = useState(0);
   const [showSecretInput, setShowSecretInput] = useState(false);
   const [secretInput, setSecretInput] = useState("");
@@ -2760,11 +2760,11 @@ export default function HomeEN() {
               </button>
             {user ? (
               <button onClick={handleLogout} style={{ fontSize:11, color:C.muted, fontWeight:600, background:C.bg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.border}`, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-                {T["de"].logoutBtn}
+                {T["en"].logoutBtn}
               </button>
             ) : (
               <a href="/en/login" style={{ fontSize:11, color:C.accent, fontWeight:700, background:C.accentBg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.accent}33`, textDecoration:"none" }}>
-                {T["de"].loginBtn}
+                {T["en"].loginBtn}
               </a>
             )}
             {planLabel ? (
