@@ -34,7 +34,7 @@ export default function LandingEN() {
       <nav>
         <a className="logo" href="/landing">My<span>storija</span></a>
         <div style={{ display:"flex", gap:10, alignItems:"center" }}>
-          <a href="/en" style={{ fontSize:12, fontWeight:700, color:"var(--muted)", textDecoration:"none", padding:"7px 12px", borderRadius:20, border:"1.5px solid var(--border)", background:"var(--bg)" }}>🇩🇪 Deutsch</a>
+          <a href="/" style={{ fontSize:12, fontWeight:700, color:"var(--muted)", textDecoration:"none", padding:"7px 12px", borderRadius:20, border:"1.5px solid var(--border)", background:"var(--bg)" }}>🇩🇪 Deutsch</a>
           <a className="btn-secondary hide-mobile" href="/en/app" style={{ fontSize:13, padding:"8px 18px" }}>Open app</a>
           <a className="btn-primary" href="/en/app" style={{ fontSize:13, padding:"8px 18px" }}>Kostenlos starten ✨</a>
         </div>

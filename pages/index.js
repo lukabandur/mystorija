@@ -33,6 +33,7 @@ export default function Landing() {
       <nav>
         <a className="logo" href="/landing">My<span>storija</span></a>
         <div style={{ display:"flex", gap:12, alignItems:"center" }}>
+          <a href="/en" style={{ fontSize:12, fontWeight:700, color:"var(--muted)", textDecoration:"none", padding:"7px 12px", borderRadius:20, border:"1.5px solid var(--border)", background:"var(--card)" }}>🇬🇧 English</a>
           <a className="btn-secondary hide-mobile" href="/app" style={{ fontSize:13, padding:"8px 18px" }}>App öffnen</a>
           <a className="btn-primary" href="/app" style={{ fontSize:13, padding:"8px 18px" }}>Kostenlos starten ✨</a>
         </div>

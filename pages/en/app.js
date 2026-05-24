@@ -2756,7 +2756,7 @@ export default function HomeEN() {
               </button>
             )}
 <button onClick={() => window.location.href="/app"} style={{ fontSize:11, fontWeight:700, color:C.muted, background:C.bg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.border}`, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-                "🇬🇧 EN"
+                🇩🇪 DE
               </button>
             {user ? (
               <button onClick={handleLogout} style={{ fontSize:11, color:C.muted, fontWeight:600, background:C.bg, padding:"5px 10px", borderRadius:20, border:`1px solid ${C.border}`, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
