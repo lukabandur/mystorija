@@ -52,7 +52,7 @@ export default function LandingEN() {
           Upload a photo – AI generates your dream renovation in seconds. Identify materials, follow guides, get started.
         </p>
         <div style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap" }}>
-          <a className="btn-primary" href="/en" style={{ fontSize:15, padding:"14px 28px" }}>✨ Start for free</a>
+          <a className="btn-primary" href="/en/app" style={{ fontSize:15, padding:"14px 28px" }}>✨ Start for free</a>
           <a className="btn-secondary" href="#features" style={{ fontSize:15, padding:"14px 28px" }}>Learn more</a>
         </div>
       </section>
@@ -62,16 +62,16 @@ export default function LandingEN() {
         <div style={{ background:"var(--card)", border:"1.5px solid var(--border)", borderRadius:24, overflow:"hidden", boxShadow:"0 20px 60px rgba(0,0,0,0.08)" }}>
           <div style={{ background:"var(--card)", padding:"12px 18px", borderBottom:"1px solid var(--border)", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
             <span style={{ fontFamily:"'Playfair Display',serif", fontSize:18, fontWeight:700 }}>My<span style={{ color:"var(--accent)" }}>storija</span></span>
-            <span style={{ fontSize:12, color:"#888", fontWeight:600 }}>KI-renovation</span>
+            <span style={{ fontSize:12, color:"#888", fontWeight:600 }}>AI renovation</span>
           </div>
           <div style={{ padding:20, background:"var(--bg)" }}>
             <div style={{ border:"2px dashed var(--border)", borderRadius:16, padding:28, textAlign:"center", background:"var(--card)", marginBottom:14 }}>
               <div style={{ fontSize:40 }}>📸</div>
               <p style={{ fontWeight:700, marginTop:8 }}>Upload photo</p>
-              <p style={{ fontSize:13, color:"var(--muted)", marginTop:4 }}>Bad, Kueche, Wohnzimmer, Terrasse...</p>
+              <p style={{ fontSize:13, color:"var(--muted)", marginTop:4 }}>Bathroom, Kitchen, Living room, Terrace...</p>
             </div>
             <div style={{ background:"white", border:"1.5px solid var(--border)", borderRadius:12, padding:"11px 13px", fontSize:13, color:"#888", marginBottom:12 }}>
-              z.B. Dunkle Fliesen, Walk-In Dusche, mattschwarz Armaturen...
+              e.g. Dark tiles, walk-in shower, matte black fixtures...
             </div>
             <div style={{ background:"linear-gradient(135deg, #C4622D, #A0522D)", color:"white", padding:14, borderRadius:50, textAlign:"center", fontWeight:700, fontSize:14 }}>
               ✨ Generate Makeover
@@ -306,9 +306,9 @@ export default function LandingEN() {
 
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))", gap:20, marginBottom:50 }}>
             {[
-              ["🏠", "For homeowners", "Share your Renovation projekte, zeige Vorher/Nachher Ergebnisse und lass dich von anderen Projekten inspirieren."],
-              ["🔨", "For contractors", "Present your deine Arbeit direkt an renovierungswillige Kunden. Kein Streuen – nur Menschen die wirklich renovieren moechten."],
-              ["💡", "For idea seekers", "Sieh was andere aus aehnlichen Raeumen gemacht haben. Echte Projekte, echte Ergebnisse – keine Stock-Fotos."],
+              ["🏠", "For homeowners", "Share your renovation projects, show before/after results and get inspired by others' transformations."],
+              ["🔨", "For contractors", "Present your work directly to people actively renovating. No cold outreach – only people who genuinely want to renovate."],
+              ["💡", "For idea seekers", "See what others have done with similar rooms. Real projects, real results – no stock photos."],
             ].map(([icon, title, desc]) => (
               <div key={title} style={{ background:"#2A2A2A", borderRadius:18, padding:24, border:"1px solid #333" }}>
                 <div style={{ fontSize:32, marginBottom:14 }}>{icon}</div>
@@ -322,20 +322,20 @@ export default function LandingEN() {
           <div style={{ background:"linear-gradient(135deg, #2A1A0E, #3A2010)", border:"1px solid #C4622D44", borderRadius:20, padding:"32px", display:"flex", gap:24, alignItems:"center", flexWrap:"wrap" }}>
             <div style={{ flex:1, minWidth:220 }}>
               <p style={{ fontSize:13, fontWeight:700, textTransform:"uppercase", letterSpacing:"1px", color:"var(--accent)", marginBottom:8 }}>🔨 For Contractors & Businesses</p>
-              <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, color:"white", lineHeight:1.3, marginBottom:12 }}>Werde Teil der Mystorija Community</h3>
-              <p style={{ fontSize:14, color:"#aaa", lineHeight:1.6, marginBottom:20 }}>Present your deinen Betrieb direkt an Menschen die gerade renovieren – die aktivste Zielgruppe ueberhaupt. Eintrag ab <strong style={{ color:"var(--accent)" }}>49,99€/Monat</strong>.</p>
+              <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, color:"white", lineHeight:1.3, marginBottom:12 }}>Join the Mystorija Community</h3>
+              <p style={{ fontSize:14, color:"#aaa", lineHeight:1.6, marginBottom:20 }}>Present your business directly to people actively renovating – the most engaged audience there is. Listing from <strong style={{ color:"var(--accent)" }}>€49.99/month</strong>.</p>
               <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
-                {["✓ Profil mit Fotos & Bewertungen","✓ Direkte Anfragen","✓ Nur verifizierte Betriebe"].map(t => (
+                {["✓ Profile with photos & reviews","✓ Direct enquiries","✓ Verified businesses only"].map(t => (
                   <span key={t} style={{ fontSize:13, color:"#ccc" }}>{t}</span>
                 ))}
               </div>
             </div>
             <div style={{ flexShrink:0, textAlign:"center" }}>
-              <p style={{ fontSize:13, color:"#888", marginBottom:10 }}>Jetzt vormerken lassen</p>
+              <p style={{ fontSize:13, color:"#888", marginBottom:10 }}>Get on the waitlist</p>
               <a href="mailto:info@mystorija.com" style={{ display:"inline-block", background:"var(--accent)", color:"white", padding:"12px 24px", borderRadius:50, fontSize:14, fontWeight:700, textDecoration:"none" }}>
-                Kontakt aufnehmen →
+                Get in touch →
               </a>
-              <p style={{ fontSize:11, color:"#666", marginTop:8 }}>Aktuell: Warteliste offen</p>
+              <p style={{ fontSize:11, color:"#666", marginTop:8 }}>Waitlist now open</p>
             </div>
           </div>
         </div>
@@ -343,7 +343,7 @@ export default function LandingEN() {
       <section style={{ background:"var(--accent)", padding:"60px 24px", textAlign:"center" }}>
         <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:32, color:"white", marginBottom:12 }}>Add to your homescreen</h2>
         <p style={{ fontSize:16, color:"rgba(255,255,255,0.85)", maxWidth:480, margin:"0 auto 28px", lineHeight:1.7 }}>Mystorija works like a native app – installable on iPhone and Android. No App Store needed.</p>
-        <a href="/en" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"white", color:"var(--accent)", padding:"14px 28px", borderRadius:50, fontSize:15, fontWeight:700, textDecoration:"none" }}>
+        <a href="/en/app" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"white", color:"var(--accent)", padding:"14px 28px", borderRadius:50, fontSize:15, fontWeight:700, textDecoration:"none" }}>
           📲 Open & install app
         </a>
       </section>

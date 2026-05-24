@@ -1683,10 +1683,10 @@ function EinkaufsListe({ savedMakeovers }) {
                 {/* Zusammenfassung unten */}
                 <div style={{ padding:"10px 14px", background:C.greenBg, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
                   <span style={{ fontSize:12, color:C.green, fontWeight:600 }}>
-                    {mChecked === items.length ? "🎉 Alle Produkte besorgt!" : `${items.length - mChecked} Produkte noch offen`}
+                    {mChecked === items.length ? "🎉 All items checked off!" : `${items.length - mChecked} items remaining`}
                   </span>
                   {mChecked === items.length && (
-                    <span style={{ fontSize:11, color:C.green }}>Jetzt loslegen! 💪</span>
+                    <span style={{ fontSize:11, color:C.green }}>Let's go! 💪</span>
                   )}
                 </div>
               </div>
@@ -1940,8 +1940,8 @@ function PlanerTab({ lang = "de", savedMakeovers }) {
             ? <EinkaufsListe savedMakeovers={savedMakeovers} />
             : <div style={{ textAlign:"center", padding:"40px 20px" }}>
                 <p style={{ fontSize:32, marginBottom:12 }}>🛒</p>
-                <p style={{ fontFamily:"'Playfair Display',serif", fontSize:16, marginBottom:8 }}>Noch keine Shopping list</p>
-                <p style={{ fontSize:13, color:C.muted, lineHeight:1.6 }}>Generiere einen Makeover und druecke "Save to Planner" – dann erscheinen hier alle Materialien zum Abhaken.</p>
+                <p style={{ fontFamily:"'Playfair Display',serif", fontSize:16, marginBottom:8 }}>No shopping list yet</p>
+                <p style={{ fontSize:13, color:C.muted, lineHeight:1.6 }}>Generate a makeover and tap "Save to Planner" – all materials will appear here as a checklist.</p>
               </div>
         )}
       </div>
@@ -2046,7 +2046,7 @@ function InspoTab({ plan, lang = "de" }) {
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
           <div>
             <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, marginBottom:4 }}>🔍 Analyze Inspo</h2>
-            <p style={{ fontSize:13, color:C.muted, lineHeight:1.5 }}>Upload photo – KI erkennt Materialien, Stil und zeigt wie du es nachmachst.</p>
+            <p style={{ fontSize:13, color:C.muted, lineHeight:1.5 }}>Upload a photo – AI detects materials, style and shows you how to recreate it.</p>
           </div>
           {history.length > 0 && (
             <button onClick={() => setShowHistory(!showHistory)} style={{ flexShrink:0, marginLeft:10, padding:"6px 12px", borderRadius:20, border:`1px solid ${C.border}`, background:showHistory?C.accent:C.card, color:showHistory?"white":C.muted, fontSize:12, cursor:"pointer", fontFamily:"'DM Sans',sans-serif", fontWeight:600 }}>
@@ -2492,16 +2492,16 @@ function PricingModal({ onClose, onSuccess, freeUsed }) {
               </div>
             </div>
             <div style={{ fontSize:13, color:C.text, lineHeight:1.8, marginBottom:12 }}>
-              {["✓ 20 AI Makeovers pro Monat", "✓ Alle Stilvorlagen", "✓ Materialien + Amazon-Links", "✓ Anleitungen & Chat"].map(f => <div key={f}>{f}</div>)}
+              {["✓ 20 AI Makeovers per month", "✓ All style templates", "✓ Materials + Amazon links", "✓ Guides & Chat"].map(f => <div key={f}>{f}</div>)}
             </div>
             <button onClick={() => checkout("basic")} disabled={!!loading} style={{ width:"100%", padding:"12px", borderRadius:50, background:loading==="basic"?C.border:C.text, color:"white", border:"none", fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-              {loading==="basic" ? "Wird geladen…" : "Basic starten →"}
+              {loading==="basic" ? "Loading…" : "Start Basic →"}
             </button>
           </div>
 
           {/* Pro */}
           <div style={{ border:`2px solid ${C.accent}`, borderRadius:16, padding:"16px 18px", background:C.accentBg, position:"relative" }}>
-            <div style={{ position:"absolute", top:-12, left:"50%", transform:"translateX(-50%)", background:C.accent, color:"white", borderRadius:20, padding:"3px 14px", fontSize:11, fontWeight:700, whiteSpace:"nowrap" }}>⭐ MEISTGEWAeHLT</div>
+            <div style={{ position:"absolute", top:-12, left:"50%", transform:"translateX(-50%)", background:C.accent, color:"white", borderRadius:20, padding:"3px 14px", fontSize:11, fontWeight:700, whiteSpace:"nowrap" }}>⭐ MOST POPULAR</div>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
               <div>
                 <p style={{ fontWeight:700, fontSize:16, color:C.text }}>Pro</p>
@@ -2513,16 +2513,16 @@ function PricingModal({ onClose, onSuccess, freeUsed }) {
               </div>
             </div>
             <div style={{ fontSize:13, color:C.text, lineHeight:1.8, marginBottom:12 }}>
-              {["✓ Unbegrenzte AI Makeovers", "✓ Flux Pro – bessere Bildqualitaet", "✓ Alle Basic Features", "✓ Priority generation"].map(f => <div key={f} style={{ fontWeight: f.includes("Pro") ? 600 : 400 }}>{f}</div>)}
+              {["✓ Unlimited AI Makeovers", "✓ Flux Pro – better image quality", "✓ All Basic features", "✓ Priority generation"].map(f => <div key={f} style={{ fontWeight: f.includes("Pro") ? 600 : 400 }}>{f}</div>)}
             </div>
             <button onClick={() => checkout("pro")} disabled={!!loading} style={{ width:"100%", padding:"13px", borderRadius:50, background:loading==="pro"?C.border:C.accent, color:"white", border:"none", fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
-              {loading==="pro" ? "Wird geladen…" : "Pro starten →"}
+              {loading==="pro" ? "Loading…" : "Start Pro →"}
             </button>
           </div>
         </div>
 
         <p style={{ fontSize:11, color:C.muted, textAlign:"center" }}>
-          Monatlich kuendbar · Zahlung ueber Stripe gesichert · Keine versteckten Kosten
+          Cancel anytime · Payment secured via Stripe · No hidden fees
         </p>
       </div>
     </div>
@@ -2791,6 +2791,12 @@ export default function HomeEN() {
             
           </div>
         </div>
+        {/* iOS install hint — shown in Safari before app is installed */}
+        {typeof window !== "undefined" && /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.navigator.standalone && (
+          <div style={{ background:C.accentBg, borderBottom:`1px solid ${C.accent}33`, padding:"8px 16px", display:"flex", alignItems:"center", justifyContent:"space-between", gap:10, flexShrink:0 }}>
+            <span style={{ fontSize:12, color:C.accent, fontWeight:600 }}>📲 Add to Home Screen: tap <strong>Share ⬆</strong> → "Add to Home Screen"</span>
+          </div>
+        )}
         <div style={{ flex:1, overflow:"hidden", position:"relative" }}>
           <div style={{ display:activeTab==="makeover"?"flex":"none", height:"100%", overflow:"hidden" }}>
             <MakeoverTab
