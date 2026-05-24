@@ -39,7 +39,7 @@ export default function Landing() {
             <p style={{ fontSize:13, color:"#888", marginBottom:20 }}>Füge die App zum Home-Bildschirm hinzu – kein App Store nötig.</p>
             {isIOS ? (
               <div>
-                {[["1","Safari öffnen (falls noch nicht)"],["2","Teilen-Button ⬆ unten antippen"],["3","Nach unten scrollen → „Zum Home-Bildschirm""],["4","„Hinzufügen" tippen – fertig! ✓"]].map(([n,t]) => (
+                {[["1","Safari öffnen (falls noch nicht)"],["2","Teilen-Button ⬆ unten antippen"],["3","Nach unten scrollen → 'Zum Home-Bildschirm'"],["4","'Hinzufügen' tippen – fertig! ✓"]].map(([n,t]) => (
                   <div key={n} style={{ display:"flex", gap:12, alignItems:"flex-start", marginBottom:12 }}>
                     <span style={{ background:"#C4622D", color:"white", borderRadius:50, width:24, height:24, display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:700, flexShrink:0 }}>{n}</span>
                     <p style={{ fontSize:14, paddingTop:3 }}>{t}</p>
