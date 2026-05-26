@@ -311,8 +311,8 @@ export default function LandingEN() {
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))", gap:20 }}>
           {[
-            { name:"Basic", price:"9,99", featured:false, desc:"Perfect for getting started – all core features.", features:["Unlimited Makeovers","AI Inspo Analysis","100 Ideas & Trends","25 Guides","AI Chat Advisor","Planner & Shopping list"] },
-            { name:"Pro ⭐", price:"19,99", featured:true, desc:"For serious renovators – unlegrenzt generieren.", features:["Unlimited Makeovers","Everything in Basic","Priority generation","Early access to new features"] },
+            { name:"Basic", price:"9,99", featured:false, desc:"Perfect for getting started – all core features.", features:["20 Makeovers / month","20 Inspo analyses / month","100 Ideas & Trends","25 Guides","AI Chat Advisor","Planner & Shopping list"] },
+            { name:"Pro ⭐", price:"19,99", featured:true, desc:"For serious renovators – generate without limits.", features:["Unlimited Makeovers","Unlimited Inspo analyses","Everything in Basic","Priority generation","Early access to new features"] },
           ].map(p => (
             <div key={p.name} style={{ background:"var(--card)", border:`1.5px solid ${p.featured?"var(--accent)":"var(--border)"}`, borderRadius:20, padding:28, position:"relative" }}>
               {p.featured && <div style={{ position:"absolute", top:-12, left:"50%", transform:"translateX(-50%)", background:"var(--accent)", color:"white", fontSize:11, fontWeight:700, padding:"4px 14px", borderRadius:50, whiteSpace:"nowrap" }}>⭐ Empfohlen</div>}

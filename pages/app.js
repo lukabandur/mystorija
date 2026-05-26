@@ -776,7 +776,7 @@ function MakeoverTab({ lang = "de", onSaveToPlaner, savedMakeovers, plan, canGen
   const [refinementHistory, setRefinementHistory] = useState([]);
 
   // Monatliches Limit tracken
-  const LIMITS = { free: 0, basic: 50, pro: Infinity };
+  const LIMITS = { free: 0, basic: 20, pro: Infinity };
   const currentLimit = LIMITS[plan] ?? LIMITS.free;
   const isFreeBlocked = !plan || plan === "free";
 
@@ -1958,7 +1958,7 @@ function InspoTab({ plan, lang = "de" }) {
   const [showHistory, setShowHistory] = useState(false);
   const fileRef = useRef();
 
-  const INSPO_LIMITS = { free: 0, basic: 30, pro: Infinity };
+  const INSPO_LIMITS = { free: 0, basic: 20, pro: Infinity };
   const inspoLimit = INSPO_LIMITS[plan] ?? 0;
   const isFreeInspo = !plan || plan === "free";
 
@@ -2481,7 +2481,7 @@ function PricingModal({ onClose, onSuccess, freeUsed }) {
               </div>
             </div>
             <div style={{ fontSize:13, color:C.text, lineHeight:1.8, marginBottom:12 }}>
-              {["✓ 20 KI-Makeovers pro Monat", "✓ Alle Stilvorlagen", "✓ Materialien + Amazon-Links", "✓ Anleitungen & Chat"].map(f => <div key={f}>{f}</div>)}
+              {["✓ 20 KI-Makeovers / Monat", "✓ 20 Inspo-Analysen / Monat", "✓ Alle Stilvorlagen", "✓ Materialien + Amazon-Links", "✓ Anleitungen & Chat"].map(f => <div key={f}>{f}</div>)}
             </div>
             <button onClick={() => checkout("basic")} disabled={!!loading} style={{ width:"100%", padding:"12px", borderRadius:50, background:loading==="basic"?C.border:C.text, color:"white", border:"none", fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>
               {loading==="basic" ? "Wird geladen…" : "Basic starten →"}

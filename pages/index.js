@@ -263,8 +263,8 @@ export default function Landing() {
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))", gap:20 }}>
           {[
-            { name:"Basic", price:"9,99", featured:false, desc:"Ideal für den Start – alle Kern-Features.", features:["Unbegrenzte Makeovers","KI-Inspo-Analyse","100 Ideen & Trends","25 Anleitungen","KI-Chat Berater","Planer & Einkaufsliste"] },
-            { name:"Pro ⭐", price:"19,99", featured:true, desc:"Für ernsthafte Renovierer – unbegrenzt generieren.", features:["Unbegrenzte Makeovers","Alles aus Basic","Priorität bei der Generierung","Früher Zugang zu neuen Features"] },
+            { name:"Basic", price:"9,99", featured:false, desc:"Ideal für den Start – alle Kern-Features.", features:["20 Makeovers / Monat","20 Inspo-Analysen / Monat","100 Ideen & Trends","25 Anleitungen","KI-Chat Berater","Planer & Einkaufsliste"] },
+            { name:"Pro ⭐", price:"19,99", featured:true, desc:"Für ernsthafte Renovierer – unbegrenzt generieren.", features:["Unbegrenzte Makeovers","Unbegrenzte Inspo-Analysen","Alles aus Basic","Priorität bei der Generierung","Früher Zugang zu neuen Features"] },
           ].map(p => (
             <div key={p.name} style={{ background:"var(--card)", border:`1.5px solid ${p.featured?"var(--accent)":"var(--border)"}`, borderRadius:20, padding:28, position:"relative" }}>
               {p.featured && <div style={{ position:"absolute", top:-12, left:"50%", transform:"translateX(-50%)", background:"var(--accent)", color:"white", fontSize:11, fontWeight:700, padding:"4px 14px", borderRadius:50, whiteSpace:"nowrap" }}>⭐ Empfohlen</div>}
