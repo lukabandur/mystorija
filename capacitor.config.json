@@ -1,0 +1,9 @@
+{
+  "appId": "com.mystorija.app",
+  "appName": "Mystorija",
+  "webDir": "out",
+  "server": {
+    "url": "https://mystorija.com",
+    "cleartext": false
+  }
+}
