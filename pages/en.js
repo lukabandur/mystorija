@@ -1,28 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 
 export default function LandingEN() {
   const [installPrompt, setInstallPrompt] = useState(null);
   const [installed, setInstalled] = useState(false);
-  const [sliderPos, setSliderPos] = useState(50);
-  const sliderRef = useRef(null);
-  const isDragging = useRef(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
-      { threshold: 0.12 }
-    );
-    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
-  function handleSliderMove(clientX) {
-    if (!isDragging.current || !sliderRef.current) return;
-    const rect = sliderRef.current.getBoundingClientRect();
-    const pct = Math.min(Math.max(((clientX - rect.left) / rect.width) * 100, 5), 95);
-    setSliderPos(pct);
-  }
 
   useEffect(() => {
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
@@ -71,10 +52,6 @@ export default function LandingEN() {
           .btn-secondary { background: var(--card); color: var(--text); padding: 12px 24px; border-radius: 50px; text-decoration: none; font-size: 14px; font-weight: 600; border: 1.5px solid var(--border); }
           .section-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 10px; }
           @media (max-width: 600px) { .hide-mobile { display: none !important; } }
-          .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.75s ease, transform 0.75s ease; }
-          .reveal.from-left { transform: translateX(-48px); }
-          .reveal.from-right { transform: translateX(48px); }
-          .reveal.visible { opacity: 1 !important; transform: none !important; }
         `}</style>
       </Head>
 
@@ -209,34 +186,6 @@ export default function LandingEN() {
 
       </div>
 
-      {/* BEFORE/AFTER SLIDER */}
-      <section className="reveal" style={{ maxWidth:860, margin:"60px auto 0", padding:"0 24px" }}>
-        <div style={{ textAlign:"center", marginBottom:24 }}>
-          <div className="section-label">✨ AI in action</div>
-          <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(24px,4vw,36px)", fontWeight:700, lineHeight:1.2 }}>Before · After</h2>
-          <p style={{ fontSize:15, color:"var(--muted)", marginTop:8 }}>Drag the slider to see the difference</p>
-        </div>
-        <div
-          ref={sliderRef}
-          style={{ position:"relative", overflow:"hidden", borderRadius:20, cursor:"ew-resize", userSelect:"none", boxShadow:"0 20px 60px rgba(0,0,0,0.14)", touchAction:"none" }}
-          onMouseDown={() => { isDragging.current = true; }}
-          onMouseMove={e => handleSliderMove(e.clientX)}
-          onMouseUp={() => { isDragging.current = false; }}
-          onMouseLeave={() => { isDragging.current = false; }}
-          onTouchStart={() => { isDragging.current = true; }}
-          onTouchMove={e => handleSliderMove(e.touches[0].clientX)}
-          onTouchEnd={() => { isDragging.current = false; }}
-        >
-          <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=900&h=460&fit=crop&q=80" alt="Before" style={{ width:"100%", display:"block", pointerEvents:"none" }} />
-          <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=900&h=460&fit=crop&q=80" alt="After" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", pointerEvents:"none", clipPath:`inset(0 ${100-sliderPos}% 0 0)` }} />
-          <div style={{ position:"absolute", top:0, bottom:0, left:`${sliderPos}%`, transform:"translateX(-50%)", width:3, background:"white", pointerEvents:"none" }}>
-            <div style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)", width:44, height:44, background:"white", borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 2px 12px rgba(0,0,0,0.25)", fontSize:16, fontWeight:700, color:"var(--accent)" }}>⇔</div>
-          </div>
-          <div style={{ position:"absolute", top:16, left:16, background:"rgba(0,0,0,0.55)", backdropFilter:"blur(4px)", color:"white", fontSize:12, fontWeight:700, padding:"5px 14px", borderRadius:20, pointerEvents:"none" }}>Before</div>
-          <div style={{ position:"absolute", top:16, right:16, background:"var(--accent)", color:"white", fontSize:12, fontWeight:700, padding:"5px 14px", borderRadius:20, pointerEvents:"none" }}>✨ AI After</div>
-        </div>
-      </section>
-
       {/* STATS */}
       <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"var(--border)", borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", margin:"60px 0" }}>
         {[["100", "Ideas & Trends"],["50", "DIY Guides"],["20s", "to makeover"]].map(([num,label]) => (
@@ -302,7 +251,7 @@ export default function LandingEN() {
       </section>
 
       {/* FEATURES */}
-      <section className="reveal" style={{ padding:"70px 24px", maxWidth:900, margin:"0 auto" }} id="features">
+      <section style={{ padding:"70px 24px", maxWidth:900, margin:"0 auto" }} id="features">
         <div className="section-label">What Mystorija can do</div>
         <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,5vw,40px)", fontWeight:700, lineHeight:1.25, marginBottom:14 }}>Everything you need for your renovation</h2>
         <p style={{ fontSize:17, color:"var(--muted)", maxWidth:560, lineHeight:1.7, marginBottom:48 }}>From inspiration to finished guide – Mystorija guides you through every step.</p>
@@ -325,7 +274,7 @@ export default function LandingEN() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="reveal from-left" style={{ background:"var(--card)", padding:"70px 24px" }}>
+      <section style={{ background:"var(--card)", padding:"70px 24px" }}>
         <div style={{ maxWidth:900, margin:"0 auto" }}>
           <div className="section-label">How it works</div>
           <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,5vw,40px)", fontWeight:700, lineHeight:1.25, marginBottom:14 }}>3 steps to your dream renovation</h2>
@@ -348,7 +297,7 @@ export default function LandingEN() {
       </section>
 
       {/* PRICING */}
-      <section className="reveal" style={{ padding:"70px 24px", maxWidth:900, margin:"0 auto" }} id="preise">
+      <section style={{ padding:"70px 24px", maxWidth:900, margin:"0 auto" }} id="preise">
         <div className="section-label">Preise</div>
         <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,5vw,40px)", fontWeight:700, lineHeight:1.25, marginBottom:14 }}>Transparent. Fair. No surprises.</h2>
         <p style={{ fontSize:17, color:"var(--muted)", maxWidth:560, lineHeight:1.7, marginBottom:24 }}>Start free and upgrade when you need more.</p>

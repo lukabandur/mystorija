@@ -1,12 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 
 export default function Landing() {
   const [installPrompt, setInstallPrompt] = useState(null);
   const [installed, setInstalled] = useState(false);
-  const [sliderPos, setSliderPos] = useState(50);
-  const sliderRef = useRef(null);
-  const isDragging = useRef(false);
 
   useEffect(() => {
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
@@ -16,22 +13,6 @@ export default function Landing() {
     window.addEventListener("appinstalled", () => setInstalled(true));
     return () => window.removeEventListener("beforeinstallprompt", handler);
   }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
-      { threshold: 0.12 }
-    );
-    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
-  function handleSliderMove(clientX) {
-    if (!isDragging.current || !sliderRef.current) return;
-    const rect = sliderRef.current.getBoundingClientRect();
-    const pct = Math.min(Math.max(((clientX - rect.left) / rect.width) * 100, 5), 95);
-    setSliderPos(pct);
-  }
 
   async function triggerInstall() {
     if (installPrompt) {
@@ -71,13 +52,6 @@ export default function Landing() {
           .btn-secondary { background: var(--card); color: var(--text); padding: 12px 24px; border-radius: 50px; text-decoration: none; font-size: 14px; font-weight: 600; border: 1.5px solid var(--border); }
           .section-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 10px; }
           @media (max-width: 600px) { .hide-mobile { display: none !important; } }
-          .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.75s ease, transform 0.75s ease; }
-          .reveal.from-left { transform: translateX(-48px); }
-          .reveal.from-right { transform: translateX(48px); }
-          .reveal.visible { opacity: 1 !important; transform: none !important; }
-          .reveal-d1 { transition-delay: 0.1s; }
-          .reveal-d2 { transition-delay: 0.2s; }
-          .reveal-d3 { transition-delay: 0.3s; }
         `}</style>
       </Head>
 
@@ -163,34 +137,6 @@ export default function Landing() {
         <img src="/images/BCC60902-D627-4932-94B8-1B7A5004FD64.png" alt="Mystorija – Vorher Nachher KI Makeover" style={{ width:"100%", borderRadius:20, boxShadow:"0 8px 40px rgba(0,0,0,0.12)", display:"block" }} loading="lazy" />
       </div>
 
-      {/* BEFORE/AFTER SLIDER */}
-      <section className="reveal" style={{ maxWidth:860, margin:"60px auto 0", padding:"0 24px" }}>
-        <div style={{ textAlign:"center", marginBottom:24 }}>
-          <div className="section-label">✨ KI in Aktion</div>
-          <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(24px,4vw,36px)", fontWeight:700, lineHeight:1.2 }}>Vorher · Nachher</h2>
-          <p style={{ fontSize:15, color:"var(--muted)", marginTop:8 }}>Zieh den Regler um den Unterschied zu sehen</p>
-        </div>
-        <div
-          ref={sliderRef}
-          style={{ position:"relative", overflow:"hidden", borderRadius:20, cursor:"ew-resize", userSelect:"none", boxShadow:"0 20px 60px rgba(0,0,0,0.14)", touchAction:"none" }}
-          onMouseDown={() => { isDragging.current = true; }}
-          onMouseMove={e => handleSliderMove(e.clientX)}
-          onMouseUp={() => { isDragging.current = false; }}
-          onMouseLeave={() => { isDragging.current = false; }}
-          onTouchStart={() => { isDragging.current = true; }}
-          onTouchMove={e => handleSliderMove(e.touches[0].clientX)}
-          onTouchEnd={() => { isDragging.current = false; }}
-        >
-          <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=900&h=460&fit=crop&q=80" alt="Vorher" style={{ width:"100%", display:"block", pointerEvents:"none" }} />
-          <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=900&h=460&fit=crop&q=80" alt="Nachher" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", pointerEvents:"none", clipPath:`inset(0 ${100-sliderPos}% 0 0)` }} />
-          <div style={{ position:"absolute", top:0, bottom:0, left:`${sliderPos}%`, transform:"translateX(-50%)", width:3, background:"white", pointerEvents:"none" }}>
-            <div style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)", width:44, height:44, background:"white", borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 2px 12px rgba(0,0,0,0.25)", fontSize:16, fontWeight:700, color:"var(--accent)" }}>⇔</div>
-          </div>
-          <div style={{ position:"absolute", top:16, left:16, background:"rgba(0,0,0,0.55)", backdropFilter:"blur(4px)", color:"white", fontSize:12, fontWeight:700, padding:"5px 14px", borderRadius:20, pointerEvents:"none" }}>Vorher</div>
-          <div style={{ position:"absolute", top:16, right:16, background:"var(--accent)", color:"white", fontSize:12, fontWeight:700, padding:"5px 14px", borderRadius:20, pointerEvents:"none" }}>✨ KI Nachher</div>
-        </div>
-      </section>
-
       {/* STATS */}
       <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"var(--border)", borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", margin:"60px 0" }}>
         {[["100","Ideen & Trends"],["50","DIY-Anleitungen"],["20s","bis zum Makeover"]].map(([num,label]) => (
@@ -257,7 +203,7 @@ export default function Landing() {
       </section>
 
       {/* FEATURES */}
-      <section className="reveal" style={{ padding:"70px 24px", maxWidth:900, margin:"0 auto" }} id="features">
+      <section style={{ padding:"70px 24px", maxWidth:900, margin:"0 auto" }} id="features">
         <div className="section-label">Was Mystorija kann</div>
         <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,5vw,40px)", fontWeight:700, lineHeight:1.25, marginBottom:14 }}>Alles was du für deine Renovierung brauchst</h2>
         <p style={{ fontSize:17, color:"var(--muted)", maxWidth:560, lineHeight:1.7, marginBottom:48 }}>Von der Inspiration bis zur fertigen Anleitung – Mystorija begleitet dich durch jeden Schritt.</p>
@@ -280,7 +226,7 @@ export default function Landing() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="reveal from-left" style={{ background:"var(--card)", padding:"70px 24px" }}>
+      <section style={{ background:"var(--card)", padding:"70px 24px" }}>
         <div style={{ maxWidth:900, margin:"0 auto" }}>
           <div className="section-label">So einfach geht's</div>
           <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,5vw,40px)", fontWeight:700, lineHeight:1.25, marginBottom:14 }}>In 3 Schritten zur Traumrenovierung</h2>
@@ -303,7 +249,7 @@ export default function Landing() {
       </section>
 
       {/* PRICING */}
-      <section className="reveal" style={{ padding:"70px 24px", maxWidth:900, margin:"0 auto" }} id="preise">
+      <section style={{ padding:"70px 24px", maxWidth:900, margin:"0 auto" }} id="preise">
         <div className="section-label">Preise</div>
         <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,5vw,40px)", fontWeight:700, lineHeight:1.25, marginBottom:14 }}>Transparent. Fair. Keine Überraschungen.</h2>
         <p style={{ fontSize:17, color:"var(--muted)", maxWidth:560, lineHeight:1.7, marginBottom:24 }}>Starte kostenlos und upgrade wenn du mehr willst.</p>
