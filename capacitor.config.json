@@ -3,7 +3,7 @@
   "appName": "Mystorija",
   "webDir": "out",
   "server": {
-    "url": "https://mystorija.com/app",
+    "url": "https://www.mystorija.com/app",
     "cleartext": false,
     "allowNavigation": ["mystorija.com", "*.mystorija.com"]
   }
