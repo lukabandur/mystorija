@@ -4,6 +4,7 @@
   "webDir": "out",
   "server": {
     "url": "https://mystorija.com/app",
-    "cleartext": false
+    "cleartext": false,
+    "allowNavigation": ["mystorija.com", "*.mystorija.com"]
   }
 }
