@@ -2740,7 +2740,7 @@ export default function Home() {
       {showPricing && <PricingModal onClose={() => setShowPricing(false)} freeUsed={freeUsed} />}
       <Head>
         <title>Mystorija – KI-Renovierung & Inspo</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
         <meta name="description" content="Mystorija – KI-Renovierung, Inspiration & DIY-Anleitungen für dein Zuhause" />
         <meta name="theme-color" content="#C4622D" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -2754,7 +2754,7 @@ export default function Home() {
         <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
     <script dangerouslySetInnerHTML={{__html: "Weglot.initialize({ api_key: 'wg_96964bd6df0c3dbdd98d4a70d22c79696' });"}} />
     </Head>
-      <div style={{ display:"flex", flexDirection:"column", height:"100vh", background:C.bg, maxWidth:600, margin:"0 auto" }}>
+      <div style={{ display:"flex", flexDirection:"column", height:"100vh", background:C.bg, maxWidth:600, margin:"0 auto", paddingTop:"env(safe-area-inset-top)", paddingBottom:"env(safe-area-inset-bottom)" }}>
         <div style={{ background:C.card, borderBottom:`1px solid ${C.border}`, padding:"13px 18px", display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0 }}>
           <span onClick={() => { const t = secretTaps+1; setSecretTaps(t); if(t>=5){setShowSecretInput(true);setSecretTaps(0);} }} style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:700, cursor:"default", userSelect:"none" }}>My<span style={{ color:C.accent }}>storija</span></span>
           <div style={{ display:"flex", gap:8, alignItems:"center" }}>
