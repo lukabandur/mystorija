@@ -2766,7 +2766,7 @@ export default function HomeEN() {
         <div style={{ background:C.card, borderBottom:`1px solid ${C.border}`, padding:"13px 18px", display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0 }}>
           <span onClick={() => { const t = secretTaps+1; setSecretTaps(t); if(t>=5){setShowSecretInput(true);setSecretTaps(0);} }} style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:700, cursor:"default", userSelect:"none" }}>My<span style={{ color:C.accent }}>storija</span></span>
           <div style={{ display:"flex", gap:8, alignItems:"center" }}>
-            {(typeof window === "undefined" || !window.navigator.standalone) && (
+            {(typeof window === "undefined" || (!window.navigator.standalone && !window.Capacitor)) && (
               <div style={{ position:"relative" }}>
                 <button onClick={async () => {
                   if (installPrompt) {
@@ -2825,7 +2825,7 @@ export default function HomeEN() {
           </div>
         </div>
         {/* Install hint per platform */}
-        {typeof window !== "undefined" && !window.navigator.standalone && (() => {
+        {typeof window !== "undefined" && !window.navigator.standalone && !window.Capacitor && (() => {
           const ua = navigator.userAgent;
           const isIOS = /iphone|ipad|ipod/i.test(ua);
           const isDesktop = !/android|iphone|ipad|ipod/i.test(ua);
