@@ -15,6 +15,13 @@
     "@supabase/supabase-js": "^2.45.0",
     "next-i18next": "^15.3.0",
     "react-i18next": "^14.1.0",
-    "i18next": "^23.10.0"
+    "i18next": "^23.10.0",
+    "@capacitor/core": "^7.4.0",
+    "@capacitor/ios": "^7.4.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.0",
+    "@capacitor/assets": "^3.0.8",
+    "typescript": "^5.6.0"
   }
 }
