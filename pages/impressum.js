@@ -30,14 +30,14 @@ export default function Impressum() {
 
           <h2>Betreiber</h2>
           <p>Luka Bandur<br />
-          [Adresse folgt]<br />
-          Rijeka, Kroatien</p>
+          ul. Berte Jardas 13<br />
+          51000 Rijeka, Kroatien</p>
 
           <h2>Kontakt</h2>
           <p>E-Mail: <a href="mailto:info@mystorija.com">info@mystorija.com</a></p>
 
           <h2>Plattform</h2>
-          <p>Mystorija ist eine webbasierte SaaS-Applikation erreichbar unter mystorija.com und mystorija.com.</p>
+          <p>Mystorija ist eine webbasierte SaaS-Applikation erreichbar unter mystorija.com.</p>
 
           <h2>Hinweis zur EU-Streitschlichtung</h2>
           <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:<br />

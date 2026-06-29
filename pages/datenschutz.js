@@ -37,7 +37,8 @@ export default function Datenschutz() {
 
           <h2>1. Verantwortlicher</h2>
           <p>Luka Bandur<br />
-          Rijeka, Kroatien<br />
+          ul. Berte Jardas 13<br />
+          51000 Rijeka, Kroatien<br />
           E-Mail: <a href="mailto:info@mystorija.com">info@mystorija.com</a></p>
 
           <h2>2. Welche Daten werden verarbeitet?</h2>
